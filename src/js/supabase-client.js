@@ -17,6 +17,35 @@ function initMergeSupabase() {
 
   var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  // OAuth 콜백 처리 — GitHub/Google 로그인 후 돌아왔을 때 세션 저장
+  sb.auth.onAuthStateChange(async function(event, session) {
+    if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session) {
+      var existing = localStorage.getItem('mergeui_session');
+      if (!existing || event === 'SIGNED_IN') {
+        // 프로필 조회
+        var { data: profile } = await sb.from('profiles').select('name, role, plan, avatar_url').eq('id', session.user.id).single();
+        var sessionData = {
+          name: profile?.name || session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+          email: session.user.email,
+          plan: profile?.plan || 'free',
+          role: profile?.role || 'subscriber',
+          avatar_url: profile?.avatar_url || session.user.user_metadata?.avatar_url || '',
+          access_token: session.access_token
+        };
+        localStorage.setItem('mergeui_session', JSON.stringify(sessionData));
+
+        // OAuth 로그인 후 대시보드로 이동 (로그인/가입 페이지에서만)
+        var path = window.location.pathname;
+        if (path.indexOf('/auth/') !== -1 || path.indexOf('/landing/') !== -1 || path === '/' || path.endsWith('/index.html')) {
+          window.location.href = (path.indexOf('/auth/') !== -1 ? '../subscriber/dashboard.html' : (path.indexOf('/landing/') !== -1 || path === '/' ? 'pages/subscriber/dashboard.html' : ''));
+        }
+      }
+    }
+    if (event === 'SIGNED_OUT') {
+      localStorage.removeItem('mergeui_session');
+    }
+  });
+
   window.MergeDB = {
     client: sb,
 

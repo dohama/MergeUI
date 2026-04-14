@@ -502,17 +502,29 @@ function showSuccess(msg) {
   el.style.display = 'flex';
 }
 
-// Supabase 로그인
-document.addEventListener('mergedb-ready', function() {
-  document.querySelector('form').onsubmit = async function(e) {
-    e.preventDefault();
-    var errEl = document.getElementById('auth-error');
-    if (errEl) errEl.style.display = 'none';
+// MergeDB 로드 대기 함수
+function waitForMergeDB(callback) {
+  if (typeof MergeDB !== 'undefined') { callback(); return; }
+  document.addEventListener('mergedb-ready', callback);
+  // 5초 후에도 안 되면 직접 Supabase 로드 시도
+  setTimeout(function() {
+    if (typeof MergeDB === 'undefined' && typeof initMergeSupabase === 'function') {
+      initMergeSupabase();
+    }
+  }, 3000);
+}
 
-    var email = document.getElementById('email').value.trim();
-    var password = document.getElementById('password').value;
-    if (!email || !password) { showError('Please enter email and password.'); return; }
+// 이메일 로그인
+document.querySelector('form').onsubmit = async function(e) {
+  e.preventDefault();
+  var errEl = document.getElementById('auth-error');
+  if (errEl) errEl.style.display = 'none';
 
+  var email = document.getElementById('email').value.trim();
+  var password = document.getElementById('password').value;
+  if (!email || !password) { showError('Please enter email and password.'); return; }
+
+  waitForMergeDB(async function() {
     try {
       await MergeDB.login(email, password);
       showSuccess('Welcome back! Redirecting...');
@@ -520,18 +532,21 @@ document.addEventListener('mergedb-ready', function() {
     } catch(err) {
       showError(err.message || 'Invalid email or password.');
     }
-  };
+  });
+};
 
-  // GitHub OAuth
-  var socialBtns = document.querySelectorAll('.social-btn');
-  socialBtns.forEach(function(btn) {
+// GitHub/Google OAuth — 직접 Supabase 호출 (MergeDB 대기 없이)
+document.querySelectorAll('.social-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
     var text = btn.textContent.toLowerCase();
-    btn.addEventListener('click', async function() {
-      try {
-        if (text.indexOf('github') !== -1) await MergeDB.loginWithGitHub();
-        else if (text.indexOf('google') !== -1) await MergeDB.loginWithGoogle();
-      } catch(err) { showError(err.message); }
-    });
+    var SUPABASE_URL = 'https://agugcvugqjcetiulezim.supabase.co';
+    var redirectTo = window.location.origin + '/pages/subscriber/dashboard.html';
+
+    if (text.indexOf('github') !== -1) {
+      window.location.href = SUPABASE_URL + '/auth/v1/authorize?provider=github&redirect_to=' + encodeURIComponent(redirectTo);
+    } else if (text.indexOf('google') !== -1) {
+      window.location.href = SUPABASE_URL + '/auth/v1/authorize?provider=google&redirect_to=' + encodeURIComponent(redirectTo);
+    }
   });
 });
 </script>

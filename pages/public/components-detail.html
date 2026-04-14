@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stat Card — MergeUi Component</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../src/styles/tokens.css">
+  <link rel="stylesheet" href="../../src/styles/reset.css">
+  <link rel="stylesheet" href="../../src/styles/nav.css">
+  <style>:root{--brand:#6366F1;--brand-light:#818CF8;--brand-dark:#4F46E5;--accent:#22D3EE;--accent2:#A78BFA;--bg-base:#06060A;--bg-raised:#0E0E14;--bg-surface:#16161E;--text-primary:#F4F4F5;--text-secondary:#A1A1AA;--text-muted:#71717A;--border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.1);--success:#22C55E;--glow-brand:rgba(99,102,241,0.15);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}body{font-family:var(--font);background:var(--bg-base);color:var(--text-primary);min-height:100vh}a{color:inherit;text-decoration:none}.nav{position:sticky;top:0;z-index:100;padding:16px 0;background:rgba(6,6,10,0.8);backdrop-filter:blur(16px) saturate(1.6);border-bottom:1px solid var(--border)}.nav-inner{max-width:1600px;margin:0 auto;padding:0 48px;display:flex;align-items:center;justify-content:space-between}.nav-logo{font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px;letter-spacing:-0.5px}.nav-logo .mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--accent));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:white}.nav-links{display:flex;gap:32px;list-style:none}.nav-links a{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}.nav-links a:hover,.nav-links a.active{color:var(--text-primary)}.nav-right{display:flex;align-items:center;gap:12px}.nav-signin{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}.nav-signin:hover{color:var(--text-primary)}.nav-cta{padding:8px 24px;background:var(--brand);color:white;font-size:14px;font-weight:600;border-radius:999px;transition:all 0.15s}.nav-cta:hover{background:var(--brand-light)}.nav-burger{display:none;background:none;border:none;cursor:pointer;width:36px;height:36px;position:relative;z-index:1001}.nav-burger span{display:block;width:20px;height:2px;background:var(--text-primary);margin:5px auto;border-radius:2px;transition:all 0.3s}.nav-burger.active span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}.nav-burger.active span:nth-child(2){opacity:0}.nav-burger.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}.mobile-menu{display:none;position:fixed;inset:0;z-index:999;background:rgba(6,6,10,0.95);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:32px}.mobile-menu.open{display:flex}.mobile-menu a{font-size:24px;font-weight:700;color:var(--text-secondary);transition:color 0.2s}.mobile-menu a:hover{color:var(--text-primary)}.gradient-text{background:linear-gradient(135deg,var(--brand-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .docs-layout{max-width:1600px;margin:0 auto;padding:0 48px 64px;display:flex;gap:48px}
+  .docs-sidebar{width:220px;flex-shrink:0;position:sticky;top:80px;align-self:flex-start;padding:24px 0}
+  .docs-sidebar ul{list-style:none;display:flex;flex-direction:column;gap:4px}
+  .docs-sidebar a{display:block;padding:8px 12px;font-size:14px;font-weight:500;color:var(--text-muted);border-radius:8px;border-left:2px solid transparent;transition:all 0.15s}
+  .docs-sidebar a:hover{color:var(--text-secondary);background:var(--bg-raised)}
+  .docs-sidebar a.active{color:var(--brand-light);border-left-color:var(--brand);background:var(--glow-brand)}
+  .docs-content{flex:1;max-width:860px;padding:32px 0}
+  .docs-content h1{font-size:clamp(28px,4vw,36px);font-weight:900;letter-spacing:-1.5px;margin-bottom:8px}
+  .docs-content h2{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:16px;padding-top:8px}
+  .docs-content h3{font-size:17px;font-weight:700;margin:24px 0 8px;color:var(--text-primary)}
+  .docs-content p{font-size:15px;color:var(--text-secondary);line-height:1.75;margin-bottom:12px}
+  .dtag{padding:4px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;color:var(--text-muted)}.dtag.pro{background:rgba(99,102,241,0.1);color:var(--brand-light);border-color:rgba(99,102,241,0.15)}.dtag.free{background:rgba(34,197,94,0.1);color:var(--success);border-color:rgba(34,197,94,0.15)}
+  .component-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+  .preview-area{background:var(--bg-surface);border:1px solid var(--border);border-radius:14px;height:300px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;position:relative;overflow:hidden}
+  .preview-toggle{position:absolute;top:12px;right:12px;padding:6px 14px;background:var(--bg-raised);border:1px solid var(--border-strong);border-radius:8px;font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.12s;font-family:var(--font)}
+  .preview-toggle:hover{background:var(--glow-brand);color:var(--brand-light);border-color:var(--brand)}
+  .code-tabs{display:flex;gap:4px;margin-bottom:0}
+  .code-tab{padding:8px 16px;background:var(--bg-raised);border:1px solid var(--border);border-bottom:none;border-radius:8px 8px 0 0;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.12s;font-family:var(--font)}
+  .code-tab.active{background:var(--bg-surface);color:var(--brand-light);border-color:var(--border-strong)}
+  .code-block{background:var(--bg-surface);border:1px solid var(--border);border-radius:0 12px 12px 12px;padding:20px 24px;margin:0 0 24px;overflow-x:auto;font-family:'Fira Code',monospace,monospace;font-size:13px;line-height:1.7;color:var(--text-secondary);position:relative}
+  .code-block .copy-btn{position:absolute;top:12px;right:12px;padding:6px 14px;background:var(--bg-raised);border:1px solid var(--border-strong);border-radius:8px;font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.12s;font-family:var(--font)}
+  .code-block .copy-btn:hover{background:var(--glow-brand);color:var(--brand-light);border-color:var(--brand)}
+  .var-table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:14px}
+  .var-table th{text-align:left;padding:10px 16px;background:var(--bg-surface);color:var(--text-secondary);font-weight:600;border-bottom:1px solid var(--border)}
+  .var-table td{padding:10px 16px;border-bottom:1px solid var(--border);color:var(--text-muted)}
+  .var-table td:first-child{color:var(--brand-light);font-family:'Fira Code',monospace,monospace;font-size:13px}
+  footer{padding:40px 32px;border-top:1px solid var(--border)}.footer-inner{max-width:1600px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.footer-copy{font-size:12px;color:var(--text-muted)}.footer-links{display:flex;gap:24px;list-style:none}.footer-links a{font-size:12px;color:var(--text-muted);transition:color 0.15s}.footer-links a:hover{color:var(--text-primary)}@media(max-width:768px){.nav-links,.nav-right{display:none}.nav-burger{display:block}.nav-inner{padding:0 20px}.footer-inner{flex-direction:column;gap:16px;text-align:center}.docs-layout{flex-direction:column;padding:0 20px 40px;gap:0}.docs-sidebar{width:100%;position:static;padding:16px 0;border-bottom:1px solid var(--border);margin-bottom:24px}.docs-sidebar ul{flex-direction:row;flex-wrap:wrap;gap:4px}.docs-sidebar a{padding:6px 12px;font-size:13px;border-left:none;border-bottom:2px solid transparent}.docs-sidebar a.active{border-left-color:transparent;border-bottom-color:var(--brand)}}</style>
+  <script src="../../src/js/analytics.js" defer></script>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a href="../../landing/index.html" class="nav-logo"><span class="mark">O</span> MergeUi</a>
+    <ul class="nav-links"><li><a href="../../landing/index.html">Home</a></li><li><a href="../themes/index.html">Themes</a></li><li><a href="components.html" class="active">Components</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="docs.html">Docs</a></li></ul>
+    <div class="nav-right"><a href="../auth/login.html" class="nav-signin">Sign In</a><a href="../auth/signup.html" class="nav-cta">Get Started</a></div>
+    <button class="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div></nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../../landing/index.html" class="mobile-link">Home</a><a href="../themes/index.html" class="mobile-link">Themes</a><a href="components.html" class="mobile-link">Components</a><a href="pricing.html" class="mobile-link">Pricing</a><a href="docs.html" class="mobile-link">Docs</a>
+    <a href="../auth/login.html" class="mobile-link">Sign In</a><a href="../auth/signup.html" style="margin-top:16px;padding:14px 36px;background:var(--brand);color:white;font-size:16px;font-weight:700;border-radius:14px">Get Started</a>
+  </div>
+  <main>
+    <div class="docs-layout">
+      <nav class="docs-sidebar" aria-label="Component categories">
+        <ul>
+          <li><a href="?component=stat-card" class="active" data-cat="Cards">Cards</a></li>
+          <li><a href="?component=line-chart" data-cat="Charts">Charts</a></li>
+          <li><a href="?component=data-table" data-cat="Tables">Tables</a></li>
+          <li><a href="?component=login-form" data-cat="Forms">Forms</a></li>
+          <li><a href="?component=sidebar-nav" data-cat="Navigation">Navigation</a></li>
+          <li><a href="?component=activity-feed" data-cat="Widgets">Widgets</a></li>
+        </ul>
+      </nav>
+      <div class="docs-content">
+        <div class="component-header">
+          <h1 id="compName">Stat Card</h1>
+          <span class="dtag free" id="compBadge">Free</span>
+        </div>
+        <p id="compDesc">A compact card displaying a single KPI metric with label, value, and trend indicator. Perfect for dashboard overviews.</p>
+
+        <h2>Preview</h2>
+        <div class="preview-area" id="previewArea">
+          <button class="preview-toggle" id="previewToggle" aria-label="Toggle preview theme">Light</button>
+          <svg width="220" height="120" viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" id="previewSvg">
+            <rect x="0" y="0" width="220" height="120" rx="14" fill="#16161E" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+            <text x="20" y="32" fill="#71717A" font-family="Inter,sans-serif" font-size="12" font-weight="500">Total Revenue</text>
+            <text x="20" y="64" fill="#F4F4F5" font-family="Inter,sans-serif" font-size="28" font-weight="800">$48,290</text>
+            <text x="20" y="90" fill="#22C55E" font-family="Inter,sans-serif" font-size="12" font-weight="600">+12.5%</text>
+            <text x="75" y="90" fill="#71717A" font-family="Inter,sans-serif" font-size="12">vs last month</text>
+          </svg>
+        </div>
+
+        <h2>Code</h2>
+        <div class="code-tabs">
+          <button class="code-tab active" data-tab="html">HTML</button>
+          <button class="code-tab" data-tab="css">CSS</button>
+        </div>
+        <div class="code-block" id="codeHtml">
+          <button class="copy-btn" data-target="codeHtml" aria-label="Copy code">Copy</button>
+<pre id="codeHtmlPre">&lt;div class="stat-card"&gt;
+  &lt;span class="stat-label"&gt;Total Revenue&lt;/span&gt;
+  &lt;span class="stat-value"&gt;$48,290&lt;/span&gt;
+  &lt;span class="stat-trend positive"&gt;
+    +12.5% &lt;span class="trend-note"&gt;vs last month&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/div&gt;</pre>
+        </div>
+        <div class="code-block" id="codeCss" style="display:none;border-radius:0 12px 12px 12px">
+          <button class="copy-btn" data-target="codeCss" aria-label="Copy code">Copy</button>
+<pre id="codeCssPre">.stat-card {
+  background: var(--merge-bg-surface, #16161E);
+  border: 1px solid var(--merge-border, rgba(255,255,255,0.06));
+  border-radius: 14px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--merge-text-muted, #71717A);
+}
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--merge-text-primary, #F4F4F5);
+  letter-spacing: -1px;
+}
+.stat-trend {
+  font-size: 12px;
+  font-weight: 600;
+}
+.stat-trend.positive { color: var(--merge-status-success, #22C55E); }
+.stat-trend.negative { color: var(--merge-status-error, #EF4444); }
+.trend-note {
+  color: var(--merge-text-muted, #71717A);
+  font-weight: 400;
+}</pre>
+        </div>
+
+        <h2>CSS Variables</h2>
+        <table class="var-table">
+          <thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>--merge-bg-surface</td><td>#16161E</td><td>Card background</td></tr>
+            <tr><td>--merge-border</td><td>rgba(255,255,255,0.06)</td><td>Card border</td></tr>
+            <tr><td>--merge-text-primary</td><td>#F4F4F5</td><td>Value text color</td></tr>
+            <tr><td>--merge-text-muted</td><td>#71717A</td><td>Label and note color</td></tr>
+            <tr><td>--merge-status-success</td><td>#22C55E</td><td>Positive trend color</td></tr>
+            <tr><td>--merge-status-error</td><td>#EF4444</td><td>Negative trend color</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+  <script>
+var burger=document.querySelector('.nav-burger'),mm=document.getElementById('mobileMenu');
+if(burger&&mm){burger.addEventListener('click',function(){burger.classList.toggle('active');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':'';});document.querySelectorAll('.mobile-link').forEach(function(l){l.addEventListener('click',function(){burger.classList.remove('active');mm.classList.remove('open');document.body.style.overflow='';});});};
+(function(){var s=localStorage.getItem('mergeui_session');if(!s)return;var r=document.querySelector('.nav-right');if(r)r.innerHTML='<a href="../subscriber/dashboard.html" class="nav-cta">My Dashboard</a>';var mob=document.getElementById('mobileMenu');if(mob){var si=mob.querySelector('a[href*="login"]');if(si){si.textContent="My Dashboard";si.href="../subscriber/dashboard.html";}var gs=mob.querySelector('a[href*="signup"]');if(gs)gs.remove();}})();
+
+// Component data
+var componentData = {
+  'stat-card': { name:'Stat Card', badge:'free', cat:'Cards', desc:'A compact card displaying a single KPI metric with label, value, and trend indicator. Perfect for dashboard overviews.' },
+  'line-chart': { name:'Line Chart', badge:'pro', cat:'Charts', desc:'Responsive line chart with tooltip, legend, and animation. Supports multiple datasets.' },
+  'data-table': { name:'Data Table', badge:'pro', cat:'Tables', desc:'Sortable, paginated data table with search and row selection.' },
+  'login-form': { name:'Login Form', badge:'free', cat:'Forms', desc:'Clean login form with email/password fields, validation states, and OAuth buttons.' },
+  'sidebar-nav': { name:'Sidebar Navigation', badge:'free', cat:'Navigation', desc:'Collapsible sidebar with icon+label navigation, nested groups, and active states.' },
+  'activity-feed': { name:'Activity Feed', badge:'pro', cat:'Widgets', desc:'Real-time activity feed with avatars, timestamps, and action types.' }
+};
+
+var params = new URLSearchParams(window.location.search);
+var slug = params.get('component') || 'stat-card';
+var comp = componentData[slug] || componentData['stat-card'];
+
+document.title = comp.name + ' — MergeUi Component';
+document.getElementById('compName').textContent = comp.name;
+document.getElementById('compDesc').textContent = comp.desc;
+var badge = document.getElementById('compBadge');
+if (comp.badge === 'pro') { badge.className = 'dtag pro'; badge.textContent = 'Pro'; }
+else { badge.className = 'dtag free'; badge.textContent = 'Free'; }
+
+// Sidebar active
+document.querySelectorAll('.docs-sidebar a').forEach(function(a){
+  a.classList.remove('active');
+  if (a.dataset.cat === comp.cat) a.classList.add('active');
+});
+
+// Tab switching
+document.querySelectorAll('.code-tab').forEach(function(tab){
+  tab.addEventListener('click', function(){
+    document.querySelectorAll('.code-tab').forEach(function(t){t.classList.remove('active');});
+    tab.classList.add('active');
+    var t = tab.dataset.tab;
+    document.getElementById('codeHtml').style.display = t === 'html' ? '' : 'none';
+    document.getElementById('codeCss').style.display = t === 'css' ? '' : 'none';
+  });
+});
+
+// Copy
+document.querySelectorAll('.copy-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var target = btn.dataset.target;
+    var pre = document.getElementById(target + 'Pre');
+    if (pre && navigator.clipboard) {
+      navigator.clipboard.writeText(pre.textContent).then(function(){
+        btn.textContent = 'Copied!';
+        setTimeout(function(){ btn.textContent = 'Copy'; }, 2000);
+      });
+    }
+  });
+});
+
+// Preview toggle
+var previewLight = false;
+var toggleBtn = document.getElementById('previewToggle');
+var previewArea = document.getElementById('previewArea');
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', function(){
+    previewLight = !previewLight;
+    toggleBtn.textContent = previewLight ? 'Dark' : 'Light';
+    previewArea.style.background = previewLight ? '#F4F4F5' : '';
+    previewArea.style.borderColor = previewLight ? '#E4E4E7' : '';
+    var rect = document.querySelector('#previewSvg rect');
+    var val = document.querySelector('#previewSvg text:nth-of-type(2)');
+    if (rect) rect.setAttribute('fill', previewLight ? '#FFFFFF' : '#16161E');
+    if (rect) rect.setAttribute('stroke', previewLight ? '#E4E4E7' : 'rgba(255,255,255,0.1)');
+    if (val) val.setAttribute('fill', previewLight ? '#18181B' : '#F4F4F5');
+  });
+}
+</script>
+<script src="../../src/js/auth.js"></script>
+</body>
+</html>

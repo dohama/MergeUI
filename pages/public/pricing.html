@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — MergeUi</title>
+  <meta name="description" content="MergeUi pricing plans. Start free, upgrade to Pro for all dashboard themes and components. Team plans available.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../src/styles/tokens.css">
+  <link rel="stylesheet" href="../../src/styles/reset.css">
+  <link rel="stylesheet" href="../../src/styles/nav.css">
+  <style>
+    :root{
+      --brand:#6366F1;--brand-light:#818CF8;--brand-dark:#4F46E5;
+      --accent:#22D3EE;--accent2:#A78BFA;
+      --bg-base:#06060A;--bg-raised:#0E0E14;--bg-surface:#16161E;--bg-glass:rgba(14,14,20,0.6);
+      --text-primary:#F4F4F5;--text-secondary:#A1A1AA;--text-muted:#71717A;
+      --border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.1);
+      --success:#22C55E;--glow-brand:rgba(99,102,241,0.15);
+      --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+    body{font-family:var(--font);background:var(--bg-base);color:var(--text-primary);min-height:100vh}
+    a{color:inherit;text-decoration:none}
+
+    .nav{position:sticky;top:0;z-index:100;padding:16px 0;background:rgba(6,6,10,0.8);backdrop-filter:blur(16px) saturate(1.6);border-bottom:1px solid var(--border)}
+    .nav-inner{max-width:1600px;margin:0 auto;padding:0 48px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px;letter-spacing:-0.5px}
+    .nav-logo .mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--accent));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:white}
+    .nav-links{display:flex;gap:32px;list-style:none}
+    .nav-links a{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}
+    .nav-links a:hover,.nav-links a.active{color:var(--text-primary)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .nav-signin{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}
+    .nav-signin:hover{color:var(--text-primary)}
+    .nav-cta{padding:8px 24px;background:var(--brand);color:white;font-size:14px;font-weight:600;border-radius:999px;transition:all 0.15s}
+    .nav-cta:hover{background:var(--brand-light)}
+    .nav-burger{display:none;background:none;border:none;cursor:pointer;width:36px;height:36px;position:relative;z-index:1001}
+    .nav-burger span{display:block;width:20px;height:2px;background:var(--text-primary);margin:5px auto;border-radius:2px;transition:all 0.3s}
+    .nav-burger.active span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}
+    .nav-burger.active span:nth-child(2){opacity:0}
+    .nav-burger.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}
+    .mobile-menu{display:none;position:fixed;inset:0;z-index:999;background:rgba(6,6,10,0.95);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:32px}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{font-size:24px;font-weight:700;color:var(--text-secondary);transition:color 0.2s}
+    .mobile-menu a:hover{color:var(--text-primary)}
+
+    .hero{padding:80px 32px 48px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,var(--glow-brand) 0%,transparent 70%);pointer-events:none}
+    .hero h1{font-size:clamp(32px,5vw,48px);font-weight:900;letter-spacing:-2px;position:relative;margin-bottom:12px}
+    .gradient-text{background:linear-gradient(135deg,var(--brand-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{font-size:16px;color:var(--text-secondary);max-width:500px;margin:0 auto;position:relative}
+
+    /* Billing toggle */
+    .billing-toggle{display:flex;align-items:center;justify-content:center;gap:12px;margin:32px 0 48px;position:relative}
+    .bt-label{font-size:14px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:color 0.2s}
+    .bt-label.active{color:var(--text-primary)}
+    .bt-switch{width:52px;height:28px;background:var(--bg-surface);border:1px solid var(--border-strong);border-radius:999px;cursor:pointer;position:relative;transition:background 0.2s}
+    .bt-switch::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:var(--brand);border-radius:50%;transition:transform 0.2s}
+    .bt-switch.annual::after{transform:translateX(24px)}
+    .bt-switch.annual{background:var(--glow-brand);border-color:var(--brand)}
+    .bt-save{padding:3px 10px;background:rgba(34,197,94,0.12);color:var(--success);font-size:11px;font-weight:700;border-radius:999px}
+
+    /* Pricing grid */
+    .pricing-container{max-width:1100px;margin:0 auto;padding:0 32px 48px}
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .price-card{padding:36px;background:var(--bg-raised);border:1px solid var(--border);border-radius:20px;position:relative;transition:transform 0.3s,box-shadow 0.3s}
+    .price-card:hover{transform:translateY(-6px)}
+    .price-card.pop{border-color:var(--brand);box-shadow:0 0 60px var(--glow-brand);background:linear-gradient(180deg,rgba(99,102,241,0.06) 0%,var(--bg-raised) 40%)}
+    .pop-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);padding:5px 20px;background:var(--brand);color:white;font-size:11px;font-weight:800;border-radius:999px;text-transform:uppercase;letter-spacing:1px}
+    .pc-name{font-size:20px;font-weight:800;margin-bottom:4px}
+    .pc-desc{font-size:13px;color:var(--text-muted);margin-bottom:24px}
+    .pc-price{display:flex;align-items:baseline;gap:4px;margin-bottom:4px}
+    .pc-dollar{font-size:24px;font-weight:700;color:var(--text-secondary)}
+    .pc-val{font-size:56px;font-weight:900;letter-spacing:-3px}
+    .pc-period{font-size:13px;color:var(--text-muted)}
+    .pc-annual-note{font-size:11px;color:var(--text-muted);margin-bottom:28px;min-height:16px}
+    .pc-features{list-style:none;margin-bottom:32px}
+    .pc-features li{display:flex;align-items:center;gap:10px;padding:10px 0;font-size:13px;color:var(--text-secondary);border-bottom:1px solid var(--border)}
+    .pc-features li:last-child{border:none}
+    .pc-features li::before{content:'✓';color:var(--success);font-weight:800;font-size:14px}
+    .pc-features li.disabled{color:var(--text-muted);opacity:0.4}
+    .pc-features li.disabled::before{content:'—';color:var(--text-muted)}
+    .pc-btn{display:block;width:100%;padding:14px;text-align:center;font-size:14px;font-weight:700;border-radius:12px;border:1px solid var(--border-strong);background:transparent;color:var(--text-primary);cursor:pointer;transition:all 0.2s;font-family:var(--font)}
+    .pc-btn:hover{background:rgba(255,255,255,0.04)}
+    .price-card.pop .pc-btn{background:var(--brand);border-color:var(--brand);color:white;box-shadow:0 4px 20px var(--glow-brand)}
+    .price-card.pop .pc-btn:hover{background:var(--brand-light)}
+
+    /* Comparison table */
+    .compare-section{max-width:1100px;margin:0 auto;padding:48px 32px 80px}
+    .compare-title{font-size:28px;font-weight:900;letter-spacing:-1px;text-align:center;margin-bottom:8px}
+    .compare-sub{font-size:14px;color:var(--text-secondary);text-align:center;margin-bottom:40px}
+    .compare-table{width:100%;border-collapse:collapse;background:var(--bg-raised);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+    .compare-table thead th{padding:16px 20px;font-size:14px;font-weight:800;text-align:center;border-bottom:1px solid var(--border);background:var(--bg-surface)}
+    .compare-table thead th:first-child{text-align:left;width:40%}
+    .compare-table tbody td{padding:14px 20px;font-size:13px;text-align:center;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+    .compare-table tbody td:first-child{text-align:left;font-weight:600;color:var(--text-primary)}
+    .compare-table tbody tr:last-child td{border:none}
+    .compare-table .check{color:var(--success);font-weight:800;font-size:16px}
+    .compare-table .dash{color:var(--text-muted);opacity:0.3}
+    .compare-table .highlight{background:rgba(99,102,241,0.04)}
+
+    /* FAQ */
+    .faq-section{max-width:720px;margin:0 auto;padding:0 32px 80px;text-align:center}
+    .faq-title{font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:8px}
+    .faq-sub{font-size:14px;color:var(--text-secondary);margin-bottom:40px}
+    .faq-list{text-align:left}
+    .faq-item{border-bottom:1px solid var(--border)}
+    .faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 0;background:none;border:none;color:var(--text-primary);font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);text-align:left;transition:color 0.15s}
+    .faq-q:hover{color:var(--brand-light)}
+    .faq-icon{font-size:16px;color:var(--text-muted);transition:transform 0.2s}
+    .faq-item.open .faq-icon{transform:rotate(45deg);color:var(--brand-light)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(0.16,1,0.3,1),padding-bottom 0.3s ease;font-size:13px;color:var(--text-secondary);line-height:1.7;padding-bottom:0}
+    .faq-item.open .faq-a{max-height:200px;padding-bottom:20px}
+
+    /* Guarantee */
+    .guarantee{max-width:600px;margin:0 auto 80px;padding:32px;background:var(--bg-raised);border:1px solid var(--border);border-radius:16px;text-align:center}
+    .guarantee-icon{font-size:32px;margin-bottom:12px}
+    .guarantee h3{font-size:18px;font-weight:800;margin-bottom:8px}
+    .guarantee p{font-size:13px;color:var(--text-secondary);line-height:1.6}
+
+    footer{padding:40px 32px;border-top:1px solid var(--border);text-align:center}
+    .footer-inner{max-width:1600px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+    .footer-copy{font-size:12px;color:var(--text-muted)}
+    .footer-links{display:flex;gap:24px;list-style:none}
+    .footer-links a{font-size:12px;color:var(--text-muted);transition:color 0.15s}
+    .footer-links a:hover{color:var(--text-primary)}
+
+    @media(max-width:900px){
+      .pricing-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}
+      .compare-table{font-size:12px}
+      .compare-table thead th,.compare-table tbody td{padding:10px 12px}
+    }
+    @media(max-width:768px){
+      .nav-links{display:none}
+      .nav-right{display:none}
+      .nav-burger{display:block}
+      .hero{padding:60px 20px 32px}
+      .pricing-container,.compare-section,.faq-section{padding-left:20px;padding-right:20px}
+      .footer-inner{flex-direction:column;gap:16px}
+    }
+  </style>
+  <script src="../../src/js/analytics.js" defer></script>
+</head>
+<body>
+
+  <nav class="nav"><div class="nav-inner">
+    <a href="../../landing/index.html" class="nav-logo"><span class="mark">O</span> MergeUi</a>
+    <ul class="nav-links">
+      <li><a href="../../landing/index.html">Home</a></li>
+      <li><a href="../themes/index.html">Themes</a></li>
+      <li><a href="components.html">Components</a></li>
+      <li><a href="pricing.html" class="active">Pricing</a></li>
+      <li><a href="docs.html">Docs</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="../auth/login.html" class="nav-signin">Sign In</a>
+      <a href="../auth/signup.html" class="nav-cta">Get Started</a>
+    </div>
+    <button class="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div></nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../../landing/index.html" class="mobile-link">Home</a>
+    <a href="../themes/index.html" class="mobile-link">Themes</a>
+    <a href="components.html" class="mobile-link">Components</a>
+    <a href="pricing.html" class="mobile-link">Pricing</a>
+    <a href="docs.html" class="mobile-link">Docs</a>
+    <a href="../auth/login.html" class="mobile-link">Sign In</a>
+    <a href="../auth/signup.html" style="margin-top:16px;padding:14px 36px;background:var(--brand);color:white;font-size:16px;font-weight:700;border-radius:14px">Get Started</a>
+  </div>
+
+  <section class="hero">
+    <h1>Simple, <span class="gradient-text">transparent pricing.</span></h1>
+    <p>Start free. Upgrade when you're ready. Cancel anytime.</p>
+  </section>
+
+  <div class="billing-toggle">
+    <span class="bt-label active" id="lblMonthly">Monthly</span>
+    <div class="bt-switch" id="billingSwitch" onclick="toggleBilling()"></div>
+    <span class="bt-label" id="lblAnnual">Annual</span>
+    <span class="bt-save">Save 20%</span>
+  </div>
+
+  <div class="pricing-container">
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="pc-name">Free</div>
+        <div class="pc-desc">Try before you commit</div>
+        <div class="pc-price"><span class="pc-dollar">$</span><span class="pc-val">0</span></div>
+        <div class="pc-annual-note">Free forever</div>
+        <ul class="pc-features">
+          <li>1 full dashboard theme</li>
+          <li>5 basic components</li>
+          <li>Light mode only</li>
+          <li>Community support</li>
+          <li class="disabled">Dark mode</li>
+          <li class="disabled">Monthly new themes</li>
+          <li class="disabled">Priority support</li>
+        </ul>
+        <a href="../auth/signup.html" class="pc-btn" style="display:block;text-align:center">Get Started Free</a>
+      </div>
+
+      <div class="price-card pop">
+        <span class="pop-badge">Most Popular</span>
+        <div class="pc-name">Pro</div>
+        <div class="pc-desc">For individual developers</div>
+        <div class="pc-price"><span class="pc-dollar">$</span><span class="pc-val" id="proPrice">19</span><span class="pc-period" id="proPeriod">/ month</span></div>
+        <div class="pc-annual-note" id="proNote"></div>
+        <ul class="pc-features">
+          <li>All dashboard themes</li>
+          <li>50+ components</li>
+          <li>Dark + Light mode</li>
+          <li>Monthly new themes</li>
+          <li>Priority support</li>
+          <li>Commercial license</li>
+          <li>CSS source files</li>
+        </ul>
+        <a href="../auth/signup.html" class="pc-btn" style="display:block;text-align:center">Start Pro — 14 Day Trial</a>
+      </div>
+
+      <div class="price-card">
+        <div class="pc-name">Team</div>
+        <div class="pc-desc">For teams of 5+</div>
+        <div class="pc-price"><span class="pc-dollar">$</span><span class="pc-val" id="teamPrice">49</span><span class="pc-period" id="teamPeriod">/ month</span></div>
+        <div class="pc-annual-note" id="teamNote"></div>
+        <ul class="pc-features">
+          <li>Everything in Pro</li>
+          <li>Up to 10 team seats</li>
+          <li>Team license</li>
+          <li>Shared component library</li>
+          <li>Dedicated support</li>
+          <li>Custom branding option</li>
+          <li>Invoice billing</li>
+        </ul>
+        <a href="../auth/signup.html" class="pc-btn" style="display:block;text-align:center">Contact Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Comparison -->
+  <div class="compare-section">
+    <div class="compare-title">Compare plans in detail</div>
+    <div class="compare-sub">Everything you need to know to pick the right plan.</div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Feature</th><th>Free</th><th class="highlight">Pro</th><th>Team</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Dashboard themes</td><td>1</td><td class="highlight"><span class="check">All</span></td><td><span class="check">All</span></td></tr>
+        <tr><td>Components</td><td>5 basic</td><td class="highlight"><span class="check">50+</span></td><td><span class="check">50+</span></td></tr>
+        <tr><td>Dark mode</td><td><span class="dash">—</span></td><td class="highlight"><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Responsive</td><td><span class="check">✓</span></td><td class="highlight"><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>CSS source files</td><td><span class="dash">—</span></td><td class="highlight"><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Monthly new themes</td><td><span class="dash">—</span></td><td class="highlight"><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Commercial license</td><td><span class="dash">—</span></td><td class="highlight"><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Team seats</td><td>1</td><td class="highlight">1</td><td>Up to 10</td></tr>
+        <tr><td>Shared library</td><td><span class="dash">—</span></td><td class="highlight"><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Custom branding</td><td><span class="dash">—</span></td><td class="highlight"><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Support</td><td>Community</td><td class="highlight">Priority</td><td>Dedicated</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Guarantee -->
+  <div class="guarantee">
+    <div class="guarantee-icon">🛡️</div>
+    <h3>14-Day Money-Back Guarantee</h3>
+    <p>Not satisfied? Get a full refund within 14 days, no questions asked. You keep everything you've downloaded.</p>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="faq-title">Pricing FAQ</div>
+    <div class="faq-sub">Got questions? We've got answers.</div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button type="button" class="faq-q" aria-expanded="true">Can I try before I buy? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Yes! The Free plan gives you access to 1 full dashboard theme and 5 components. No credit card required. Upgrade to Pro when you're ready.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">What happens when I cancel? <span class="faq-icon">+</span></button>
+        <div class="faq-a">You keep everything you've downloaded. Cancelling only stops access to new themes and updates. Your existing projects continue to work forever.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Can I use it for client projects? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Yes! Pro and Team plans include a commercial license. Use MergeUi in unlimited client projects and SaaS products.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">What if my team grows beyond 10? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Contact us for Enterprise pricing. We offer custom seat counts, dedicated onboarding, and SLA-backed support for larger teams.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Do you offer student/nonprofit discounts? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Yes! We offer 50% off for students and registered nonprofits. Reach out to support@mergeui.com with proof of eligibility.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer><div class="footer-inner">
+    <div class="footer-copy">© 2026 MergeUi. All rights reserved.</div>
+    <ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul>
+  </div></footer>
+
+<script>
+var isAnnual=false;
+function toggleBilling(){
+  isAnnual=!isAnnual;
+  document.getElementById('billingSwitch').classList.toggle('annual',isAnnual);
+  document.getElementById('lblMonthly').classList.toggle('active',!isAnnual);
+  document.getElementById('lblAnnual').classList.toggle('active',isAnnual);
+  document.getElementById('proPrice').textContent=isAnnual?'15':'19';
+  document.getElementById('proPeriod').textContent=isAnnual?'/ month':'/ month';
+  document.getElementById('proNote').textContent=isAnnual?'Billed $180/year (save $48)':'';
+  document.getElementById('teamPrice').textContent=isAnnual?'39':'49';
+  document.getElementById('teamPeriod').textContent=isAnnual?'/ month':'/ month';
+  document.getElementById('teamNote').textContent=isAnnual?'Billed $468/year (save $120)':'';
+}
+document.querySelectorAll('.faq-q').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var item=this.parentElement,wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(el){el.classList.remove('open');el.querySelector('.faq-q').setAttribute('aria-expanded','false')});
+    if(!wasOpen){item.classList.add('open');this.setAttribute('aria-expanded','true')}
+  });
+});
+</script>
+<script>
+var burger=document.querySelector('.nav-burger'),mobileMenu=document.getElementById('mobileMenu');
+if(burger&&mobileMenu){burger.addEventListener('click',function(){burger.classList.toggle('active');mobileMenu.classList.toggle('open');document.body.style.overflow=mobileMenu.classList.contains('open')?'hidden':'';});
+document.querySelectorAll('.mobile-link').forEach(function(l){l.addEventListener('click',function(){burger.classList.remove('active');mobileMenu.classList.remove('open');document.body.style.overflow='';});});}
+(function(){var s=localStorage.getItem('mergeui_session');if(!s)return;
+var r=document.querySelector('.nav-right');if(r)r.innerHTML='<a href="../subscriber/dashboard.html" class="nav-cta">My Dashboard</a>';
+var mob=document.getElementById('mobileMenu');if(mob){var si=mob.querySelector('a[href*="login"]');if(si){si.textContent='My Dashboard';si.href='../subscriber/dashboard.html';}var gs=mob.querySelector('a[href*="signup"]');if(gs)gs.remove();}
+})();
+</script>
+<script src="../../src/js/auth.js"></script>
+</body>
+</html>

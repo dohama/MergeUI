@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Theme — MergeUi</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../src/styles/tokens.css">
+  <link rel="stylesheet" href="../../src/styles/reset.css">
+  <link rel="stylesheet" href="../../src/styles/nav.css">
+  <style>:root{--brand:#6366F1;--brand-light:#818CF8;--brand-dark:#4F46E5;--accent:#22D3EE;--accent2:#A78BFA;--bg-base:#06060A;--bg-raised:#0E0E14;--bg-surface:#16161E;--text-primary:#F4F4F5;--text-secondary:#A1A1AA;--text-muted:#71717A;--border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.1);--success:#22C55E;--glow-brand:rgba(99,102,241,0.15);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{-webkit-font-smoothing:antialiased}body{font-family:var(--font);background:var(--bg-base);color:var(--text-primary);min-height:100vh}a{color:inherit;text-decoration:none}.nav{position:sticky;top:0;z-index:100;padding:16px 0;background:rgba(6,6,10,0.8);backdrop-filter:blur(16px) saturate(1.6);border-bottom:1px solid var(--border)}.nav-inner{max-width:1600px;margin:0 auto;padding:0 48px;display:flex;align-items:center;justify-content:space-between}.nav-logo{font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px;letter-spacing:-0.5px}.nav-logo .mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--accent));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:white}.nav-links{display:flex;gap:32px;list-style:none}.nav-links a{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}.nav-links a:hover,.nav-links a.active{color:var(--text-primary)}.nav-right{display:flex;align-items:center;gap:12px}.nav-signin{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}.nav-signin:hover{color:var(--text-primary)}.nav-cta{padding:8px 24px;background:var(--brand);color:white;font-size:14px;font-weight:600;border-radius:999px;transition:all 0.15s}.nav-cta:hover{background:var(--brand-light)}.nav-burger{display:none;background:none;border:none;cursor:pointer;width:36px;height:36px;position:relative;z-index:1001}.nav-burger span{display:block;width:20px;height:2px;background:var(--text-primary);margin:5px auto;border-radius:2px;transition:all 0.3s}.nav-burger.active span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}.nav-burger.active span:nth-child(2){opacity:0}.nav-burger.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}.mobile-menu{display:none;position:fixed;inset:0;z-index:999;background:rgba(6,6,10,0.95);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:32px}.mobile-menu.open{display:flex}.mobile-menu a{font-size:24px;font-weight:700;color:var(--text-secondary);transition:color 0.2s}.mobile-menu a:hover{color:var(--text-primary)}.gradient-text{background:linear-gradient(135deg,var(--brand-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero-section{text-align:center;padding:64px 32px 48px}.hero-section h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1.5px;margin-bottom:12px}.hero-section p{font-size:16px;color:var(--text-secondary);max-width:500px;margin:0 auto}
+  .download-content{max-width:800px;margin:0 auto;padding:0 32px 80px}
+  .theme-info-card{background:var(--bg-raised);border:1px solid var(--border-strong);border-radius:14px;padding:24px 28px;margin-bottom:32px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .theme-icon{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--accent));display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:white;flex-shrink:0}
+  .theme-meta{flex:1;min-width:200px}
+  .theme-meta h2{font-size:20px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px}
+  .theme-meta-row{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--text-muted)}
+  .theme-meta-row span{display:flex;align-items:center;gap:4px}
+  .dtag{padding:4px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;color:var(--text-muted)}.dtag.pro{background:rgba(99,102,241,0.1);color:var(--brand-light);border-color:rgba(99,102,241,0.15)}.dtag.free{background:rgba(34,197,94,0.1);color:var(--success);border-color:rgba(34,197,94,0.15)}
+  .package-options{margin-bottom:28px}
+  .package-options h3{font-size:15px;font-weight:700;margin-bottom:12px}
+  .pkg-option{display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--bg-raised);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all 0.15s}
+  .pkg-option:hover{border-color:var(--border-strong)}
+  .pkg-option.selected{border-color:var(--brand);background:var(--glow-brand)}
+  .pkg-option input[type="radio"]{accent-color:var(--brand);width:16px;height:16px;cursor:pointer}
+  .pkg-label{flex:1}
+  .pkg-label strong{font-size:14px;font-weight:700;display:block;margin-bottom:2px}
+  .pkg-label span{font-size:12px;color:var(--text-muted)}
+  .license-agree{display:flex;align-items:center;gap:10px;padding:16px 20px;background:var(--bg-raised);border:1px solid var(--border);border-radius:12px;margin-bottom:24px;font-size:14px;color:var(--text-secondary)}
+  .license-agree input[type="checkbox"]{accent-color:var(--brand);width:16px;height:16px;cursor:pointer}
+  .license-agree a{color:var(--brand-light);text-decoration:underline}
+  .btn-download{width:100%;padding:14px 28px;background:var(--brand);color:white;font-size:15px;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:all 0.2s;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:8px}
+  .btn-download:hover:not(:disabled){background:var(--brand-light);transform:translateY(-2px);box-shadow:0 0 40px rgba(99,102,241,0.3)}
+  .btn-download:disabled{opacity:0.4;cursor:not-allowed}
+  .btn-upgrade{width:100%;padding:14px 28px;background:linear-gradient(135deg,var(--brand),var(--accent2));color:white;font-size:15px;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:all 0.2s;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:8px}
+  .btn-upgrade:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(99,102,241,0.3)}
+  .download-msg{text-align:center;padding:16px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.15);border-radius:12px;color:var(--success);font-size:14px;font-weight:600;margin-top:16px;display:none}
+  footer{padding:40px 32px;border-top:1px solid var(--border)}.footer-inner{max-width:1600px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.footer-copy{font-size:12px;color:var(--text-muted)}.footer-links{display:flex;gap:24px;list-style:none}.footer-links a{font-size:12px;color:var(--text-muted);transition:color 0.15s}.footer-links a:hover{color:var(--text-primary)}@media(max-width:768px){.nav-links,.nav-right{display:none}.nav-burger{display:block}.nav-inner{padding:0 20px}.footer-inner{flex-direction:column;gap:16px;text-align:center}.theme-info-card{flex-direction:column;text-align:center}.download-content{padding:0 20px 60px}}</style>
+  <script src="../../src/js/analytics.js" defer></script>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a href="../../landing/index.html" class="nav-logo"><span class="mark">O</span> MergeUi</a>
+    <ul class="nav-links"><li><a href="../../landing/index.html">Home</a></li><li><a href="index.html" class="active">Themes</a></li><li><a href="../public/components.html">Components</a></li><li><a href="../public/pricing.html">Pricing</a></li><li><a href="../public/docs.html">Docs</a></li></ul>
+    <div class="nav-right"><a href="../auth/login.html" class="nav-signin">Sign In</a><a href="../auth/signup.html" class="nav-cta">Get Started</a></div>
+    <button class="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div></nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../../landing/index.html" class="mobile-link">Home</a><a href="index.html" class="mobile-link">Themes</a><a href="../public/components.html" class="mobile-link">Components</a><a href="../public/pricing.html" class="mobile-link">Pricing</a><a href="../public/docs.html" class="mobile-link">Docs</a>
+    <a href="../auth/login.html" class="mobile-link">Sign In</a><a href="../auth/signup.html" style="margin-top:16px;padding:14px 36px;background:var(--brand);color:white;font-size:16px;font-weight:700;border-radius:14px">Get Started</a>
+  </div>
+  <main>
+    <section class="hero-section">
+      <h1>Download <span class="gradient-text">Theme</span></h1>
+      <p>Review the license and choose your package.</p>
+    </section>
+    <div class="download-content">
+      <div class="theme-info-card">
+        <div class="theme-icon" id="themeIcon">A</div>
+        <div class="theme-meta">
+          <h2 id="themeName">Analytics Pro</h2>
+          <div class="theme-meta-row">
+            <span id="themeVersion">v1.2.0</span>
+            <span id="themeComponents">28 components</span>
+            <span id="themePages">6 pages</span>
+            <span id="themeUpdated">Updated Apr 1, 2026</span>
+          </div>
+        </div>
+        <span class="dtag pro" id="themeBadge">Pro</span>
+      </div>
+      <div class="package-options">
+        <h3>Choose Package</h3>
+        <label class="pkg-option selected" id="pkgFull">
+          <input type="radio" name="package" value="full" checked>
+          <div class="pkg-label"><strong>Full Package</strong><span>HTML + CSS + Assets</span></div>
+        </label>
+        <label class="pkg-option" id="pkgComponents">
+          <input type="radio" name="package" value="components">
+          <div class="pkg-label"><strong>Components Only</strong><span>CSS</span></div>
+        </label>
+      </div>
+      <label class="license-agree">
+        <input type="checkbox" id="agreeCheck">
+        I agree to the <a href="../legal/terms.html">License Agreement</a>
+      </label>
+      <div id="downloadArea">
+        <button class="btn-download" id="btnDownload" disabled aria-label="Download theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </button>
+      </div>
+      <div class="download-msg" id="downloadMsg">Download started!</div>
+    </div>
+  </main>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+  <script>
+var burger=document.querySelector('.nav-burger'),mm=document.getElementById('mobileMenu');
+if(burger&&mm){burger.addEventListener('click',function(){burger.classList.toggle('active');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':'';});document.querySelectorAll('.mobile-link').forEach(function(l){l.addEventListener('click',function(){burger.classList.remove('active');mm.classList.remove('open');document.body.style.overflow='';});});};
+(function(){var s=localStorage.getItem('mergeui_session');if(!s)return;var r=document.querySelector('.nav-right');if(r)r.innerHTML='<a href="../subscriber/dashboard.html" class="nav-cta">My Dashboard</a>';var mob=document.getElementById('mobileMenu');if(mob){var si=mob.querySelector('a[href*="login"]');if(si){si.textContent="My Dashboard";si.href="../subscriber/dashboard.html";}var gs=mob.querySelector('a[href*="signup"]');if(gs)gs.remove();}})();
+
+var themeData = {
+  'analytics-pro': { name:'Analytics Pro', desc:'Data-heavy dashboard with real-time charts, KPIs, and advanced filtering.', category:'Analytics', tags:['Analytics','Charts','Real-time'], badge:'pro', components:28, pages:6, version:'1.2.0', updated:'2026-04-01' },
+  'storefront': { name:'StoreFront', desc:'E-commerce dashboard with order management, inventory tracking, and customer insights.', category:'E-Commerce', tags:['E-Commerce','Orders','Inventory'], badge:'pro', components:32, pages:8, version:'1.0.0', updated:'2026-03-20' },
+  'findash': { name:'FinDash', desc:'Financial reports, transaction logs, portfolio analytics, and risk metrics.', category:'Finance', tags:['Finance','Reports','Portfolio'], badge:'pro', components:24, pages:5, version:'1.1.0', updated:'2026-03-15' },
+  'relatehub': { name:'RelateHub', desc:'Contact management, sales pipeline, team collaboration, and deal tracking.', category:'CRM', tags:['CRM','Pipeline','Contacts'], badge:'pro', components:20, pages:4, version:'1.0.0', updated:'2026-03-10' },
+  'starter': { name:'Starter Dashboard', desc:'Clean minimal dashboard to kickstart any project. Free forever.', category:'General', tags:['Minimal','Starter'], badge:'free', components:12, pages:3, version:'1.0.0', updated:'2026-04-05' },
+  'devops-monitor': { name:'DevOps Monitor', desc:'Infrastructure monitoring with uptime, logs, and alert management.', category:'DevOps', tags:['DevOps','Monitoring','Alerts'], badge:'pro', components:22, pages:5, version:'1.0.0', updated:'2026-03-25' },
+  'healthpulse': { name:'HealthPulse', desc:'Healthcare dashboard with patient records, appointments, and analytics.', category:'Healthcare', tags:['Healthcare','Patients','Analytics'], badge:'pro', components:26, pages:6, version:'1.0.0', updated:'2026-03-18' },
+  'learnflow': { name:'LearnFlow', desc:'Education platform dashboard with course management, progress tracking, and student analytics.', category:'Education', tags:['Education','Courses','Progress'], badge:'pro', components:18, pages:4, version:'1.0.0', updated:'2026-03-12' }
+};
+
+var params = new URLSearchParams(window.location.search);
+var slug = params.get('theme') || 'analytics-pro';
+var theme = themeData[slug] || themeData['analytics-pro'];
+
+document.title = 'Download ' + theme.name + ' — MergeUi';
+document.getElementById('themeName').textContent = theme.name;
+document.getElementById('themeIcon').textContent = theme.name.charAt(0);
+document.getElementById('themeVersion').textContent = 'v' + theme.version;
+document.getElementById('themeComponents').textContent = theme.components + ' components';
+document.getElementById('themePages').textContent = theme.pages + ' pages';
+var d = new Date(theme.updated);
+document.getElementById('themeUpdated').textContent = 'Updated ' + d.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
+var badgeEl = document.getElementById('themeBadge');
+if (theme.badge === 'free') { badgeEl.className = 'dtag free'; badgeEl.textContent = 'Free'; }
+else { badgeEl.className = 'dtag pro'; badgeEl.textContent = 'Pro'; }
+
+// Pro gate
+var session = localStorage.getItem('mergeui_session');
+var isPro = false;
+if (session) { try { var u = JSON.parse(session); isPro = u.plan === 'pro' || u.plan === 'team'; } catch(e){} }
+
+if (theme.badge === 'pro' && !isPro) {
+  document.getElementById('downloadArea').innerHTML = '<a href="../public/pricing.html" class="btn-upgrade">Upgrade to Pro &mdash; $19/mo</a>';
+}
+
+// Package radio selection
+document.querySelectorAll('.pkg-option').forEach(function(opt){
+  opt.addEventListener('click', function(){
+    document.querySelectorAll('.pkg-option').forEach(function(o){o.classList.remove('selected');});
+    opt.classList.add('selected');
+  });
+});
+
+// License checkbox
+var agreeCheck = document.getElementById('agreeCheck');
+var btnDownload = document.getElementById('btnDownload');
+if (agreeCheck && btnDownload) {
+  agreeCheck.addEventListener('change', function(){ btnDownload.disabled = !agreeCheck.checked; });
+  btnDownload.addEventListener('click', function(){
+    if (!agreeCheck.checked) return;
+    var msg = document.getElementById('downloadMsg');
+    if (msg) { msg.style.display = 'block'; }
+  });
+}
+</script>
+<script src="../../src/js/auth.js"></script>
+</body>
+</html>

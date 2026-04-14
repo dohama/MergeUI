@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Pro — MergeUi Theme</title>
+  <meta name="description" content="Analytics Pro dashboard template. Data-heavy dashboard with real-time charts, KPIs, and advanced filtering. Dark mode, responsive, production-ready.">
+  <meta property="og:title" content="Analytics Pro — MergeUi Dashboard Theme">
+  <meta property="og:description" content="Data-heavy dashboard with real-time charts, KPIs, and advanced filtering.">
+  <meta property="og:type" content="product">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../src/styles/tokens.css">
+  <link rel="stylesheet" href="../../src/styles/reset.css">
+  <link rel="stylesheet" href="../../src/styles/nav.css">
+  <style>
+    :root{
+      --brand:#6366F1;--brand-light:#818CF8;--brand-dark:#4F46E5;
+      --accent:#22D3EE;--accent2:#A78BFA;
+      --bg-base:#06060A;--bg-raised:#0E0E14;--bg-surface:#16161E;--bg-glass:rgba(14,14,20,0.6);
+      --text-primary:#F4F4F5;--text-secondary:#A1A1AA;--text-muted:#71717A;
+      --border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.1);
+      --success:#22C55E;--glow-brand:rgba(99,102,241,0.15);
+      --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+    body{font-family:var(--font);background:var(--bg-base);color:var(--text-primary);min-height:100vh}
+    a{color:inherit;text-decoration:none}
+
+    /* Nav */
+    .nav{position:sticky;top:0;z-index:100;padding:16px 0;background:rgba(6,6,10,0.8);backdrop-filter:blur(16px) saturate(1.6);border-bottom:1px solid var(--border)}
+    .nav-inner{max-width:1600px;margin:0 auto;padding:0 48px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px;letter-spacing:-0.5px}
+    .nav-logo .mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--accent));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:white}
+    .nav-links{display:flex;gap:32px;list-style:none}
+    .nav-links a{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}
+    .nav-links a:hover,.nav-links a.active{color:var(--text-primary)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .nav-signin{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}
+    .nav-signin:hover{color:var(--text-primary)}
+    .nav-cta{padding:8px 24px;background:var(--brand);color:white;font-size:14px;font-weight:600;border-radius:999px;transition:all 0.15s}
+    .nav-cta:hover{background:var(--brand-light)}
+    .nav-burger{display:none;background:none;border:none;cursor:pointer;width:36px;height:36px;position:relative;z-index:1001}
+    .nav-burger span{display:block;width:20px;height:2px;background:var(--text-primary);margin:5px auto;border-radius:2px;transition:all 0.3s}
+    .nav-burger.active span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}
+    .nav-burger.active span:nth-child(2){opacity:0}
+    .nav-burger.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}
+    .mobile-menu{display:none;position:fixed;inset:0;z-index:999;background:rgba(6,6,10,0.95);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:32px}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{font-size:24px;font-weight:700;color:var(--text-secondary);transition:color 0.2s}
+    .mobile-menu a:hover{color:var(--text-primary)}
+
+    /* Breadcrumb */
+    .breadcrumb{max-width:1600px;margin:0 auto;padding:20px 32px 0;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted)}
+    .breadcrumb a:hover{color:var(--text-secondary)}
+    .breadcrumb .sep{opacity:0.3}
+
+    /* Hero section */
+    .detail-hero{max-width:1600px;margin:0 auto;padding:24px 32px 0}
+    .detail-top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;margin-bottom:24px;flex-wrap:wrap}
+    .detail-info h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1.5px;margin-bottom:8px}
+    .detail-info p{font-size:15px;color:var(--text-secondary);max-width:600px;line-height:1.6}
+    .detail-tags{display:flex;gap:6px;margin-top:12px}
+    .dtag{padding:4px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;color:var(--text-muted)}
+    .dtag.pro{background:rgba(99,102,241,0.1);color:var(--brand-light);border-color:rgba(99,102,241,0.15)}
+    .detail-actions{display:flex;gap:10px;align-items:center;flex-shrink:0}
+    .btn-download{padding:12px 28px;background:var(--brand);color:white;font-size:14px;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:all 0.2s;font-family:var(--font);box-shadow:0 0 24px var(--glow-brand);display:flex;align-items:center;gap:8px}
+    .btn-download:hover{background:var(--brand-light);transform:translateY(-2px);box-shadow:0 0 40px rgba(99,102,241,0.3)}
+    .btn-download svg{width:18px;height:18px}
+    .btn-fav{width:44px;height:44px;border-radius:12px;background:var(--bg-raised);border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all 0.15s}
+    .btn-fav:hover{border-color:var(--brand);background:var(--glow-brand)}
+
+    /* Preview area with device switcher */
+    .preview-area{max-width:1600px;margin:0 auto;padding:0 32px}
+    .preview-controls{display:flex;align-items:center;gap:8px;margin-bottom:0;padding:12px 16px;background:var(--bg-raised);border:1px solid var(--border);border-radius:12px 12px 0 0}
+    .pc-dots{display:flex;gap:6px;margin-right:auto}
+    .pc-dot{width:10px;height:10px;border-radius:50%}
+    .pc-dot.r{background:#FF5F57}.pc-dot.y{background:#FFBD2E}.pc-dot.g{background:#28C840}
+    .device-btn{padding:6px 14px;background:var(--bg-surface);border:1px solid var(--border-strong);border-radius:8px;font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.12s;font-family:var(--font)}
+    .device-btn:hover,.device-btn.active{background:var(--glow-brand);color:var(--brand-light);border-color:var(--brand)}
+    .theme-toggle{padding:6px 14px;background:var(--bg-surface);border:1px solid var(--border-strong);border-radius:8px;font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.12s;font-family:var(--font);margin-left:8px}
+    .theme-toggle:hover{background:var(--glow-brand);color:var(--brand-light);border-color:var(--brand)}
+    .theme-toggle.light{background:rgba(255,255,255,0.9);color:#18181B;border-color:rgba(255,255,255,0.3)}
+    .pc-size{font-size:10px;color:var(--text-muted);font-family:monospace;padding:4px 8px;background:var(--bg-base);border-radius:4px;margin-left:8px}
+
+    .preview-frame{border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;background:#0A0A0F;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;transition:height 0.4s}
+
+    /* Live dashboard mock */
+    .mock-dashboard{transition:width 0.4s,transform 0.4s;transform-origin:top center;background:var(--bg-base);border-radius:0 0 8px 8px;overflow:hidden}
+    .md-layout{display:grid;grid-template-columns:220px 1fr;min-height:600px}
+    .md-sidebar{background:rgba(0,0,0,0.3);border-right:1px solid var(--border);padding:20px 14px}
+    .md-sb-logo{font-size:14px;font-weight:800;padding:4px 10px;margin-bottom:24px;color:var(--brand-light)}
+    .md-sb-group{margin-bottom:18px}
+    .md-sb-label{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);padding:0 10px;margin-bottom:6px}
+    .md-sb-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;font-size:12px;color:var(--text-muted);margin-bottom:2px;transition:all 0.1s}
+    .md-sb-item:hover{background:rgba(255,255,255,0.02)}
+    .md-sb-item.active{background:var(--glow-brand);color:var(--brand-light)}
+    .md-sb-icon{width:16px;height:16px;border-radius:4px;border:1.5px solid currentColor;opacity:0.4}
+    .md-sb-item.active .md-sb-icon{opacity:0.7}
+
+    .md-main{padding:24px}
+    .md-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+    .md-title{font-size:20px;font-weight:800}
+    .md-pills{display:flex;gap:6px}
+    .md-pill{padding:5px 14px;border-radius:7px;font-size:11px;font-weight:600;background:var(--bg-surface);color:var(--text-muted);border:1px solid var(--border)}
+    .md-pill.active{background:var(--brand);color:white;border-color:var(--brand)}
+
+    .md-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+    .md-stat{padding:16px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid var(--border)}
+    .md-stat-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
+    .md-stat-val{font-size:24px;font-weight:800;margin-top:4px}
+    .md-stat-change{font-size:11px;margin-top:2px}
+    .md-stat-change.up{color:var(--success)}.md-stat-change.down{color:#EF4444}
+
+    .md-charts{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+    .md-chart-card{padding:18px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid var(--border)}
+    .md-chart-title{font-size:13px;font-weight:700;margin-bottom:14px}
+    .md-bar-chart{display:flex;align-items:flex-end;gap:4px;height:140px}
+    .md-bar{flex:1;border-radius:3px 3px 0 0;background:linear-gradient(to top,var(--brand-dark),var(--brand-light));opacity:0.6;transition:opacity 0.2s}
+    .md-bar:hover{opacity:1}
+    .md-donut{width:120px;height:120px;border-radius:50%;border:18px solid var(--bg-surface);border-top-color:var(--brand);border-right-color:var(--accent);border-bottom-color:var(--accent2);margin:10px auto;position:relative}
+    .md-donut-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+
+    .md-table{margin-top:14px;padding:18px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid var(--border)}
+    .md-table-title{font-size:13px;font-weight:700;margin-bottom:12px}
+    .md-table table{width:100%;border-collapse:collapse}
+    .md-table th{text-align:left;font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;padding:8px 12px;border-bottom:1px solid var(--border)}
+    .md-table td{font-size:12px;padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+    .md-table tr:last-child td{border:none}
+    .md-table .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}
+    .md-table .status-dot.green{background:var(--success)}.md-table .status-dot.yellow{background:#FBBF24}
+
+    /* Detail sections below preview */
+    .detail-sections{max-width:1600px;margin:0 auto;padding:48px 32px 80px}
+    .detail-grid{display:grid;grid-template-columns:1fr 340px;gap:32px}
+
+    .section-card{padding:28px;background:var(--bg-raised);border:1px solid var(--border);border-radius:16px;margin-bottom:20px}
+    .section-card h2{font-size:18px;font-weight:800;margin-bottom:16px}
+
+    .component-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .comp-item{padding:10px 14px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px}
+    .comp-icon{font-size:14px}
+
+    .spec-list{list-style:none}
+    .spec-list li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .spec-list li:last-child{border:none}
+    .spec-label{color:var(--text-muted)}
+    .spec-value{font-weight:700}
+
+    /* Sidebar */
+    .detail-sidebar{}
+    .sidebar-card{padding:24px;background:var(--bg-raised);border:1px solid var(--border);border-radius:16px;margin-bottom:16px}
+    .sidebar-card h3{font-size:14px;font-weight:800;margin-bottom:14px}
+    .price-display{display:flex;align-items:baseline;gap:4px;margin-bottom:6px}
+    .price-val{font-size:32px;font-weight:900;letter-spacing:-1px}
+    .price-period{font-size:13px;color:var(--text-muted)}
+    .price-note{font-size:11px;color:var(--text-muted);margin-bottom:20px}
+    .btn-full{display:block;width:100%;padding:14px;text-align:center;background:var(--brand);color:white;font-size:14px;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:all 0.2s;font-family:var(--font);box-shadow:0 0 24px var(--glow-brand);margin-bottom:10px}
+    .btn-full:hover{background:var(--brand-light);transform:translateY(-1px)}
+    .btn-outline{display:block;width:100%;padding:12px;text-align:center;background:transparent;color:var(--text-secondary);font-size:13px;font-weight:600;border:1px solid var(--border-strong);border-radius:12px;cursor:pointer;transition:all 0.15s;font-family:var(--font)}
+    .btn-outline:hover{border-color:var(--text-muted);color:var(--text-primary)}
+
+    .related-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:all 0.15s}
+    .related-card:hover{border-color:var(--border-strong);transform:translateX(4px)}
+    .related-thumb{width:56px;height:40px;border-radius:6px;background:var(--bg-base);border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px}
+    .related-info .ri-name{font-size:12px;font-weight:700}
+    .related-info .ri-cat{font-size:10px;color:var(--text-muted)}
+
+    @media(max-width:1024px){
+      .md-layout{grid-template-columns:1fr}
+      .md-sidebar{display:none}
+      .md-stats{grid-template-columns:repeat(2,1fr)}
+      .md-charts{grid-template-columns:1fr}
+      .detail-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:768px){
+      .nav-links{display:none}
+      .nav-right{display:none}
+      .nav-burger{display:block}
+      .detail-top{flex-direction:column}
+      .detail-actions{width:100%}
+      .btn-download{flex:1;justify-content:center}
+      .md-stats{grid-template-columns:1fr 1fr}
+      .component-list{grid-template-columns:1fr}
+      .preview-area,.detail-hero,.breadcrumb,.detail-sections{padding-left:20px;padding-right:20px}
+    }
+  </style>
+  <script src="../../src/js/analytics.js" defer></script>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../../landing/index.html" class="nav-logo"><span class="mark">O</span> MergeUi</a>
+      <ul class="nav-links">
+        <li><a href="../../landing/index.html">Home</a></li>
+        <li><a href="index.html" class="active">Themes</a></li>
+        <li><a href="../public/components.html">Components</a></li>
+        <li><a href="../public/pricing.html">Pricing</a></li>
+        <li><a href="../public/docs.html">Docs</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="../auth/login.html" class="nav-signin">Sign In</a>
+        <a href="../auth/signup.html" class="nav-cta">Get Started</a>
+      </div>
+      <button class="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../../landing/index.html" class="mobile-link">Home</a>
+    <a href="index.html" class="mobile-link">Themes</a>
+    <a href="../public/components.html" class="mobile-link">Components</a>
+    <a href="../public/pricing.html" class="mobile-link">Pricing</a>
+    <a href="../public/docs.html" class="mobile-link">Docs</a>
+    <a href="../auth/login.html" class="mobile-link">Sign In</a>
+    <a href="../auth/signup.html" style="margin-top:16px;padding:14px 36px;background:var(--brand);color:white;font-size:16px;font-weight:700;border-radius:14px">Get Started</a>
+  </div>
+
+  <div class="breadcrumb">
+    <a href="index.html">Themes</a>
+    <span class="sep">/</span>
+    <span id="breadcrumbName" style="color:var(--text-secondary)">Analytics Pro</span>
+  </div>
+
+  <div class="detail-hero">
+    <div class="detail-top">
+      <div class="detail-info">
+        <h1 id="themeName">Analytics Pro</h1>
+        <p id="themeDesc">Data-heavy dashboard with real-time charts, KPIs, and advanced filtering. Perfect for SaaS products, internal tools, and analytics platforms.</p>
+        <div class="detail-tags" id="themeTags">
+          <span class="dtag">Analytics</span>
+          <span class="dtag">Charts</span>
+          <span class="dtag">Real-time</span>
+          <span class="dtag pro">Pro</span>
+        </div>
+      </div>
+      <div class="detail-actions">
+        <a href="download.html" class="btn-download" id="heroDownloadBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Theme
+        </a>
+        <button type="button" class="btn-fav" id="favBtn" onclick="toggleFav(this)">♡</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview with device switcher -->
+  <div class="preview-area">
+    <div class="preview-controls">
+      <div class="pc-dots"><span class="pc-dot r"></span><span class="pc-dot y"></span><span class="pc-dot g"></span></div>
+      <button type="button" class="device-btn active" onclick="setDevice('desktop',this)">💻 Desktop</button>
+      <button type="button" class="device-btn" onclick="setDevice('tablet',this)">📱 Tablet</button>
+      <button type="button" class="device-btn" onclick="setDevice('mobile',this)">📱 Mobile</button>
+      <button type="button" class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌗 Dark</button>
+      <span class="pc-size" id="sizeLabel">1280 × 720</span>
+    </div>
+    <div class="preview-frame" id="previewFrame" style="height:720px">
+      <div class="mock-dashboard" id="mockDash" style="width:1280px">
+        <div class="md-layout">
+          <div class="md-sidebar">
+            <div class="md-sb-logo" id="mockSidebarLogo">◆ Analytics Pro</div>
+            <div class="md-sb-group">
+              <div class="md-sb-label">Main</div>
+              <div class="md-sb-item active"><span class="md-sb-icon"></span> Dashboard</div>
+              <div class="md-sb-item"><span class="md-sb-icon"></span> Analytics</div>
+              <div class="md-sb-item"><span class="md-sb-icon"></span> Reports</div>
+              <div class="md-sb-item"><span class="md-sb-icon"></span> Audiences</div>
+            </div>
+            <div class="md-sb-group">
+              <div class="md-sb-label">Manage</div>
+              <div class="md-sb-item"><span class="md-sb-icon"></span> Events</div>
+              <div class="md-sb-item"><span class="md-sb-icon"></span> Funnels</div>
+              <div class="md-sb-item"><span class="md-sb-icon"></span> Settings</div>
+            </div>
+          </div>
+          <div class="md-main">
+            <div class="md-header">
+              <span class="md-title">Dashboard</span>
+              <div class="md-pills">
+                <span class="md-pill">7D</span>
+                <span class="md-pill active">30D</span>
+                <span class="md-pill">90D</span>
+                <span class="md-pill">1Y</span>
+              </div>
+            </div>
+            <div class="md-stats">
+              <div class="md-stat"><div class="md-stat-label">Total Revenue</div><div class="md-stat-val">$45.2K</div><div class="md-stat-change up">↑ 12.5%</div></div>
+              <div class="md-stat"><div class="md-stat-label">Active Users</div><div class="md-stat-val">2,340</div><div class="md-stat-change up">↑ 8.1%</div></div>
+              <div class="md-stat"><div class="md-stat-label">Conversion</div><div class="md-stat-val">3.6%</div><div class="md-stat-change down">↓ 0.4%</div></div>
+              <div class="md-stat"><div class="md-stat-label">Avg Session</div><div class="md-stat-val">4m 32s</div><div class="md-stat-change up">↑ 15s</div></div>
+            </div>
+            <div class="md-charts">
+              <div class="md-chart-card">
+                <div class="md-chart-title">Revenue Over Time</div>
+                <div class="md-bar-chart">
+                  <div class="md-bar" style="height:35%"></div><div class="md-bar" style="height:55%"></div>
+                  <div class="md-bar" style="height:42%"></div><div class="md-bar" style="height:78%"></div>
+                  <div class="md-bar" style="height:50%"></div><div class="md-bar" style="height:65%"></div>
+                  <div class="md-bar" style="height:88%"></div><div class="md-bar" style="height:58%"></div>
+                  <div class="md-bar" style="height:72%"></div><div class="md-bar" style="height:82%"></div>
+                  <div class="md-bar" style="height:48%"></div><div class="md-bar" style="height:95%"></div>
+                </div>
+              </div>
+              <div class="md-chart-card">
+                <div class="md-chart-title">Traffic Sources</div>
+                <div class="md-donut"><div class="md-donut-center">68%</div></div>
+              </div>
+            </div>
+            <div class="md-table">
+              <div class="md-table-title">Recent Activity</div>
+              <table>
+                <thead><tr><th>Event</th><th>User</th><th>Status</th><th>Time</th></tr></thead>
+                <tbody>
+                  <tr><td>Purchase completed</td><td>sarah@email.com</td><td><span class="status-dot green"></span>Success</td><td>2m ago</td></tr>
+                  <tr><td>Subscription renewed</td><td>mike@dev.io</td><td><span class="status-dot green"></span>Success</td><td>15m ago</td></tr>
+                  <tr><td>Payment pending</td><td>alex@startup.co</td><td><span class="status-dot yellow"></span>Pending</td><td>1h ago</td></tr>
+                  <tr><td>New signup</td><td>jen@agency.com</td><td><span class="status-dot green"></span>Active</td><td>2h ago</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail sections -->
+  <div class="detail-sections">
+    <div class="detail-grid">
+      <div>
+        <!-- Components -->
+        <div class="section-card">
+          <h2 id="componentsTitle">Included Components (28)</h2>
+          <div class="component-list" id="featuresList">
+            <div class="comp-item"><span class="comp-icon">📊</span> Line Chart</div>
+            <div class="comp-item"><span class="comp-icon">📊</span> Bar Chart</div>
+            <div class="comp-item"><span class="comp-icon">📊</span> Pie / Donut</div>
+            <div class="comp-item"><span class="comp-icon">📊</span> Area Chart</div>
+            <div class="comp-item"><span class="comp-icon">📋</span> Data Table</div>
+            <div class="comp-item"><span class="comp-icon">🃏</span> Stat Card</div>
+            <div class="comp-item"><span class="comp-icon">🃏</span> KPI Widget</div>
+            <div class="comp-item"><span class="comp-icon">📁</span> Sidebar Nav</div>
+            <div class="comp-item"><span class="comp-icon">🔝</span> Top Bar</div>
+            <div class="comp-item"><span class="comp-icon">📄</span> Page Header</div>
+            <div class="comp-item"><span class="comp-icon">🔍</span> Search Bar</div>
+            <div class="comp-item"><span class="comp-icon">🔔</span> Notification</div>
+            <div class="comp-item"><span class="comp-icon">📝</span> Form Input</div>
+            <div class="comp-item"><span class="comp-icon">☑️</span> Select Menu</div>
+            <div class="comp-item"><span class="comp-icon">📅</span> Date Picker</div>
+            <div class="comp-item"><span class="comp-icon">💬</span> Modal</div>
+            <div class="comp-item"><span class="comp-icon">🔄</span> Progress Bar</div>
+            <div class="comp-item"><span class="comp-icon">🏷️</span> Badge / Tag</div>
+            <div class="comp-item"><span class="comp-icon">📑</span> Tabs</div>
+            <div class="comp-item"><span class="comp-icon">🍞</span> Breadcrumb</div>
+            <div class="comp-item"><span class="comp-icon">📄</span> Pagination</div>
+            <div class="comp-item"><span class="comp-icon">👤</span> Avatar</div>
+            <div class="comp-item"><span class="comp-icon">🎚️</span> Toggle</div>
+            <div class="comp-item"><span class="comp-icon">⬇️</span> Dropdown</div>
+            <div class="comp-item"><span class="comp-icon">📊</span> Sparkline</div>
+            <div class="comp-item"><span class="comp-icon">🗓️</span> Calendar</div>
+            <div class="comp-item"><span class="comp-icon">⏳</span> Skeleton</div>
+            <div class="comp-item"><span class="comp-icon">🚫</span> Empty State</div>
+          </div>
+        </div>
+
+        <!-- Tech Specs -->
+        <div class="section-card">
+          <h2>Technical Specs</h2>
+          <ul class="spec-list">
+            <li><span class="spec-label">File Size</span><span class="spec-value">48 KB (minified)</span></li>
+            <li><span class="spec-label">CSS Variables</span><span class="spec-value">42 tokens</span></li>
+            <li><span class="spec-label">Components</span><span class="spec-value" id="specComponents">28</span></li>
+            <li><span class="spec-label">Pages</span><span class="spec-value" id="specPages">6</span></li>
+            <li><span class="spec-label">Dark Mode</span><span class="spec-value">✓ Included</span></li>
+            <li><span class="spec-label">Responsive</span><span class="spec-value">✓ 3 breakpoints</span></li>
+            <li><span class="spec-label">Accessibility</span><span class="spec-value">WCAG AA</span></li>
+            <li><span class="spec-label">Dependencies</span><span class="spec-value">None (vanilla)</span></li>
+            <li><span class="spec-label">Browser Support</span><span class="spec-value">Chrome, Firefox, Safari, Edge</span></li>
+            <li><span class="spec-label">Last Updated</span><span class="spec-value" id="specUpdated">April 2026</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="detail-sidebar">
+        <div class="sidebar-card">
+          <h3>Get This Theme</h3>
+          <div class="price-display">
+            <span class="price-val">$19</span>
+            <span class="price-period">/ month with Pro</span>
+          </div>
+          <div class="price-note">Includes all themes + monthly updates</div>
+          <a href="../auth/signup.html" class="btn-full" style="text-decoration:none">Start Pro — Free Trial</a>
+          <a href="../public/pricing.html" class="btn-outline" style="text-decoration:none">View Pricing Plans</a>
+        </div>
+
+        <div class="sidebar-card">
+          <h3>Related Themes</h3>
+          <a href="detail.html?theme=devops-monitor" class="related-card" style="text-decoration:none;color:inherit">
+            <div class="related-thumb">📊</div>
+            <div class="related-info"><div class="ri-name">DevOps Monitor</div><div class="ri-cat">Analytics • 18 components</div></div>
+          </a>
+          <a href="detail.html?theme=marketing-hub" class="related-card" style="text-decoration:none;color:inherit">
+            <div class="related-thumb">📈</div>
+            <div class="related-info"><div class="ri-name">Marketing Hub</div><div class="ri-cat">Analytics • 26 components</div></div>
+          </a>
+          <a href="detail.html?theme=findash" class="related-card" style="text-decoration:none;color:inherit">
+            <div class="related-thumb">💰</div>
+            <div class="related-info"><div class="ri-name">FinDash</div><div class="ri-cat">Finance • 24 components</div></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+var devices={desktop:{w:1280,h:720},tablet:{w:768,h:600},mobile:{w:375,h:667}};
+var currentDevice='desktop';
+
+function setDevice(d,btn){
+  currentDevice=d;
+  document.querySelectorAll('.device-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  var s=devices[d];
+  var container=document.querySelector('.preview-area').offsetWidth-64;
+  var scale=Math.min(1,container/s.w);
+  var mock=document.getElementById('mockDash');
+  mock.style.width=s.w+'px';
+  mock.style.transform='scale('+scale+')';
+  document.getElementById('previewFrame').style.height=Math.round(s.h*scale)+'px';
+  document.getElementById('sizeLabel').textContent=s.w+' × '+s.h;
+  // Hide sidebar on mobile/tablet
+  var sb=document.querySelector('.md-sidebar');
+  if(sb) sb.style.display=d==='mobile'?'none':'block';
+  var layout=document.querySelector('.md-layout');
+  if(layout) layout.style.gridTemplateColumns=d==='mobile'?'1fr':'220px 1fr';
+}
+
+var isDark=true;
+function toggleTheme(){
+  isDark=!isDark;
+  var btn=document.getElementById('themeToggle');
+  btn.textContent=isDark?'🌗 Dark':'☀️ Light';
+  btn.classList.toggle('light',!isDark);
+  var mock=document.getElementById('mockDash');
+  if(isDark){
+    mock.style.background='var(--bg-base)';mock.style.color='var(--text-primary)';
+  }else{
+    mock.style.background='#FAFAFA';mock.style.color='#18181B';
+  }
+}
+
+// Init scale
+window.addEventListener('load',function(){
+  var s=devices[currentDevice];
+  var container=document.querySelector('.preview-area').offsetWidth-64;
+  var scale=Math.min(1,container/s.w);
+  document.getElementById('mockDash').style.transform='scale('+scale+')';
+  document.getElementById('previewFrame').style.height=Math.round(s.h*scale)+'px';
+});
+</script>
+<script>
+var burger=document.querySelector('.nav-burger'),mobileMenu=document.getElementById('mobileMenu');
+if(burger&&mobileMenu){burger.addEventListener('click',function(){burger.classList.toggle('active');mobileMenu.classList.toggle('open');document.body.style.overflow=mobileMenu.classList.contains('open')?'hidden':'';});
+document.querySelectorAll('.mobile-link').forEach(function(l){l.addEventListener('click',function(){burger.classList.remove('active');mobileMenu.classList.remove('open');document.body.style.overflow='';});});}
+(function(){var s=localStorage.getItem('mergeui_session');if(!s)return;
+var r=document.querySelector('.nav-right');if(r)r.innerHTML='<a href="../subscriber/dashboard.html" class="nav-cta">My Dashboard</a>';
+var mob=document.getElementById('mobileMenu');if(mob){var si=mob.querySelector('a[href*="login"]');if(si){si.textContent='My Dashboard';si.href='../subscriber/dashboard.html';}var gs=mob.querySelector('a[href*="signup"]');if(gs)gs.remove();}
+})();
+</script>
+  <style>footer{padding:40px 32px;border-top:1px solid var(--border)}.footer-inner{max-width:1600px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.footer-copy{font-size:12px;color:var(--text-muted)}.footer-links{display:flex;gap:24px;list-style:none}.footer-links a{font-size:12px;color:var(--text-muted);transition:color 0.15s}.footer-links a:hover{color:var(--text-primary)}@media(max-width:768px){.footer-inner{flex-direction:column;gap:16px;text-align:center}}</style>
+<script>
+(function(){
+  var themeData = {
+    'analytics-pro': {
+      name: 'Analytics Pro',
+      desc: 'Data-heavy dashboard with real-time charts, KPIs, and advanced filtering. Perfect for SaaS products, internal tools, and analytics platforms.',
+      category: 'Analytics',
+      tags: ['Analytics','Charts','Real-time'],
+      badge: 'pro',
+      components: 28,
+      pages: 6,
+      version: '1.2.0',
+      updated: '2026-04-01',
+      features: ['Real-time data charts','KPI stat cards','Advanced filter panel','Data export','Responsive tables','Dark/Light mode']
+    },
+    'storefront': {
+      name: 'StoreFront',
+      desc: 'E-commerce dashboard with order management, inventory tracking, and customer insights.',
+      category: 'E-Commerce',
+      tags: ['E-Commerce','Orders','Inventory'],
+      badge: 'pro',
+      components: 32,
+      pages: 8,
+      version: '1.0.0',
+      updated: '2026-03-20',
+      features: ['Order management','Inventory tracking','Customer analytics','Revenue charts','Product catalog','Shipping status']
+    },
+    'findash': {
+      name: 'FinDash',
+      desc: 'Financial reports, transaction logs, portfolio analytics, and risk metrics.',
+      category: 'Finance',
+      tags: ['Finance','Reports','Portfolio'],
+      badge: 'pro',
+      components: 24,
+      pages: 5,
+      version: '1.1.0',
+      updated: '2026-03-15',
+      features: ['Portfolio overview','Transaction logs','Risk metrics','P&L reports','Budget tracking','Currency conversion']
+    },
+    'relatehub': {
+      name: 'RelateHub',
+      desc: 'Contact management, sales pipeline, team collaboration, and deal tracking.',
+      category: 'CRM',
+      tags: ['CRM','Pipeline','Contacts'],
+      badge: 'free',
+      components: 22,
+      pages: 5,
+      version: '1.0.0',
+      updated: '2026-03-28',
+      features: ['Contact management','Sales pipeline','Deal tracking','Team chat','Activity timeline','Email integration']
+    },
+    'taskflow': {
+      name: 'TaskFlow',
+      desc: 'Kanban boards, timeline views, workload tracking, and sprint planning.',
+      category: 'Project',
+      tags: ['Project','Kanban','Agile'],
+      badge: 'pro',
+      components: 20,
+      pages: 4,
+      version: '1.0.0',
+      updated: '2026-04-05',
+      features: ['Kanban board','Timeline/Gantt','Sprint planning','Workload view','Team capacity','Burndown chart']
+    },
+    'saas-kit': {
+      name: 'SaaS Kit',
+      desc: 'All-in-one admin panel with user management, billing, and settings.',
+      category: 'SaaS',
+      tags: ['SaaS','Admin','Users'],
+      badge: 'pro',
+      components: 35,
+      pages: 10,
+      version: '2.0.0',
+      updated: '2026-04-10',
+      features: ['User management','Billing dashboard','Role permissions','API keys','Settings panel','Audit logs']
+    },
+    'devops-monitor': {
+      name: 'DevOps Monitor',
+      desc: 'Server monitoring, deployment logs, uptime tracking, and alert management.',
+      category: 'Analytics',
+      tags: ['DevOps','Monitoring','Alerts'],
+      badge: 'new',
+      components: 18,
+      pages: 4,
+      version: '1.0.0',
+      updated: '2026-04-08',
+      features: ['Server status','Deployment logs','Uptime monitor','Alert rules','Resource usage','Incident timeline']
+    },
+    'marketing-hub': {
+      name: 'Marketing Hub',
+      desc: 'Campaign analytics, SEO tracking, social media metrics, and A/B test results.',
+      category: 'Analytics',
+      tags: ['Marketing','SEO','Campaigns'],
+      badge: 'pro',
+      components: 26,
+      pages: 6,
+      version: '1.0.0',
+      updated: '2026-03-25',
+      features: ['Campaign overview','SEO rankings','Social metrics','A/B test results','Email analytics','Conversion funnels']
+    },
+    'inventory-mgr': {
+      name: 'Inventory Manager',
+      desc: 'Stock tracking, supplier management, purchase orders, and warehouse views.',
+      category: 'E-Commerce',
+      tags: ['Inventory','Warehouse','Suppliers'],
+      badge: 'free',
+      components: 19,
+      pages: 5,
+      version: '1.0.0',
+      updated: '2026-03-18',
+      features: ['Stock levels','Supplier directory','Purchase orders','Warehouse map','Low stock alerts','Barcode scanner']
+    },
+    'crypto-dash': {
+      name: 'Crypto Dashboard',
+      desc: 'Portfolio tracker, real-time prices, trading charts, and wallet overview.',
+      category: 'Finance',
+      tags: ['Crypto','Trading','Portfolio'],
+      badge: 'new',
+      components: 16,
+      pages: 3,
+      version: '1.0.0',
+      updated: '2026-04-02',
+      features: ['Portfolio tracker','Live prices','Trading charts','Wallet overview','Transaction history','Price alerts']
+    },
+    'helpdesk': {
+      name: 'HelpDesk',
+      desc: 'Ticket management, customer chat, knowledge base, and SLA tracking.',
+      category: 'CRM',
+      tags: ['Support','Tickets','Chat'],
+      badge: 'pro',
+      components: 21,
+      pages: 5,
+      version: '1.0.0',
+      updated: '2026-03-22',
+      features: ['Ticket management','Live chat','Knowledge base','SLA tracking','Customer profiles','Canned responses']
+    },
+    'agile-board': {
+      name: 'Agile Board',
+      desc: 'Scrum boards, burndown charts, velocity tracking, and retrospective tools.',
+      category: 'Project',
+      tags: ['Agile','Scrum','Sprints'],
+      badge: 'free',
+      components: 15,
+      pages: 3,
+      version: '1.0.0',
+      updated: '2026-04-06',
+      features: ['Scrum board','Burndown chart','Velocity tracking','Sprint review','Retrospective','Backlog management']
+    }
+  };
+
+  var slug = new URLSearchParams(window.location.search).get('theme') || 'analytics-pro';
+  var theme = themeData[slug] || themeData['analytics-pro'];
+
+  // Title
+  document.title = theme.name + ' \u2014 MergeUi Theme';
+
+  // Meta tags
+  var metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', theme.name + ' dashboard template. ' + theme.desc + ' Dark mode, responsive, production-ready.');
+  var ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', theme.name + ' \u2014 MergeUi Dashboard Theme');
+  var ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', theme.desc);
+
+  // Breadcrumb
+  var bc = document.getElementById('breadcrumbName');
+  if (bc) bc.textContent = theme.name;
+
+  // Hero
+  var h1 = document.getElementById('themeName');
+  if (h1) h1.textContent = theme.name;
+  var desc = document.getElementById('themeDesc');
+  if (desc) desc.textContent = theme.desc;
+
+  // Tags
+  var tagsEl = document.getElementById('themeTags');
+  if (tagsEl) {
+    var html = '';
+    for (var i = 0; i < theme.tags.length; i++) {
+      html += '<span class="dtag">' + theme.tags[i] + '</span>';
+    }
+    var badgeClass = theme.badge === 'pro' ? ' pro' : '';
+    var badgeLabel = theme.badge.charAt(0).toUpperCase() + theme.badge.slice(1);
+    html += '<span class="dtag' + badgeClass + '">' + badgeLabel + '</span>';
+    tagsEl.innerHTML = html;
+  }
+
+  // Mock sidebar logo
+  var logo = document.getElementById('mockSidebarLogo');
+  if (logo) logo.textContent = '\u25C6 ' + theme.name;
+
+  // Components title
+  var ct = document.getElementById('componentsTitle');
+  if (ct) ct.textContent = 'Included Components (' + theme.components + ')';
+
+  // Features list
+  var fl = document.getElementById('featuresList');
+  if (fl && theme.features) {
+    var icons = ['\uD83D\uDCCA','\uD83D\uDCCB','\u2699\uFE0F','\uD83D\uDD0D','\uD83D\uDCF1','\uD83C\uDF19'];
+    var fhtml = '';
+    for (var j = 0; j < theme.features.length; j++) {
+      fhtml += '<div class="comp-item"><span class="comp-icon">' + icons[j % icons.length] + '</span> ' + theme.features[j] + '</div>';
+    }
+    fl.innerHTML = fhtml;
+  }
+
+  // Download button - add theme query param
+  var dlBtn = document.getElementById('heroDownloadBtn');
+  if (dlBtn) dlBtn.href = 'download.html?theme=' + slug;
+
+  // Spec values
+  var sc = document.getElementById('specComponents');
+  if (sc) sc.textContent = String(theme.components);
+  var sp = document.getElementById('specPages');
+  if (sp) sp.textContent = String(theme.pages);
+  var su = document.getElementById('specUpdated');
+  if (su) {
+    var d = new Date(theme.updated);
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    su.textContent = months[d.getMonth()] + ' ' + d.getFullYear();
+  }
+})();
+</script>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+<script>
+function toggleFav(el){
+  var isFav = el.textContent.trim() === '\u2665';
+  el.textContent = isFav ? '\u2661' : '\u2665';
+  el.style.color = isFav ? '' : '#EF4444';
+  el.style.borderColor = isFav ? '' : '#EF4444';
+}
+</script>
+<script src="../../src/js/auth.js"></script>
+</body>
+</html>

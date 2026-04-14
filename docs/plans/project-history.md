@@ -1,0 +1,199 @@
+# MergeUi 프로젝트 히스토리
+
+> 초기 구상부터 현재까지의 전체 진행 기록
+> 최종 업데이트: 2026-04-15
+
+---
+
+## Day 1 — 2026-04-11 (금) : 프로젝트 탄생
+
+### 에이전트 팀 구성
+- **agent-teams-guide.md 작성** — Claude Code 에이전트 팀 운영 레퍼런스 문서 생성
+- **6명 AI 에이전트 정의** (.claude/agents/ 폴더):
+  - A(PM): 시니어 PM — 사업 설계자 + 캡틴 멘토
+  - B(디자인): 디자인 디렉터 — 시각 체계 수호자
+  - C(프론트): 프론트엔드 엔지니어 — 화면의 모든 것
+  - D(백엔드): 백엔드 엔지니어 — 보이지 않는 엔진
+  - E(QA): QA 스페셜리스트 — 품질 문지기
+  - F(그로스): 그로스 마케터 — 성장 엔진
+
+### 업무 지시서 (CLAUDE.md) 초안
+- 핵심 규칙 10개 정의
+- 팀 구성, 역할, 지침 상세화
+- 기능별 담당 에이전트 매핑
+- 파일 소유권 규칙, 품질 게이트 정의
+- 실행 로드맵 (Phase 1~5) 수립
+
+---
+
+## Day 2 — 2026-04-12 (토) : 기획 + 첫 페이지 제작 시작
+
+### 경쟁사 분석
+- **competitive-analysis.md 작성** (A+F 협업)
+  - Tailwind UI, shadcn/ui, Tremor, daisyUI, CoreUI 5개 경쟁사 분석
+  - MergeUi 포지셔닝: "의존성 제로, 순수 HTML/CSS, 구독 모델"
+
+### 캡틴 의사결정
+- 랜딩 유지 + Nav 통일 (B안 채택)
+- Coming Soon 셸 방식 (A안 채택)
+- 로그인/회원가입 왼쪽 비주얼+오른쪽 폼 통일
+- 1600px 와이드 레이아웃
+- 수익화 최우선 방침 확정
+
+### 첫 페이지 제작 (C 주도)
+- 랜딩페이지 완성
+- 테마 갤러리 + 테마 상세
+- 가격표 페이지
+- 404 에러 페이지
+- 컴포넌트 라이브러리 (18개 컴포넌트)
+- 설치 가이드(docs) (8섹션)
+- 로그인/회원가입/비밀번호찾기
+- 구독자 대시보드
+- Nav 통일, 모바일 햄버거 메뉴 전 페이지 적용
+- localStorage 기반 인증 MVP
+
+### IA 사이트맵 확정
+- 39개 페이지 목록 최종 확정 (캡틴 승인)
+- 9개 페이지 추가: checkout/*, preview, download, verify-email, contact, 500, maintenance, docs/:section
+- 3건 통합: library (테마+컴포넌트+찜), billing (라이선스 포함)
+- blog → Phase 5로 이동
+
+### production-roadmap.md 작성
+- Phase 0~7 전체 로드맵
+- 법적 준비, 인프라 결정, 비용 요약
+- Lemonsqueezy 연동 절차 상세
+- Supabase 인증/DB 설계
+- 런칭 체크리스트
+
+---
+
+## Day 3 — 2026-04-13 (일) : 페이지 대량 생산
+
+### Coming Soon 셸 + 추가 페이지 제작
+- 미션 컨트롤 페이지 완성
+- 공개 페이지 마무리: 500, maintenance, contact, changelog, preview, download, components-detail
+- 법적 페이지: terms, privacy
+- 인증 마무리: reset-password (Coming Soon 셸)
+- 구독자 페이지 Coming Soon 셸 다수 생성
+
+---
+
+## Day 4 — 2026-04-14 (월) : 전체 완성 + 품질 검증 시작
+
+### 현황 점검
+- 캡틴 요청으로 전체 파일 전수 조사 실시
+- **발견**: ia-sitemap.md가 오래된 상태 — 실제로는 대부분 페이지가 이미 완성됨
+- 문서와 실제 파일 상태 불일치 확인
+
+### 관리자 페이지 7개 신규 구현
+- admin/themes — 테마 CRUD 테이블
+- admin/components — 컴포넌트 관리
+- admin/releases — 릴리즈 노트 카드형
+- admin/inquiries — 문의 관리
+- admin/analytics — 퍼널 분석 + 세션 리플레이
+- admin/orders (신규) — 결제/주문 내역
+- admin/settings (신규) — 사이트 설정 5섹션
+- 기존 admin 2개 사이드바 업데이트 (Orders, Settings 추가)
+
+### 캡틴 결정
+- **blog 완전 제외** (Phase 5에서도 삭제)
+- ia-sitemap.md 전면 갱신
+
+### 문서 업데이트
+- ia-sitemap.md — 39개 전체 완료 반영
+- CLAUDE.md — 파일 구조 + 현황 동기화
+
+### 최종 현황: **39개 페이지 전체 완료**
+
+---
+
+## Day 5 — 2026-04-15 (화) : 합동 검증 + 인프라 개선
+
+### 6명 에이전트 합동 검증 (전체 품질 검수)
+캡틴 지시: "에이전트들끼리 모아서 전체적으로 디자인 검수, 퍼블, 백엔드, 기획, 마케팅, QA 전체 확인"
+
+**6명 병렬 투입:**
+| 에이전트 | 검수 영역 | 발견 사항 |
+|---------|----------|----------|
+| B(디자인) | 디자인 토큰, 타이포, 간격, 반응형, 라이트모드 | Critical 3 / Major 4 / Minor 3 |
+| C(프론트) | 링크, HTML, CSS, JS, 접근성, 인증 | Critical 3 / Major 6 / Minor 4 |
+| D(백엔드) | API 포인트, 인증, 결제, 보안, DB 스키마 | Critical 4 / Major 3 |
+| A(PM) | 사용자 여정, 전환 퍼널, MD 파일 | Critical 3 / Major 4 / Minor 2 |
+| F(그로스) | SEO, 전환 최적화, 리텐션, 카피 | Critical 3 / Major 6 / Minor 3 |
+| E(QA) | 전체 15점 + 보안 5점 체크리스트 | Critical 4 / Major 7 / Minor 6 |
+
+### 캡틴 피드백: "너네는 팀이야!"
+- 에이전트 간 크로스 체크 + 합동 검증 원칙 수립
+- **CLAUDE.md에 "팀 합동 검증 원칙" 섹션 추가**
+- 메모리에 저장: 작업 마무리 시 합동 검증 시간 필수
+
+### 합동 검증 통합 리포트
+- Critical 6건 (보안 관련 → 백엔드 연동 시 해결 결정)
+- Major 12건 (CSS 분리로 일부 해결)
+- 에이전트 간 의견 갈림 3건 식별
+
+### 캡틴 기술 결정
+- **Tailwind 전환 불필요** — 순수 CSS 변수 체계가 MergeUi 차별점
+- **보안 이슈는 백엔드 개발 시 일괄 처리** (이중 작업 방지)
+- **판매 템플릿 1안(MVP)**: HTML/CSS 원본 + 프레임워크별 가이드
+
+### 인프라 개선 작업
+1. **CSS 외부 분리** — 4개 공통 CSS 파일 생성:
+   - `src/styles/tokens.css` — 디자인 토큰 + 라이트/다크 모드 + 하위호환 별칭
+   - `src/styles/reset.css` — 리셋 + 기본 스타일
+   - `src/styles/nav.css` — 공개 페이지 Nav + 모바일 메뉴 + 푸터
+   - `src/styles/sidebar.css` — subscriber/admin 사이드바 + 모바일 하단 네비
+
+2. **공통 JS 모듈** — 2개 파일 생성:
+   - `src/js/auth.js` — 인증 체크(try-catch) + Nav 상태 + 테마 토글
+   - `src/js/analytics.js` — GA4 초기화 + 12종 커스텀 이벤트 헬퍼 + data-track 자동 트래킹
+
+3. **일괄 적용 스크립트** (`scripts/apply-common-css.sh`):
+   - 38개 파일에 CSS 링크 삽입 (tokens: 37, nav: 17, sidebar: 14)
+   - 31개 파일에 auth.js 삽입
+   - 28개 파일에 analytics.js 삽입
+
+4. **SEO 메타/OG 태그** — 12개 누락 페이지에 추가:
+   - description + og:title/description/type/url/image + twitter:card + canonical
+
+5. **레거시 파일 정리** — 4개 파일 리다이렉트 처리:
+   - subscriber/themes → library.html
+   - subscriber/components → library.html
+   - subscriber/favorites → library.html
+   - subscriber/license → billing.html
+
+6. **production-roadmap.md 전면 갱신** — 현재 상태 정확 반영
+
+---
+
+## 현재 상태 요약 (2026-04-15)
+
+| 항목 | 상태 |
+|------|------|
+| 프론트엔드 페이지 | **39개 전체 완료** |
+| CSS 외부 분리 | **완료** (tokens/reset/nav/sidebar) |
+| 디자인 토큰 | **완료** (--merge-* + 라이트모드 + 하위호환) |
+| GA4 트래킹 | **완료** (28개 페이지) |
+| SEO 메타태그 | **완료** (전체 공개 페이지) |
+| 공통 auth.js | **완료** (31개 페이지) |
+| 레거시 정리 | **완료** (4개 리다이렉트) |
+| 문서 최신화 | **완료** (ia-sitemap, roadmap, CLAUDE.md) |
+| 백엔드 | **미구축** (다음 단계) |
+
+### 남은 작업
+1. Pro 전환 유도 UI (locked → pricing)
+2. 인라인 CSS 중복 제거 (2단계 — 공통 CSS가 이미 적용되어 기능에는 문제없음)
+3. **백엔드 구축** (인증 + 결제 + API)
+4. 프론트-백엔드 연동
+
+---
+
+## 파일 생성 타임라인
+
+```
+2026-04-11  에이전트 팀 정의 (.claude/agents/), agent-teams-guide.md
+2026-04-12  CLAUDE.md 초안, competitive-analysis.md, 첫 HTML 페이지들
+2026-04-13  대량 페이지 생성, _mission-control.html
+2026-04-14  관리자 7개 신규, ia-sitemap.md 전면 갱신
+2026-04-15  CSS 분리(src/styles/), JS 모듈(src/js/), SEO 태그, GA4, 레거시 정리
+```

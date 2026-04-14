@@ -1,0 +1,364 @@
+1<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MergeUi — Mission Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07070B;--bg2:#0D0D14;--bg3:#14141E;--bg4:#1C1C28;
+    --border:rgba(255,255,255,0.05);--border2:rgba(255,255,255,0.08);--border3:rgba(255,255,255,0.12);
+    --text:#F4F4F5;--text2:#A1A1AA;--text3:#63637A;
+    --brand:#6366F1;--brand-l:#818CF8;--brand-g:rgba(99,102,241,0.12);
+    --accent:#22D3EE;--green:#22C55E;--yellow:#FBBF24;--red:#EF4444;--purple:#A78BFA;--pink:#EC4899;
+    --font:'Inter',sans-serif;--pixel:'Press Start 2P',monospace;
+    --snb-w:240px;--right-w:300px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex}
+  a{color:inherit;text-decoration:none}
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border3);border-radius:10px}
+  select{font-family:var(--font);background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;outline:none}
+  select:focus{border-color:var(--brand)}
+
+  /* ===== SNB ===== */
+  .snb{width:var(--snb-w);height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+  .snb-logo{padding:18px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.12s}
+  .snb-logo:hover{background:var(--bg3)}
+  .snb-logo .mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--accent));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:white}
+  .snb-logo .wordmark{font-size:15px;font-weight:900;letter-spacing:-0.5px}
+  .snb-logo .tag{font-size:8px;font-weight:700;color:var(--brand-l);background:var(--brand-g);padding:2px 6px;border-radius:4px;margin-left:auto}
+  .snb-stats{padding:10px 14px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:5px}
+  .snb-stat{padding:7px 8px;background:var(--bg3);border-radius:7px;border:1px solid var(--border)}
+  .snb-stat .val{font-size:15px;font-weight:800}.snb-stat .val.green{color:var(--green)}.snb-stat .val.yellow{color:var(--yellow)}.snb-stat .val.brand{color:var(--brand-l)}
+  .snb-stat .lbl{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:1px}
+  .snb-progress{padding:8px 14px;border-bottom:1px solid var(--border)}
+  .progress-label{display:flex;justify-content:space-between;font-size:9px;color:var(--text3);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px}
+  .progress-bar{height:4px;background:var(--bg4);border-radius:10px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));border-radius:10px;transition:width 0.6s}
+  .snb-nav{flex:1;overflow-y:auto;padding:6px 6px}
+  .snb-section{margin-bottom:2px}
+  .snb-section-title{padding:5px 8px;font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border-radius:5px;transition:background 0.1s}
+  .snb-section-title:hover{background:var(--bg3)}
+  .snb-section-title .cnt{padding:1px 5px;background:var(--bg4);border-radius:999px;font-size:8px}
+  .snb-section-title .arrow{font-size:8px;transition:transform 0.2s}
+  .snb-section.collapsed .arrow{transform:rotate(-90deg)}.snb-section.collapsed .snb-items{display:none}
+  .snb-item{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:5px;cursor:pointer;transition:all 0.1s;margin-bottom:1px;font-size:11px;color:var(--text2)}
+  .snb-item:hover{background:var(--bg3)}.snb-item.active{background:var(--brand-g);color:var(--brand-l)}
+  .snb-item .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+  .snb-item .dot.done{background:var(--green)}.snb-item .dot.wip{background:var(--yellow);animation:blink 1.5s infinite}.snb-item .dot.wait{background:var(--text3);opacity:0.2}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+  .snb-item .iname{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+  .snb-item .iqaf{font-size:8px;flex-shrink:0}
+
+  /* ===== MAIN ===== */
+  .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+  .main-scroll{flex:1;overflow-y:auto;padding:20px 24px}
+  .overview-title{font-size:20px;font-weight:900;letter-spacing:-0.5px;margin-bottom:4px}
+  .overview-sub{font-size:12px;color:var(--text2);margin-bottom:20px}
+  .ov-section-label{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;margin-top:20px}
+  .ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+  .ov-card{padding:12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.15s}
+  .ov-card:hover{border-color:var(--border3);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.2)}
+  .ov-card.done{border-left:3px solid var(--green)}.ov-card.wip{border-left:3px solid var(--yellow)}
+  .ov-card .oc-name{font-size:12px;font-weight:700;margin-bottom:2px}
+  .ov-card .oc-path{font-size:9px;color:var(--text3);font-family:monospace}
+  .ov-card .oc-status{display:inline-block;font-size:8px;font-weight:700;padding:2px 6px;border-radius:999px;margin-top:5px;text-transform:uppercase}
+  .ov-card .oc-status.done{background:rgba(34,197,94,0.12);color:var(--green)}
+  .ov-card .oc-status.wip{background:rgba(251,191,36,0.12);color:var(--yellow)}
+  .ov-card .oc-status.wait{background:var(--bg4);color:var(--text3)}
+
+  .d-title{font-size:20px;font-weight:900;letter-spacing:-0.5px}
+  .d-desc{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5}
+  .d-meta{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;align-items:center}
+  .d-url{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:var(--bg3);border:1px solid var(--border2);border-radius:5px;font-size:10px;font-family:monospace;color:var(--text3)}
+  .d-url-go{padding:3px 10px;background:var(--brand);color:white;border:none;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;transition:background 0.15s}
+  .d-url-go:hover{background:var(--brand-l)}.d-url-go:disabled{opacity:0.15;cursor:default}
+  .d-agents{display:flex;gap:3px;flex-wrap:wrap;margin-top:6px}
+  .d-agent-chip{display:flex;align-items:center;gap:3px;padding:2px 7px;border-radius:5px;font-size:9px;font-weight:600;border:1px solid var(--border2)}
+  .info-card{padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;margin-top:14px}
+  .info-card-title{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px}
+  .info-card-body{font-size:11px;color:var(--text2);line-height:1.7}
+
+  .preview-section{margin-top:16px}
+  .preview-toolbar{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px 8px 0 0}
+  .preview-toolbar .pt-label{font-size:10px;color:var(--text3);font-weight:600;margin-right:auto}
+  .preview-device{padding:4px 10px;background:var(--bg4);border:1px solid var(--border2);border-radius:5px;font-size:10px;font-weight:600;cursor:pointer;transition:all 0.12s;color:var(--text3)}
+  .preview-device:hover,.preview-device.active{background:var(--brand-g);color:var(--brand-l);border-color:var(--brand)}
+  .preview-size{font-size:9px;color:var(--text3);font-family:monospace;padding:3px 6px;background:var(--bg);border-radius:3px}
+  .preview-frame{border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:#111;overflow:hidden;display:flex;align-items:flex-start;justify-content:center}
+  .preview-frame iframe{border:none;background:white;display:block}
+  .preview-empty{padding:80px 40px;text-align:center;color:var(--text3);font-size:12px;width:100%}
+
+  /* ===== RIGHT PANEL ===== */
+  .right{width:var(--right-w);height:100vh;background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+  .right-header{padding:14px 16px;border-bottom:1px solid var(--border);font-size:12px;font-weight:800;display:flex;align-items:center;gap:6px}
+  .right-header .live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2s infinite}
+  .right-scroll{flex:1;overflow-y:auto}
+
+  /* Agent Grid 3x2 pixel style */
+  .agent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:12px}
+  .ag-cell{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);transition:all 0.12s}
+  .ag-cell:hover{border-color:var(--border3);background:var(--bg4)}
+  .ag-pixel{width:36px;height:36px;image-rendering:pixelated;position:relative}
+  /* Pixel art characters using box-shadow pixel technique */
+  .ag-pixel canvas{width:36px;height:36px;image-rendering:pixelated}
+  .ag-emoji{font-size:24px;line-height:1}
+  .ag-role{font-size:8px;color:var(--text3);text-align:center;font-weight:600;line-height:1.2}
+  .ag-name-tag{font-family:var(--pixel);font-size:6px;color:var(--text3);margin-top:-2px}
+
+  /* Feedback area below agents */
+  .fb-area{padding:8px 12px}
+  .fb-accordion{border:1px solid var(--border);border-radius:8px;margin-bottom:6px;overflow:hidden}
+  .fb-acc-head{display:flex;align-items:center;gap:6px;padding:9px 10px;cursor:pointer;transition:background 0.12s;background:var(--bg3)}
+  .fb-acc-head:hover{background:var(--bg4)}
+  .fb-acc-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+  .fb-acc-info{flex:1;min-width:0}
+  .fb-acc-title{font-size:10px;font-weight:700}
+  .fb-acc-counts{display:flex;gap:4px;margin-top:2px}
+  .fb-count{font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px}
+  .fb-count.pass{background:rgba(34,197,94,0.12);color:var(--green)}
+  .fb-count.warn{background:rgba(251,191,36,0.12);color:var(--yellow)}
+  .fb-count.info{background:rgba(99,102,241,0.12);color:var(--brand-l)}
+  .fb-count.none{background:var(--bg4);color:var(--text3)}
+  .fb-acc-arrow{font-size:9px;color:var(--text3);transition:transform 0.2s;flex-shrink:0}
+  .fb-accordion.open .fb-acc-arrow{transform:rotate(180deg)}
+  .fb-acc-body{max-height:0;overflow-y:auto;transition:max-height 0.3s cubic-bezier(0.16,1,0.3,1)}
+  .fb-accordion.open .fb-acc-body{max-height:600px}
+  .fb-acc-content{padding:10px}
+  .fb-item{display:flex;align-items:flex-start;gap:5px;padding:3px 0;font-size:9px;color:var(--text2);line-height:1.5}
+  .fb-item-icon{flex-shrink:0;margin-top:1px}
+  .fb-divider{height:1px;background:var(--border);margin:6px 0}
+  .fb-sub-title{font-size:8px;font-weight:700;color:var(--text3);margin-bottom:4px}
+  .fb-none{font-size:10px;color:var(--text3);padding:12px 0;opacity:0.5;text-align:center}
+</style>
+</head>
+<body>
+
+<aside class="snb">
+  <div class="snb-logo" onclick="showOverview()"><div class="mark">O</div><div class="wordmark">MergeUi</div><span class="tag">MC</span></div>
+  <div class="snb-stats">
+    <div class="snb-stat"><div class="val green" id="sDone">1</div><div class="lbl">완료</div></div>
+    <div class="snb-stat"><div class="val yellow" id="sWip">0</div><div class="lbl">작업중</div></div>
+    <div class="snb-stat"><div class="val brand" id="sTotal">28</div><div class="lbl">전체</div></div>
+    <div class="snb-stat"><div class="val" id="sLeft">27</div><div class="lbl">남음</div></div>
+  </div>
+  <div class="snb-progress"><div class="progress-label"><span>진행률</span><span id="pPct">4%</span></div><div class="progress-bar"><div class="progress-fill" id="pFill" style="width:4%"></div></div></div>
+  <nav class="snb-nav" id="snbNav"></nav>
+</aside>
+
+<div class="main"><div class="main-scroll" id="mainScroll"></div></div>
+
+<aside class="right">
+  <div class="right-header"><span class="live-dot"></span> Team & Feedback</div>
+  <div class="right-scroll">
+    <!-- Agent Grid -->
+    <div class="agent-grid" id="agentGrid"></div>
+    <!-- Feedback Accordions -->
+    <div class="fb-area" id="fbArea"><div class="fb-none">페이지를 선택하면 피드백이 표시됩니다</div></div>
+  </div>
+</aside>
+
+<script>
+var agents={
+  A:{name:'A',role:'시니어 PM',emoji:'🏢',color:'#6366F1'},
+  B:{name:'B',role:'디자인 디렉터',emoji:'🎨',color:'#EC4899'},
+  C:{name:'C',role:'프론트엔드',emoji:'💻',color:'#22D3EE'},
+  D:{name:'D',role:'백엔드',emoji:'⚙️',color:'#FBBF24'},
+  E:{name:'E',role:'QA',emoji:'🔍',color:'#EF4444'},
+  F:{name:'F',role:'그로스 마케터',emoji:'📈',color:'#A78BFA'}
+};
+
+var sections=[
+  {id:'public',name:'공개 페이지',icon:'🌐',pages:[
+    {path:'/',name:'랜딩페이지',status:'done',file:'landing/index.html',agents:['A','B','C','F'],desc:'방문자 → 가입/구독 전환의 시작점',
+      planning:'MergeUi의 첫 인상. 다크/프리미엄 톤으로 개발자 신뢰감 형성. 메시 그라디언트 배경 + 라이브 대시보드 프리뷰로 시각적 임팩트. Swiper 테마 슬라이더로 상품 탐색 유도. 가격표와 FAQ로 즉시 전환. Vercel/Linear 수준의 비주얼 목표.',
+      qaFeedback:{status:'pass',
+        passed:['크로스 브라우저 4종(Chrome/Firefox/Safari/Edge) 정상','반응형 3 브레이크포인트(1280/768/375) 정상','다크모드 기본 적용 확인','FAQ ARIA 접근성(aria-expanded, aria-controls) 추가 완료','모바일 햄버거 메뉴 + 풀스크린 오버레이 정상','Swiper 자동 슬라이드 + 드래그 + 페이지네이션 정상','시맨틱 HTML 구조 확인','키보드 네비게이션(Tab/Enter) 정상','버튼 type="button" 전체 적용 완료','no-JS 폴백(.js 클래스 기반) 적용'],
+        warns:['OG 이미지(og-image.png) 실제 파일 미제작 — 런칭 전 필요','Footer 링크 5개 모두 # — 실제 URL 연결 필요','FAQ 스키마(JSON-LD) 미적용 — 구글 리치 스니펫 기회 손실','Lighthouse 접근성 점수 미측정 — 배포 후 측정 필요']},
+      growthFeedback:{
+        done:['SEO 메타 태그(title, description) 최적화 완료','OG 태그(og:title, og:description, og:type, og:url, og:image) 완료','Twitter Card 메타 태그 완료','canonical URL 설정 완료','키워드 타겟: "dashboard template", "admin panel template"','CTA 2중 배치(히어로+하단) — 스크롤 어디서든 전환 가능','Swiper 테마 슬라이더 — 체류 시간 증가 효과 기대','가격표 Pro 플랜 "Most Popular" 하이라이트 — 앵커링 효과'],
+        suggests:['Product Hunt 런칭 시 히어로 카피 A/B 테스트 권장','가격표 하단에 "14일 환불 보장" 배지 추가 시 전환율 5~10% 상승 예상','소셜 프루프 숫자(500+) — 런칭 초기엔 "Early adopters" 표현이 더 진정성','블로그/콘텐츠 마케팅으로 "best dashboard template 2026" 키워드 선점 필요','데모 페이지를 별도 서브도메인(demo.mergeui.com)으로 분리하면 SEO + 전환 이중 효과']}},
+    {path:'/themes',name:'테마 갤러리',status:'done',file:'pages/themes/index.html',agents:['A','B','C','D'],desc:'전체 대시보드 테마를 카테고리/스타일별로 탐색',planning:'카테고리 필터 7종(All/SaaS/Analytics/E-Commerce/Finance/CRM/Project). 검색 + 정렬(Newest/Popular/Name). 그리드/리스트 뷰 토글. 12개 테마 카드에 미니 대시보드 프리뷰, 호버 시 Preview/Details 오버레이, 찜(♡) 버튼. Free/Pro/New 배지로 플랜 구분.',
+      qaFeedback:{status:'pass',passed:['CSS 변수 랜딩과 100% 동일','카테고리 필터 7종 클릭 정상 동작','검색(실시간 필터링) 정상','정렬(Newest/Popular/Name) 정상','그리드↔리스트 뷰 토글 정상','카드 호버 시 translateY(-6px) + 글로우 + 오버레이 버튼','찜 버튼(♡↔♥) 토글 정상','Free/Pro/New 배지 컬러 구분 명확','반응형: 768px 이하 단일 컬럼 + 네비 숨김','시맨틱 nav + section + button type 정상'],warns:['리스트 뷰에서 카드 프리뷰 높이 min-height 필요 — 짧은 콘텐츠 시 눌릴 수 있음','테마 클릭 시 상세 페이지 연결 미구현(상세 페이지 아직 미제작)']},
+      growthFeedback:{done:['SEO title/description 최적화','카테고리 필터로 탐색 편의성 확보','검색+정렬로 대규모 테마 대응 구조','호버 오버레이에 Preview/Details CTA 2중 배치','Free 배지 → 무료 테마 접근성으로 가입 유도','다운로드 수 표시로 소셜 프루프 효과'],suggests:['인기 테마 상단 고정(Pinned) 기능 추가 권장','각 카드에 "Used by X developers" 표시하면 전환율 향상','필터 URL 파라미터 연동(?category=saas) → SEO 개별 색인 가능']}},
+    {path:'/themes/:slug',name:'테마 상세',status:'done',file:'pages/themes/detail.html',agents:['A','B','C','D','F'],desc:'URL 파라미터 기반 12개 테마 동적 표시 + 풀스크린 프리뷰 + 다운로드/구매',planning:'풀스크린 라이브 대시보드 프리뷰 (실제 레이아웃 mock). Desktop/Tablet/Mobile 디바이스 전환 + Dark/Light 토글. 사이드바+탑바+KPI카드+차트+테이블 포함. 컴포넌트 28개 그리드 목록. 기술 스펙 10항목. 우측 사이드바에 가격+CTA+관련 테마 추천.',
+      qaFeedback:{status:'pass',passed:['CSS 변수 랜딩과 100% 동일 토큰','디바이스 전환(Desktop/Tablet/Mobile) 정상 — scale 자동 계산','Dark/Light 토글 정상 동작','사이드바 모바일 시 숨김 + 그리드 전환','브레드크럼 네비게이션 정상','찜 버튼(♡↔♥) 토글 정상','컴포넌트 목록 28개 2열 그리드 — 반응형 시 1열','기술 스펙 10항목 표시 정상','관련 테마 3개 호버 효과 정상','OG 메타 태그(product 타입) 설정'],warns:['Dark/Light 토글이 mock 배경만 변경 — 전체 컴포넌트 색상 반전은 미구현','디바이스 전환 시 sidebar 표시/숨김이 display none으로 처리 — 애니메이션 추가 권장']},
+      growthFeedback:{done:['OG 태그 product 타입 — 소셜 공유 최적화','Download 버튼 최상단 배치 — 즉시 전환','우측 사이드바에 가격+CTA 고정 — 스크롤 중에도 전환 가능','관련 테마 3개 추천 — 이탈 방지 + 탐색 유도','기술 스펙(파일 크기, 의존성 없음) — 개발자 신뢰 시그널'],suggests:['Preview 버튼 클릭 시 풀스크린 모달로 전환하면 체험 품질 향상','컴포넌트 목록에 각 컴포넌트 클릭 시 해당 위치로 스크롤하는 앵커 추가 권장','다운로드 수 표시하면 소셜 프루프 효과']}},
+    {path:'/themes/:slug/preview',name:'테마 라이브 데모',status:'done',file:'pages/themes/preview.html',agents:['C','B'],desc:'풀스크린 라이브 데모 (구매 전환 핵심)',planning:'Nav 없는 풀스크린. 디바이스 전환. 다크/라이트 토글.',qaFeedback:null,growthFeedback:null},
+    {path:'/themes/:slug/download',name:'테마 다운로드',status:'done',file:'pages/themes/download.html',agents:['C','D'],desc:'라이선스 확인 + 패키지 선택',planning:'라이선스 동의 → 패키지 옵션 → 다운로드.',qaFeedback:null,growthFeedback:null},
+    {path:'/components',name:'컴포넌트 라이브러리',status:'done',file:'pages/public/components.html',agents:['A','B','C','D'],desc:'컴포넌트 브라우저 UI 구현, 18개 컴포넌트, 카테고리 필터, 검색',planning:'카테고리별 분류. 실시간 프리뷰 + 코드 뷰어(복사). 다크/라이트 토글.',qaFeedback:null,growthFeedback:null},
+    {path:'/components/:slug',name:'컴포넌트 상세',status:'done',file:'pages/public/components-detail.html',agents:['A','C','B'],desc:'인터랙티브 프리뷰 + 코드',planning:'Props/variants 변경 프리뷰. HTML/CSS 코드 탭(복사). CSS 변수 커스터마이징.',qaFeedback:null,growthFeedback:null},
+    {path:'/pricing',name:'가격표',status:'done',file:'pages/public/pricing.html',agents:['A','F','C'],desc:'Free/Pro/Team 비교 + 결제 전환',planning:'월간/연간 토글(20% 할인). 3단 가격 카드(Free/Pro/Team). 11항목 기능 비교표. 14일 환불 보장 배지. 가격 FAQ 5개(학생 할인 포함). Pro 카드 "Most Popular" 하이라이트.',
+      qaFeedback:{status:'pass',passed:['CSS 변수 랜딩과 100% 동일','월간↔연간 토글 정상 — 가격/노트 실시간 변경','Pro 카드 글로우+배지 시각적 강조','비교표 11행 정상 렌더링 + Pro 열 하이라이트','FAQ 아코디언 aria-expanded 정상','환불 보장 배지 시각적으로 눈에 띔','반응형: 900px 이하 단일 컬럼','button type="button" 전체 적용'],warns:['비교표 모바일에서 가로 스크롤 없이 압축됨 — overflow-x:auto 추가 권장','연간 가격 계산 검증 필요 ($15×12=$180, $39×12=$468 정확)']},
+      growthFeedback:{done:['월간/연간 토글 — 연간 유도로 LTV 증가 전략','Pro "Most Popular" 앵커링 — 심리적 기본 선택','14일 환불 보장 — 구매 리스크 제거','학생/비영리 할인 FAQ — 타겟 확대','기능 비교표 — 명확한 차별점으로 업그레이드 유도'],suggests:['연간 토글 기본값을 Annual로 변경하면 연간 구독률 20-30% 상승','가격 카드 하단에 "Trusted by 500+ developers" 소셜 프루프 추가','Enterprise 문의 CTA를 별도 섹션으로 분리하면 B2B 리드 증가']}},
+    {path:'/changelog',name:'릴리즈 노트',status:'done',file:'pages/public/changelog.html',agents:['A','F','C','D'],desc:'업데이트 내역',planning:'월별 타임라인. 테마/컴포넌트/버그 수정 태그.',qaFeedback:null,growthFeedback:null},
+    {path:'/docs',name:'설치 가이드',status:'done',file:'pages/public/docs.html',agents:['A','C'],desc:'8섹션 문서, 사이드바 네비게이션, 코드 블록 포함',planning:'5분 내 적용 Quick Start.',qaFeedback:null,growthFeedback:null},
+    {path:'/docs/:section',name:'문서 상세',status:'done',file:'pages/public/docs.html',agents:['A','C'],desc:'기존 docs.html 앵커 링크로 대체 (별도 파일 불필요)',planning:'커스터마이징/프레임워크 통합/CSS 변수 레퍼런스.',qaFeedback:null,growthFeedback:null},
+    {path:'/blog',name:'블로그',status:'wait',file:null,agents:['A','F','C'],desc:'SEO 트래픽 콘텐츠. Phase 5에서 오픈 예정',planning:'개발자 대상 SEO 글.',qaFeedback:null,growthFeedback:null},
+    {path:'/contact',name:'문의/지원',status:'done',file:'pages/public/contact.html',agents:['A','F','C','D'],desc:'FAQ + 문의 폼',planning:'자주 묻는 질문 + 이메일 문의 폼.',qaFeedback:null,growthFeedback:null},
+    {path:'/404',name:'404 페이지',status:'done',file:'pages/public/404.html',agents:['B','C'],desc:'브랜드 일관성 있는 에러 페이지, 홈/대시보드 복귀 링크',planning:'브랜드 톤 유지한 404 에러 페이지. 홈/대시보드 복귀 링크.',qaFeedback:null,growthFeedback:null},
+    {path:'/500',name:'서버 에러',status:'done',file:'pages/public/500.html',agents:['C'],desc:'서버 에러 안내 페이지',planning:'브랜드 톤 유지. 홈 복귀 링크.',qaFeedback:null,growthFeedback:null},
+    {path:'/maintenance',name:'점검 안내',status:'done',file:'pages/public/maintenance.html',agents:['C'],desc:'서비스 점검 안내',planning:'예상 복구 시간 표시.',qaFeedback:null,growthFeedback:null},
+    {path:'/terms',name:'이용약관',status:'done',file:'pages/legal/terms.html',agents:['A'],desc:'법적 페이지',planning:'표준 SaaS 이용약관.',qaFeedback:null,growthFeedback:null},
+    {path:'/privacy',name:'개인정보처리방침',status:'done',file:'pages/legal/privacy.html',agents:['A'],desc:'법적 페이지',planning:'GDPR/CCPA 대응.',qaFeedback:null,growthFeedback:null}
+  ]},
+  {id:'auth',name:'인증 페이지',icon:'🔐',pages:[
+    {path:'/login',name:'로그인',status:'done',file:'pages/auth/login.html',agents:['A','B','C','D'],desc:'Google + GitHub + 이메일',planning:'소셜 버튼 2개(Google, GitHub) 상단 배치 → 구분선("or") → 이메일/비밀번호 폼. "비밀번호 찾기" + "회원가입" 링크. 우측에 사용자 후기 + 미니 대시보드 프리뷰로 제품 가치 노출. 다크 프리미엄 톤 유지.',
+      qaFeedback:{status:'pass',passed:['다크 프리미엄 톤 랜딩과 동일 CSS 변수 사용','소셜 로그인 버튼 2종(Google/GitHub) SVG 아이콘 정상','이메일 폼 접근성: label+id 연결, autocomplete 속성','포커스 시 brand 컬러 글로우 효과','반응형: 900px 이하 시 우측 비주얼 숨김, 폼만 풀스크린','시맨틱 form 태그 + button type 올바름','비밀번호 찾기/회원가입 링크 정상'],warns:['실제 OAuth 연동 시 redirect URI 설정 필요','비밀번호 강도 표시 UI 미구현 — 회원가입에서 추가 권장']},
+      growthFeedback:{done:['SEO title/description 최적화 완료','소셜 로그인 최상단 배치 — 가입 마찰 최소화','Remember me 체크박스 — 재방문 편의성','우측 패널에 사용자 후기 + 대시보드 프리뷰 — 로그인 시점에도 제품 가치 노출'],suggests:['GitHub 로그인을 Google보다 위에 배치 권장 — 개발자 타겟이므로 GitHub 우선','로그인 폼 하단에 "No credit card required" 문구 추가 시 가입 전환율 향상 기대']}},
+    {path:'/signup',name:'회원가입',status:'done',file:'pages/auth/signup.html',agents:['A','B','C','D'],desc:'소셜 + 이메일 가입',planning:'GitHub OAuth 원클릭 최우선(개발자 타겟). Google 가입 병행. 이메일 가입: 이름/이메일/비밀번호. 비밀번호 강도 표시(4단계 바). 약관 동의 체크박스. 좌측에 제품 가치 4가지 하이라이트로 가입 동기 부여. "No credit card required" 신뢰 배지.',
+      qaFeedback:{status:'pass',passed:['CSS 변수 랜딩과 100% 동일 토큰 사용','GitHub 버튼 Google보다 우선 배치 (개발자 타겟 반영)','비밀번호 강도 표시 4단계(Weak/Fair/Good/Strong) 실시간 동작','이름 2칸 분리(First/Last) — autocomplete 속성 정상','label-input id 연결 + autocomplete 속성 전체 적용','반응형: 900px 이하 비주얼 숨김 + 소셜 버튼 세로 배치','약관 체크박스 + Terms/Privacy 링크 연결','form onsubmit="return false" — 정적 데모 안전 처리'],warns:['이메일 중복 체크 UI 미구현 — 백엔드 연동 시 추가 필요','이메일 인증 플로우(인증 메일 발송 후 화면) 미구현']},
+      growthFeedback:{done:['GitHub 최우선 배치 — 개발자 가입 마찰 최소화','좌측 패널에 4가지 핵심 가치(디자인시스템/다크모드/반응형/Copy&Paste) — 가입 시점 가치 전달','"No credit card required" 쉴드 아이콘 + 문구 — 신뢰 시그널','비밀번호 강도 바 — 보안 의식 있는 개발자 신뢰 형성'],suggests:['가입 완료 후 "Welcome" 페이지에서 첫 테마 추천하면 즉시 다운로드 전환 기대','소셜 가입 시 "1클릭 가입" 뱃지 표시하면 클릭률 향상','A/B 테스트: 소셜 버튼 가로 배치 vs 세로 배치 비교 권장']}},
+    {path:'/forgot-password',name:'비밀번호 찾기',status:'done',file:'pages/auth/forgot-password.html',agents:['A','C','D'],desc:'재설정 링크 발송',planning:'이메일 입력 → 발송 안내. 왼쪽 비주얼 + 오른쪽 폼 레이아웃. 다크 프리미엄 톤.',qaFeedback:{status:'pass',passed:['CSS 변수 랜딩과 동일 토큰 사용','이메일 폼 label+id 연결, autocomplete 속성 정상','반응형: 900px 이하 비주얼 숨김','시맨틱 form 태그 + button type 올바름','왼쪽 비주얼 + 오른쪽 폼 레이아웃 통일'],warns:['실제 이메일 발송 미구현 — 백엔드 연동 시 추가 필요']},growthFeedback:null},
+    {path:'/reset-password',name:'비밀번호 재설정',status:'wait',file:null,agents:['A','C','D'],desc:'토큰 기반 변경',planning:'새 비밀번호 + 확인. 만료 에러.',qaFeedback:null,growthFeedback:null},
+    {path:'/verify-email',name:'이메일 인증',status:'wait',file:null,agents:['C','D'],desc:'이메일 인증 확인 페이지',planning:'인증 성공/실패/만료 상태.',qaFeedback:null,growthFeedback:null}
+  ]},
+  {id:'checkout',name:'결제 페이지',icon:'💳',pages:[
+    {path:'/checkout/success',name:'결제 완료',status:'wait',file:null,agents:['C','D','F'],desc:'결제 성공 확인 + 다음 단계 안내',planning:'감사 메시지. 다운로드 바로가기. 대시보드 링크.',qaFeedback:null,growthFeedback:null},
+    {path:'/checkout/cancel',name:'결제 취소',status:'wait',file:null,agents:['C','D','F'],desc:'결제 실패/취소 + 재시도 유도',planning:'실패 사유. 재시도 CTA. 지원 링크.',qaFeedback:null,growthFeedback:null}
+  ]},
+  {id:'subscriber',name:'구독자 페이지',icon:'👤',pages:[
+    {path:'/dashboard',name:'구독자 대시보드',status:'done',file:'pages/subscriber/dashboard.html',agents:['A','B','C','D'],desc:'구독자 홈',planning:'고정 사이드바(240px) + 탑바 + 콘텐츠 3단 구조. 플랜 배너(Pro 표시 + 다음 결제일). 4개 스탯 카드(다운로드/테마/컴포넌트/찜). 최근 다운로드 4개 + 재다운로드 버튼. What\'s New 피드(새 테마/업데이트). Quick Access 4버튼.',
+      qaFeedback:{status:'pass',passed:['CSS 변수 랜딩과 100% 동일','사이드바 fixed 포지션 + 스크롤 독립','탑바 검색+알림 UI 정상','플랜 배너 그라디언트 배경 + 정보 표시','스탯 카드 4개 그리드 정상','최근 다운로드 리스트 + 재다운로드 버튼','What\'s New 피드 New/Updated 배지 구분','Quick Access 4개 호버 효과','반응형: 768px 이하 사이드바 숨김','사용자 프로필(sb-footer) 아바타+이름+플랜 표시'],warns:['사이드바 메뉴 클릭 시 실제 페이지 이동 미연결','알림 벨 클릭 시 드롭다운 미구현']},
+      growthFeedback:{done:['플랜 배너에 "Manage Subscription" CTA — 업그레이드/관리 즉시 접근','최근 다운로드에 재다운로드 버튼 — 재방문 가치 제공','What\'s New 피드 — 구독 가치 체감 + 리텐션','Quick Access — 핵심 기능 4개 원클릭 접근'],suggests:['사이드바에 "Upgrade to Team" CTA 추가하면 팀 플랜 전환 유도','What\'s New에 "Try it" 버튼 추가하면 신규 테마 다운로드율 증가','대시보드 진입 시 새 테마 모달 팝업으로 인지율 향상']}},
+    {path:'/dashboard/library',name:'내 라이브러리',status:'wait',file:null,agents:['A','C','D'],desc:'테마+컴포넌트+찜을 탭으로 통합',planning:'탭 3개(테마/컴포넌트/찜). 각 탭에서 목록+다운로드.',qaFeedback:null,growthFeedback:null},
+    {path:'/dashboard/downloads',name:'다운로드 이력',status:'wait',file:null,agents:['A','C','D'],desc:'테마별 다운로드',planning:'Coming Soon 셸. 목록, 버전, 재다운로드.',qaFeedback:null,growthFeedback:null},
+    {path:'/account',name:'계정 설정',status:'wait',file:null,agents:['A','C','D'],desc:'프로필 + 비밀번호',planning:'Coming Soon 셸. 이름/아바타/이메일. 비밀번호. 소셜 연동.',qaFeedback:null,growthFeedback:null},
+    {path:'/account/billing',name:'구독/결제 관리',status:'wait',file:null,agents:['A','C','D'],desc:'플랜 + 결제 (라이선스 포함)',planning:'Coming Soon 셸. 플랜, 결제일, 인보이스, 라이선스 키 확인/복사. Lemonsqueezy 포털.',qaFeedback:null,growthFeedback:null}
+  ]},
+  {id:'admin',name:'관리자 페이지',icon:'🛡️',pages:[
+    {path:'/admin',name:'관리자 대시보드',status:'wait',file:null,agents:['A','B','C','D'],desc:'MRR + 구독자 현황',planning:'KPI 카드. 매출 차트. 알림 피드.',qaFeedback:null,growthFeedback:null},
+    {path:'/admin/users',name:'구독자 관리',status:'wait',file:null,agents:['A','C','D'],desc:'목록 + 상세 + 상태',planning:'검색/필터/정렬. 상세: 프로필, 플랜, 이력.',qaFeedback:null,growthFeedback:null},
+    {path:'/admin/themes',name:'테마 관리',status:'wait',file:null,agents:['A','C','D'],desc:'업로드 + 버전',planning:'CRUD + 버전 + 공개/비공개.',qaFeedback:null,growthFeedback:null},
+    {path:'/admin/components',name:'컴포넌트 관리',status:'wait',file:null,agents:['A','C','D'],desc:'CRUD + 태그',planning:'추가/수정/삭제. 카테고리/태그.',qaFeedback:null,growthFeedback:null},
+    {path:'/admin/orders',name:'결제/주문 내역',status:'wait',file:null,agents:['A','D','C'],desc:'Lemonsqueezy 동기화',planning:'전체 결제 + 환불.',qaFeedback:null,growthFeedback:null},
+    {path:'/admin/analytics',name:'정성 분석',status:'wait',file:null,agents:['A','D','C','F'],desc:'히트맵 + 세션 + 퍼널',planning:'Hotjar 스타일 분석.',qaFeedback:null,growthFeedback:null},
+    {path:'/admin/releases',name:'릴리즈 노트 관리',status:'wait',file:null,agents:['A','C','D','F'],desc:'발행 + 알림',planning:'마크다운 에디터. 이메일 알림.',qaFeedback:null,growthFeedback:null},
+    {path:'/admin/inquiries',name:'문의 관리',status:'wait',file:null,agents:['A','C','D'],desc:'문의 + 답변',planning:'미답변/답변완료 필터. 템플릿.',qaFeedback:null,growthFeedback:null},
+    {path:'/admin/settings',name:'사이트 설정',status:'wait',file:null,agents:['A','C','D'],desc:'일반+결제+이메일+SEO',planning:'사이트명, API 키, SMTP, 메타 태그.',qaFeedback:null,growthFeedback:null}
+  ]}
+];
+
+var allPages=[];sections.forEach(function(s){s.pages.forEach(function(p){p.sectionId=s.id;allPages.push(p)})});
+var selectedPage=null,previewDevice='desktop';
+var deviceSizes={desktop:{w:1920,h:1080},tablet:{w:768,h:1024},mobile:{w:375,h:812}};
+
+// Agent Grid
+function renderAgentGrid(){
+  var html='';
+  Object.keys(agents).forEach(function(k){
+    var a=agents[k];
+    html+='<div class="ag-cell"><div class="ag-emoji">'+a.emoji+'</div><div class="ag-name-tag">'+k+'</div><div class="ag-role">'+a.role+'</div></div>';
+  });
+  document.getElementById('agentGrid').innerHTML=html;
+}
+
+// SNB
+function renderSnb(){
+  var html='',done=0,wip=0;
+  allPages.forEach(function(p){if(p.status==='done')done++;if(p.status==='wip')wip++});
+  sections.forEach(function(s){
+    var sd=s.pages.filter(function(p){return p.status==='done'}).length;
+    html+='<div class="snb-section" id="sec-'+s.id+'"><div class="snb-section-title" onclick="toggleSec(\''+s.id+'\')"><span>'+s.icon+' '+s.name+'</span><span style="display:flex;align-items:center;gap:4px"><span class="cnt">'+sd+'/'+s.pages.length+'</span><span class="arrow">▾</span></span></div><div class="snb-items">';
+    s.pages.forEach(function(p){
+      var idx=allPages.indexOf(p),cls=selectedPage===idx?'snb-item active':'snb-item';
+      var qi=p.qaFeedback?(p.qaFeedback.status==='pass'?'<span class="iqaf" style="color:var(--green)">✓</span>':'<span class="iqaf" style="color:var(--yellow)">!</span>'):'';
+      html+='<div class="'+cls+'" onclick="selectPage('+idx+')"><span class="dot '+p.status+'"></span><span class="iname">'+p.name+'</span>'+qi+'</div>';
+    });
+    html+='</div></div>';
+  });
+  document.getElementById('snbNav').innerHTML=html;
+  document.getElementById('sDone').textContent=done;document.getElementById('sWip').textContent=wip;
+  document.getElementById('sTotal').textContent=allPages.length;document.getElementById('sLeft').textContent=allPages.length-done-wip;
+  var pct=Math.round(done/allPages.length*100);
+  document.getElementById('pPct').textContent=pct+'%';document.getElementById('pFill').style.width=pct+'%';
+}
+function toggleSec(id){document.getElementById('sec-'+id).classList.toggle('collapsed')}
+
+function selectPage(idx){
+  selectedPage=idx;var p=allPages[idx];renderSnb();
+  var statusOpts=['wait','wip','done'].map(function(s){return '<option value="'+s+'"'+(p.status===s?' selected':'')+'>'+({wait:'⬜ 대기',wip:'🔨 작업중',done:'✅ 완료'}[s])+'</option>'}).join('');
+  var agChips=p.agents.map(function(a){return '<div class="d-agent-chip" style="border-color:'+agents[a].color+'25"><span style="font-size:11px">'+agents[a].emoji+'</span><span style="font-size:9px;color:'+agents[a].color+'">'+agents[a].role+'</span></div>'}).join('');
+
+  var ds=deviceSizes[previewDevice];
+  var containerW=document.querySelector('.main').offsetWidth-48;
+  var scale=Math.min(1,containerW/ds.w);
+  var frameH=Math.round(ds.h*scale);
+
+  var html='<div class="d-title">'+p.name+'</div><div class="d-desc">'+p.desc+'</div>';
+  html+='<div class="d-meta"><select onchange="changeStatus('+idx+',this.value)">'+statusOpts+'</select>';
+  html+='<div class="d-url">'+p.path+'</div>';
+  html+='<button class="d-url-go" onclick="window.open(\''+p.file+'\')" '+(p.file?'':'disabled')+'>이동 →</button></div>';
+  html+='<div class="d-agents">'+agChips+'</div>';
+  if(p.planning) html+='<div class="info-card"><div class="info-card-title">📋 기획 상세</div><div class="info-card-body">'+p.planning+'</div></div>';
+
+  html+='<div class="preview-section"><div class="preview-toolbar"><span class="pt-label">미리보기</span>';
+  ['desktop','tablet','mobile'].forEach(function(d){
+    html+='<button class="preview-device'+(previewDevice===d?' active':'')+'" onclick="setDevice(\''+d+'\','+idx+')">'+({desktop:'💻 1920px',tablet:'📱 768px',mobile:'📱 375px'}[d])+'</button>';
+  });
+  html+='<span class="preview-size">'+ds.w+' × '+ds.h+'</span></div>';
+  html+='<div class="preview-frame" style="height:'+frameH+'px">';
+  if(p.file) html+='<iframe src="'+p.file+'" style="width:'+ds.w+'px;height:'+ds.h+'px;transform:scale('+scale+');transform-origin:top left"></iframe>';
+  else html+='<div class="preview-empty">아직 작업 전입니다. 완료되면 여기서 실제 페이지를 미리 확인할 수 있습니다.</div>';
+  html+='</div></div>';
+
+  document.getElementById('mainScroll').innerHTML=html;
+  renderFeedback(p);
+}
+
+function setDevice(d,idx){previewDevice=d;selectPage(idx)}
+function changeStatus(idx,val){allPages[idx].status=val;renderSnb();selectPage(idx)}
+
+function renderFeedback(p){
+  var html='';
+  var qa=p.qaFeedback,gf=p.growthFeedback;
+  var qP=qa?qa.passed.length:0,qW=qa?qa.warns.length:0;
+  var gD=gf?gf.done.length:0,gS=gf?gf.suggests.length:0;
+
+  // QA accordion (closed by default)
+  html+='<div class="fb-accordion" onclick="this.classList.toggle(\'open\')">';
+  html+='<div class="fb-acc-head"><div class="fb-acc-icon" style="background:rgba(239,68,68,0.1)">🔍</div><div class="fb-acc-info"><div class="fb-acc-title">QA 검증</div><div class="fb-acc-counts">';
+  if(qa){html+='<span class="fb-count '+(qa.status==='pass'?'pass':'warn')+'">'+(qa.status==='pass'?'통과':'수정필요')+'</span><span class="fb-count pass">✓'+qP+'</span><span class="fb-count warn">⚠'+qW+'</span>';}
+  else html+='<span class="fb-count none">미검증</span>';
+  html+='</div></div><div class="fb-acc-arrow">▾</div></div>';
+  html+='<div class="fb-acc-body"><div class="fb-acc-content">';
+  if(qa){
+    qa.passed.forEach(function(i){html+='<div class="fb-item"><span class="fb-item-icon" style="color:var(--green)">✓</span>'+i+'</div>'});
+    if(qW){html+='<div class="fb-divider"></div><div class="fb-sub-title">⚠ 보완 필요</div>';qa.warns.forEach(function(i){html+='<div class="fb-item"><span class="fb-item-icon" style="color:var(--yellow)">⚠</span>'+i+'</div>'});}
+  }else html+='<div class="fb-none">아직 검증 전</div>';
+  html+='</div></div></div>';
+
+  // Growth accordion (closed by default)
+  html+='<div class="fb-accordion" onclick="this.classList.toggle(\'open\')">';
+  html+='<div class="fb-acc-head"><div class="fb-acc-icon" style="background:rgba(167,139,250,0.1)">📈</div><div class="fb-acc-info"><div class="fb-acc-title">그로스 피드백</div><div class="fb-acc-counts">';
+  if(gf){html+='<span class="fb-count info">완료 '+gD+'</span><span class="fb-count warn">제안 '+gS+'</span>';}
+  else html+='<span class="fb-count none">미분석</span>';
+  html+='</div></div><div class="fb-acc-arrow">▾</div></div>';
+  html+='<div class="fb-acc-body"><div class="fb-acc-content">';
+  if(gf){
+    gf.done.forEach(function(i){html+='<div class="fb-item"><span class="fb-item-icon" style="color:var(--brand-l)">✓</span>'+i+'</div>'});
+    if(gS){html+='<div class="fb-divider"></div><div class="fb-sub-title">💡 보완 제안</div>';gf.suggests.forEach(function(i){html+='<div class="fb-item"><span class="fb-item-icon" style="color:var(--yellow)">💡</span>'+i+'</div>'});}
+  }else html+='<div class="fb-none">아직 분석 전</div>';
+  html+='</div></div></div>';
+
+  document.getElementById('fbArea').innerHTML=html;
+}
+
+function showOverview(){
+  selectedPage=null;renderSnb();
+  var html='<div class="overview-title">전체 페이지 현황</div><div class="overview-sub">MergeUi 서비스의 모든 페이지 진행 상태</div>';
+  sections.forEach(function(s){
+    html+='<div class="ov-section-label">'+s.icon+' '+s.name+'</div><div class="ov-grid">';
+    s.pages.forEach(function(p){var idx=allPages.indexOf(p);html+='<div class="ov-card '+p.status+'" onclick="selectPage('+idx+')"><div class="oc-name">'+p.name+'</div><div class="oc-path">'+p.path+'</div><span class="oc-status '+p.status+'">'+({done:'완료',wip:'작업중',wait:'대기'}[p.status])+'</span></div>'});
+    html+='</div>';
+  });
+  document.getElementById('mainScroll').innerHTML=html;
+  document.getElementById('fbArea').innerHTML='<div class="fb-none">페이지를 선택하면 피드백이 표시됩니다</div>';
+}
+
+renderAgentGrid();renderSnb();showOverview();
+</script>
+</body>
+</html>

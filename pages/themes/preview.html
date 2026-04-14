@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview — MergeUi</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../src/styles/tokens.css">
+  <link rel="stylesheet" href="../../src/styles/reset.css">
+  <style>
+    :root{--brand:#6366F1;--brand-light:#818CF8;--brand-dark:#4F46E5;--accent:#22D3EE;--accent2:#A78BFA;--bg-base:#06060A;--bg-raised:#0E0E14;--bg-surface:#16161E;--text-primary:#F4F4F5;--text-secondary:#A1A1AA;--text-muted:#71717A;--border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.1);--success:#22C55E;--glow-brand:rgba(99,102,241,0.15);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;overflow:hidden}
+    body{font-family:var(--font);background:var(--bg-base);color:var(--text-primary)}
+    a{color:inherit;text-decoration:none}
+
+    .control-bar{height:48px;background:var(--bg-raised);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0}
+    .cb-left{display:flex;align-items:center;gap:12px}
+    .cb-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;background:none;border:none;font-family:var(--font);transition:color 0.15s}
+    .cb-back:hover{color:var(--text-primary)}
+    .cb-theme-name{font-size:14px;font-weight:800;color:var(--text-primary)}
+    .cb-center{display:flex;gap:4px}
+    .cb-device{padding:6px 16px;font-size:12px;font-weight:700;border-radius:8px;background:none;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;font-family:var(--font);transition:all 0.15s}
+    .cb-device.active{background:var(--brand);color:white;border-color:var(--brand)}
+    .cb-device:hover:not(.active){border-color:var(--border-strong);color:var(--text-secondary)}
+    .cb-right{display:flex;align-items:center;gap:10px}
+    .cb-toggle{padding:6px 14px;font-size:12px;font-weight:700;border-radius:8px;background:var(--bg-surface);border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;font-family:var(--font);transition:all 0.15s}
+    .cb-toggle:hover{border-color:var(--border-strong);color:var(--text-primary)}
+    .cb-cta{padding:6px 20px;background:var(--brand);color:white;font-size:12px;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:var(--font);transition:all 0.15s}
+    .cb-cta:hover{background:var(--brand-light)}
+
+    .preview-viewport{height:calc(100vh - 48px);display:flex;align-items:flex-start;justify-content:center;overflow:auto;background:var(--bg-base);padding:24px}
+
+    .mock-dashboard{transition:width 0.4s,transform 0.4s;transform-origin:top center;background:var(--bg-base);border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+    .md-layout{display:grid;grid-template-columns:220px 1fr;min-height:600px}
+    .md-sidebar{background:rgba(0,0,0,0.3);border-right:1px solid var(--border);padding:20px 14px}
+    .md-sb-logo{font-size:14px;font-weight:800;padding:4px 10px;margin-bottom:24px;color:var(--brand-light)}
+    .md-sb-group{margin-bottom:18px}
+    .md-sb-label{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);padding:0 10px;margin-bottom:6px}
+    .md-sb-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;font-size:12px;color:var(--text-muted);margin-bottom:2px;transition:all 0.1s}
+    .md-sb-item:hover{background:rgba(255,255,255,0.02)}
+    .md-sb-item.active{background:var(--glow-brand);color:var(--brand-light)}
+    .md-sb-icon{width:16px;height:16px;border-radius:4px;border:1.5px solid currentColor;opacity:0.4}
+    .md-sb-item.active .md-sb-icon{opacity:0.7}
+    .md-main{padding:24px}
+    .md-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+    .md-title{font-size:20px;font-weight:800}
+    .md-pills{display:flex;gap:6px}
+    .md-pill{padding:5px 14px;border-radius:7px;font-size:11px;font-weight:600;background:var(--bg-surface);color:var(--text-muted);border:1px solid var(--border)}
+    .md-pill.active{background:var(--brand);color:white;border-color:var(--brand)}
+    .md-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+    .md-stat{padding:16px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid var(--border)}
+    .md-stat-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
+    .md-stat-val{font-size:24px;font-weight:800;margin-top:4px}
+    .md-stat-change{font-size:11px;margin-top:2px}
+    .md-stat-change.up{color:var(--success)}.md-stat-change.down{color:#EF4444}
+    .md-charts{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+    .md-chart-card{padding:18px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid var(--border)}
+    .md-chart-title{font-size:13px;font-weight:700;margin-bottom:14px}
+    .md-bar-chart{display:flex;align-items:flex-end;gap:4px;height:140px}
+    .md-bar{flex:1;border-radius:3px 3px 0 0;background:linear-gradient(to top,var(--brand-dark),var(--brand-light));opacity:0.6;transition:opacity 0.2s}
+    .md-bar:hover{opacity:1}
+    .md-donut{width:120px;height:120px;border-radius:50%;border:18px solid var(--bg-surface);border-top-color:var(--brand);border-right-color:var(--accent);border-bottom-color:var(--accent2);margin:10px auto;position:relative}
+    .md-donut-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+    .md-table{margin-top:14px;padding:18px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid var(--border)}
+    .md-table-title{font-size:13px;font-weight:700;margin-bottom:12px}
+    .md-table table{width:100%;border-collapse:collapse}
+    .md-table th{text-align:left;font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;padding:8px 12px;border-bottom:1px solid var(--border)}
+    .md-table td{font-size:12px;padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+    .md-table tr:last-child td{border:none}
+    .md-table .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}
+    .md-table .status-dot.green{background:var(--success)}.md-table .status-dot.yellow{background:#FBBF24}
+
+    @media(max-width:768px){
+      .cb-center{display:none}
+      .cb-theme-name{font-size:12px}
+    }
+  </style>
+  <script src="../../src/js/analytics.js" defer></script>
+</head>
+<body>
+  <div class="control-bar">
+    <div class="cb-left">
+      <button type="button" class="cb-back" onclick="history.back()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <span class="cb-theme-name" id="themeName">Analytics Pro</span>
+    </div>
+    <div class="cb-center">
+      <button type="button" class="cb-device active" onclick="setDevice('desktop',this)">Desktop</button>
+      <button type="button" class="cb-device" onclick="setDevice('tablet',this)">Tablet</button>
+      <button type="button" class="cb-device" onclick="setDevice('mobile',this)">Mobile</button>
+    </div>
+    <div class="cb-right">
+      <button type="button" class="cb-toggle" id="themeToggle" onclick="toggleMockTheme()">Light</button>
+      <a href="detail.html" class="cb-cta">Get This Theme</a>
+    </div>
+  </div>
+
+  <div class="preview-viewport" id="viewport">
+    <div class="mock-dashboard" id="mockDash" style="width:1280px">
+      <div class="md-layout">
+        <div class="md-sidebar" id="mdSidebar">
+          <div class="md-sb-logo" id="mockSidebarLogo">Analytics Pro</div>
+          <div class="md-sb-group">
+            <div class="md-sb-label">Main</div>
+            <div class="md-sb-item active"><span class="md-sb-icon"></span> Dashboard</div>
+            <div class="md-sb-item"><span class="md-sb-icon"></span> Analytics</div>
+            <div class="md-sb-item"><span class="md-sb-icon"></span> Reports</div>
+            <div class="md-sb-item"><span class="md-sb-icon"></span> Audiences</div>
+          </div>
+          <div class="md-sb-group">
+            <div class="md-sb-label">Manage</div>
+            <div class="md-sb-item"><span class="md-sb-icon"></span> Events</div>
+            <div class="md-sb-item"><span class="md-sb-icon"></span> Funnels</div>
+            <div class="md-sb-item"><span class="md-sb-icon"></span> Settings</div>
+          </div>
+        </div>
+        <div class="md-main">
+          <div class="md-header">
+            <span class="md-title">Dashboard</span>
+            <div class="md-pills">
+              <span class="md-pill">7D</span>
+              <span class="md-pill active">30D</span>
+              <span class="md-pill">90D</span>
+              <span class="md-pill">1Y</span>
+            </div>
+          </div>
+          <div class="md-stats">
+            <div class="md-stat"><div class="md-stat-label">Total Revenue</div><div class="md-stat-val">$45.2K</div><div class="md-stat-change up">+12.5%</div></div>
+            <div class="md-stat"><div class="md-stat-label">Active Users</div><div class="md-stat-val">2,340</div><div class="md-stat-change up">+8.1%</div></div>
+            <div class="md-stat"><div class="md-stat-label">Conversion</div><div class="md-stat-val">3.6%</div><div class="md-stat-change down">-0.4%</div></div>
+            <div class="md-stat"><div class="md-stat-label">Avg Session</div><div class="md-stat-val">4m 32s</div><div class="md-stat-change up">+15s</div></div>
+          </div>
+          <div class="md-charts">
+            <div class="md-chart-card">
+              <div class="md-chart-title">Revenue Over Time</div>
+              <div class="md-bar-chart">
+                <div class="md-bar" style="height:35%"></div><div class="md-bar" style="height:55%"></div>
+                <div class="md-bar" style="height:42%"></div><div class="md-bar" style="height:78%"></div>
+                <div class="md-bar" style="height:50%"></div><div class="md-bar" style="height:65%"></div>
+                <div class="md-bar" style="height:88%"></div><div class="md-bar" style="height:58%"></div>
+                <div class="md-bar" style="height:72%"></div><div class="md-bar" style="height:82%"></div>
+                <div class="md-bar" style="height:48%"></div><div class="md-bar" style="height:95%"></div>
+              </div>
+            </div>
+            <div class="md-chart-card">
+              <div class="md-chart-title">Traffic Sources</div>
+              <div class="md-donut"><div class="md-donut-center">68%</div></div>
+            </div>
+          </div>
+          <div class="md-table">
+            <div class="md-table-title">Recent Activity</div>
+            <table>
+              <thead><tr><th>Event</th><th>User</th><th>Status</th><th>Time</th></tr></thead>
+              <tbody>
+                <tr><td>Purchase completed</td><td>sarah@email.com</td><td><span class="status-dot green"></span>Success</td><td>2m ago</td></tr>
+                <tr><td>Subscription renewed</td><td>mike@dev.io</td><td><span class="status-dot green"></span>Success</td><td>15m ago</td></tr>
+                <tr><td>Payment pending</td><td>alex@startup.co</td><td><span class="status-dot yellow"></span>Pending</td><td>1h ago</td></tr>
+                <tr><td>New signup</td><td>jen@agency.com</td><td><span class="status-dot green"></span>Active</td><td>2h ago</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+var devices={desktop:{w:1280,h:800},tablet:{w:768,h:600},mobile:{w:375,h:667}};
+var currentDevice='desktop';
+var isDark=true;
+
+function setDevice(d,btn){
+  currentDevice=d;
+  document.querySelectorAll('.cb-device').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  var s=devices[d];
+  var vp=document.getElementById('viewport');
+  var container=vp.offsetWidth-48;
+  var scale=Math.min(1,container/s.w);
+  var mock=document.getElementById('mockDash');
+  mock.style.width=s.w+'px';
+  mock.style.transform='scale('+scale+')';
+  var sb=document.getElementById('mdSidebar');
+  if(sb) sb.style.display=d==='mobile'?'none':'block';
+  var layout=document.querySelector('.md-layout');
+  if(layout) layout.style.gridTemplateColumns=d==='mobile'?'1fr':'220px 1fr';
+}
+
+function toggleMockTheme(){
+  isDark=!isDark;
+  var btn=document.getElementById('themeToggle');
+  btn.textContent=isDark?'Light':'Dark';
+  var mock=document.getElementById('mockDash');
+  if(isDark){
+    mock.style.background='var(--bg-base)';mock.style.color='var(--text-primary)';
+  }else{
+    mock.style.background='#F8FAFC';mock.style.color='#18181B';
+  }
+}
+
+// URL param
+var params=new URLSearchParams(window.location.search);
+var slug=params.get('theme');
+if(slug){
+  var name=slug.replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()});
+  document.getElementById('themeName').textContent=name;
+  document.getElementById('mockSidebarLogo').textContent=name;
+  document.title=name+' Preview — MergeUi';
+  var ctaLink=document.querySelector('.cb-cta');
+  if(ctaLink)ctaLink.href='detail.html?theme='+slug;
+}
+
+// Init scale
+window.addEventListener('load',function(){
+  var s=devices[currentDevice];
+  var vp=document.getElementById('viewport');
+  var container=vp.offsetWidth-48;
+  var scale=Math.min(1,container/s.w);
+  var mock=document.getElementById('mockDash');
+  mock.style.transform='scale('+scale+')';
+});
+window.addEventListener('resize',function(){
+  var s=devices[currentDevice];
+  var vp=document.getElementById('viewport');
+  var container=vp.offsetWidth-48;
+  var scale=Math.min(1,container/s.w);
+  document.getElementById('mockDash').style.transform='scale('+scale+')';
+});
+</script>
+</body>
+</html>

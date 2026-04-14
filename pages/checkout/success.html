@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Successful — MergeUi</title>
+  <meta name="description" content="Your MergeUi payment was successful. Welcome to Pro!">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../src/styles/tokens.css">
+  <link rel="stylesheet" href="../../src/styles/reset.css">
+  <link rel="stylesheet" href="../../src/styles/nav.css">
+  <style>:root{--brand:#6366F1;--brand-light:#818CF8;--brand-dark:#4F46E5;--accent:#22D3EE;--accent2:#A78BFA;--bg-base:#06060A;--bg-raised:#0E0E14;--bg-surface:#16161E;--text-primary:#F4F4F5;--text-secondary:#A1A1AA;--text-muted:#71717A;--border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.1);--success:#22C55E;--glow-brand:rgba(99,102,241,0.15);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{-webkit-font-smoothing:antialiased}body{font-family:var(--font);background:var(--bg-base);color:var(--text-primary);min-height:100vh}a{color:inherit;text-decoration:none}
+    .nav{position:sticky;top:0;z-index:100;padding:16px 0;background:rgba(6,6,10,0.8);backdrop-filter:blur(16px) saturate(1.6);border-bottom:1px solid var(--border)}.nav-inner{max-width:1600px;margin:0 auto;padding:0 48px;display:flex;align-items:center;justify-content:space-between}.nav-logo{font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px;letter-spacing:-0.5px}.nav-logo .mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--accent));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:white}.nav-links{display:flex;gap:32px;list-style:none}.nav-links a{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}.nav-links a:hover,.nav-links a.active{color:var(--text-primary)}.nav-right{display:flex;align-items:center;gap:12px}.nav-signin{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}.nav-signin:hover{color:var(--text-primary)}.nav-cta{padding:8px 24px;background:var(--brand);color:white;font-size:14px;font-weight:600;border-radius:999px;transition:all 0.15s}.nav-cta:hover{background:var(--brand-light)}.nav-burger{display:none;background:none;border:none;cursor:pointer;width:36px;height:36px;position:relative;z-index:1001}.nav-burger span{display:block;width:20px;height:2px;background:var(--text-primary);margin:5px auto;border-radius:2px;transition:all 0.3s}.nav-burger.active span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}.nav-burger.active span:nth-child(2){opacity:0}.nav-burger.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}.mobile-menu{display:none;position:fixed;inset:0;z-index:999;background:rgba(6,6,10,0.95);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:32px}.mobile-menu.open{display:flex}.mobile-menu a{font-size:24px;font-weight:700;color:var(--text-secondary);transition:color 0.2s}.mobile-menu a:hover{color:var(--text-primary)}
+    .gradient-text{background:linear-gradient(135deg,var(--brand-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .success-page{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:65vh;text-align:center;padding:60px 40px;position:relative;overflow:hidden}
+    .success-page .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.15;pointer-events:none;animation:orbFloat 8s ease-in-out infinite}
+    .success-page .orb-1{width:400px;height:400px;background:var(--success);top:-100px;left:-100px}
+    .success-page .orb-2{width:300px;height:300px;background:var(--accent);bottom:-80px;right:-80px;animation-delay:-4s}
+    @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,15px) scale(0.95)}}
+    .check-icon{width:80px;height:80px;border-radius:50%;background:rgba(34,197,94,0.12);border:2px solid rgba(34,197,94,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;position:relative;z-index:1}
+    .check-icon svg{width:40px;height:40px;color:var(--success)}
+    .success-page h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-2px;margin-bottom:8px;position:relative;z-index:1}
+    .success-page .desc{font-size:16px;color:var(--text-secondary);max-width:440px;margin-bottom:32px;line-height:1.6;position:relative;z-index:1}
+    .order-card{background:var(--bg-raised);border:1px solid var(--border);border-radius:14px;padding:24px;max-width:400px;width:100%;margin-bottom:32px;position:relative;z-index:1;text-align:left}
+    .order-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px}
+    .order-row .label{color:var(--text-muted)}
+    .order-row .value{font-weight:600}
+    .order-row+.order-row{border-top:1px solid var(--border)}
+    .license-row{margin-top:12px;padding:12px;background:var(--bg-surface);border:1px solid var(--border-strong);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .license-key{font-family:monospace;font-size:13px;color:var(--brand-light);letter-spacing:1px}
+    .copy-btn{padding:4px 10px;background:var(--bg-raised);border:1px solid var(--border-strong);border-radius:6px;font-size:11px;font-weight:600;color:var(--text-secondary);cursor:pointer;font-family:var(--font);transition:all 0.15s}.copy-btn:hover{border-color:var(--brand);color:var(--brand-light)}
+    .actions{display:flex;gap:12px;position:relative;z-index:1;flex-wrap:wrap;justify-content:center}
+    .btn{padding:12px 28px;font-size:14px;font-weight:700;border-radius:12px;transition:all 0.2s;display:inline-block;font-family:var(--font);border:none;cursor:pointer}
+    .btn.primary{background:var(--brand);color:white}.btn.primary:hover{background:var(--brand-light);transform:translateY(-2px)}
+    .btn.secondary{background:transparent;color:var(--text-secondary);border:1px solid var(--border-strong)}.btn.secondary:hover{border-color:var(--brand);color:var(--text-primary);transform:translateY(-2px)}
+    footer{padding:40px 32px;border-top:1px solid var(--border)}.footer-inner{max-width:1600px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.footer-copy{font-size:12px;color:var(--text-muted)}.footer-links{display:flex;gap:24px;list-style:none}.footer-links a{font-size:12px;color:var(--text-muted);transition:color 0.15s}.footer-links a:hover{color:var(--text-primary)}
+    @media(max-width:768px){.nav-links,.nav-right{display:none}.nav-burger{display:block}.nav-inner{padding:0 20px}.footer-inner{flex-direction:column;gap:16px;text-align:center}.success-page{padding:40px 20px}.order-card{padding:20px}}
+  </style>
+  <script src="../../src/js/analytics.js" defer></script>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a href="../../landing/index.html" class="nav-logo"><span class="mark">O</span> MergeUi</a>
+    <ul class="nav-links"><li><a href="../../landing/index.html">Home</a></li><li><a href="../themes/index.html">Themes</a></li><li><a href="../public/components.html">Components</a></li><li><a href="../public/pricing.html">Pricing</a></li><li><a href="../public/docs.html">Docs</a></li></ul>
+    <div class="nav-right"><a href="../auth/login.html" class="nav-signin">Sign In</a><a href="../auth/signup.html" class="nav-cta">Get Started</a></div>
+    <button class="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div></nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../../landing/index.html" class="mobile-link">Home</a><a href="../themes/index.html" class="mobile-link">Themes</a><a href="../public/components.html" class="mobile-link">Components</a><a href="../public/pricing.html" class="mobile-link">Pricing</a><a href="../public/docs.html" class="mobile-link">Docs</a>
+    <a href="../auth/login.html" class="mobile-link">Sign In</a><a href="../auth/signup.html" style="margin-top:16px;padding:14px 36px;background:var(--brand);color:white;font-size:16px;font-weight:700;border-radius:14px">Get Started</a>
+  </div>
+
+  <main class="success-page">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="check-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <h1>Payment <span class="gradient-text">Successful</span>!</h1>
+    <p class="desc">Thank you for subscribing to MergeUi Pro. You now have full access to all themes and components.</p>
+    <div class="order-card">
+      <div class="order-row"><span class="label">Plan</span><span class="value">Pro Monthly</span></div>
+      <div class="order-row"><span class="label">Amount</span><span class="value">$19.00/month</span></div>
+      <div class="order-row"><span class="label">Next billing</span><span class="value" id="nextBilling">—</span></div>
+      <div class="order-row"><span class="label">Status</span><span class="value" style="color:var(--success)">Active</span></div>
+      <div class="license-row">
+        <span class="license-key" id="licenseKey">MERGE-PRO-A7F2-X9K4</span>
+        <button type="button" class="copy-btn" onclick="copyLicense()">Copy</button>
+      </div>
+    </div>
+    <div class="actions">
+      <a href="../subscriber/dashboard.html" class="btn primary">Go to Dashboard</a>
+      <a href="../themes/index.html" class="btn secondary">Browse Themes</a>
+    </div>
+  </main>
+
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+
+<script>
+// Next billing date
+(function(){
+  var d=new Date();d.setMonth(d.getMonth()+1);
+  var el=document.getElementById('nextBilling');
+  if(el)el.textContent=d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+})();
+function copyLicense(){
+  var key=document.getElementById('licenseKey').textContent;
+  navigator.clipboard.writeText(key).then(function(){
+    var btn=document.querySelector('.copy-btn');btn.textContent='Copied!';
+    setTimeout(function(){btn.textContent='Copy';},2000);
+  });
+}
+var burger=document.querySelector('.nav-burger'),mm=document.getElementById('mobileMenu');
+if(burger&&mm){burger.addEventListener('click',function(){burger.classList.toggle('active');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':'';});document.querySelectorAll('.mobile-link').forEach(function(l){l.addEventListener('click',function(){burger.classList.remove('active');mm.classList.remove('open');document.body.style.overflow='';});});};
+(function(){var s=localStorage.getItem('mergeui_session');if(!s)return;var r=document.querySelector('.nav-right');if(r)r.innerHTML='<a href="../subscriber/dashboard.html" class="nav-cta">My Dashboard</a>';var mob=document.getElementById('mobileMenu');if(mob){var si=mob.querySelector('a[href*="login"]');if(si){si.textContent="My Dashboard";si.href="../subscriber/dashboard.html";}var gs=mob.querySelector('a[href*="signup"]');if(gs)gs.remove();}})();
+</script>
+<script src="../../src/js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+/* ============================================
+   MergeUi Design Tokens
+   B(디자인) 정의 — 전체 프로젝트 단일 소스
+   ============================================ */
+
+:root {
+  /* Brand */
+  --merge-brand: #6366F1;
+  --merge-brand-light: #818CF8;
+  --merge-brand-dark: #4F46E5;
+  --merge-accent: #22D3EE;
+  --merge-accent2: #A78BFA;
+
+  /* Background */
+  --merge-bg-base: #06060A;
+  --merge-bg-raised: #0E0E14;
+  --merge-bg-surface: #16161E;
+  --merge-bg-glass: rgba(14, 14, 20, 0.6);
+
+  /* Text */
+  --merge-text-primary: #F4F4F5;
+  --merge-text-secondary: #A1A1AA;
+  --merge-text-muted: #71717A;
+
+  /* Border */
+  --merge-border: rgba(255,255,255,0.06);
+  --merge-border-strong: rgba(255,255,255,0.1);
+
+  /* Status */
+  --merge-success: #22C55E;
+  --merge-warning: #FBBF24;
+  --merge-error: #EF4444;
+  --merge-info: #3B82F6;
+
+  /* Glow */
+  --merge-glow-brand: rgba(99,102,241,0.15);
+  --merge-glow-accent: rgba(34,211,238,0.1);
+
+  /* Admin */
+  --merge-admin-primary: #EF4444;
+  --merge-admin-secondary: #F97316;
+  --merge-admin-active-bg: rgba(239,68,68,0.1);
+  --merge-admin-active-text: #FCA5A5;
+
+  /* Typography */
+  --merge-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Spacing (8px grid) */
+  --merge-space-1: 4px;
+  --merge-space-2: 8px;
+  --merge-space-3: 12px;
+  --merge-space-4: 16px;
+  --merge-space-5: 20px;
+  --merge-space-6: 24px;
+  --merge-space-7: 32px;
+  --merge-space-8: 48px;
+  --merge-space-9: 64px;
+
+  /* Radius */
+  --merge-radius-sm: 6px;
+  --merge-radius-md: 8px;
+  --merge-radius-lg: 12px;
+  --merge-radius-xl: 14px;
+  --merge-radius-full: 999px;
+
+  /* Backward compatibility aliases — 기존 코드 호환용 */
+  --brand: var(--merge-brand);
+  --brand-light: var(--merge-brand-light);
+  --brand-dark: var(--merge-brand-dark);
+  --accent: var(--merge-accent);
+  --accent2: var(--merge-accent2);
+  --bg-base: var(--merge-bg-base);
+  --bg-raised: var(--merge-bg-raised);
+  --bg-surface: var(--merge-bg-surface);
+  --bg-glass: var(--merge-bg-glass);
+  --text-primary: var(--merge-text-primary);
+  --text-secondary: var(--merge-text-secondary);
+  --text-muted: var(--merge-text-muted);
+  --border: var(--merge-border);
+  --border-strong: var(--merge-border-strong);
+  --success: var(--merge-success);
+  --warning: var(--merge-warning);
+  --glow-brand: var(--merge-glow-brand);
+  --glow-accent: var(--merge-glow-accent);
+  --font: var(--merge-font);
+}
+
+/* Light Mode */
+[data-theme="light"] {
+  --merge-bg-base: #FAFAFA;
+  --merge-bg-raised: #FFFFFF;
+  --merge-bg-surface: #F4F4F5;
+  --merge-bg-glass: rgba(255, 255, 255, 0.8);
+  --merge-text-primary: #18181B;
+  --merge-text-secondary: #52525B;
+  --merge-text-muted: #A1A1AA;
+  --merge-border: rgba(0,0,0,0.06);
+  --merge-border-strong: rgba(0,0,0,0.12);
+  --merge-glow-brand: rgba(99,102,241,0.08);
+  --merge-glow-accent: rgba(34,211,238,0.06);
+  --merge-admin-active-bg: rgba(239,68,68,0.06);
+  --merge-admin-active-text: #DC2626;
+}

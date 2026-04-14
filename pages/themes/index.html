@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Themes — MergeUi</title>
+  <meta name="description" content="Browse production-ready dashboard templates. SaaS, analytics, CRM, e-commerce and more. Dark mode, responsive, beautifully crafted.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../src/styles/tokens.css">
+  <link rel="stylesheet" href="../../src/styles/reset.css">
+  <link rel="stylesheet" href="../../src/styles/nav.css">
+  <style>
+    :root{
+      --brand:#6366F1;--brand-light:#818CF8;--brand-dark:#4F46E5;
+      --accent:#22D3EE;--accent2:#A78BFA;
+      --bg-base:#06060A;--bg-raised:#0E0E14;--bg-surface:#16161E;--bg-glass:rgba(14,14,20,0.6);
+      --text-primary:#F4F4F5;--text-secondary:#A1A1AA;--text-muted:#71717A;
+      --border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.1);
+      --success:#22C55E;--glow-brand:rgba(99,102,241,0.15);
+      --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+    body{font-family:var(--font);background:var(--bg-base);color:var(--text-primary);min-height:100vh}
+    a{color:inherit;text-decoration:none}
+
+    /* Nav */
+    .nav{position:sticky;top:0;z-index:100;padding:16px 0;background:rgba(6,6,10,0.8);backdrop-filter:blur(16px) saturate(1.6);border-bottom:1px solid var(--border)}
+    .nav-inner{max-width:1600px;margin:0 auto;padding:0 48px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-size:20px;font-weight:900;display:flex;align-items:center;gap:8px;letter-spacing:-0.5px}
+    .nav-logo .mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--accent));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:white}
+    .nav-links{display:flex;gap:32px;list-style:none}
+    .nav-links a{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}
+    .nav-links a:hover,.nav-links a.active{color:var(--text-primary)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .nav-signin{font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s}
+    .nav-signin:hover{color:var(--text-primary)}
+    .nav-cta{padding:8px 24px;background:var(--brand);color:white;font-size:14px;font-weight:600;border-radius:999px;transition:all 0.15s}
+    .nav-cta:hover{background:var(--brand-light)}
+    .nav-burger{display:none;background:none;border:none;cursor:pointer;width:36px;height:36px;position:relative;z-index:1001}
+    .nav-burger span{display:block;width:20px;height:2px;background:var(--text-primary);margin:5px auto;border-radius:2px;transition:all 0.3s}
+    .nav-burger.active span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}
+    .nav-burger.active span:nth-child(2){opacity:0}
+    .nav-burger.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}
+    .mobile-menu{display:none;position:fixed;inset:0;z-index:999;background:rgba(6,6,10,0.95);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:32px}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{font-size:24px;font-weight:700;color:var(--text-secondary);transition:color 0.2s}
+    .mobile-menu a:hover{color:var(--text-primary)}
+
+    /* Hero */
+    .hero{padding:80px 32px 48px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,var(--glow-brand) 0%,transparent 70%);pointer-events:none}
+    .hero h1{font-size:clamp(32px,5vw,48px);font-weight:900;letter-spacing:-2px;position:relative;margin-bottom:12px}
+    .gradient-text{background:linear-gradient(135deg,var(--brand-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{font-size:16px;color:var(--text-secondary);max-width:500px;margin:0 auto;position:relative}
+
+    /* Filters */
+    .filters{max-width:1600px;margin:0 auto;padding:0 32px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+    .filter-group{display:flex;gap:6px;flex-wrap:wrap}
+    .filter-btn{padding:7px 16px;background:var(--bg-raised);border:1px solid var(--border-strong);border-radius:999px;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.15s;font-family:var(--font)}
+    .filter-btn:hover{border-color:var(--text-muted);color:var(--text-secondary)}
+    .filter-btn.active{background:var(--brand);border-color:var(--brand);color:white}
+    .view-toggle{display:flex;gap:4px;background:var(--bg-raised);border:1px solid var(--border-strong);border-radius:8px;padding:3px}
+    .view-btn{padding:6px 10px;border-radius:6px;border:none;background:transparent;color:var(--text-muted);font-size:14px;cursor:pointer;transition:all 0.12s;line-height:1}
+    .view-btn.active{background:var(--bg-surface);color:var(--text-primary)}
+    .search-box{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--bg-raised);border:1px solid var(--border-strong);border-radius:10px;min-width:240px;transition:border-color 0.15s}
+    .search-box:focus-within{border-color:var(--brand)}
+    .search-box svg{width:16px;height:16px;color:var(--text-muted);flex-shrink:0}
+    .search-box input{background:none;border:none;color:var(--text-primary);font-size:13px;font-family:var(--font);outline:none;width:100%}
+    .search-box input::placeholder{color:var(--text-muted)}
+
+    /* Theme Grid */
+    .themes-container{max-width:1600px;margin:0 auto;padding:0 32px 80px}
+    .themes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+    .themes-grid.list-view{grid-template-columns:1fr}
+
+    /* Theme Card */
+    .theme-card{background:var(--bg-raised);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);cursor:pointer;position:relative}
+    .theme-card:hover{transform:translateY(-6px);border-color:var(--border-strong);box-shadow:0 20px 48px rgba(0,0,0,0.3),0 0 40px var(--glow-brand)}
+
+    .card-badge{position:absolute;top:16px;left:16px;z-index:2;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+    .card-badge.free{background:rgba(34,197,94,0.15);color:var(--success)}
+    .card-badge.pro{background:rgba(99,102,241,0.15);color:var(--brand-light)}
+    .card-badge.new{background:rgba(251,191,36,0.15);color:#FBBF24}
+
+    .card-preview{height:220px;position:relative;overflow:hidden;background:var(--bg-surface)}
+    .card-preview .mock{position:absolute;inset:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg-base);display:grid;grid-template-columns:48px 1fr;overflow:hidden}
+    .mock-sb{background:rgba(0,0,0,0.3);border-right:1px solid var(--border);padding:8px 6px}
+    .mock-sb-item{width:100%;height:5px;background:rgba(255,255,255,0.04);border-radius:3px;margin-bottom:6px}
+    .mock-sb-item.active{background:var(--glow-brand)}
+    .mock-content{padding:10px}
+    .mock-row{display:flex;gap:5px;margin-bottom:5px}
+    .mock-block{height:24px;border-radius:4px;flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--border)}
+    .mock-chart{height:44px;border-radius:4px;margin-top:5px;border:1px solid var(--border);display:flex;align-items:flex-end;gap:2px;padding:6px}
+    .mock-bar{flex:1;border-radius:2px 2px 0 0;opacity:0.6}
+
+    /* Different theme color accents */
+    .theme-card[data-accent="indigo"] .mock-bar{background:linear-gradient(to top,#4F46E5,#818CF8)}
+    .theme-card[data-accent="cyan"] .mock-bar{background:linear-gradient(to top,#0891B2,#22D3EE)}
+    .theme-card[data-accent="purple"] .mock-bar{background:linear-gradient(to top,#7C3AED,#A78BFA)}
+    .theme-card[data-accent="emerald"] .mock-bar{background:linear-gradient(to top,#059669,#34D399)}
+    .theme-card[data-accent="rose"] .mock-bar{background:linear-gradient(to top,#E11D48,#FB7185)}
+    .theme-card[data-accent="amber"] .mock-bar{background:linear-gradient(to top,#D97706,#FBBF24)}
+
+    .card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(6,6,10,0.8));opacity:0;transition:opacity 0.3s;display:flex;align-items:flex-end;justify-content:center;padding:20px;gap:10px}
+    .theme-card:hover .card-overlay{opacity:1}
+    .card-overlay-btn{padding:8px 20px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;font-family:var(--font);border:none}
+    .card-overlay-btn.primary{background:var(--brand);color:white}
+    .card-overlay-btn.primary:hover{background:var(--brand-light)}
+    .card-overlay-btn.ghost{background:rgba(255,255,255,0.1);color:white;backdrop-filter:blur(4px)}
+    .card-overlay-btn.ghost:hover{background:rgba(255,255,255,0.2)}
+
+    .card-body{padding:20px}
+    .card-tags{display:flex;gap:6px;margin-bottom:10px}
+    .card-tag{padding:3px 8px;background:var(--bg-surface);border-radius:5px;font-size:10px;font-weight:600;color:var(--text-muted)}
+    .card-name{font-size:17px;font-weight:800;margin-bottom:4px}
+    .card-desc{font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:14px}
+    .card-meta{display:flex;align-items:center;justify-content:space-between}
+    .card-meta-left{display:flex;align-items:center;gap:12px}
+    .card-meta-item{font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:4px}
+    .card-meta-item svg{width:14px;height:14px}
+    .card-fav{width:32px;height:32px;border-radius:8px;background:var(--bg-surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;font-size:14px}
+    .card-fav:hover{border-color:var(--brand);background:var(--glow-brand)}
+
+    /* Results count */
+    .results-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .results-count{font-size:13px;color:var(--text-muted)}
+    .results-count span{color:var(--text-primary);font-weight:700}
+    .sort-select{background:var(--bg-raised);border:1px solid var(--border-strong);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--text-secondary);font-family:var(--font);cursor:pointer;outline:none}
+
+    /* List view overrides */
+    .themes-grid.list-view .theme-card{display:grid;grid-template-columns:400px 1fr;border-radius:12px}
+    .themes-grid.list-view .card-preview{height:100%;min-height:200px}
+    .themes-grid.list-view .card-body{display:flex;flex-direction:column;justify-content:center;padding:24px 28px}
+
+    /* Responsive */
+    footer{padding:40px 32px;border-top:1px solid var(--border)}.footer-inner{max-width:1600px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.footer-copy{font-size:12px;color:var(--text-muted)}.footer-links{display:flex;gap:24px;list-style:none}.footer-links a{font-size:12px;color:var(--text-muted);transition:color 0.15s}.footer-links a:hover{color:var(--text-primary)}
+    @media(max-width:768px){
+      .hero{padding:60px 20px 32px}
+      .filters{padding:0 20px 24px;flex-direction:column;align-items:stretch}
+      .search-box{min-width:auto}
+      .themes-container{padding:0 20px 60px}
+      .themes-grid{grid-template-columns:1fr}
+      .themes-grid.list-view .theme-card{grid-template-columns:1fr}
+      .nav-links{display:none}
+      .nav-right{display:none}
+      .nav-burger{display:block}
+      .nav-inner{padding:0 20px}
+      .footer-inner{flex-direction:column;gap:16px;text-align:center}
+    }
+  </style>
+  <script src="../../src/js/analytics.js" defer></script>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../../landing/index.html" class="nav-logo"><span class="mark">O</span> MergeUi</a>
+      <ul class="nav-links">
+        <li><a href="../../landing/index.html">Home</a></li>
+        <li><a href="index.html" class="active">Themes</a></li>
+        <li><a href="../public/components.html">Components</a></li>
+        <li><a href="../public/pricing.html">Pricing</a></li>
+        <li><a href="../public/docs.html">Docs</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="../auth/login.html" class="nav-signin">Sign In</a>
+        <a href="../auth/signup.html" class="nav-cta">Get Started</a>
+      </div>
+      <button class="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../../landing/index.html" class="mobile-link">Home</a>
+    <a href="index.html" class="mobile-link">Themes</a>
+    <a href="../public/components.html" class="mobile-link">Components</a>
+    <a href="../public/pricing.html" class="mobile-link">Pricing</a>
+    <a href="../public/docs.html" class="mobile-link">Docs</a>
+    <a href="../auth/login.html" class="mobile-link">Sign In</a>
+    <a href="../auth/signup.html" style="margin-top:16px;padding:14px 36px;background:var(--brand);color:white;font-size:16px;font-weight:700;border-radius:14px">Get Started</a>
+  </div>
+
+  <section class="hero">
+    <h1>Dashboard <span class="gradient-text">Themes</span></h1>
+    <p>Production-ready templates for every use case. Pick one, customize it, ship it.</p>
+  </section>
+
+  <div class="filters">
+    <div class="filter-group" id="categoryFilters">
+      <button type="button" class="filter-btn active" data-filter="all">All</button>
+      <button type="button" class="filter-btn" data-filter="saas">SaaS</button>
+      <button type="button" class="filter-btn" data-filter="analytics">Analytics</button>
+      <button type="button" class="filter-btn" data-filter="ecommerce">E-Commerce</button>
+      <button type="button" class="filter-btn" data-filter="finance">Finance</button>
+      <button type="button" class="filter-btn" data-filter="crm">CRM</button>
+      <button type="button" class="filter-btn" data-filter="project">Project</button>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search themes..." id="searchInput" oninput="filterThemes()">
+      </div>
+      <div class="view-toggle">
+        <button type="button" class="view-btn active" onclick="setView('grid',this)" title="Grid view">▦</button>
+        <button type="button" class="view-btn" onclick="setView('list',this)" title="List view">☰</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="themes-container">
+    <div class="results-bar">
+      <div class="results-count">Showing <span id="resultCount">12</span> themes</div>
+      <select class="sort-select" onchange="sortThemes(this.value)">
+        <option value="newest">Newest First</option>
+        <option value="popular">Most Popular</option>
+        <option value="name">Name A-Z</option>
+      </select>
+    </div>
+    <div class="themes-grid" id="themesGrid"></div>
+  </div>
+
+<script>
+var themes = [
+  {id:'analytics-pro',name:'Analytics Pro',desc:'Data-heavy dashboard with real-time charts, KPIs, and advanced filtering.',category:'analytics',tags:['Analytics','Charts'],accent:'indigo',badge:'new',components:28,pages:6,downloads:1240},
+  {id:'storefront',name:'StoreFront',desc:'E-commerce dashboard with order management, inventory, and customer insights.',category:'ecommerce',tags:['E-Commerce','Orders'],accent:'cyan',badge:'pro',components:32,pages:8,downloads:980},
+  {id:'findash',name:'FinDash',desc:'Financial reports, transaction logs, portfolio analytics, and risk metrics.',category:'finance',tags:['Finance','Reports'],accent:'purple',badge:'pro',components:24,pages:5,downloads:870},
+  {id:'relatehub',name:'RelateHub',desc:'Contact management, sales pipeline, team collaboration, and deal tracking.',category:'crm',tags:['CRM','Pipeline'],accent:'emerald',badge:'free',components:22,pages:5,downloads:1560},
+  {id:'taskflow',name:'TaskFlow',desc:'Kanban boards, timeline views, workload tracking, and sprint planning.',category:'project',tags:['Project','Kanban'],accent:'amber',badge:'pro',components:20,pages:4,downloads:1100},
+  {id:'saas-kit',name:'SaaS Kit',desc:'All-in-one admin panel with user management, billing, and settings.',category:'saas',tags:['SaaS','Admin'],accent:'indigo',badge:'pro',components:35,pages:10,downloads:2100},
+  {id:'devops-monitor',name:'DevOps Monitor',desc:'Server monitoring, deployment logs, uptime tracking, and alert management.',category:'analytics',tags:['DevOps','Monitoring'],accent:'rose',badge:'new',components:18,pages:4,downloads:640},
+  {id:'marketing-hub',name:'Marketing Hub',desc:'Campaign analytics, SEO tracking, social media metrics, and A/B test results.',category:'analytics',tags:['Marketing','SEO'],accent:'purple',badge:'pro',components:26,pages:6,downloads:780},
+  {id:'inventory-mgr',name:'Inventory Manager',desc:'Stock tracking, supplier management, purchase orders, and warehouse views.',category:'ecommerce',tags:['Inventory','Warehouse'],accent:'emerald',badge:'free',components:19,pages:5,downloads:920},
+  {id:'crypto-dash',name:'Crypto Dashboard',desc:'Portfolio tracker, real-time prices, trading charts, and wallet overview.',category:'finance',tags:['Crypto','Trading'],accent:'cyan',badge:'new',components:16,pages:3,downloads:1340},
+  {id:'helpdesk',name:'HelpDesk',desc:'Ticket management, customer chat, knowledge base, and SLA tracking.',category:'crm',tags:['Support','Tickets'],accent:'amber',badge:'pro',components:21,pages:5,downloads:690},
+  {id:'agile-board',name:'Agile Board',desc:'Scrum boards, burndown charts, velocity tracking, and retrospective tools.',category:'project',tags:['Agile','Scrum'],accent:'rose',badge:'free',components:15,pages:3,downloads:850}
+];
+
+function renderThemes(list){
+  var grid=document.getElementById('themesGrid');
+  grid.innerHTML=list.map(function(t){
+    var barHeights=[35,55,42,78,50,65,88,58];
+    var bars=barHeights.map(function(h){return '<div class="mock-bar" style="height:'+h+'%"></div>'}).join('');
+    var tags=t.tags.map(function(tag){return '<span class="card-tag">'+tag+'</span>'}).join('');
+    var badgeHtml=t.badge?'<div class="card-badge '+t.badge+'">'+t.badge+'</div>':'';
+
+    var slug=t.id;
+    return '<div class="theme-card" data-category="'+t.category+'" data-accent="'+t.accent+'" data-name="'+t.name.toLowerCase()+'" data-downloads="'+t.downloads+'" data-slug="'+slug+'">'+
+      badgeHtml+
+      '<div class="card-preview">'+
+        '<div class="mock"><div class="mock-sb"><div class="mock-sb-item active"></div><div class="mock-sb-item"></div><div class="mock-sb-item"></div><div class="mock-sb-item"></div></div>'+
+        '<div class="mock-content"><div class="mock-row"><div class="mock-block"></div><div class="mock-block"></div><div class="mock-block"></div></div><div class="mock-row"><div class="mock-block"></div><div class="mock-block"></div></div><div class="mock-chart">'+bars+'</div></div></div>'+
+        '<div class="card-overlay"><a href="preview.html?theme='+slug+'" class="card-overlay-btn primary">Preview</a><a href="detail.html?theme='+slug+'" class="card-overlay-btn ghost">Details</a></div>'+
+      '</div>'+
+      '<div class="card-body">'+
+        '<div class="card-tags">'+tags+'</div>'+
+        '<div class="card-name">'+t.name+'</div>'+
+        '<div class="card-desc">'+t.desc+'</div>'+
+        '<div class="card-meta"><div class="card-meta-left">'+
+          '<span class="card-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>'+t.components+' components</span>'+
+          '<span class="card-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>'+t.pages+' pages</span>'+
+        '</div><div class="card-fav" onclick="event.stopPropagation();this.textContent=this.textContent===\'♡\'?\'♥\':\'♡\'">♡</div></div>'+
+      '</div></div>';
+  }).join('');
+  document.getElementById('resultCount').textContent=list.length;
+}
+
+// Filter
+document.getElementById('categoryFilters').addEventListener('click',function(e){
+  if(!e.target.classList.contains('filter-btn'))return;
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
+  e.target.classList.add('active');
+  filterThemes();
+});
+
+function filterThemes(){
+  var cat=document.querySelector('.filter-btn.active').dataset.filter;
+  var q=document.getElementById('searchInput').value.toLowerCase();
+  var filtered=themes.filter(function(t){
+    var catMatch=cat==='all'||t.category===cat;
+    var qMatch=!q||t.name.toLowerCase().includes(q)||t.desc.toLowerCase().includes(q)||t.tags.join(' ').toLowerCase().includes(q);
+    return catMatch&&qMatch;
+  });
+  renderThemes(filtered);
+}
+
+function sortThemes(val){
+  var sorted=themes.slice();
+  if(val==='popular')sorted.sort(function(a,b){return b.downloads-a.downloads});
+  else if(val==='name')sorted.sort(function(a,b){return a.name.localeCompare(b.name)});
+  renderThemes(sorted);
+}
+
+function setView(mode,btn){
+  document.querySelectorAll('.view-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  var grid=document.getElementById('themesGrid');
+  grid.classList.toggle('list-view',mode==='list');
+}
+
+renderThemes(themes);
+
+document.getElementById('themesGrid').addEventListener('click',function(e){
+  var card=e.target.closest('.theme-card');
+  if(!card)return;
+  if(e.target.closest('.card-overlay-btn')||e.target.closest('.card-fav'))return;
+  window.location.href='detail.html?theme='+card.dataset.slug;
+});
+</script>
+<script>
+// Burger menu
+var burger=document.querySelector('.nav-burger'),mobileMenu=document.getElementById('mobileMenu');
+if(burger&&mobileMenu){burger.addEventListener('click',function(){burger.classList.toggle('active');mobileMenu.classList.toggle('open');document.body.style.overflow=mobileMenu.classList.contains('open')?'hidden':'';});
+document.querySelectorAll('.mobile-link').forEach(function(l){l.addEventListener('click',function(){burger.classList.remove('active');mobileMenu.classList.remove('open');document.body.style.overflow='';});});}
+// Auth-aware nav
+(function(){var s=localStorage.getItem('mergeui_session');if(!s)return;
+var r=document.querySelector('.nav-right');if(r)r.innerHTML='<a href="../subscriber/dashboard.html" class="nav-cta">My Dashboard</a>';
+var mob=document.getElementById('mobileMenu');if(mob){var si=mob.querySelector('a[href*="login"]');if(si){si.textContent='My Dashboard';si.href='../subscriber/dashboard.html';}var gs=mob.querySelector('a[href*="signup"]');if(gs)gs.remove();}
+})();
+</script>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+<script src="../../src/js/auth.js"></script>
+</body>
+</html>

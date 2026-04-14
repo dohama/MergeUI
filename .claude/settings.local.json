@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(jq -e '.env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS' \"c:/Users/ekdma/OneDrive/바탕화~1-DESIGN-PC1-8560127/Claude/Agent_Test/.claude/settings.json\")",
+      "Bash(mkdir -p \"c:/Users/ekdma/OneDrive/바탕화~1-DESIGN-PC1-8560127/Claude/Agent_Test/landing\")",
+      "Bash(mkdir -p \"c:/Users/ekdma/OneDrive/바탕화~1-DESIGN-PC1-8560127/Claude/Agent_Test/landing/assets\")",
+      "WebSearch"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\ekdma\\OneDrive\\바탕화~1-DESIGN-PC1-8560127\\Claude\\Agent_Test\\pages"
+    ]
+  }
+}

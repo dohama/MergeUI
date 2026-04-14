@@ -79,6 +79,7 @@
     }
   </style>
   <script src="../../src/js/analytics.js" defer></script>
+  <script src="../../src/js/supabase-client.js" defer></script>
 </head>
 <body>
   <nav class="nav"><div class="nav-inner">
@@ -164,12 +165,24 @@ document.querySelectorAll('.faq-q').forEach(function(btn){
     if(!wasOpen){item.classList.add('open');this.setAttribute('aria-expanded','true')}
   });
 });
-document.getElementById('submitBtn').addEventListener('click',function(){
+document.getElementById('submitBtn').addEventListener('click', async function(){
   var f=document.getElementById('contactForm');
-  if(f.checkValidity()){
+  if(!f.checkValidity()){f.reportValidity();return;}
+
+  var name=document.getElementById('contactName').value.trim();
+  var email=document.getElementById('contactEmail').value.trim();
+  var category=document.getElementById('contactCategory').value;
+  var message=document.getElementById('contactMessage').value.trim();
+
+  try {
+    if(typeof MergeDB !== 'undefined') {
+      await MergeDB.submitInquiry(name, email, category, '', message);
+    }
     this.style.display='none';
     document.getElementById('formSuccess').style.display='block';
-  }else{f.reportValidity();}
+  } catch(err) {
+    alert('Failed to submit. Please try again.');
+  }
 });
 var burger=document.querySelector('.nav-burger'),mm=document.getElementById('mobileMenu');
 if(burger&&mm){burger.addEventListener('click',function(){burger.classList.toggle('active');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':'';});document.querySelectorAll('.mobile-link').forEach(function(l){l.addEventListener('click',function(){burger.classList.remove('active');mm.classList.remove('open');document.body.style.overflow='';});});};

@@ -166,7 +166,51 @@
 
 ---
 
-## 현재 상태 요약 (2026-04-15)
+## Day 5 후반 — 2026-04-15 : 백엔드 구축 + 배포 + 브랜드 변경
+
+### 브랜드 리네이밍
+- **OozeUi → MergeUi** 전체 변경 (캡틴 결정)
+  - 이유: "ooze"가 영어권에서 부정적 인식, "merge"는 개발자 친화적
+  - 팀 합의 후 결정
+  - HTML 38개 + CSS 4개 + JS 3개 + MD 전체 + 서버 코드 일괄 교체
+  - 도메인: mergeui.com 구매 완료
+
+### 백엔드 구축
+- **package.json** 초기화 + 의존성 설치 (express, supabase-js, cors, helmet, rate-limit)
+- **DB 스키마** 10개 테이블 설계 + Supabase SQL Editor에서 적용 완료
+  - profiles, subscriptions, license_keys, themes, components, downloads, orders, inquiries, releases, favorites
+  - RLS 보안 정책 + 자동 트리거
+- **서버 코드** 작성:
+  - app.js (Express 엔트리포인트)
+  - supabase.js (클라이언트)
+  - middleware/auth.js (JWT 검증 + role 체크)
+  - API 6개: auth, themes, components, downloads, inquiries, admin
+  - webhooks.js (Lemonsqueezy 5개 이벤트 핸들러)
+
+### 배포
+- **GitHub** 레포 생성 (dohama/mergeui) + 코드 푸시
+- **Vercel** 프로젝트 생성 + 자동 배포
+- **mergeui.com** 도메인 연결 (메일플러그 DNS: A 레코드 + CNAME)
+- 3개 도메인 Valid Configuration 확인
+
+### Supabase 연결
+- 프로젝트 생성 + .env에 URL/키 연결
+- DB 스키마 적용 (10개 테이블 OK 확인)
+- **supabase-client.js** 프론트 클라이언트 모듈 생성 (22개 API 함수)
+- 로그인/회원가입/비밀번호찾기 → Supabase Auth 연동
+- 문의 페이지 → inquiries 테이블 연동
+- GitHub/Google OAuth 소셜 로그인 연결 (코드 준비, OAuth 앱 설정은 캡틴 대기)
+
+### Lemonsqueezy
+- 스토어 생성 완료 (mergeui.lemonsqueezy.com)
+- 캡틴 결정: **결제 연동은 마지막에** — 인증/데이터 연동 먼저 완료 후
+
+### 캡틴 피드백 반영
+- 코디네이터 말투 수정 (건방진 톤 → 정중한 안내형)
+
+---
+
+## 현재 상태 요약 (2026-04-15 최종)
 
 | 항목 | 상태 |
 |------|------|
@@ -174,17 +218,22 @@
 | CSS 외부 분리 | **완료** (tokens/reset/nav/sidebar) |
 | 디자인 토큰 | **완료** (--merge-* + 라이트모드 + 하위호환) |
 | GA4 트래킹 | **완료** (28개 페이지) |
-| SEO 메타태그 | **완료** (전체 공개 페이지) |
 | 공통 auth.js | **완료** (31개 페이지) |
-| 레거시 정리 | **완료** (4개 리다이렉트) |
-| 문서 최신화 | **완료** (ia-sitemap, roadmap, CLAUDE.md) |
-| 백엔드 | **미구축** (다음 단계) |
+| 브랜드 | **MergeUi** (mergeui.com) |
+| GitHub | **완료** (dohama/mergeui) |
+| Vercel 배포 | **완료** (mergeui.com 연결) |
+| Supabase DB | **완료** (10개 테이블) |
+| 백엔드 API 코드 | **완료** (6개 라우트 + 웹훅) |
+| 프론트 Supabase 연동 | **부분 완료** (로그인/가입/비번찾기/문의) |
+| Lemonsqueezy | **스토어 생성만** (연동은 마지막) |
 
-### 남은 작업
-1. Pro 전환 유도 UI (locked → pricing)
-2. 인라인 CSS 중복 제거 (2단계 — 공통 CSS가 이미 적용되어 기능에는 문제없음)
-3. **백엔드 구축** (인증 + 결제 + API)
-4. 프론트-백엔드 연동
+### 남은 작업 순서
+1. 인증 실동작 확인 (회원가입/로그인/로그아웃)
+2. 데이터 연동 (테마/컴포넌트 → DB에서 가져오기)
+3. 구독자/관리자 페이지 연동
+4. 프론트 전체 수정 (버그 + UI 정리)
+5. Lemonsqueezy 결제 연동
+6. 최종 QA + 런칭
 
 ---
 

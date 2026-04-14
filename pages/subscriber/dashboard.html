@@ -280,10 +280,98 @@
   }
 })();
 
+// Load real data from DB
+document.addEventListener('mergedb-ready', async function() {
+  try {
+    // Load profile
+    var profile = await MergeDB.getProfile();
+    if (profile) {
+      var nameEl = document.querySelector('.sb-user-name');
+      if (nameEl) nameEl.textContent = profile.name || 'User';
+      var planEl = document.querySelector('.sb-user-plan');
+      if (planEl) planEl.textContent = (profile.plan || 'Free') + ' Plan';
+      var avatarEl = document.querySelector('.sb-avatar');
+      if (avatarEl) avatarEl.textContent = (profile.name || 'U').charAt(0).toUpperCase();
+      var welcomeEl = document.querySelector('.topbar-left p');
+      if (welcomeEl) welcomeEl.textContent = 'Welcome back, ' + (profile.name ? profile.name.split(' ')[0] : 'User');
+    }
+
+    // Load downloads for stats and recent list
+    var downloads = await MergeDB.getMyDownloads();
+    var now = new Date();
+    var thisMonth = downloads.filter(function(d) {
+      var dt = new Date(d.downloaded_at);
+      return dt.getMonth() === now.getMonth() && dt.getFullYear() === now.getFullYear();
+    });
+
+    // Update stats
+    var statVals = document.querySelectorAll('.stat-card .sc-val');
+    var statSubs = document.querySelectorAll('.stat-card .sc-sub');
+    if (statVals[0]) statVals[0].textContent = downloads.length;
+    if (statSubs[0]) statSubs[0].textContent = 'This month: ' + thisMonth.length;
+
+    // Load themes/components counts
+    var themes = await MergeDB.getThemes();
+    if (statVals[1]) statVals[1].textContent = themes.length;
+
+    var components = await MergeDB.getComponents();
+    if (statVals[2]) statVals[2].textContent = components.length;
+
+    // Load favorites count
+    var favorites = await MergeDB.getMyFavorites();
+    if (statVals[3]) statVals[3].textContent = favorites.length;
+    if (statSubs[3]) statSubs[3].textContent = 'Saved themes & components';
+
+    // Render recent downloads
+    var recentDlBody = document.querySelectorAll('.card-body')[0];
+    if (recentDlBody && downloads.length > 0) {
+      var recent = downloads.slice(0, 4);
+      recentDlBody.innerHTML = recent.map(function(d) {
+        var name = (d.themes && d.themes.name) || (d.components && d.components.name) || 'Unknown';
+        var version = d.version || '';
+        var date = new Date(d.downloaded_at);
+        var ago = formatTimeAgo(date);
+        return '<div class="dl-item"><div class="dl-thumb">&#128230;</div><div class="dl-info"><div class="dl-name">' + name + '</div><div class="dl-meta">' + (version ? 'v' + version + ' &bull; ' : '') + 'Downloaded ' + ago + '</div></div><button type="button" class="dl-btn">&#8595; Re-download</button></div>';
+      }).join('');
+    }
+
+    // Render what's new from themes (newest first)
+    var newThemesBody = document.querySelectorAll('.card-body')[1];
+    if (newThemesBody && themes.length > 0) {
+      var newest = themes.slice(0, 4);
+      newThemesBody.innerHTML = newest.map(function(t) {
+        var date = new Date(t.created_at || t.updated_at);
+        var dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        return '<div class="new-theme"><div class="nt-thumb">&#128640;</div><div class="nt-info"><div class="nt-name">' + t.name + '</div><div class="nt-date">Added ' + dateStr + '</div></div><span class="nt-badge new">New</span></div>';
+      }).join('');
+    }
+
+  } catch (e) {
+    console.warn('Failed to load dashboard data from DB:', e);
+  }
+});
+
+function formatTimeAgo(date) {
+  var seconds = Math.floor((new Date() - date) / 1000);
+  if (seconds < 60) return 'just now';
+  var minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return minutes + ' min ago';
+  var hours = Math.floor(minutes / 60);
+  if (hours < 24) return hours + ' hours ago';
+  var days = Math.floor(hours / 24);
+  if (days < 7) return days + ' days ago';
+  var weeks = Math.floor(days / 7);
+  return weeks + ' weeks ago';
+}
+
 // Logout
 function logout() {
-  localStorage.removeItem('mergeui_session');
-  window.location.href = '../auth/login.html';
+  if (typeof MergeDB !== 'undefined' && MergeDB.logout) {
+    MergeDB.logout();
+  } else {
+    localStorage.removeItem('mergeui_session');
+    window.location.href = '../auth/login.html';
+  }
 }
 </script>
 <script src="../../src/js/auth.js"></script>

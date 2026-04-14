@@ -64,6 +64,7 @@
     @media(max-width:768px){.nav-links,.nav-right{display:none}.nav-burger{display:block}.nav-inner{padding:0 20px}.footer-inner{flex-direction:column;gap:16px;text-align:center}}
   </style>
   <script src="../../src/js/analytics.js" defer></script>
+  <script src="../../src/js/supabase-client.js" defer></script>
 </head>
 <body>
   <nav class="nav"><div class="nav-inner">
@@ -102,7 +103,7 @@ if(burger&&mm){burger.addEventListener('click',function(){burger.classList.toggl
 (function(){var s=localStorage.getItem('mergeui_session');if(!s)return;var r=document.querySelector('.nav-right');if(r)r.innerHTML='<a href="../subscriber/dashboard.html" class="nav-cta">My Dashboard</a>';var mob=document.getElementById('mobileMenu');if(mob){var si=mob.querySelector('a[href*="login"]');if(si){si.textContent='My Dashboard';si.href='../subscriber/dashboard.html';}var gs=mob.querySelector('a[href*="signup"]');if(gs)gs.remove();}})();
 
 (function(){
-var components=[
+var fallbackComponents=[
   {name:'Line Chart',category:'charts',desc:'Responsive line chart with tooltips and legends.',status:'pro'},
   {name:'Bar Chart',category:'charts',desc:'Vertical/horizontal bar chart with animations.',status:'pro'},
   {name:'Donut Chart',category:'charts',desc:'Circular chart with center label and hover effects.',status:'free'},
@@ -122,6 +123,8 @@ var components=[
   {name:'Activity Feed',category:'widgets',desc:'Timeline feed with avatars and timestamps.',status:'free'},
   {name:'Notification Panel',category:'widgets',desc:'Dropdown notification list with read/unread states.',status:'pro'}
 ];
+
+var components=fallbackComponents;
 
 var previews={
   charts:'<svg viewBox="0 0 200 80"><polyline points="10,60 40,30 70,45 100,15 130,35 160,20 190,40" fill="none" stroke="#6366F1" stroke-width="2"/><polyline points="10,65 40,50 70,55 100,35 130,50 160,40 190,55" fill="none" stroke="#22D3EE" stroke-width="2" opacity="0.5"/></svg>',
@@ -210,6 +213,50 @@ function render(){
   });
 }
 render();
+
+// Load from DB when ready
+document.addEventListener('mergedb-ready', async function() {
+  try {
+    var dbComps = await MergeDB.getComponents();
+    if (dbComps && dbComps.length > 0) {
+      components = dbComps.map(function(c) {
+        return {
+          name: c.name,
+          category: c.category || 'widgets',
+          desc: c.description || c.desc || '',
+          status: c.status || 'free'
+        };
+      });
+      // Rebuild category list counts
+      catList.textContent = '';
+      cats.forEach(function(c) {
+        var li = document.createElement('li');
+        li.setAttribute('role','tab');
+        li.setAttribute('aria-selected', c === activeCat ? 'true' : 'false');
+        li.textContent = catLabels[c] || c;
+        var span = document.createElement('span');
+        span.className = 'count';
+        span.textContent = countCat(c);
+        li.appendChild(span);
+        if (c === activeCat) li.className = 'active';
+        li.addEventListener('click', function() {
+          activeCat = c;
+          catList.querySelectorAll('li').forEach(function(el) { el.classList.remove('active'); el.setAttribute('aria-selected','false'); });
+          li.classList.add('active'); li.setAttribute('aria-selected','true');
+          render();
+        });
+        catList.appendChild(li);
+      });
+      // Check if DB has new categories not in our list
+      var dbCats = [];
+      dbComps.forEach(function(c) { if (c.category && dbCats.indexOf(c.category) === -1) dbCats.push(c.category); });
+      dbCats.forEach(function(c) { if (cats.indexOf(c) === -1) { cats.push(c); catLabels[c] = c.charAt(0).toUpperCase() + c.slice(1); } });
+      render();
+    }
+  } catch (e) {
+    console.warn('Failed to load components from DB, using fallback:', e);
+  }
+});
 })();
 </script>
 <script src="../../src/js/auth.js"></script>

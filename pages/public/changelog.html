@@ -66,6 +66,7 @@
     }
   </style>
   <script src="../../src/js/analytics.js" defer></script>
+  <script src="../../src/js/supabase-client.js" defer></script>
 </head>
 <body>
   <nav class="nav"><div class="nav-inner">
@@ -84,7 +85,8 @@
     <p>Latest updates, new themes, and improvements.</p>
   </section>
 
-  <div class="timeline">
+  <div class="timeline" id="timelineContainer">
+    <!-- Fallback static content, replaced by DB data when available -->
     <div class="timeline-month">
       <div class="timeline-month-label">April 2026</div>
       <div class="timeline-item">
@@ -100,7 +102,6 @@
         <div class="timeline-text">Dark mode colors refined across all themes</div>
       </div>
     </div>
-
     <div class="timeline-month">
       <div class="timeline-month-label">March 2026</div>
       <div class="timeline-item">
@@ -120,7 +121,6 @@
         <div class="timeline-text">CSS variable documentation updated</div>
       </div>
     </div>
-
     <div class="timeline-month">
       <div class="timeline-month-label">February 2026</div>
       <div class="timeline-item">
@@ -136,7 +136,6 @@
         <div class="timeline-text">Mobile nav menu z-index issue resolved</div>
       </div>
     </div>
-
     <div class="timeline-month">
       <div class="timeline-month-label">January 2026</div>
       <div class="timeline-item">
@@ -151,6 +150,60 @@
   </div>
 
   <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+
+<script>
+// Load releases from DB
+document.addEventListener('mergedb-ready', async function() {
+  try {
+    var releases = await MergeDB.getReleases();
+    if (!releases || releases.length === 0) return;
+    var container = document.getElementById('timelineContainer');
+
+    // Group releases by month
+    var months = {};
+    releases.forEach(function(r) {
+      var date = new Date(r.published_at || r.created_at);
+      var key = date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+      if (!months[key]) months[key] = [];
+      months[key].push(r);
+    });
+
+    var badgeMap = {
+      theme: 'badge-theme',
+      component: 'badge-component',
+      fix: 'badge-fix',
+      improvement: 'badge-improvement',
+      feature: 'badge-theme'
+    };
+    var labelMap = {
+      theme: 'New Theme',
+      component: 'New Component',
+      fix: 'Bug Fix',
+      improvement: 'Improvement',
+      feature: 'New Feature'
+    };
+
+    var html = '';
+    Object.keys(months).forEach(function(month) {
+      html += '<div class="timeline-month"><div class="timeline-month-label">' + month + '</div>';
+      months[month].forEach(function(r) {
+        var type = r.type || 'improvement';
+        var badgeClass = badgeMap[type] || 'badge-improvement';
+        var label = labelMap[type] || type;
+        var title = r.title || '';
+        var body = r.body || r.description || '';
+        var text = title ? '<strong>' + title + '</strong>' + (body ? ' — ' + body : '') : body;
+        html += '<div class="timeline-item"><span class="timeline-badge ' + badgeClass + '">' + label + '</span><div class="timeline-text">' + text + '</div></div>';
+      });
+      html += '</div>';
+    });
+
+    container.innerHTML = html;
+  } catch (e) {
+    console.warn('Failed to load releases from DB, using fallback:', e);
+  }
+});
+</script>
 
 <script>
 var burger=document.querySelector('.nav-burger'),mm=document.getElementById('mobileMenu');

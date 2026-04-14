@@ -92,14 +92,27 @@ var an=document.getElementById('avatarName');
 if(an)an.textContent=session.name||'User';
 })();
 
-document.getElementById('saveProfile').addEventListener('click',function(){
+document.getElementById('saveProfile').addEventListener('click', async function(){
   var name=document.getElementById('settingsName').value.trim();
   if(!name)return;
+  var msg=document.getElementById('profileMsg');
+
+  // Update localStorage
   var session=JSON.parse(localStorage.getItem('mergeui_session'));
   session.name=name;
   localStorage.setItem('mergeui_session',JSON.stringify(session));
-  var msg=document.getElementById('profileMsg');
-  msg.style.display='block';msg.className='msg success';msg.textContent='Profile updated successfully.';
+
+  // Update Supabase profile
+  try {
+    if (typeof MergeDB !== 'undefined' && MergeDB.updateProfile) {
+      await MergeDB.updateProfile({ name: name });
+    }
+    msg.style.display='block';msg.className='msg success';msg.textContent='Profile updated successfully.';
+  } catch(e) {
+    msg.style.display='block';msg.className='msg success';msg.textContent='Profile saved locally. Will sync when connected.';
+    console.warn('Failed to update profile in DB:', e);
+  }
+
   document.querySelector('.sb-user-name').textContent=name;
   document.querySelector('.sb-avatar').textContent=name.charAt(0).toUpperCase();
   document.getElementById('avatarBig').textContent=name.split(' ').map(function(w){return w[0]}).join('').toUpperCase().substring(0,2);
@@ -125,7 +138,37 @@ document.getElementById('deleteBtn').addEventListener('click',function(){
   }
 });
 
-function logout(){localStorage.removeItem('mergeui_session');window.location.href='../auth/login.html';}
+function logout(){
+  if (typeof MergeDB !== 'undefined' && MergeDB.logout) {
+    MergeDB.logout();
+  } else {
+    localStorage.removeItem('mergeui_session');
+    window.location.href='../auth/login.html';
+  }
+}
+
+// Load profile from DB
+document.addEventListener('mergedb-ready', async function() {
+  try {
+    var profile = await MergeDB.getProfile();
+    if (profile) {
+      var nameInput = document.getElementById('settingsName');
+      if (nameInput && profile.name) nameInput.value = profile.name;
+      var emailInput = document.getElementById('settingsEmail');
+      if (emailInput && profile.email) emailInput.value = profile.email;
+      var ab = document.getElementById('avatarBig');
+      if (ab && profile.name) ab.textContent = profile.name.split(' ').map(function(w){return w[0]}).join('').toUpperCase().substring(0,2);
+      var an = document.getElementById('avatarName');
+      if (an && profile.name) an.textContent = profile.name;
+      var sbName = document.querySelector('.sb-user-name');
+      if (sbName && profile.name) sbName.textContent = profile.name;
+      var sbPlan = document.querySelector('.sb-user-plan');
+      if (sbPlan) sbPlan.textContent = (profile.plan || 'Free') + ' Plan';
+    }
+  } catch(e) {
+    console.warn('Failed to load profile from DB:', e);
+  }
+});
 </script>
 <script src="../../src/js/auth.js"></script>
 <nav class="mobile-bottom-nav" aria-label="Mobile navigation"><div class="mobile-bottom-nav-inner"><a href="dashboard.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a><a href="library.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>Library</a><a href="downloads.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Downloads</a><a href="settings.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2m-3.3-6.7l-1.4 1.4M6.7 17.3l-1.4 1.4m0-13.4l1.4 1.4m10.6 10.6l1.4 1.4"/></svg>Settings</a></div></nav>

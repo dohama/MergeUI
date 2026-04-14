@@ -117,6 +117,12 @@
     return;
   }
 
+  // 관리자 페이지 — role 체크
+  if (isAdminPage && session && session.role !== 'admin') {
+    window.location.href = BASE + 'pages/subscriber/dashboard.html';
+    return;
+  }
+
   if (isSubscriberPage || isAdminPage) {
     updateSidebar(session);
   } else {

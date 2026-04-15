@@ -16,27 +16,42 @@ function initMergeSupabase() {
   var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFndWdjdnVncWpjZXRpdWxlemltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODc4ODMsImV4cCI6MjA5MTc2Mzg4M30.u2Z7nLkZe14_ng21hvX-NSv4DGXnG6JIB2GEhtPhxEI';
 
   var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  var isFirstAuthEvent = true;
 
-  // OAuth 콜백 처리 — GitHub/Google 로그인 후 돌아왔을 때 세션 저장
+  // 세션 저장 헬퍼
+  async function saveSessionToLocal(session) {
+    var { data: profile } = await sb.from('profiles').select('name, role, plan, avatar_url').eq('id', session.user.id).single();
+    var sessionData = {
+      name: profile?.name || session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+      email: session.user.email,
+      plan: profile?.plan || 'free',
+      role: profile?.role || 'subscriber',
+      avatar_url: profile?.avatar_url || session.user.user_metadata?.avatar_url || '',
+      access_token: session.access_token
+    };
+    localStorage.setItem('mergeui_session', JSON.stringify(sessionData));
+    document.dispatchEvent(new Event('mergeui-session-updated'));
+    return sessionData;
+  }
+
+  // 보호 페이지에서 비로그인 시 로그인 페이지로 보내기
+  function redirectToLoginIfNeeded() {
+    var path = window.location.pathname;
+    var isProtected = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
+    if (isProtected && !localStorage.getItem('mergeui_session')) {
+      window.location.href = window.location.origin + '/pages/auth/login.html';
+    }
+  }
+
+  // onAuthStateChange — 모든 인증 이벤트 처리
   sb.auth.onAuthStateChange(async function(event, session) {
-    if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session) {
-      var existing = localStorage.getItem('mergeui_session');
-      if (!existing || event === 'SIGNED_IN') {
-        // 프로필 조회
-        var { data: profile } = await sb.from('profiles').select('name, role, plan, avatar_url').eq('id', session.user.id).single();
-        var sessionData = {
-          name: profile?.name || session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
-          email: session.user.email,
-          plan: profile?.plan || 'free',
-          role: profile?.role || 'subscriber',
-          avatar_url: profile?.avatar_url || session.user.user_metadata?.avatar_url || '',
-          access_token: session.access_token
-        };
-        localStorage.setItem('mergeui_session', JSON.stringify(sessionData));
-        // auth.js에 세션 업데이트 알림
-        document.dispatchEvent(new Event('mergeui-session-updated'));
+    console.log('[MergeAuth]', event, session ? 'has session' : 'no session');
 
-        // OAuth 로그인 후 대시보드로 이동
+    if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION')) {
+      await saveSessionToLocal(session);
+
+      // 첫 SIGNED_IN일 때 — 공개 페이지에 있으면 대시보드로 이동
+      if (event === 'SIGNED_IN') {
         var path = window.location.pathname;
         var isAlreadyInApp = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
         if (!isAlreadyInApp) {
@@ -44,36 +59,19 @@ function initMergeSupabase() {
         }
       }
     }
+
     if (event === 'SIGNED_OUT') {
       localStorage.removeItem('mergeui_session');
+      redirectToLoginIfNeeded();
     }
-  });
 
-  // 세션 확인 완료 이벤트 — auth.js가 이걸 기다림
-  // getSession()은 Supabase가 URL 해시/쿠키에서 세션을 복구한 후 결과를 반환
-  sb.auth.getSession().then(async function(result) {
-    if (result.data.session) {
-      // 세션이 있으면 localStorage에도 저장 (onAuthStateChange보다 빠를 수 있음)
-      var session = result.data.session;
-      var existing = localStorage.getItem('mergeui_session');
-      if (!existing) {
-        var { data: profile } = await sb.from('profiles').select('name, role, plan, avatar_url').eq('id', session.user.id).single();
-        var sessionData = {
-          name: profile?.name || session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
-          email: session.user.email,
-          plan: profile?.plan || 'free',
-          role: profile?.role || 'subscriber',
-          avatar_url: profile?.avatar_url || session.user.user_metadata?.avatar_url || '',
-          access_token: session.access_token
-        };
-        localStorage.setItem('mergeui_session', JSON.stringify(sessionData));
-        document.dispatchEvent(new Event('mergeui-session-updated'));
+    // 첫 번째 이벤트(INITIAL_SESSION)에서 세션이 없으면 → 비로그인 확정
+    if (isFirstAuthEvent) {
+      isFirstAuthEvent = false;
+      if (!session) {
+        redirectToLoginIfNeeded();
       }
     }
-    // 세션 유무와 관계없이 "확인 완료" 이벤트 발생
-    document.dispatchEvent(new Event('mergeui-auth-resolved'));
-  }).catch(function() {
-    document.dispatchEvent(new Event('mergeui-auth-resolved'));
   });
 
   window.MergeDB = {

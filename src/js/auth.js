@@ -172,11 +172,11 @@
     });
   } else {
     // 보호 페이지 + 세션 없음
-    // supabase-client.js가 OAuth 처리 또는 기존 세션 복구를 할 수 있으므로
-    // mergedb-ready 이벤트(Supabase 초기화 완료)까지 기다린 후 판단
+    // supabase-client.js가 getSession() 후 mergeui-auth-resolved 이벤트를 발생시킴
+    // 그때까지 기다린 후 세션 유무를 판단
     var resolved = false;
 
-    // 세션이 저장되면 즉시 초기화
+    // 세션이 저장되면 즉시 초기화 (onAuthStateChange 경로)
     document.addEventListener('mergeui-session-updated', function() {
       if (resolved) return;
       resolved = true;
@@ -184,31 +184,27 @@
       if (s) { initPage(s); }
     });
 
-    // Supabase 초기화 완료 후 세션 재확인
-    document.addEventListener('mergedb-ready', function() {
-      // mergedb-ready 후 1초 더 기다림 (onAuthStateChange가 비동기이므로)
-      setTimeout(function() {
-        if (resolved) return;
-        var s = getSession();
-        if (s) {
-          resolved = true;
-          initPage(s);
-        } else {
-          // Supabase도 초기화됐고, 세션도 없으면 → 진짜 비로그인
-          resolved = true;
-          window.location.href = BASE + 'pages/auth/login.html';
-        }
-      }, 2000);
+    // Supabase가 세션 확인을 완료했을 때 (getSession 완료)
+    document.addEventListener('mergeui-auth-resolved', function() {
+      if (resolved) return;
+      resolved = true;
+      var s = getSession();
+      if (s) {
+        initPage(s);
+      } else {
+        // Supabase가 확인 완료했는데 세션 없음 → 진짜 비로그인
+        window.location.href = BASE + 'pages/auth/login.html';
+      }
     });
 
-    // supabase-client.js가 아예 없는 페이지를 위한 안전장치 (30초)
+    // supabase-client.js가 아예 없는 페이지를 위한 안전장치
     setTimeout(function() {
       if (resolved) return;
       resolved = true;
       if (!getSession()) {
         window.location.href = BASE + 'pages/auth/login.html';
       }
-    }, 30000);
+    }, 15000);
   }
 
   // Expose for external use

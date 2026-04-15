@@ -37,11 +37,9 @@ function initMergeSupabase() {
         document.dispatchEvent(new Event('mergeui-session-updated'));
 
         // OAuth 로그인 후 대시보드로 이동
-        // 이미 구독자/관리자 페이지에 있으면 이동하지 않음
         var path = window.location.pathname;
         var isAlreadyInApp = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
         if (!isAlreadyInApp) {
-          // 어디서 왔든 절대 경로로 대시보드 이동
           window.location.href = window.location.origin + '/pages/subscriber/dashboard.html';
         }
       }
@@ -49,6 +47,33 @@ function initMergeSupabase() {
     if (event === 'SIGNED_OUT') {
       localStorage.removeItem('mergeui_session');
     }
+  });
+
+  // 세션 확인 완료 이벤트 — auth.js가 이걸 기다림
+  // getSession()은 Supabase가 URL 해시/쿠키에서 세션을 복구한 후 결과를 반환
+  sb.auth.getSession().then(async function(result) {
+    if (result.data.session) {
+      // 세션이 있으면 localStorage에도 저장 (onAuthStateChange보다 빠를 수 있음)
+      var session = result.data.session;
+      var existing = localStorage.getItem('mergeui_session');
+      if (!existing) {
+        var { data: profile } = await sb.from('profiles').select('name, role, plan, avatar_url').eq('id', session.user.id).single();
+        var sessionData = {
+          name: profile?.name || session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+          email: session.user.email,
+          plan: profile?.plan || 'free',
+          role: profile?.role || 'subscriber',
+          avatar_url: profile?.avatar_url || session.user.user_metadata?.avatar_url || '',
+          access_token: session.access_token
+        };
+        localStorage.setItem('mergeui_session', JSON.stringify(sessionData));
+        document.dispatchEvent(new Event('mergeui-session-updated'));
+      }
+    }
+    // 세션 유무와 관계없이 "확인 완료" 이벤트 발생
+    document.dispatchEvent(new Event('mergeui-auth-resolved'));
+  }).catch(function() {
+    document.dispatchEvent(new Event('mergeui-auth-resolved'));
   });
 
   window.MergeDB = {

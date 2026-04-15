@@ -16,7 +16,6 @@ function initMergeSupabase() {
   var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFndWdjdnVncWpjZXRpdWxlemltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODc4ODMsImV4cCI6MjA5MTc2Mzg4M30.u2Z7nLkZe14_ng21hvX-NSv4DGXnG6JIB2GEhtPhxEI';
 
   var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  var isFirstAuthEvent = true;
 
   // 세션 저장 헬퍼
   async function saveSessionToLocal(session) {
@@ -34,23 +33,12 @@ function initMergeSupabase() {
     return sessionData;
   }
 
-  // 보호 페이지에서 비로그인 시 로그인 페이지로 보내기
-  function redirectToLoginIfNeeded() {
-    var path = window.location.pathname;
-    var isProtected = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
-    if (isProtected && !localStorage.getItem('mergeui_session')) {
-      window.location.href = window.location.origin + '/pages/auth/login.html';
-    }
-  }
-
-  // onAuthStateChange — 모든 인증 이벤트 처리
+  // onAuthStateChange — 세션이 생기면 저장, 로그아웃되면 삭제
   sb.auth.onAuthStateChange(async function(event, session) {
-    console.log('[MergeAuth]', event, session ? 'has session' : 'no session');
-
     if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION')) {
       await saveSessionToLocal(session);
 
-      // 첫 SIGNED_IN일 때 — 공개 페이지에 있으면 대시보드로 이동
+      // OAuth 로그인 완료 — 공개 페이지에 있으면 대시보드로 이동
       if (event === 'SIGNED_IN') {
         var path = window.location.pathname;
         var isAlreadyInApp = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
@@ -62,17 +50,20 @@ function initMergeSupabase() {
 
     if (event === 'SIGNED_OUT') {
       localStorage.removeItem('mergeui_session');
-      redirectToLoginIfNeeded();
-    }
-
-    // 첫 번째 이벤트(INITIAL_SESSION)에서 세션이 없으면 → 비로그인 확정
-    if (isFirstAuthEvent) {
-      isFirstAuthEvent = false;
-      if (!session) {
-        redirectToLoginIfNeeded();
-      }
     }
   });
+
+  // 보호 페이지 접근 제어 — 8초 후 세션 없으면 로그인으로
+  // (OAuth 코드 교환 + 프로필 조회에 충분한 시간 확보)
+  var path = window.location.pathname;
+  var isProtected = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
+  if (isProtected) {
+    setTimeout(function() {
+      if (!localStorage.getItem('mergeui_session')) {
+        window.location.href = window.location.origin + '/pages/auth/login.html';
+      }
+    }, 8000);
+  }
 
   window.MergeDB = {
     client: sb,

@@ -606,23 +606,23 @@ window.addEventListener('load',function(){
     }
   };
 
-  var slug = new URLSearchParams(window.location.search).get('theme') || 'analytics-pro';
-  var theme = themeData[slug] || themeData['analytics-pro'];
+  var slug = new URLSearchParams(window.location.search).get('theme');
+  var theme = (slug && themeData[slug]) ? themeData[slug] : {name:'Theme not found',desc:'This theme has not been published yet.',category:'',tags:[],badge:'',components:0,pages:0,version:'',updated:'',features:[]};
 
   // DB에서 테마 로드 시도
   document.addEventListener('mergedb-ready', async function() {
     try {
       var dbTheme = await MergeDB.getTheme(slug);
       if (dbTheme) {
-        theme = Object.assign({}, theme, {
-          name: dbTheme.name || theme.name,
-          desc: dbTheme.description || theme.desc,
-          category: dbTheme.category || theme.category,
-          components: dbTheme.components_count || theme.components,
-          pages: dbTheme.pages_count || theme.pages,
-          tags: Array.isArray(dbTheme.tags) ? dbTheme.tags : theme.tags,
-          badge: dbTheme.badge || theme.badge
-        });
+        theme = {
+          name: dbTheme.name || 'Untitled',
+          desc: dbTheme.description || '',
+          category: dbTheme.category || '',
+          components: dbTheme.components_count || 0,
+          pages: dbTheme.pages_count || 0,
+          tags: Array.isArray(dbTheme.tags) ? dbTheme.tags : [],
+          badge: dbTheme.badge || ''
+        };
         // 페이지 갱신
         var h1 = document.getElementById('themeName');
         if (h1) h1.textContent = theme.name;

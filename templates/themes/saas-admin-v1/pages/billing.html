@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billing — SaaS Admin | MergeUi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/theme.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></div><span class="sidebar-logo-text">MergeUi</span></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-title">Main</div>
+      <a href="dashboard.html" class="sidebar-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg><span>Dashboard</span></a>
+      <a href="users.html" class="sidebar-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Users</span></a>
+      <div class="sidebar-section-title">Management</div>
+      <a href="billing.html" class="sidebar-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg><span>Billing</span></a>
+      <a href="settings.html" class="sidebar-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer"><a href="#" class="sidebar-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg><span>Log out</span></a></div>
+  </aside>
+
+  <div class="main-wrapper">
+    <header class="topbar" role="banner">
+      <div class="topbar-left"><div class="topbar-search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><input type="text" placeholder="Search..." aria-label="Search"></div></div>
+      <div class="topbar-right">
+        <button class="topbar-icon-btn" aria-label="Notifications"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+        <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=Felix" alt="User avatar" class="topbar-avatar">
+      </div>
+    </header>
+
+    <main class="page-content" role="main">
+      <div class="page-header">
+        <h1>Billing & Plans</h1>
+        <p>Manage subscription plans and view revenue</p>
+      </div>
+
+      <!-- Revenue Stats -->
+      <section class="grid-4 mb-6">
+        <div class="stat-card">
+          <div class="stat-card-label">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            MRR
+          </div>
+          <div class="stat-card-value">$12,800</div>
+          <div class="stat-card-change positive">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+            +12.5%
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">ARR</div>
+          <div class="stat-card-value">$153,600</div>
+          <div class="stat-card-change positive">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+            +18.2%
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Avg Revenue/User</div>
+          <div class="stat-card-value">$33.33</div>
+          <div class="stat-card-change positive">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+            +$2.10
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Failed Payments</div>
+          <div class="stat-card-value" style="color: var(--merge-status-error);">3</div>
+          <div class="stat-card-change negative">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            Needs attention
+          </div>
+        </div>
+      </section>
+
+      <!-- Plan Comparison Cards -->
+      <section class="mb-6">
+        <h2 class="mb-4">Active Plans</h2>
+        <div class="grid-4">
+          <!-- Free -->
+          <div class="neu-card" style="text-align: center;">
+            <div style="font: var(--merge-font-caption); color: var(--merge-text-muted); margin-bottom: var(--merge-space-2);">FREE</div>
+            <div style="font: var(--merge-font-h1); margin-bottom: var(--merge-space-1);">$0</div>
+            <div class="text-muted mb-4" style="font: var(--merge-font-small);">forever</div>
+            <div class="progress-bar mb-4"><div class="progress-bar-fill" style="width: 66%; background: #94A3B8;"></div></div>
+            <div class="font-semibold" style="color: var(--merge-text-primary);">846 users</div>
+            <div class="text-muted" style="font: var(--merge-font-small);">66% of total</div>
+          </div>
+          <!-- Pro Monthly -->
+          <div class="neu-card" style="text-align: center;">
+            <div style="font: var(--merge-font-caption); color: var(--merge-color-primary); font-weight: 600; margin-bottom: var(--merge-space-2);">PRO MONTHLY</div>
+            <div style="font: var(--merge-font-h1); margin-bottom: var(--merge-space-1);">$19</div>
+            <div class="text-muted mb-4" style="font: var(--merge-font-small);">per month</div>
+            <div class="progress-bar mb-4"><div class="progress-bar-fill" style="width: 35%;"></div></div>
+            <div class="font-semibold" style="color: var(--merge-text-primary);">173 users</div>
+            <div class="text-muted" style="font: var(--merge-font-small);">$3,287/mo revenue</div>
+          </div>
+          <!-- Pro Yearly -->
+          <div class="neu-card" style="text-align: center; border: 2px solid var(--merge-color-primary);">
+            <div style="font: var(--merge-font-caption); color: var(--merge-color-primary); font-weight: 600; margin-bottom: var(--merge-space-2);">PRO YEARLY ★</div>
+            <div style="font: var(--merge-font-h1); margin-bottom: var(--merge-space-1);">$149</div>
+            <div class="text-muted mb-4" style="font: var(--merge-font-small);">per year ($12.42/mo)</div>
+            <div class="progress-bar mb-4"><div class="progress-bar-fill" style="width: 20%;"></div></div>
+            <div class="font-semibold" style="color: var(--merge-text-primary);">96 users</div>
+            <div class="text-muted" style="font: var(--merge-font-small);">$1,192/mo equivalent</div>
+          </div>
+          <!-- Team -->
+          <div class="neu-card" style="text-align: center;">
+            <div style="font: var(--merge-font-caption); color: var(--merge-status-info); font-weight: 600; margin-bottom: var(--merge-space-2);">TEAM</div>
+            <div style="font: var(--merge-font-h1); margin-bottom: var(--merge-space-1);">$49</div>
+            <div class="text-muted mb-4" style="font: var(--merge-font-small);">per month (5 seats)</div>
+            <div class="progress-bar mb-4"><div class="progress-bar-fill" style="width: 8%; background: var(--merge-status-info);"></div></div>
+            <div class="font-semibold" style="color: var(--merge-text-primary);">23 teams</div>
+            <div class="text-muted" style="font: var(--merge-font-small);">$1,127/mo revenue</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Transactions -->
+      <div class="data-table-wrapper">
+        <div class="data-table-header">
+          <div class="neu-card-title">Recent Transactions</div>
+          <div class="flex gap-3">
+            <div class="tabs">
+              <button class="tab-item active">All</button>
+              <button class="tab-item">Successful</button>
+              <button class="tab-item">Failed</button>
+              <button class="tab-item">Refunded</button>
+            </div>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Invoice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=Sarah" class="avatar" alt="">
+                  <div class="user-cell-info"><span class="user-cell-name">Sarah Chen</span></div>
+                </div>
+              </td>
+              <td>Upgrade to Pro Yearly</td>
+              <td class="font-semibold" style="color: var(--merge-text-primary);">$149.00</td>
+              <td><span class="badge badge-success">Completed</span></td>
+              <td>Apr 14, 2026</td>
+              <td><a href="#" class="text-accent" style="font: var(--merge-font-caption);">INV-2847</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=Alex" class="avatar" alt="">
+                  <div class="user-cell-info"><span class="user-cell-name">Alex Rivera</span></div>
+                </div>
+              </td>
+              <td>Pro Monthly renewal</td>
+              <td class="font-semibold" style="color: var(--merge-text-primary);">$19.00</td>
+              <td><span class="badge badge-success">Completed</span></td>
+              <td>Apr 12, 2026</td>
+              <td><a href="#" class="text-accent" style="font: var(--merge-font-caption);">INV-2846</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=Tom" class="avatar" alt="">
+                  <div class="user-cell-info"><span class="user-cell-name">Tom Anderson</span></div>
+                </div>
+              </td>
+              <td>Pro Monthly renewal</td>
+              <td class="font-semibold" style="color: var(--merge-status-error);">$19.00</td>
+              <td><span class="badge badge-error">Failed</span></td>
+              <td>Apr 11, 2026</td>
+              <td><span class="text-muted" style="font: var(--merge-font-caption);">—</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=Emma" class="avatar" alt="">
+                  <div class="user-cell-info"><span class="user-cell-name">Emma Wilson</span></div>
+                </div>
+              </td>
+              <td>Cancellation refund</td>
+              <td class="font-semibold" style="color: var(--merge-status-warning);">-$9.50</td>
+              <td><span class="badge badge-warning">Refunded</span></td>
+              <td>Apr 10, 2026</td>
+              <td><a href="#" class="text-accent" style="font: var(--merge-font-caption);">INV-2845</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=Mike" class="avatar" alt="">
+                  <div class="user-cell-info"><span class="user-cell-name">Mike Johnson</span></div>
+                </div>
+              </td>
+              <td>Team Monthly renewal</td>
+              <td class="font-semibold" style="color: var(--merge-text-primary);">$49.00</td>
+              <td><span class="badge badge-success">Completed</span></td>
+              <td>Apr 10, 2026</td>
+              <td><a href="#" class="text-accent" style="font: var(--merge-font-caption);">INV-2844</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="data-table-footer">
+          <span>Showing 1–5 of 247 transactions</span>
+          <div class="pagination">
+            <button class="pagination-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">...</button>
+            <button class="pagination-btn">50</button>
+            <button class="pagination-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

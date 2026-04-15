@@ -137,8 +137,8 @@
     </header>
     <main class="content">
       <section class="stats-row" aria-label="Download statistics">
-        <div class="stat-card"><div class="stat-label">Total Downloads</div><div class="stat-value">24</div></div>
-        <div class="stat-card"><div class="stat-label">This Month</div><div class="stat-value">8</div></div>
+        <div class="stat-card"><div class="stat-label">Total Downloads</div><div class="stat-value">0</div></div>
+        <div class="stat-card"><div class="stat-label">This Month</div><div class="stat-value">0</div></div>
       </section>
       <div class="filter-bar">
         <input type="text" class="search-input" placeholder="Search downloads..." aria-label="Search downloads">
@@ -154,17 +154,13 @@
           <table class="dl-table">
             <thead><tr><th>Theme / Component</th><th>Version</th><th>Date</th><th>Size</th><th>Action</th></tr></thead>
             <tbody>
-              <tr><td><span class="item-name">Analytics Pro</span><span class="item-type">Theme</span></td><td>v2.1.0</td><td>Apr 12, 2026</td><td>3.2 MB</td><td><button class="dl-btn">&#8595; Re-download</button></td></tr>
-              <tr><td><span class="item-name">Line Chart</span><span class="item-type">Component</span></td><td>v1.4.2</td><td>Apr 10, 2026</td><td>48 KB</td><td><button class="dl-btn">&#8595; Re-download</button></td></tr>
-              <tr><td><span class="item-name">FinDash</span><span class="item-type">Theme</span></td><td>v3.0.0</td><td>Apr 8, 2026</td><td>4.1 MB</td><td><button class="dl-btn">&#8595; Re-download</button></td></tr>
-              <tr><td><span class="item-name">Data Table</span><span class="item-type">Component</span></td><td>v2.0.1</td><td>Apr 5, 2026</td><td>62 KB</td><td><button class="dl-btn">&#8595; Re-download</button></td></tr>
-              <tr><td><span class="item-name">StoreFront</span><span class="item-type">Theme</span></td><td>v1.4.0</td><td>Mar 28, 2026</td><td>3.8 MB</td><td><button class="dl-btn">&#8595; Re-download</button></td></tr>
-              <tr><td><span class="item-name">Modal</span><span class="item-type">Component</span></td><td>v1.1.0</td><td>Mar 22, 2026</td><td>24 KB</td><td><button class="dl-btn">&#8595; Re-download</button></td></tr>
-              <tr><td><span class="item-name">TaskFlow</span><span class="item-type">Theme</span></td><td>v1.2.0</td><td>Mar 15, 2026</td><td>2.9 MB</td><td><button class="dl-btn">&#8595; Re-download</button></td></tr>
-              <tr><td><span class="item-name">Stat Card</span><span class="item-type">Component</span></td><td>v1.0.3</td><td>Mar 10, 2026</td><td>18 KB</td><td><button class="dl-btn">&#8595; Re-download</button></td></tr>
             </tbody>
           </table>
-          <div class="empty-state">No downloads yet. Browse themes to get started.</div>
+          <div class="empty-state" style="display:block">
+            <div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#128229;</div>
+            <div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">No downloads yet</div>
+            <div style="font-size:13px">Browse themes to get started.</div>
+          </div>
         </div>
       </div>
     </main>

@@ -35,9 +35,9 @@
 
         <div class="plan-banner">
           <div class="plan-details">
-            <div class="plan-row"><span class="plan-tag">Pro</span><span class="plan-name">Pro Monthly</span></div>
-            <div class="plan-price">$19.00/month</div>
-            <div class="plan-meta">Next billing: May 11, 2026 &middot; <span class="status-active">Active</span></div>
+            <div class="plan-row"><span class="plan-tag" style="background:var(--text-muted)">Free</span><span class="plan-name">Free</span></div>
+            <div class="plan-price">$0.00/month</div>
+            <div class="plan-meta">No active subscription</div>
           </div>
           <div class="plan-actions">
             <button type="button" class="plan-btn primary">Change Plan</button>
@@ -49,22 +49,17 @@
           <div class="card-head"><h2>License Key</h2></div>
           <div class="card-body">
             <div class="license-box">
-              <span class="license-key" id="licKey">MERGE-PRO-A7F2-X9K4</span>
+              <span class="license-key" id="licKey">—</span>
               <button type="button" class="copy-btn" onclick="copyKey()">Copy</button>
             </div>
-            <div class="license-meta">Activated projects: 2 of 3 &middot; <span style="color:var(--brand-light);cursor:pointer;font-weight:600">Manage Projects</span></div>
+            <div class="license-meta">No license key activated</div>
           </div>
         </div>
 
         <div class="card">
           <div class="card-head"><h2>Payment Method</h2></div>
           <div class="card-body">
-            <div class="payment-card">
-              <div class="card-icon">VISA</div>
-              <span class="card-num">&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 4242</span>
-              <span class="card-exp">Exp 12/2028</span>
-              <button type="button" class="update-btn">Update</button>
-            </div>
+            <div style="text-align:center;padding:24px;color:var(--text-muted);font-size:13px">No payment method on file</div>
           </div>
         </div>
 
@@ -74,12 +69,12 @@
             <table class="bill-table">
               <thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th><th>Invoice</th></tr></thead>
               <tbody>
-                <tr><td>Apr 11, 2026</td><td>Pro Monthly</td><td>$19.00</td><td><span class="status-badge paid">Paid</span></td><td><span class="invoice-link">PDF</span></td></tr>
-                <tr><td>Mar 11, 2026</td><td>Pro Monthly</td><td>$19.00</td><td><span class="status-badge paid">Paid</span></td><td><span class="invoice-link">PDF</span></td></tr>
-                <tr><td>Feb 11, 2026</td><td>Pro Monthly</td><td>$19.00</td><td><span class="status-badge paid">Paid</span></td><td><span class="invoice-link">PDF</span></td></tr>
-                <tr><td>Jan 11, 2026</td><td>Pro Monthly</td><td>$19.00</td><td><span class="status-badge paid">Paid</span></td><td><span class="invoice-link">PDF</span></td></tr>
-                <tr><td>Dec 11, 2025</td><td>Pro Monthly</td><td>$19.00</td><td><span class="status-badge paid">Paid</span></td><td><span class="invoice-link">PDF</span></td></tr>
               </tbody>
+              <tfoot><tr><td colspan="5" style="text-align:center;padding:48px 24px;color:var(--text-muted)">
+                <div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#128179;</div>
+                <div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">No billing history</div>
+                <div style="font-size:13px">Your payment history will appear here.</div>
+              </td></tr></tfoot>
             </table>
           </div>
         </div>

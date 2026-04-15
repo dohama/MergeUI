@@ -216,23 +216,7 @@
   </div>
 
 <script>
-// Fallback data in case DB is unavailable
-var fallbackThemes = [
-  {id:'analytics-pro',slug:'analytics-pro',name:'Analytics Pro',description:'Data-heavy dashboard with real-time charts, KPIs, and advanced filtering.',category:'analytics',tags:['Analytics','Charts'],accent:'indigo',badge:'new',components_count:28,pages_count:6,downloads_count:1240},
-  {id:'storefront',slug:'storefront',name:'StoreFront',description:'E-commerce dashboard with order management, inventory, and customer insights.',category:'ecommerce',tags:['E-Commerce','Orders'],accent:'cyan',badge:'pro',components_count:32,pages_count:8,downloads_count:980},
-  {id:'findash',slug:'findash',name:'FinDash',description:'Financial reports, transaction logs, portfolio analytics, and risk metrics.',category:'finance',tags:['Finance','Reports'],accent:'purple',badge:'pro',components_count:24,pages_count:5,downloads_count:870},
-  {id:'relatehub',slug:'relatehub',name:'RelateHub',description:'Contact management, sales pipeline, team collaboration, and deal tracking.',category:'crm',tags:['CRM','Pipeline'],accent:'emerald',badge:'free',components_count:22,pages_count:5,downloads_count:1560},
-  {id:'taskflow',slug:'taskflow',name:'TaskFlow',description:'Kanban boards, timeline views, workload tracking, and sprint planning.',category:'project',tags:['Project','Kanban'],accent:'amber',badge:'pro',components_count:20,pages_count:4,downloads_count:1100},
-  {id:'saas-kit',slug:'saas-kit',name:'SaaS Kit',description:'All-in-one admin panel with user management, billing, and settings.',category:'saas',tags:['SaaS','Admin'],accent:'indigo',badge:'pro',components_count:35,pages_count:10,downloads_count:2100},
-  {id:'devops-monitor',slug:'devops-monitor',name:'DevOps Monitor',description:'Server monitoring, deployment logs, uptime tracking, and alert management.',category:'analytics',tags:['DevOps','Monitoring'],accent:'rose',badge:'new',components_count:18,pages_count:4,downloads_count:640},
-  {id:'marketing-hub',slug:'marketing-hub',name:'Marketing Hub',description:'Campaign analytics, SEO tracking, social media metrics, and A/B test results.',category:'analytics',tags:['Marketing','SEO'],accent:'purple',badge:'pro',components_count:26,pages_count:6,downloads_count:780},
-  {id:'inventory-mgr',slug:'inventory-mgr',name:'Inventory Manager',description:'Stock tracking, supplier management, purchase orders, and warehouse views.',category:'ecommerce',tags:['Inventory','Warehouse'],accent:'emerald',badge:'free',components_count:19,pages_count:5,downloads_count:920},
-  {id:'crypto-dash',slug:'crypto-dash',name:'Crypto Dashboard',description:'Portfolio tracker, real-time prices, trading charts, and wallet overview.',category:'finance',tags:['Crypto','Trading'],accent:'cyan',badge:'new',components_count:16,pages_count:3,downloads_count:1340},
-  {id:'helpdesk',slug:'helpdesk',name:'HelpDesk',description:'Ticket management, customer chat, knowledge base, and SLA tracking.',category:'crm',tags:['Support','Tickets'],accent:'amber',badge:'pro',components_count:21,pages_count:5,downloads_count:690},
-  {id:'agile-board',slug:'agile-board',name:'Agile Board',description:'Scrum boards, burndown charts, velocity tracking, and retrospective tools.',category:'project',tags:['Agile','Scrum'],accent:'rose',badge:'free',components_count:15,pages_count:3,downloads_count:850}
-];
-
-var themes = fallbackThemes;
+var themes = [];
 
 // Load from DB when ready
 document.addEventListener('mergedb-ready', async function() {
@@ -259,6 +243,11 @@ document.addEventListener('mergedb-ready', async function() {
 
 function renderThemes(list){
   var grid=document.getElementById('themesGrid');
+  if(!list || list.length===0){
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px 24px"><div style="font-size:48px;margin-bottom:16px;opacity:0.3">🎨</div><div style="font-size:18px;font-weight:700;margin-bottom:8px;color:var(--text-primary)">No themes yet</div><div style="font-size:14px;color:var(--text-muted);max-width:400px;margin:0 auto">Dashboard themes will appear here once they are published. Check back soon.</div></div>';
+    document.getElementById('resultCount').textContent='0';
+    return;
+  }
   grid.innerHTML=list.map(function(t){
     var barHeights=[35,55,42,78,50,65,88,58];
     var bars=barHeights.map(function(h){return '<div class="mock-bar" style="height:'+h+'%"></div>'}).join('');
@@ -325,7 +314,8 @@ function setView(mode,btn){
   grid.classList.toggle('list-view',mode==='list');
 }
 
-renderThemes(themes);
+// 초기 렌더 — DB 로드 전에는 로딩 표시
+document.getElementById('themesGrid').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted)">Loading themes...</div>';
 
 document.getElementById('themesGrid').addEventListener('click',function(e){
   var card=e.target.closest('.theme-card');

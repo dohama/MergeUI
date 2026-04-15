@@ -1,0 +1,149 @@
+/* ============================================
+   MergeUi — SaaS Admin v1
+   Style: Neumorphism (Light — Premium)
+
+   CUSTOMIZATION:
+   1. Change accent color: Uncomment one preset below
+   2. Change any variable value to match your brand
+   ============================================ */
+
+:root {
+  /* ── Accent Color Presets ── */
+  /* Default: Indigo-Violet */
+  --merge-color-primary: #6C5CE7;
+  --merge-color-primary-hover: #5A4BD1;
+  --merge-color-primary-light: #F0EDFF;
+  --merge-color-primary-dark: #3D2E8C;
+  --merge-color-secondary: #00CEC9;
+  --merge-color-accent: #FD79A8;
+
+  /* Preset: Ocean Blue — uncomment to apply
+  --merge-color-primary: #4F6AFF;
+  --merge-color-primary-hover: #3D55E0;
+  --merge-color-primary-light: #EBF0FF;
+  --merge-color-primary-dark: #2A3F99;
+  --merge-color-secondary: #00B4D8;
+  --merge-color-accent: #FF6B6B;
+  */
+
+  /* Preset: Emerald — uncomment to apply
+  --merge-color-primary: #10B981;
+  --merge-color-primary-hover: #059669;
+  --merge-color-primary-light: #E6FAF2;
+  --merge-color-primary-dark: #065F46;
+  --merge-color-secondary: #6366F1;
+  --merge-color-accent: #F59E0B;
+  */
+
+  /* Preset: Coral Rose — uncomment to apply
+  --merge-color-primary: #F43F5E;
+  --merge-color-primary-hover: #E11D48;
+  --merge-color-primary-light: #FFF1F2;
+  --merge-color-primary-dark: #9F1239;
+  --merge-color-secondary: #8B5CF6;
+  --merge-color-accent: #06B6D4;
+  */
+
+  /* ── Background & Surface (Warm Neumorphism) ── */
+  --merge-bg-base: #E8EDF2;
+  --merge-bg-surface: #E8EDF2;
+  --merge-bg-elevated: #EEF3F7;
+  --merge-bg-inset: #D9DEE4;
+  --merge-bg-sidebar: #DFE4EA;
+  --merge-bg-card-accent: linear-gradient(135deg, #6C5CE7 0%, #8B7CF6 100%);
+
+  /* ── Text ── */
+  --merge-text-primary: #1A1D26;
+  --merge-text-secondary: #4A5168;
+  --merge-text-muted: #8892A4;
+  --merge-text-inverse: #FFFFFF;
+
+  /* ── Neumorphism Shadows (Premium — rgba based) ── */
+  --merge-shadow-raised: 5px 5px 15px rgba(163, 174, 186, 0.45),
+                         -5px -5px 15px rgba(255, 255, 255, 0.65);
+  --merge-shadow-hover:  6px 6px 20px rgba(163, 174, 186, 0.5),
+                         -6px -6px 20px rgba(255, 255, 255, 0.75);
+  --merge-shadow-inset:  inset 3px 3px 8px rgba(163, 174, 186, 0.35),
+                         inset -3px -3px 8px rgba(255, 255, 255, 0.55);
+  --merge-shadow-sm:     3px 3px 8px rgba(163, 174, 186, 0.3),
+                         -3px -3px 8px rgba(255, 255, 255, 0.5);
+  --merge-shadow-flat:   2px 2px 6px rgba(163, 174, 186, 0.2),
+                         -2px -2px 6px rgba(255, 255, 255, 0.4);
+
+  /* ── Light reflection border (premium detail) ── */
+  --merge-border-highlight: rgba(255, 255, 255, 0.55);
+  --merge-border-default: rgba(0, 0, 0, 0.04);
+  --merge-border-strong: rgba(0, 0, 0, 0.08);
+
+  /* ── Accent Glow ── */
+  --merge-glow-primary: 0 0 0 3px rgba(108, 92, 231, 0.12), 0 0 24px rgba(108, 92, 231, 0.06);
+  --merge-glow-success: 0 0 0 3px rgba(0, 184, 148, 0.12);
+  --merge-glow-error:   0 0 0 3px rgba(255, 107, 107, 0.12);
+
+  /* ── Status Colors ── */
+  --merge-status-success: #00B894;
+  --merge-status-success-light: #E8FBF5;
+  --merge-status-warning: #FDCB6E;
+  --merge-status-warning-light: #FFF9E6;
+  --merge-status-error: #FF6B6B;
+  --merge-status-error-light: #FFF0F0;
+  --merge-status-info: #74B9FF;
+  --merge-status-info-light: #EDF6FF;
+
+  /* ── Border Radius (4px increment system) ── */
+  --merge-radius-sm: 12px;
+  --merge-radius-md: 16px;
+  --merge-radius-lg: 20px;
+  --merge-radius-xl: 24px;
+  --merge-radius-full: 9999px;
+
+  /* ── Spacing ── */
+  --merge-space-1: 4px;
+  --merge-space-2: 8px;
+  --merge-space-3: 12px;
+  --merge-space-4: 16px;
+  --merge-space-5: 20px;
+  --merge-space-6: 24px;
+  --merge-space-8: 32px;
+  --merge-space-10: 40px;
+  --merge-space-12: 48px;
+  --merge-space-16: 64px;
+
+  /* ── Typography ── */
+  --merge-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --merge-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --merge-font-h1: 700 32px/1.25 var(--merge-font-family);
+  --merge-font-h2: 600 24px/1.33 var(--merge-font-family);
+  --merge-font-h3: 600 20px/1.4 var(--merge-font-family);
+  --merge-font-body: 400 16px/1.5 var(--merge-font-family);
+  --merge-font-caption: 500 13px/1.54 var(--merge-font-family);
+  --merge-font-small: 400 12px/1.5 var(--merge-font-family);
+  --merge-font-data: 700 38px/1.15 var(--merge-font-family);
+  --merge-font-label: 600 12px/1 var(--merge-font-family);
+
+  --merge-tracking-tight: -0.02em;
+  --merge-tracking-normal: 0;
+  --merge-tracking-wide: 0.04em;
+
+  /* ── Layout ── */
+  --merge-sidebar-width: 260px;
+  --merge-sidebar-collapsed: 68px;
+  --merge-topbar-height: 64px;
+
+  /* ── Transitions ── */
+  --merge-transition-fast: 150ms ease-out;
+  --merge-transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --merge-transition-slow: 400ms ease-in-out;
+  --merge-transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Chart Palette ── */
+  --merge-chart-1: #6C5CE7;
+  --merge-chart-2: #00CEC9;
+  --merge-chart-3: #FD79A8;
+  --merge-chart-4: #FDCB6E;
+  --merge-chart-5: #74B9FF;
+  --merge-chart-6: #FF6B6B;
+  --merge-chart-7: #55EFC4;
+  --merge-chart-8: #A29BFE;
+}

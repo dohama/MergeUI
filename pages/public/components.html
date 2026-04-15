@@ -99,19 +99,7 @@
   <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
 
 <script>
-// Fallback data
-var fallbackComponents = [
-  {slug:'stat-card',name:'Stat Card',category:'Cards',description:'KPI statistics card with value, trend arrow, and label.',badge:'free',preview_html:'<div style="padding:20px;background:var(--bg-raised);border:1px solid var(--border);border-radius:12px;width:220px"><div style="font-size:11px;color:var(--text-muted);text-transform:uppercase">Revenue</div><div style="font-size:28px;font-weight:800;margin:4px 0">$2,847</div><div style="font-size:12px;color:var(--success)">↑ 12.5%</div></div>'},
-  {slug:'data-table',name:'Data Table',category:'Tables',description:'Sortable table with pagination, search, and row selection.',badge:'pro',preview_html:'<div style="padding:16px;background:var(--bg-raised);border:1px solid var(--border);border-radius:12px;width:280px;font-size:12px"><div style="display:flex;gap:40px;padding:8px 0;border-bottom:1px solid var(--border);color:var(--text-muted);font-weight:600">Name · Status · Amount</div><div style="padding:8px 0;border-bottom:1px solid var(--border);color:var(--text-secondary)">John · Active · $49</div><div style="padding:8px 0;color:var(--text-secondary)">Sarah · Pending · $19</div></div>'},
-  {slug:'line-chart',name:'Line Chart',category:'Charts',description:'Smooth line chart with gradient fill, tooltips, and legend.',badge:'pro',preview_html:'<div style="padding:20px;background:var(--bg-raised);border:1px solid var(--border);border-radius:12px;width:240px;height:120px;display:flex;align-items:flex-end;gap:3px"><div style="flex:1;height:30%;background:var(--brand);border-radius:3px 3px 0 0;opacity:0.6"></div><div style="flex:1;height:50%;background:var(--brand);border-radius:3px 3px 0 0;opacity:0.7"></div><div style="flex:1;height:40%;background:var(--brand);border-radius:3px 3px 0 0;opacity:0.6"></div><div style="flex:1;height:70%;background:var(--brand);border-radius:3px 3px 0 0;opacity:0.8"></div><div style="flex:1;height:60%;background:var(--brand);border-radius:3px 3px 0 0;opacity:0.7"></div><div style="flex:1;height:85%;background:var(--brand);border-radius:3px 3px 0 0;opacity:0.9"></div></div>'},
-  {slug:'sidebar-nav',name:'Sidebar Navigation',category:'Navigation',description:'Collapsible sidebar with icons, groups, badges, and active states.',badge:'free',preview_html:'<div style="padding:12px;background:var(--bg-raised);border:1px solid var(--border);border-radius:12px;width:180px"><div style="padding:8px;border-radius:6px;background:var(--glow-brand);color:var(--brand-light);font-size:12px;font-weight:600;margin-bottom:4px">Dashboard</div><div style="padding:8px;font-size:12px;color:var(--text-muted)">Users</div><div style="padding:8px;font-size:12px;color:var(--text-muted)">Settings</div></div>'},
-  {slug:'modal-dialog',name:'Modal Dialog',category:'Overlays',description:'Accessible modal with backdrop, close button, and focus trap.',badge:'free',preview_html:'<div style="padding:24px;background:var(--bg-raised);border:1px solid var(--border);border-radius:14px;width:260px;text-align:center"><div style="font-size:16px;font-weight:700;margin-bottom:8px">Confirm Action</div><div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Are you sure you want to proceed?</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:6px 16px;background:var(--brand);color:white;border:none;border-radius:6px;font-size:12px;font-weight:600">Confirm</button><button style="padding:6px 16px;background:var(--bg-surface);color:var(--text-secondary);border:1px solid var(--border);border-radius:6px;font-size:12px">Cancel</button></div></div>'},
-  {slug:'toggle-switch',name:'Toggle Switch',category:'Forms',description:'On/off toggle with label, disabled state, and custom colors.',badge:'free',preview_html:'<div style="display:flex;align-items:center;gap:12px;padding:16px;background:var(--bg-raised);border:1px solid var(--border);border-radius:12px"><div style="width:40px;height:22px;background:var(--brand);border-radius:12px;position:relative"><div style="width:16px;height:16px;background:white;border-radius:50%;position:absolute;top:3px;right:3px"></div></div><span style="font-size:13px;font-weight:600">Enabled</span></div>'},
-  {slug:'bar-chart',name:'Bar Chart',category:'Charts',description:'Vertical bar chart with hover tooltips and responsive sizing.',badge:'pro',preview_html:'<div style="padding:20px;background:var(--bg-raised);border:1px solid var(--border);border-radius:12px;width:240px;height:120px;display:flex;align-items:flex-end;gap:6px"><div style="flex:1;height:45%;background:var(--accent);border-radius:4px 4px 0 0;opacity:0.7"></div><div style="flex:1;height:70%;background:var(--accent);border-radius:4px 4px 0 0;opacity:0.8"></div><div style="flex:1;height:55%;background:var(--accent);border-radius:4px 4px 0 0;opacity:0.7"></div><div style="flex:1;height:90%;background:var(--accent);border-radius:4px 4px 0 0"></div><div style="flex:1;height:65%;background:var(--accent);border-radius:4px 4px 0 0;opacity:0.8"></div></div>'},
-  {slug:'toast-notification',name:'Toast Notification',category:'Overlays',description:'Auto-dismiss notification with success, warning, error, and info variants.',badge:'free',preview_html:'<div style="padding:12px 16px;background:var(--bg-raised);border:1px solid rgba(34,197,94,0.2);border-radius:10px;width:260px;display:flex;align-items:center;gap:10px"><div style="width:8px;height:8px;background:var(--success);border-radius:50%"></div><span style="font-size:13px;font-weight:600">Changes saved successfully</span></div>'},
-];
-
-var components = fallbackComponents;
+var components = [];
 
 // Load from DB
 document.addEventListener('mergedb-ready', async function() {
@@ -156,7 +144,8 @@ function renderCategories() {
 function renderComponents(list) {
   var grid = document.getElementById('compGrid');
   if (list.length === 0) {
-    grid.innerHTML = '<div class="comp-empty">No components match your search.</div>';
+    var msg = components.length === 0 ? '<div style="font-size:48px;margin-bottom:12px;opacity:0.3">🧩</div><div style="font-size:16px;font-weight:700;margin-bottom:6px">No components yet</div><div style="font-size:13px;color:var(--text-muted)">Components will appear here once published.</div>' : 'No components match your search.';
+    grid.innerHTML = '<div class="comp-empty">' + msg + '</div>';
     return;
   }
   grid.innerHTML = list.map(function(c) {
@@ -189,6 +178,8 @@ function renderAll() {
 }
 
 document.getElementById('compSearch').addEventListener('input', filterComponents);
+// 초기 로딩 표시
+document.getElementById('compGrid').innerHTML='<div class="comp-empty">Loading components...</div>';
 renderAll();
 </script>
 <script src="../../src/js/auth.js"></script>

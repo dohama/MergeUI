@@ -146,6 +146,33 @@
   </main>
   <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
   
+<script>
+// DB에서 컴포넌트 상세 로드
+document.addEventListener('mergedb-ready', async function() {
+  var slug = new URLSearchParams(window.location.search).get('slug');
+  if (!slug) return;
+  try {
+    var comp = await MergeDB.getComponent(slug);
+    if (!comp) return;
+    // 제목 업데이트
+    var title = document.querySelector('.detail-title');
+    if (title) title.textContent = comp.name;
+    document.title = comp.name + ' — MergeUi Component';
+    // 설명 업데이트
+    var desc = document.querySelector('.detail-desc');
+    if (desc) desc.textContent = comp.description || '';
+    // 코드 업데이트
+    if (comp.code_html) {
+      var htmlPre = document.getElementById('codeHtmlPre');
+      if (htmlPre) htmlPre.textContent = comp.code_html;
+    }
+    if (comp.code_css) {
+      var cssPre = document.getElementById('codeCssPre');
+      if (cssPre) cssPre.textContent = comp.code_css;
+    }
+  } catch(e) { /* fallback 사용 */ }
+});
+</script>
 <script src="../../src/js/auth.js"></script>
 </body>
 </html>

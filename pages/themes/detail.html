@@ -609,6 +609,29 @@ window.addEventListener('load',function(){
   var slug = new URLSearchParams(window.location.search).get('theme') || 'analytics-pro';
   var theme = themeData[slug] || themeData['analytics-pro'];
 
+  // DB에서 테마 로드 시도
+  document.addEventListener('mergedb-ready', async function() {
+    try {
+      var dbTheme = await MergeDB.getTheme(slug);
+      if (dbTheme) {
+        theme = Object.assign({}, theme, {
+          name: dbTheme.name || theme.name,
+          desc: dbTheme.description || theme.desc,
+          category: dbTheme.category || theme.category,
+          components: dbTheme.components_count || theme.components,
+          pages: dbTheme.pages_count || theme.pages,
+          tags: Array.isArray(dbTheme.tags) ? dbTheme.tags : theme.tags,
+          badge: dbTheme.badge || theme.badge
+        });
+        // 페이지 갱신
+        var h1 = document.getElementById('themeName');
+        if (h1) h1.textContent = theme.name;
+        var desc = document.getElementById('themeDesc');
+        if (desc) desc.textContent = theme.desc;
+      }
+    } catch(e) { /* fallback 사용 */ }
+  });
+
   // Title
   document.title = theme.name + ' \u2014 MergeUi Theme';
 

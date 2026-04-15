@@ -33,11 +33,16 @@ function initMergeSupabase() {
           access_token: session.access_token
         };
         localStorage.setItem('mergeui_session', JSON.stringify(sessionData));
+        // auth.js에 세션 업데이트 알림
+        document.dispatchEvent(new Event('mergeui-session-updated'));
 
-        // OAuth 로그인 후 대시보드로 이동 (로그인/가입 페이지에서만)
+        // OAuth 로그인 후 대시보드로 이동
+        // 이미 구독자/관리자 페이지에 있으면 이동하지 않음
         var path = window.location.pathname;
-        if (path.indexOf('/auth/') !== -1 || path.indexOf('/landing/') !== -1 || path === '/' || path.endsWith('/index.html')) {
-          window.location.href = (path.indexOf('/auth/') !== -1 ? '../subscriber/dashboard.html' : (path.indexOf('/landing/') !== -1 || path === '/' ? 'pages/subscriber/dashboard.html' : ''));
+        var isAlreadyInApp = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
+        if (!isAlreadyInApp) {
+          // 어디서 왔든 절대 경로로 대시보드 이동
+          window.location.href = window.location.origin + '/pages/subscriber/dashboard.html';
         }
       }
     }

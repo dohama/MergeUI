@@ -94,67 +94,7 @@
     </div>
   </main>
   <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
-  <script>
-var burger=document.querySelector('.nav-burger'),mm=document.getElementById('mobileMenu');
-if(burger&&mm){burger.addEventListener('click',function(){burger.classList.toggle('active');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':'';});document.querySelectorAll('.mobile-link').forEach(function(l){l.addEventListener('click',function(){burger.classList.remove('active');mm.classList.remove('open');document.body.style.overflow='';});});};
-(function(){var s=localStorage.getItem('mergeui_session');if(!s)return;var r=document.querySelector('.nav-right');if(r)r.innerHTML='<a href="../subscriber/dashboard.html" class="nav-cta">My Dashboard</a>';var mob=document.getElementById('mobileMenu');if(mob){var si=mob.querySelector('a[href*="login"]');if(si){si.textContent="My Dashboard";si.href="../subscriber/dashboard.html";}var gs=mob.querySelector('a[href*="signup"]');if(gs)gs.remove();}})();
-
-var themeData = {
-  'analytics-pro': { name:'Analytics Pro', desc:'Data-heavy dashboard with real-time charts, KPIs, and advanced filtering.', category:'Analytics', tags:['Analytics','Charts','Real-time'], badge:'pro', components:28, pages:6, version:'1.2.0', updated:'2026-04-01' },
-  'storefront': { name:'StoreFront', desc:'E-commerce dashboard with order management, inventory tracking, and customer insights.', category:'E-Commerce', tags:['E-Commerce','Orders','Inventory'], badge:'pro', components:32, pages:8, version:'1.0.0', updated:'2026-03-20' },
-  'findash': { name:'FinDash', desc:'Financial reports, transaction logs, portfolio analytics, and risk metrics.', category:'Finance', tags:['Finance','Reports','Portfolio'], badge:'pro', components:24, pages:5, version:'1.1.0', updated:'2026-03-15' },
-  'relatehub': { name:'RelateHub', desc:'Contact management, sales pipeline, team collaboration, and deal tracking.', category:'CRM', tags:['CRM','Pipeline','Contacts'], badge:'pro', components:20, pages:4, version:'1.0.0', updated:'2026-03-10' },
-  'starter': { name:'Starter Dashboard', desc:'Clean minimal dashboard to kickstart any project. Free forever.', category:'General', tags:['Minimal','Starter'], badge:'free', components:12, pages:3, version:'1.0.0', updated:'2026-04-05' },
-  'devops-monitor': { name:'DevOps Monitor', desc:'Infrastructure monitoring with uptime, logs, and alert management.', category:'DevOps', tags:['DevOps','Monitoring','Alerts'], badge:'pro', components:22, pages:5, version:'1.0.0', updated:'2026-03-25' },
-  'healthpulse': { name:'HealthPulse', desc:'Healthcare dashboard with patient records, appointments, and analytics.', category:'Healthcare', tags:['Healthcare','Patients','Analytics'], badge:'pro', components:26, pages:6, version:'1.0.0', updated:'2026-03-18' },
-  'learnflow': { name:'LearnFlow', desc:'Education platform dashboard with course management, progress tracking, and student analytics.', category:'Education', tags:['Education','Courses','Progress'], badge:'pro', components:18, pages:4, version:'1.0.0', updated:'2026-03-12' }
-};
-
-var params = new URLSearchParams(window.location.search);
-var slug = params.get('theme') || 'analytics-pro';
-var theme = themeData[slug] || themeData['analytics-pro'];
-
-document.title = 'Download ' + theme.name + ' — MergeUi';
-document.getElementById('themeName').textContent = theme.name;
-document.getElementById('themeIcon').textContent = theme.name.charAt(0);
-document.getElementById('themeVersion').textContent = 'v' + theme.version;
-document.getElementById('themeComponents').textContent = theme.components + ' components';
-document.getElementById('themePages').textContent = theme.pages + ' pages';
-var d = new Date(theme.updated);
-document.getElementById('themeUpdated').textContent = 'Updated ' + d.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
-var badgeEl = document.getElementById('themeBadge');
-if (theme.badge === 'free') { badgeEl.className = 'dtag free'; badgeEl.textContent = 'Free'; }
-else { badgeEl.className = 'dtag pro'; badgeEl.textContent = 'Pro'; }
-
-// Pro gate
-var session = localStorage.getItem('mergeui_session');
-var isPro = false;
-if (session) { try { var u = JSON.parse(session); isPro = u.plan === 'pro' || u.plan === 'team'; } catch(e){} }
-
-if (theme.badge === 'pro' && !isPro) {
-  document.getElementById('downloadArea').innerHTML = '<a href="../public/pricing.html" class="btn-upgrade">Upgrade to Pro &mdash; $19/mo</a>';
-}
-
-// Package radio selection
-document.querySelectorAll('.pkg-option').forEach(function(opt){
-  opt.addEventListener('click', function(){
-    document.querySelectorAll('.pkg-option').forEach(function(o){o.classList.remove('selected');});
-    opt.classList.add('selected');
-  });
-});
-
-// License checkbox
-var agreeCheck = document.getElementById('agreeCheck');
-var btnDownload = document.getElementById('btnDownload');
-if (agreeCheck && btnDownload) {
-  agreeCheck.addEventListener('change', function(){ btnDownload.disabled = !agreeCheck.checked; });
-  btnDownload.addEventListener('click', function(){
-    if (!agreeCheck.checked) return;
-    var msg = document.getElementById('downloadMsg');
-    if (msg) { msg.style.display = 'block'; }
-  });
-}
-</script>
+  
 <script src="../../src/js/auth.js"></script>
 </body>
 </html>

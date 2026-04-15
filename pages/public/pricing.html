@@ -328,15 +328,6 @@ document.querySelectorAll('.faq-q').forEach(function(btn){
   });
 });
 </script>
-<script>
-var burger=document.querySelector('.nav-burger'),mobileMenu=document.getElementById('mobileMenu');
-if(burger&&mobileMenu){burger.addEventListener('click',function(){burger.classList.toggle('active');mobileMenu.classList.toggle('open');document.body.style.overflow=mobileMenu.classList.contains('open')?'hidden':'';});
-document.querySelectorAll('.mobile-link').forEach(function(l){l.addEventListener('click',function(){burger.classList.remove('active');mobileMenu.classList.remove('open');document.body.style.overflow='';});});}
-(function(){var s=localStorage.getItem('mergeui_session');if(!s)return;
-var r=document.querySelector('.nav-right');if(r)r.innerHTML='<a href="../subscriber/dashboard.html" class="nav-cta">My Dashboard</a>';
-var mob=document.getElementById('mobileMenu');if(mob){var si=mob.querySelector('a[href*="login"]');if(si){si.textContent='My Dashboard';si.href='../subscriber/dashboard.html';}var gs=mob.querySelector('a[href*="signup"]');if(gs)gs.remove();}
-})();
-</script>
 <script src="../../src/js/auth.js"></script>
 </body>
 </html>

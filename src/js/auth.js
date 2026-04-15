@@ -102,36 +102,89 @@
     }
   }
 
+  // 페이지 초기화 함수
+  function initPage(session) {
+    var path = window.location.pathname;
+    var isSubscriberPage = path.indexOf('/subscriber/') !== -1;
+    var isAdminPage = path.indexOf('/admin/') !== -1;
+    var isProtectedPage = isSubscriberPage || isAdminPage;
+
+    if (isProtectedPage && !session) {
+      window.location.href = BASE + 'pages/auth/login.html';
+      return;
+    }
+
+    // 관리자 페이지 — role 체크
+    if (isAdminPage && session && session.role !== 'admin') {
+      window.location.href = BASE + 'pages/subscriber/dashboard.html';
+      return;
+    }
+
+    if (isSubscriberPage || isAdminPage) {
+      updateSidebar(session);
+    } else {
+      updatePublicNav(session);
+    }
+
+    // 로그인 상태에 따라 CTA 링크 업데이트 (pricing 등)
+    if (session) {
+      updateCtaLinks(session);
+    }
+  }
+
+  // CTA 링크 업데이트 — 로그인 상태면 대시보드/결제로 연결
+  function updateCtaLinks(session) {
+    var dashUrl = BASE + 'pages/subscriber/dashboard.html';
+    // .pc-btn (pricing card button) 등 signup으로 가는 CTA를 대시보드로 변경
+    document.querySelectorAll('a[href*="signup"]').forEach(function(link) {
+      // nav 영역 제외 (이미 updatePublicNav에서 처리)
+      if (link.closest('.nav') || link.closest('.nav-right') || link.closest('#mobileMenu')) return;
+      link.href = dashUrl;
+    });
+  }
+
   // Init
   var session = getSession();
   applySavedTheme();
+  initMobileMenu();
 
-  // Page type detection
+  // OAuth 콜백 중인지 확인 (URL에 access_token 해시가 있으면 OAuth 진행 중)
+  var hash = window.location.hash;
+  var isOAuthCallback = hash.indexOf('access_token') !== -1 || hash.indexOf('refresh_token') !== -1;
+
   var path = window.location.pathname;
-  var isSubscriberPage = path.indexOf('/subscriber/') !== -1;
-  var isAdminPage = path.indexOf('/admin/') !== -1;
-  var isProtectedPage = isSubscriberPage || isAdminPage;
+  var isProtected = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
 
-  if (isProtectedPage && !session) {
-    window.location.href = BASE + 'pages/auth/login.html';
-    return;
-  }
-
-  // 관리자 페이지 — role 체크
-  if (isAdminPage && session && session.role !== 'admin') {
-    window.location.href = BASE + 'pages/subscriber/dashboard.html';
-    return;
-  }
-
-  if (isSubscriberPage || isAdminPage) {
-    updateSidebar(session);
+  if (session) {
+    // 세션이 이미 있으면 바로 초기화
+    initPage(session);
+  } else if (isOAuthCallback) {
+    // OAuth 콜백 중 — supabase-client.js가 세션을 저장할 때까지 기다림
+    // 리다이렉트하지 않고 이벤트를 기다림
+    document.addEventListener('mergeui-session-updated', function() {
+      var s = getSession();
+      if (s) {
+        initPage(s);
+      }
+    });
+  } else if (!isProtected) {
+    // 공개 페이지 — 세션 없어도 정상 표시
+    initPage(null);
+    // 나중에 세션이 생기면 Nav 업데이트
+    document.addEventListener('mergeui-session-updated', function() {
+      var s = getSession();
+      if (s) {
+        updatePublicNav(s);
+        updateCtaLinks(s);
+      }
+    });
   } else {
-    updatePublicNav(session);
-    initMobileMenu();
+    // 보호 페이지인데 세션 없고 OAuth도 아님 — 로그인으로
+    window.location.href = BASE + 'pages/auth/login.html';
   }
 
   // Expose for external use
-  window.OozeAuth = {
+  window.MergeAuth = {
     getSession: getSession,
     logout: window.logout,
     toggleTheme: window.toggleTheme,

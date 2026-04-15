@@ -36,7 +36,8 @@ function initMergeSupabase() {
 
       // 2단계: 프로필 조회 후 세션 업데이트 (실패해도 기본 세션은 유지)
       try {
-        var { data: profile } = await sb.from('profiles').select('name, role, plan, avatar_url').eq('id', session.user.id).single();
+        var { data: profile, error: profileError } = await sb.from('profiles').select('name, role, plan, avatar_url').eq('id', session.user.id).single();
+        console.log('[MergeAuth] Profile query result:', profile, 'Error:', profileError);
         if (profile) {
           var fullSession = {
             name: profile.name || basicSession.name,

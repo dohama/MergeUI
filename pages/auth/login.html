@@ -508,9 +508,10 @@ document.querySelector('form').onsubmit = async function(e) {
 
   waitForMergeDB(async function() {
     try {
-      await MergeDB.login(email, password);
+      var session = await MergeDB.login(email, password);
       showSuccess('Welcome back! Redirecting...');
-      setTimeout(function() { window.location.href = '../subscriber/dashboard.html'; }, 1000);
+      var dest = session.role === 'admin' ? '../admin/dashboard.html' : '../subscriber/dashboard.html';
+      setTimeout(function() { window.location.href = dest; }, 1000);
     } catch(err) {
       showError(err.message || 'Invalid email or password.');
     }

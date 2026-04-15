@@ -59,7 +59,10 @@ function initMergeSupabase() {
         var path = window.location.pathname;
         var isAlreadyInApp = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
         if (!isAlreadyInApp) {
-          window.location.href = window.location.origin + '/pages/subscriber/dashboard.html';
+          // role에 따라 관리자/구독자 대시보드 분기
+          var savedSession = JSON.parse(localStorage.getItem('mergeui_session') || '{}');
+          var dest = savedSession.role === 'admin' ? '/pages/admin/dashboard.html' : '/pages/subscriber/dashboard.html';
+          window.location.href = window.location.origin + dest;
         }
       }
     }

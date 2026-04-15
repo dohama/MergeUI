@@ -158,6 +158,7 @@
                          fullUrl.indexOf('code=') !== -1;
 
   if (session) {
+    // localStorage에 세션이 있으면 바로 초기화
     initPage(session);
   } else if (!isProtected) {
     // 공개 페이지 — 세션 없어도 정상 표시
@@ -169,40 +170,45 @@
         updateCtaLinks(s);
       }
     });
-  } else if (isOAuthCallback) {
-    // 보호 페이지 + OAuth 콜백 중 — 절대 리다이렉트하지 않고 기다림
+  } else {
+    // 보호 페이지 + 세션 없음
+    // supabase-client.js가 OAuth 처리 또는 기존 세션 복구를 할 수 있으므로
+    // mergedb-ready 이벤트(Supabase 초기화 완료)까지 기다린 후 판단
+    var resolved = false;
+
+    // 세션이 저장되면 즉시 초기화
     document.addEventListener('mergeui-session-updated', function() {
+      if (resolved) return;
+      resolved = true;
       var s = getSession();
       if (s) { initPage(s); }
     });
-    // 만약 10초 안에 세션이 안 오면 그때 로그인으로
+
+    // Supabase 초기화 완료 후 세션 재확인
+    document.addEventListener('mergedb-ready', function() {
+      // mergedb-ready 후 1초 더 기다림 (onAuthStateChange가 비동기이므로)
+      setTimeout(function() {
+        if (resolved) return;
+        var s = getSession();
+        if (s) {
+          resolved = true;
+          initPage(s);
+        } else {
+          // Supabase도 초기화됐고, 세션도 없으면 → 진짜 비로그인
+          resolved = true;
+          window.location.href = BASE + 'pages/auth/login.html';
+        }
+      }, 2000);
+    });
+
+    // supabase-client.js가 아예 없는 페이지를 위한 안전장치 (30초)
     setTimeout(function() {
+      if (resolved) return;
+      resolved = true;
       if (!getSession()) {
         window.location.href = BASE + 'pages/auth/login.html';
       }
-    }, 10000);
-  } else {
-    // 보호 페이지 + 세션 없음 + OAuth 아님
-    // 그래도 supabase-client.js가 기존 세션을 복구할 수 있으므로 잠시 대기
-    var waitCount = 0;
-    var checkInterval = setInterval(function() {
-      waitCount++;
-      var s = getSession();
-      if (s) {
-        clearInterval(checkInterval);
-        initPage(s);
-      } else if (waitCount >= 10) {
-        // 5초(500ms * 10) 대기 후에도 세션 없으면 로그인으로
-        clearInterval(checkInterval);
-        window.location.href = BASE + 'pages/auth/login.html';
-      }
-    }, 500);
-    // 이벤트로도 감지
-    document.addEventListener('mergeui-session-updated', function() {
-      clearInterval(checkInterval);
-      var s = getSession();
-      if (s) { initPage(s); }
-    });
+    }, 30000);
   }
 
   // Expose for external use

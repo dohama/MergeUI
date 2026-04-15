@@ -18,7 +18,9 @@ function initMergeSupabase() {
   var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   // onAuthStateChange — 세션이 생기면 저장, 로그아웃되면 삭제
+  console.log('[MergeAuth] Supabase client initialized');
   sb.auth.onAuthStateChange(async function(event, session) {
+    console.log('[MergeAuth] Event:', event, 'Session:', session ? 'YES' : 'NO');
     if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION')) {
       // 1단계: 기본 세션 즉시 저장 (프로필 조회 전에)
       var basicSession = {

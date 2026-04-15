@@ -17,26 +17,39 @@ function initMergeSupabase() {
 
   var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // 세션 저장 헬퍼
-  async function saveSessionToLocal(session) {
-    var { data: profile } = await sb.from('profiles').select('name, role, plan, avatar_url').eq('id', session.user.id).single();
-    var sessionData = {
-      name: profile?.name || session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
-      email: session.user.email,
-      plan: profile?.plan || 'free',
-      role: profile?.role || 'subscriber',
-      avatar_url: profile?.avatar_url || session.user.user_metadata?.avatar_url || '',
-      access_token: session.access_token
-    };
-    localStorage.setItem('mergeui_session', JSON.stringify(sessionData));
-    document.dispatchEvent(new Event('mergeui-session-updated'));
-    return sessionData;
-  }
-
   // onAuthStateChange — 세션이 생기면 저장, 로그아웃되면 삭제
   sb.auth.onAuthStateChange(async function(event, session) {
     if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION')) {
-      await saveSessionToLocal(session);
+      // 1단계: 기본 세션 즉시 저장 (프로필 조회 전에)
+      var basicSession = {
+        name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+        email: session.user.email,
+        plan: 'free',
+        role: 'subscriber',
+        avatar_url: session.user.user_metadata?.avatar_url || '',
+        access_token: session.access_token
+      };
+      localStorage.setItem('mergeui_session', JSON.stringify(basicSession));
+      document.dispatchEvent(new Event('mergeui-session-updated'));
+
+      // 2단계: 프로필 조회 후 세션 업데이트 (실패해도 기본 세션은 유지)
+      try {
+        var { data: profile } = await sb.from('profiles').select('name, role, plan, avatar_url').eq('id', session.user.id).single();
+        if (profile) {
+          var fullSession = {
+            name: profile.name || basicSession.name,
+            email: session.user.email,
+            plan: profile.plan || 'free',
+            role: profile.role || 'subscriber',
+            avatar_url: profile.avatar_url || basicSession.avatar_url,
+            access_token: session.access_token
+          };
+          localStorage.setItem('mergeui_session', JSON.stringify(fullSession));
+          document.dispatchEvent(new Event('mergeui-session-updated'));
+        }
+      } catch (e) {
+        // 프로필 조회 실패해도 기본 세션은 이미 저장됨 — 문제없음
+      }
 
       // OAuth 로그인 완료 — 공개 페이지에 있으면 대시보드로 이동
       if (event === 'SIGNED_IN') {

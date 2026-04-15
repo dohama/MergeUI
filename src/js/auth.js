@@ -148,29 +148,20 @@
   applySavedTheme();
   initMobileMenu();
 
-  // OAuth 콜백 중인지 확인 (URL에 access_token 해시가 있으면 OAuth 진행 중)
-  var hash = window.location.hash;
-  var isOAuthCallback = hash.indexOf('access_token') !== -1 || hash.indexOf('refresh_token') !== -1;
-
   var path = window.location.pathname;
   var isProtected = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
 
+  // OAuth 콜백 감지 — hash(#access_token) 또는 query(?code=) 둘 다 체크
+  var fullUrl = window.location.href;
+  var isOAuthCallback = fullUrl.indexOf('access_token') !== -1 ||
+                         fullUrl.indexOf('refresh_token') !== -1 ||
+                         fullUrl.indexOf('code=') !== -1;
+
   if (session) {
-    // 세션이 이미 있으면 바로 초기화
     initPage(session);
-  } else if (isOAuthCallback) {
-    // OAuth 콜백 중 — supabase-client.js가 세션을 저장할 때까지 기다림
-    // 리다이렉트하지 않고 이벤트를 기다림
-    document.addEventListener('mergeui-session-updated', function() {
-      var s = getSession();
-      if (s) {
-        initPage(s);
-      }
-    });
   } else if (!isProtected) {
     // 공개 페이지 — 세션 없어도 정상 표시
     initPage(null);
-    // 나중에 세션이 생기면 Nav 업데이트
     document.addEventListener('mergeui-session-updated', function() {
       var s = getSession();
       if (s) {
@@ -178,9 +169,40 @@
         updateCtaLinks(s);
       }
     });
+  } else if (isOAuthCallback) {
+    // 보호 페이지 + OAuth 콜백 중 — 절대 리다이렉트하지 않고 기다림
+    document.addEventListener('mergeui-session-updated', function() {
+      var s = getSession();
+      if (s) { initPage(s); }
+    });
+    // 만약 10초 안에 세션이 안 오면 그때 로그인으로
+    setTimeout(function() {
+      if (!getSession()) {
+        window.location.href = BASE + 'pages/auth/login.html';
+      }
+    }, 10000);
   } else {
-    // 보호 페이지인데 세션 없고 OAuth도 아님 — 로그인으로
-    window.location.href = BASE + 'pages/auth/login.html';
+    // 보호 페이지 + 세션 없음 + OAuth 아님
+    // 그래도 supabase-client.js가 기존 세션을 복구할 수 있으므로 잠시 대기
+    var waitCount = 0;
+    var checkInterval = setInterval(function() {
+      waitCount++;
+      var s = getSession();
+      if (s) {
+        clearInterval(checkInterval);
+        initPage(s);
+      } else if (waitCount >= 10) {
+        // 5초(500ms * 10) 대기 후에도 세션 없으면 로그인으로
+        clearInterval(checkInterval);
+        window.location.href = BASE + 'pages/auth/login.html';
+      }
+    }, 500);
+    // 이벤트로도 감지
+    document.addEventListener('mergeui-session-updated', function() {
+      clearInterval(checkInterval);
+      var s = getSession();
+      if (s) { initPage(s); }
+    });
   }
 
   // Expose for external use

@@ -102,7 +102,7 @@
     </div>
   </main>
 <script>
-(function(){var s=JSON.parse(localStorage.getItem('mergeui_session'));if(!s){window.location.href='../auth/login.html';}})();
+(function(){var s=JSON.parse(localStorage.getItem('mergeui_session'));if(!s){return;}})();
 document.querySelectorAll('.date-btn').forEach(function(btn){
   btn.addEventListener('click',function(){
     document.querySelectorAll('.date-btn').forEach(function(b){b.classList.remove('active');});

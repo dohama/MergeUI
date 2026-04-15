@@ -260,7 +260,7 @@
 (function() {
   var session = JSON.parse(localStorage.getItem('mergeui_session'));
   if (!session) {
-    window.location.href = '../auth/login.html';
+    // auth.js가 OAuth 콜백 대기 + 리다이렉트를 처리하므로 여기서는 return만
     return;
   }
   // Update user info in sidebar

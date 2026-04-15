@@ -78,7 +78,7 @@
   </div>
 
 <script>
-(function(){var session=JSON.parse(localStorage.getItem('mergeui_session'));if(!session){window.location.href='../auth/login.html';return;}
+(function(){var session=JSON.parse(localStorage.getItem('mergeui_session'));if(!session){return;}
 var n=document.querySelector('.sb-user-name');if(n)n.textContent=session.name||'User';
 var p=document.querySelector('.sb-user-plan');if(p)p.textContent=(session.plan||'Free')+' Plan';
 var a=document.querySelector('.sb-avatar');if(a)a.textContent=(session.name||'U').charAt(0).toUpperCase();

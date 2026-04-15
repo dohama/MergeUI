@@ -101,7 +101,7 @@
     </div>
   </main>
 <script>
-(function(){var s=JSON.parse(localStorage.getItem('mergeui_session'));if(!s){window.location.href='../auth/login.html';}})();
+(function(){var s=JSON.parse(localStorage.getItem('mergeui_session'));if(!s){return;}})();
 function showSaveMsg(btn){
   var existing=btn.parentElement.querySelector('.msg');
   if(existing)existing.remove();

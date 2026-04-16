@@ -15,10 +15,8 @@
   <aside class="sidebar" role="navigation" aria-label="Main navigation">
     <div class="sidebar-logo"><div class="sidebar-logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></div><span class="sidebar-logo-text">MergeUi</span></div>
     <nav class="sidebar-nav">
-      <div class="sidebar-section-title">Main</div>
       <a href="dashboard.html" class="sidebar-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg><span>Dashboard</span></a>
       <a href="users.html" class="sidebar-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Users</span></a>
-      <div class="sidebar-section-title">Management</div>
       <a href="billing.html" class="sidebar-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg><span>Billing</span></a>
       <a href="settings.html" class="sidebar-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span>Settings</span></a>
     </nav>
@@ -27,168 +25,194 @@
 
   <div class="main-wrapper">
     <header class="topbar" role="banner">
-      <div class="topbar-left"><h2 style="font: var(--merge-font-h3);">Settings</h2></div>
+      <div class="topbar-left">
+        <div class="topbar-search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" placeholder="Search settings..." aria-label="Search">
+        </div>
+      </div>
       <div class="topbar-right">
         <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=Felix" alt="User avatar" class="topbar-avatar">
       </div>
     </header>
 
     <main class="page-content" role="main">
-      <div class="grid-12">
-        <!-- Settings Nav -->
-        <div class="col-span-4">
-          <div class="neu-card" style="padding: var(--merge-space-2);">
-            <nav style="display: flex; flex-direction: column; gap: var(--merge-space-1);">
-              <a href="#profile" class="sidebar-item active" style="border-radius: var(--merge-radius-md);">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span>Profile</span>
-              </a>
-              <a href="#notifications" class="sidebar-item" style="border-radius: var(--merge-radius-md);">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-                <span>Notifications</span>
-              </a>
-              <a href="#security" class="sidebar-item" style="border-radius: var(--merge-radius-md);">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                <span>Security</span>
-              </a>
-              <a href="#api" class="sidebar-item" style="border-radius: var(--merge-radius-md);">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m16 18 2 2 4-4"/><path d="M21 12V8.5C21 5.46 18.54 3 15.5 3h-7C5.46 3 3 5.46 3 8.5S5.46 14 8.5 14H12"/></svg>
-                <span>API Keys</span>
-              </a>
-              <a href="#danger" class="sidebar-item" style="border-radius: var(--merge-radius-md); color: var(--merge-status-error);">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
-                <span>Danger Zone</span>
-              </a>
-            </nav>
-          </div>
-        </div>
+      <div class="page-header">
+        <h1>Settings</h1>
+        <p>Manage your account preferences</p>
+      </div>
 
-        <!-- Settings Content -->
-        <div class="col-span-8 flex flex-col gap-6">
-          <!-- Profile -->
-          <section id="profile" class="neu-card">
-            <div class="neu-card-header">
-              <div class="neu-card-title">Profile Information</div>
+      <div style="max-width: 800px; display: flex; flex-direction: column; gap: var(--merge-space-6);">
+
+        <!-- Profile -->
+        <section class="neu-card">
+          <div class="neu-card-header">
+            <div class="neu-card-title" style="display: flex; align-items: center; gap: var(--merge-space-2);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--merge-color-primary)" stroke-width="1.5"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Profile Information
             </div>
-            <div class="flex items-center gap-6 mb-6">
-              <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=Felix" alt="Avatar" style="width: 72px; height: 72px; border-radius: var(--merge-radius-full); box-shadow: var(--merge-shadow-raised);">
+          </div>
+          <div class="flex items-center gap-6 mb-6">
+            <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=Felix" alt="Avatar" style="width: 72px; height: 72px; border-radius: var(--merge-radius-full); box-shadow: var(--merge-shadow-raised);">
+            <div>
+              <button class="btn btn-secondary btn-sm">Change Avatar</button>
+              <p class="text-muted mt-2" style="font: var(--merge-font-small);">JPG, PNG or GIF. Max 2MB.</p>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--merge-space-5);">
+            <div class="form-group">
+              <label class="form-label" for="firstName">First Name</label>
+              <input class="form-input" type="text" id="firstName" value="Felix" placeholder="Enter first name">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lastName">Last Name</label>
+              <input class="form-input" type="text" id="lastName" value="Admin" placeholder="Enter last name">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-input" type="email" id="email" value="felix@mergeui.com" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="role">Role</label>
+              <select class="form-select" id="role">
+                <option selected>Admin</option>
+                <option>Editor</option>
+                <option>Viewer</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top: var(--merge-space-6); display: flex; justify-content: flex-end; gap: var(--merge-space-3);">
+            <button class="btn btn-secondary">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </section>
+
+        <!-- Notifications -->
+        <section class="neu-card">
+          <div class="neu-card-header">
+            <div class="neu-card-title" style="display: flex; align-items: center; gap: var(--merge-space-2);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--merge-color-primary)" stroke-width="1.5"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+              Notification Preferences
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center justify-between" style="padding: 14px 0; border-bottom: 1px solid var(--merge-border-default);">
               <div>
-                <button class="btn btn-secondary btn-sm">Change Avatar</button>
-                <p class="text-muted mt-2" style="font: var(--merge-font-small);">JPG, PNG or GIF. Max 2MB.</p>
+                <div style="font-size: 14px; font-weight: 600; color: var(--merge-text-primary);">New subscriber</div>
+                <div class="text-muted" style="font: var(--merge-font-small); margin-top: 2px;">Get notified when someone subscribes</div>
               </div>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="flex items-center justify-between" style="padding: 14px 0; border-bottom: 1px solid var(--merge-border-default);">
+              <div>
+                <div style="font-size: 14px; font-weight: 600; color: var(--merge-text-primary);">Payment failed</div>
+                <div class="text-muted" style="font: var(--merge-font-small); margin-top: 2px;">Alert when a payment attempt fails</div>
+              </div>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="flex items-center justify-between" style="padding: 14px 0; border-bottom: 1px solid var(--merge-border-default);">
+              <div>
+                <div style="font-size: 14px; font-weight: 600; color: var(--merge-text-primary);">Weekly report</div>
+                <div class="text-muted" style="font: var(--merge-font-small); margin-top: 2px;">Summary of key metrics every Monday</div>
+              </div>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="flex items-center justify-between" style="padding: 14px 0; border-bottom: 1px solid var(--merge-border-default);">
+              <div>
+                <div style="font-size: 14px; font-weight: 600; color: var(--merge-text-primary);">Cancellation alert</div>
+                <div class="text-muted" style="font: var(--merge-font-small); margin-top: 2px;">Notify when a subscriber cancels</div>
+              </div>
+              <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="flex items-center justify-between" style="padding: 14px 0;">
+              <div>
+                <div style="font-size: 14px; font-weight: 600; color: var(--merge-text-primary);">Marketing emails</div>
+                <div class="text-muted" style="font: var(--merge-font-small); margin-top: 2px;">Product updates and tips</div>
+              </div>
+              <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Security -->
+        <section class="neu-card">
+          <div class="neu-card-header">
+            <div class="neu-card-title" style="display: flex; align-items: center; gap: var(--merge-space-2);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--merge-color-primary)" stroke-width="1.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Security
+            </div>
+          </div>
+          <div class="flex flex-col gap-4">
+            <div class="form-group">
+              <label class="form-label" for="currentPassword">Current Password</label>
+              <input class="form-input" type="password" id="currentPassword" placeholder="Enter current password">
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--merge-space-5);">
               <div class="form-group">
-                <label class="form-label" for="firstName">First Name</label>
-                <input class="form-input" type="text" id="firstName" value="Felix" placeholder="Enter first name">
+                <label class="form-label" for="newPassword">New Password</label>
+                <input class="form-input" type="password" id="newPassword" placeholder="Enter new password">
               </div>
               <div class="form-group">
-                <label class="form-label" for="lastName">Last Name</label>
-                <input class="form-input" type="text" id="lastName" value="Admin" placeholder="Enter last name">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="email">Email</label>
-                <input class="form-input" type="email" id="email" value="felix@mergeui.com" placeholder="Enter email">
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="role">Role</label>
-                <select class="form-select" id="role">
-                  <option selected>Admin</option>
-                  <option>Editor</option>
-                  <option>Viewer</option>
-                </select>
+                <label class="form-label" for="confirmPassword">Confirm Password</label>
+                <input class="form-input" type="password" id="confirmPassword" placeholder="Confirm new password">
               </div>
             </div>
-            <div style="margin-top: var(--merge-space-6); display: flex; justify-content: flex-end; gap: var(--merge-space-3);">
-              <button class="btn btn-secondary">Cancel</button>
-              <button class="btn btn-primary">Save Changes</button>
+            <div style="display: flex; justify-content: flex-end;">
+              <button class="btn btn-primary">Update Password</button>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <!-- Notifications -->
-          <section id="notifications" class="neu-card">
-            <div class="neu-card-header">
-              <div class="neu-card-title">Notification Preferences</div>
+        <!-- API Keys -->
+        <section class="neu-card">
+          <div class="neu-card-header">
+            <div class="neu-card-title" style="display: flex; align-items: center; gap: var(--merge-space-2);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--merge-color-primary)" stroke-width="1.5"><path d="m16 18 2 2 4-4"/><path d="M21 12V8.5C21 5.46 18.54 3 15.5 3h-7C5.46 3 3 5.46 3 8.5S5.46 14 8.5 14H12"/></svg>
+              API Keys
             </div>
-            <div class="flex flex-col gap-4">
-              <div class="flex items-center justify-between" style="padding: var(--merge-space-3) 0; border-bottom: 1px solid var(--merge-border-default);">
-                <div>
-                  <div class="font-semibold" style="color: var(--merge-text-primary); font: var(--merge-font-caption); font-weight: 600;">New subscriber</div>
-                  <div class="text-muted" style="font: var(--merge-font-small);">Get notified when someone subscribes</div>
-                </div>
-                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-              </div>
-              <div class="flex items-center justify-between" style="padding: var(--merge-space-3) 0; border-bottom: 1px solid var(--merge-border-default);">
-                <div>
-                  <div class="font-semibold" style="color: var(--merge-text-primary); font: var(--merge-font-caption); font-weight: 600;">Payment failed</div>
-                  <div class="text-muted" style="font: var(--merge-font-small);">Alert when a payment attempt fails</div>
-                </div>
-                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-              </div>
-              <div class="flex items-center justify-between" style="padding: var(--merge-space-3) 0; border-bottom: 1px solid var(--merge-border-default);">
-                <div>
-                  <div class="font-semibold" style="color: var(--merge-text-primary); font: var(--merge-font-caption); font-weight: 600;">Weekly report</div>
-                  <div class="text-muted" style="font: var(--merge-font-small);">Summary of key metrics every Monday</div>
-                </div>
-                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-              </div>
-              <div class="flex items-center justify-between" style="padding: var(--merge-space-3) 0; border-bottom: 1px solid var(--merge-border-default);">
-                <div>
-                  <div class="font-semibold" style="color: var(--merge-text-primary); font: var(--merge-font-caption); font-weight: 600;">Cancellation alert</div>
-                  <div class="text-muted" style="font: var(--merge-font-small);">Notify when a subscriber cancels</div>
-                </div>
-                <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
-              </div>
-              <div class="flex items-center justify-between" style="padding: var(--merge-space-3) 0;">
-                <div>
-                  <div class="font-semibold" style="color: var(--merge-text-primary); font: var(--merge-font-caption); font-weight: 600;">Marketing emails</div>
-                  <div class="text-muted" style="font: var(--merge-font-small);">Product updates and tips</div>
-                </div>
-                <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
-              </div>
-            </div>
-          </section>
-
-          <!-- Security -->
-          <section id="security" class="neu-card">
-            <div class="neu-card-header">
-              <div class="neu-card-title">Security</div>
-            </div>
-            <div class="flex flex-col gap-4">
-              <div class="form-group">
-                <label class="form-label" for="currentPassword">Current Password</label>
-                <input class="form-input" type="password" id="currentPassword" placeholder="Enter current password">
-              </div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--merge-space-5);">
-                <div class="form-group">
-                  <label class="form-label" for="newPassword">New Password</label>
-                  <input class="form-input" type="password" id="newPassword" placeholder="Enter new password">
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="confirmPassword">Confirm Password</label>
-                  <input class="form-input" type="password" id="confirmPassword" placeholder="Confirm new password">
-                </div>
-              </div>
-              <div style="display: flex; justify-content: flex-end;">
-                <button class="btn btn-primary">Update Password</button>
-              </div>
-            </div>
-          </section>
-
-          <!-- Danger Zone -->
-          <section id="danger" class="neu-card" style="border: 2px solid var(--merge-status-error-light);">
-            <div class="neu-card-header">
-              <div class="neu-card-title" style="color: var(--merge-status-error);">Danger Zone</div>
-            </div>
-            <div class="flex items-center justify-between">
+            <button class="btn btn-secondary btn-sm">Generate New Key</button>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center justify-between" style="padding: 14px 0; border-bottom: 1px solid var(--merge-border-default);">
               <div>
-                <div class="font-semibold" style="color: var(--merge-text-primary); font: var(--merge-font-caption); font-weight: 600;">Delete Account</div>
-                <div class="text-muted" style="font: var(--merge-font-small);">Permanently delete your account and all data. This action cannot be undone.</div>
+                <div style="font-size: 14px; font-weight: 600; color: var(--merge-text-primary);">Production Key</div>
+                <div style="font-family: var(--merge-font-mono); font-size: 13px; color: var(--merge-text-muted); margin-top: 4px;">sk_live_••••••••••••4f2m</div>
               </div>
-              <button class="btn btn-sm" style="background: var(--merge-status-error); color: white; box-shadow: var(--merge-shadow-sm);">Delete Account</button>
+              <div class="flex gap-2">
+                <button class="btn btn-ghost btn-sm">Copy</button>
+                <button class="btn btn-ghost btn-sm" style="color: var(--merge-status-error);">Revoke</button>
+              </div>
             </div>
-          </section>
-        </div>
+            <div class="flex items-center justify-between" style="padding: 14px 0;">
+              <div>
+                <div style="font-size: 14px; font-weight: 600; color: var(--merge-text-primary);">Test Key</div>
+                <div style="font-family: var(--merge-font-mono); font-size: 13px; color: var(--merge-text-muted); margin-top: 4px;">sk_test_••••••••••••8x4k</div>
+              </div>
+              <div class="flex gap-2">
+                <button class="btn btn-ghost btn-sm">Copy</button>
+                <button class="btn btn-ghost btn-sm" style="color: var(--merge-status-error);">Revoke</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Danger Zone -->
+        <section class="neu-card" style="border-top: 3px solid var(--merge-status-error); border-left: none;">
+          <div class="neu-card-header">
+            <div class="neu-card-title" style="color: var(--merge-status-error); display: flex; align-items: center; gap: var(--merge-space-2);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+              Danger Zone
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <div style="font-size: 14px; font-weight: 600; color: var(--merge-text-primary);">Delete Account</div>
+              <div class="text-muted" style="font: var(--merge-font-small); margin-top: 2px;">Permanently delete your account and all data. This action cannot be undone.</div>
+            </div>
+            <button class="btn btn-sm" style="background: var(--merge-status-error); color: white; box-shadow: 0 4px 12px rgba(255,107,107,0.3);">Delete Account</button>
+          </div>
+        </section>
+
       </div>
     </main>
   </div>

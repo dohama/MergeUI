@@ -28,8 +28,7 @@ function initMergeSupabase() {
         email: session.user.email,
         plan: 'free',
         role: 'subscriber',
-        avatar_url: session.user.user_metadata?.avatar_url || '',
-        access_token: session.access_token
+        avatar_url: session.user.user_metadata?.avatar_url || ''
       };
       localStorage.setItem('mergeui_session', JSON.stringify(basicSession));
       document.dispatchEvent(new Event('mergeui-session-updated'));
@@ -44,8 +43,7 @@ function initMergeSupabase() {
             email: session.user.email,
             plan: profile.plan || 'free',
             role: profile.role || 'subscriber',
-            avatar_url: profile.avatar_url || basicSession.avatar_url,
-            access_token: session.access_token
+            avatar_url: profile.avatar_url || basicSession.avatar_url
           };
           localStorage.setItem('mergeui_session', JSON.stringify(fullSession));
           document.dispatchEvent(new Event('mergeui-session-updated'));
@@ -72,16 +70,31 @@ function initMergeSupabase() {
     }
   });
 
-  // 보호 페이지 접근 제어 — 8초 후 세션 없으면 로그인으로
-  // (OAuth 코드 교환 + 프로필 조회에 충분한 시간 확보)
+  // 보호 페이지 접근 제어 — 즉시 세션 확인 후 판단
   var path = window.location.pathname;
   var isProtected = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
   if (isProtected) {
-    setTimeout(function() {
-      if (!localStorage.getItem('mergeui_session')) {
-        window.location.href = window.location.origin + '/pages/auth/login.html';
-      }
-    }, 8000);
+    var fullUrl = window.location.href;
+    var isOAuthCallback = fullUrl.indexOf('access_token') !== -1 ||
+                           fullUrl.indexOf('refresh_token') !== -1 ||
+                           fullUrl.indexOf('code=') !== -1;
+
+    if (!isOAuthCallback) {
+      // OAuth 콜백이 아닌 경우: 즉시 세션 확인
+      sb.auth.getSession().then(function(result) {
+        var session = result.data.session;
+        if (!session && !localStorage.getItem('mergeui_session')) {
+          window.location.href = window.location.origin + '/pages/auth/login.html';
+        }
+      });
+    } else {
+      // OAuth 콜백: SDK가 코드 교환 완료할 때까지 3초 대기
+      setTimeout(function() {
+        if (!localStorage.getItem('mergeui_session')) {
+          window.location.href = window.location.origin + '/pages/auth/login.html';
+        }
+      }, 3000);
+    }
   }
 
   window.MergeDB = {
@@ -112,8 +125,7 @@ function initMergeSupabase() {
         email: email,
         plan: profile.plan || 'free',
         role: profile.role || 'subscriber',
-        avatar_url: profile.avatar_url || '',
-        access_token: data.session.access_token
+        avatar_url: profile.avatar_url || ''
       };
       localStorage.setItem('mergeui_session', JSON.stringify(session));
       return session;
@@ -139,11 +151,17 @@ function initMergeSupabase() {
       return data;
     },
 
-    // 로그아웃
+    // 로그아웃 — 보호 페이지면 로그인으로, 공개 페이지면 현재 페이지 유지
     logout: async function() {
       await sb.auth.signOut();
       localStorage.removeItem('mergeui_session');
-      window.location.href = '/pages/auth/login.html';
+      var path = window.location.pathname;
+      var isProtected = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
+      if (isProtected) {
+        window.location.href = '/pages/auth/login.html';
+      } else {
+        window.location.reload();
+      }
     },
 
     // 현재 유저

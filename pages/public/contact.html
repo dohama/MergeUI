@@ -4,7 +4,12 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact — MergeUi</title>
   <meta name="description" content="Get in touch with the MergeUi team. FAQ, support, and contact form.">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <meta property="og:title" content="Contact — MergeUi">
+  <meta property="og:description" content="Get in touch with the MergeUi team. FAQ, support, and contact form.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mergeui.com/contact">
+  <link rel="canonical" href="https://mergeui.com/contact">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
   <link rel="stylesheet" href="../../src/styles/nav.css">
@@ -155,7 +160,7 @@
     </div>
   </div>
 
-  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
 
 <script>
 document.querySelectorAll('.faq-q').forEach(function(btn){
@@ -177,9 +182,11 @@ document.getElementById('submitBtn').addEventListener('click', async function(){
   try {
     if(typeof MergeDB !== 'undefined') {
       await MergeDB.submitInquiry(name, email, category, '', message);
+      this.style.display='none';
+      document.getElementById('formSuccess').style.display='block';
+    } else {
+      alert('Service is temporarily unavailable. Please try again later.');
     }
-    this.style.display='none';
-    document.getElementById('formSuccess').style.display='block';
   } catch(err) {
     alert('Failed to submit. Please try again.');
   }

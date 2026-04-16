@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Themes — MergeUi</title>
   <meta name="description" content="Browse production-ready dashboard templates. SaaS, analytics, CRM, e-commerce and more. Dark mode, responsive, beautifully crafted.">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
+  <meta property="og:title" content="Dashboard Themes — MergeUi">
+  <meta property="og:description" content="Browse production-ready dashboard templates. SaaS, analytics, CRM, e-commerce and more. Dark mode, responsive, beautifully crafted.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mergeui.com/themes">
+  <link rel="canonical" href="https://mergeui.com/themes">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -75,7 +80,7 @@
 
     .card-badge{position:absolute;top:16px;left:16px;z-index:2;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
     .card-badge.free{background:rgba(34,197,94,0.15);color:var(--success)}
-    .card-badge.pro{background:rgba(99,102,241,0.15);color:var(--brand-light)}
+    .card-badge.pro{background:rgba(108,92,231,0.15);color:var(--brand-light)}
     .card-badge.new{background:rgba(251,191,36,0.15);color:#FBBF24}
 
     .card-preview{height:220px;position:relative;overflow:hidden;background:var(--bg-surface)}
@@ -90,12 +95,35 @@
     .mock-bar{flex:1;border-radius:2px 2px 0 0;opacity:0.6}
 
     /* Different theme color accents */
-    .theme-card[data-accent="indigo"] .mock-bar{background:linear-gradient(to top,#4F46E5,#818CF8)}
+    .theme-card[data-accent="indigo"] .mock-bar{background:linear-gradient(to top,#4F46E5,#8B7CF0)}
     .theme-card[data-accent="cyan"] .mock-bar{background:linear-gradient(to top,#0891B2,#22D3EE)}
     .theme-card[data-accent="purple"] .mock-bar{background:linear-gradient(to top,#7C3AED,#A78BFA)}
     .theme-card[data-accent="emerald"] .mock-bar{background:linear-gradient(to top,#059669,#34D399)}
     .theme-card[data-accent="rose"] .mock-bar{background:linear-gradient(to top,#E11D48,#FB7185)}
     .theme-card[data-accent="amber"] .mock-bar{background:linear-gradient(to top,#D97706,#FBBF24)}
+
+    /* SoftDesk Neumorphism Light thumbnail */
+    .mock-neu{position:absolute;inset:10px;border-radius:12px;background:#E8EDF2;display:grid;grid-template-columns:56px 1fr;overflow:hidden;font-family:'Inter',sans-serif}
+    .mock-neu-sb{background:#E8EDF2;padding:10px 6px;border-right:none;box-shadow:2px 0 8px rgba(0,0,0,0.04)}
+    .mock-neu-sb-logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#6C5CE7,#8B7CF6);margin:0 auto 12px;box-shadow:0 2px 6px rgba(108,92,231,0.3)}
+    .mock-neu-sb-item{width:32px;height:6px;border-radius:4px;margin:0 auto 8px;background:#E8EDF2;box-shadow:inset 2px 2px 4px rgba(163,174,186,0.3),inset -2px -2px 4px rgba(255,255,255,0.5)}
+    .mock-neu-sb-item.active{background:rgba(108,92,231,0.08);box-shadow:inset 2px 2px 4px rgba(163,174,186,0.35),inset -2px -2px 4px rgba(255,255,255,0.55)}
+    .mock-neu-main{padding:10px}
+    .mock-neu-topbar{height:14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+    .mock-neu-search{width:60px;height:10px;border-radius:6px;background:#E8EDF2;box-shadow:inset 2px 2px 4px rgba(163,174,186,0.3),inset -2px -2px 4px rgba(255,255,255,0.5)}
+    .mock-neu-avatar{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,#6C5CE7,#8B7CF6)}
+    .mock-neu-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px}
+    .mock-neu-stat{height:36px;border-radius:8px;background:#E8EDF2;box-shadow:3px 3px 8px rgba(163,174,186,0.35),-3px -3px 8px rgba(255,255,255,0.6);border-top:1px solid rgba(255,255,255,0.5);padding:5px 6px;display:flex;flex-direction:column;justify-content:space-between}
+    .mock-neu-stat:first-child{background:linear-gradient(135deg,#6C5CE7,#8B7CF6);box-shadow:0 3px 10px rgba(108,92,231,0.3);border:none}
+    .mock-neu-stat-label{height:3px;width:60%;border-radius:2px;background:rgba(0,0,0,0.06)}
+    .mock-neu-stat:first-child .mock-neu-stat-label{background:rgba(255,255,255,0.4)}
+    .mock-neu-stat-val{height:5px;width:45%;border-radius:2px;background:rgba(0,0,0,0.12)}
+    .mock-neu-stat:first-child .mock-neu-stat-val{background:rgba(255,255,255,0.8)}
+    .mock-neu-charts{display:grid;grid-template-columns:2fr 1fr;gap:5px}
+    .mock-neu-chart{height:72px;border-radius:8px;background:#E8EDF2;box-shadow:3px 3px 8px rgba(163,174,186,0.35),-3px -3px 8px rgba(255,255,255,0.6);border-top:1px solid rgba(255,255,255,0.5);padding:6px;overflow:hidden;position:relative}
+    .mock-neu-line{position:absolute;bottom:10px;left:6px;right:6px;height:40px}
+    .mock-neu-line svg{width:100%;height:100%}
+    .mock-neu-donut{width:36px;height:36px;border-radius:50%;border:5px solid #E8EDF2;border-top-color:#6C5CE7;border-right-color:#00CEC9;border-bottom-color:#FD79A8;margin:10px auto 0;box-shadow:2px 2px 4px rgba(163,174,186,0.3),-2px -2px 4px rgba(255,255,255,0.5)}
 
     .card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(6,6,10,0.8));opacity:0;transition:opacity 0.3s;display:flex;align-items:flex-end;justify-content:center;padding:20px;gap:10px}
     .theme-card:hover .card-overlay{opacity:1}
@@ -216,28 +244,28 @@
   </div>
 
 <script>
-var themes = [];
-
-// Load from DB when ready
-document.addEventListener('mergedb-ready', async function() {
-  try {
-    var dbThemes = await MergeDB.getThemes();
-    if (dbThemes && dbThemes.length > 0) {
-      // Normalize DB fields: ensure tags is an array
-      themes = dbThemes.map(function(t) {
-        return Object.assign({}, t, {
-          tags: Array.isArray(t.tags) ? t.tags : (t.tags ? [t.tags] : []),
-          accent: t.accent || 'indigo',
-          badge: t.badge || '',
-          components_count: t.components_count || 0,
-          pages_count: t.pages_count || 0,
-          downloads_count: t.downloads_count || 0
-        });
-      });
-    }
-  } catch (e) {
-    console.warn('Failed to load themes from DB, using fallback:', e);
+// Fallback theme data (replaced by DB when backend is connected)
+var themes = [
+  {
+    id: 'softdesk',
+    slug: 'softdesk',
+    name: 'SoftDesk',
+    description: 'A neumorphic SaaS admin dashboard with soft shadows and clean data views.',
+    category: 'saas',
+    tags: ['SaaS', 'Neumorphism', 'Admin'],
+    accent: 'purple',
+    badge: 'new',
+    components_count: 16,
+    pages_count: 5,
+    downloads_count: 0
   }
+];
+
+// TODO: Re-enable when backend is connected
+// document.addEventListener('mergedb-ready', async function() { ... });
+
+// Render fallback immediately on page load
+document.addEventListener('DOMContentLoaded', function() {
   filterThemes();
 });
 
@@ -259,11 +287,25 @@ function renderThemes(list){
     var compCount=t.components_count||t.components||0;
     var pageCount=t.pages_count||t.pages||0;
     var dlCount=t.downloads_count||t.downloads||0;
+    // Choose mock style based on theme
+    var mockHtml;
+    if (slug === 'softdesk') {
+      mockHtml = '<div class="mock-neu">'+
+        '<div class="mock-neu-sb"><div class="mock-neu-sb-logo"></div><div class="mock-neu-sb-item active"></div><div class="mock-neu-sb-item"></div><div class="mock-neu-sb-item"></div><div class="mock-neu-sb-item"></div></div>'+
+        '<div class="mock-neu-main">'+
+          '<div class="mock-neu-topbar"><div class="mock-neu-search"></div><div class="mock-neu-avatar"></div></div>'+
+          '<div class="mock-neu-stats"><div class="mock-neu-stat"><div class="mock-neu-stat-label"></div><div class="mock-neu-stat-val"></div></div><div class="mock-neu-stat"><div class="mock-neu-stat-label"></div><div class="mock-neu-stat-val"></div></div><div class="mock-neu-stat"><div class="mock-neu-stat-label"></div><div class="mock-neu-stat-val"></div></div><div class="mock-neu-stat"><div class="mock-neu-stat-label"></div><div class="mock-neu-stat-val"></div></div></div>'+
+          '<div class="mock-neu-charts"><div class="mock-neu-chart"><div class="mock-neu-line"><svg viewBox="0 0 200 60" fill="none"><path d="M0 50 C30 45,50 30,80 25 S130 10,160 15 S190 5,200 8" stroke="#6C5CE7" stroke-width="2.5" fill="none"/><path d="M0 50 C30 45,50 30,80 25 S130 10,160 15 S190 5,200 8 V60 H0Z" fill="url(#neuGrad)" opacity="0.15"/><defs><linearGradient id="neuGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6C5CE7"/><stop offset="100%" stop-color="#6C5CE7" stop-opacity="0"/></linearGradient></defs></svg></div></div><div class="mock-neu-chart"><div class="mock-neu-donut"></div></div></div>'+
+        '</div></div>';
+    } else {
+      mockHtml = '<div class="mock"><div class="mock-sb"><div class="mock-sb-item active"></div><div class="mock-sb-item"></div><div class="mock-sb-item"></div><div class="mock-sb-item"></div></div>'+
+        '<div class="mock-content"><div class="mock-row"><div class="mock-block"></div><div class="mock-block"></div><div class="mock-block"></div></div><div class="mock-row"><div class="mock-block"></div><div class="mock-block"></div></div><div class="mock-chart">'+bars+'</div></div></div>';
+    }
+
     return '<div class="theme-card" data-category="'+t.category+'" data-accent="'+(t.accent||'indigo')+'" data-name="'+t.name.toLowerCase()+'" data-downloads="'+dlCount+'" data-slug="'+slug+'">'+
       badgeHtml+
       '<div class="card-preview">'+
-        '<div class="mock"><div class="mock-sb"><div class="mock-sb-item active"></div><div class="mock-sb-item"></div><div class="mock-sb-item"></div><div class="mock-sb-item"></div></div>'+
-        '<div class="mock-content"><div class="mock-row"><div class="mock-block"></div><div class="mock-block"></div><div class="mock-block"></div></div><div class="mock-row"><div class="mock-block"></div><div class="mock-block"></div></div><div class="mock-chart">'+bars+'</div></div></div>'+
+        mockHtml+
         '<div class="card-overlay"><a href="preview.html?theme='+slug+'" class="card-overlay-btn primary">Preview</a><a href="detail.html?theme='+slug+'" class="card-overlay-btn ghost">Details</a></div>'+
       '</div>'+
       '<div class="card-body">'+
@@ -324,7 +366,7 @@ document.getElementById('themesGrid').addEventListener('click',function(e){
   window.location.href='detail.html?theme='+card.dataset.slug;
 });
 </script>
-  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
 <script src="../../src/js/auth.js"></script>
 </body>
 </html>

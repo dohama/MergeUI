@@ -4,7 +4,12 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Changelog — MergeUi</title>
   <meta name="description" content="MergeUi changelog. Latest updates, new themes, components, and improvements.">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <meta property="og:title" content="Changelog — MergeUi">
+  <meta property="og:description" content="MergeUi changelog. Latest updates, new themes, components, and improvements.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mergeui.com/changelog">
+  <link rel="canonical" href="https://mergeui.com/changelog">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
   <link rel="stylesheet" href="../../src/styles/nav.css">
@@ -44,7 +49,7 @@
     .timeline-item{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
     .timeline-item:last-child{border:none}
     .timeline-badge{padding:3px 10px;font-size:10px;font-weight:800;border-radius:999px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:0.5px}
-    .badge-theme{background:rgba(99,102,241,0.15);color:var(--brand-light)}
+    .badge-theme{background:rgba(108,92,231,0.15);color:var(--brand-light)}
     .badge-component{background:rgba(34,211,238,0.15);color:var(--accent)}
     .badge-fix{background:rgba(244,63,94,0.15);color:#FB7185}
     .badge-improvement{background:rgba(34,197,94,0.15);color:var(--success)}
@@ -149,9 +154,14 @@
     </div>
   </div>
 
-  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
 
 <script>
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 // Load releases from DB
 document.addEventListener('mergedb-ready', async function() {
   try {
@@ -189,9 +199,9 @@ document.addEventListener('mergedb-ready', async function() {
       months[month].forEach(function(r) {
         var type = r.type || 'improvement';
         var badgeClass = badgeMap[type] || 'badge-improvement';
-        var label = labelMap[type] || type;
-        var title = r.title || '';
-        var body = r.body || r.description || '';
+        var label = labelMap[type] || escapeHtml(type);
+        var title = escapeHtml(r.title || '');
+        var body = escapeHtml(r.body || r.description || '');
         var text = title ? '<strong>' + title + '</strong>' + (body ? ' — ' + body : '') : body;
         html += '<div class="timeline-item"><span class="timeline-badge ' + badgeClass + '">' + label + '</span><div class="timeline-text">' + text + '</div></div>';
       });

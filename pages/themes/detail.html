@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analytics Pro — MergeUi Theme</title>
-  <meta name="description" content="Analytics Pro dashboard template. Data-heavy dashboard with real-time charts, KPIs, and advanced filtering. Dark mode, responsive, production-ready.">
-  <meta property="og:title" content="Analytics Pro — MergeUi Dashboard Theme">
-  <meta property="og:description" content="Data-heavy dashboard with real-time charts, KPIs, and advanced filtering.">
+  <title>SoftDesk — Neumorphic SaaS Admin Dashboard Template | MergeUi</title>
+  <meta name="description" content="A soft UI admin dashboard with 5 pages, Chart.js charts, 4 color presets, and full accessibility. Pure HTML/CSS/JS.">
+  <meta property="og:title" content="SoftDesk — Neumorphic SaaS Admin Dashboard">
+  <meta property="og:description" content="Clean, accessible admin template with soft shadows, 3 chart types, and 4 accent presets. No framework needed.">
   <meta property="og:type" content="product">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -57,10 +57,10 @@
     .detail-info p{font-size:15px;color:var(--text-secondary);max-width:600px;line-height:1.6}
     .detail-tags{display:flex;gap:6px;margin-top:12px}
     .dtag{padding:4px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;color:var(--text-muted)}
-    .dtag.pro{background:rgba(99,102,241,0.1);color:var(--brand-light);border-color:rgba(99,102,241,0.15)}
+    .dtag.pro{background:rgba(108,92,231,0.1);color:var(--brand-light);border-color:rgba(108,92,231,0.15)}
     .detail-actions{display:flex;gap:10px;align-items:center;flex-shrink:0}
     .btn-download{padding:12px 28px;background:var(--brand);color:white;font-size:14px;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:all 0.2s;font-family:var(--font);box-shadow:0 0 24px var(--glow-brand);display:flex;align-items:center;gap:8px}
-    .btn-download:hover{background:var(--brand-light);transform:translateY(-2px);box-shadow:0 0 40px rgba(99,102,241,0.3)}
+    .btn-download:hover{background:var(--brand-light);transform:translateY(-2px);box-shadow:0 0 40px rgba(108,92,231,0.3)}
     .btn-download svg{width:18px;height:18px}
     .btn-fav{width:44px;height:44px;border-radius:12px;background:var(--bg-raised);border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all 0.15s}
     .btn-fav:hover{border-color:var(--brand);background:var(--glow-brand)}
@@ -78,49 +78,49 @@
     .theme-toggle.light{background:rgba(255,255,255,0.9);color:#18181B;border-color:rgba(255,255,255,0.3)}
     .pc-size{font-size:10px;color:var(--text-muted);font-family:monospace;padding:4px 8px;background:var(--bg-base);border-radius:4px;margin-left:8px}
 
-    .preview-frame{border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;background:#0A0A0F;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;transition:height 0.4s}
+    .preview-frame{border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;background:#E8EDF2;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;transition:height 0.4s}
 
-    /* Live dashboard mock */
-    .mock-dashboard{transition:width 0.4s,transform 0.4s;transform-origin:top center;background:var(--bg-base);border-radius:0 0 8px 8px;overflow:hidden}
+    /* Live dashboard mock — SoftDesk Neumorphism Light */
+    .mock-dashboard{transition:width 0.4s,transform 0.4s;transform-origin:top center;background:#E8EDF2;border-radius:0 0 8px 8px;overflow:hidden;color:#1A1D26}
     .md-layout{display:grid;grid-template-columns:220px 1fr;min-height:600px}
-    .md-sidebar{background:rgba(0,0,0,0.3);border-right:1px solid var(--border);padding:20px 14px}
-    .md-sb-logo{font-size:14px;font-weight:800;padding:4px 10px;margin-bottom:24px;color:var(--brand-light)}
+    .md-sidebar{background:#E8EDF2;box-shadow:3px 0 12px rgba(0,0,0,0.04);padding:20px 14px}
+    .md-sb-logo{font-size:14px;font-weight:800;padding:4px 10px;margin-bottom:24px;color:#6C5CE7}
     .md-sb-group{margin-bottom:18px}
     .md-sb-label{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);padding:0 10px;margin-bottom:6px}
-    .md-sb-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;font-size:12px;color:var(--text-muted);margin-bottom:2px;transition:all 0.1s}
-    .md-sb-item:hover{background:rgba(255,255,255,0.02)}
-    .md-sb-item.active{background:var(--glow-brand);color:var(--brand-light)}
+    .md-sb-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;font-size:12px;color:#8892A4;margin-bottom:2px;transition:all 0.1s}
+    .md-sb-item:hover{background:rgba(0,0,0,0.03)}
+    .md-sb-item.active{background:transparent;color:#6C5CE7;box-shadow:inset 3px 3px 6px rgba(163,174,186,0.3),inset -3px -3px 6px rgba(255,255,255,0.5)}
     .md-sb-icon{width:16px;height:16px;border-radius:4px;border:1.5px solid currentColor;opacity:0.4}
-    .md-sb-item.active .md-sb-icon{opacity:0.7}
+    .md-sb-item.active .md-sb-icon{opacity:0.8}
 
-    .md-main{padding:24px}
+    .md-main{padding:24px;background:#E8EDF2}
     .md-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-    .md-title{font-size:20px;font-weight:800}
+    .md-title{font-size:20px;font-weight:800;color:#1A1D26}
     .md-pills{display:flex;gap:6px}
-    .md-pill{padding:5px 14px;border-radius:7px;font-size:11px;font-weight:600;background:var(--bg-surface);color:var(--text-muted);border:1px solid var(--border)}
-    .md-pill.active{background:var(--brand);color:white;border-color:var(--brand)}
+    .md-pill{padding:5px 14px;border-radius:7px;font-size:11px;font-weight:600;background:#E8EDF2;color:#8892A4;border:none;box-shadow:inset 2px 2px 4px rgba(163,174,186,0.3),inset -2px -2px 4px rgba(255,255,255,0.5)}
+    .md-pill.active{background:linear-gradient(135deg,#6C5CE7,#8B7CF6);color:white;box-shadow:0 2px 8px rgba(108,92,231,0.3)}
 
     .md-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-    .md-stat{padding:16px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid var(--border)}
-    .md-stat-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
-    .md-stat-val{font-size:24px;font-weight:800;margin-top:4px}
+    .md-stat{padding:16px;border-radius:12px;background:#E8EDF2;border:none;box-shadow:4px 4px 10px rgba(163,174,186,0.4),-4px -4px 10px rgba(255,255,255,0.6);border-top:1px solid rgba(255,255,255,0.5)}
+    .md-stat-label{font-size:10px;color:#8892A4;text-transform:uppercase;letter-spacing:0.5px}
+    .md-stat-val{font-size:24px;font-weight:800;margin-top:4px;color:#1A1D26}
     .md-stat-change{font-size:11px;margin-top:2px}
-    .md-stat-change.up{color:var(--success)}.md-stat-change.down{color:#EF4444}
+    .md-stat-change.up{color:#00B894}.md-stat-change.down{color:#FF6B6B}
 
     .md-charts{display:grid;grid-template-columns:2fr 1fr;gap:14px}
-    .md-chart-card{padding:18px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid var(--border)}
-    .md-chart-title{font-size:13px;font-weight:700;margin-bottom:14px}
+    .md-chart-card{padding:18px;border-radius:12px;background:#E8EDF2;border:none;box-shadow:4px 4px 10px rgba(163,174,186,0.4),-4px -4px 10px rgba(255,255,255,0.6);border-top:1px solid rgba(255,255,255,0.5)}
+    .md-chart-title{font-size:13px;font-weight:700;margin-bottom:14px;color:#1A1D26}
     .md-bar-chart{display:flex;align-items:flex-end;gap:4px;height:140px}
-    .md-bar{flex:1;border-radius:3px 3px 0 0;background:linear-gradient(to top,var(--brand-dark),var(--brand-light));opacity:0.6;transition:opacity 0.2s}
+    .md-bar{flex:1;border-radius:6px 6px 0 0;background:linear-gradient(to top,rgba(108,92,231,0.5),#6C5CE7);opacity:0.7;transition:opacity 0.2s}
     .md-bar:hover{opacity:1}
-    .md-donut{width:120px;height:120px;border-radius:50%;border:18px solid var(--bg-surface);border-top-color:var(--brand);border-right-color:var(--accent);border-bottom-color:var(--accent2);margin:10px auto;position:relative}
-    .md-donut-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+    .md-donut{width:120px;height:120px;border-radius:50%;border:18px solid #E8EDF2;border-top-color:#6C5CE7;border-right-color:#00CEC9;border-bottom-color:#FD79A8;margin:10px auto;position:relative;box-shadow:3px 3px 8px rgba(163,174,186,0.3),-3px -3px 8px rgba(255,255,255,0.5)}
+    .md-donut-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#1A1D26}
 
-    .md-table{margin-top:14px;padding:18px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid var(--border)}
-    .md-table-title{font-size:13px;font-weight:700;margin-bottom:12px}
+    .md-table{margin-top:14px;padding:18px;border-radius:12px;background:#E8EDF2;border:none;box-shadow:4px 4px 10px rgba(163,174,186,0.4),-4px -4px 10px rgba(255,255,255,0.6);border-top:1px solid rgba(255,255,255,0.5)}
+    .md-table-title{font-size:13px;font-weight:700;margin-bottom:12px;color:#1A1D26}
     .md-table table{width:100%;border-collapse:collapse}
-    .md-table th{text-align:left;font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;padding:8px 12px;border-bottom:1px solid var(--border)}
-    .md-table td{font-size:12px;padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+    .md-table th{text-align:left;font-size:10px;color:#8892A4;text-transform:uppercase;letter-spacing:0.5px;padding:8px 12px;border-bottom:1px solid rgba(0,0,0,0.06)}
+    .md-table td{font-size:12px;padding:10px 12px;border-bottom:1px solid rgba(0,0,0,0.04);color:#4A5168}
     .md-table tr:last-child td{border:none}
     .md-table .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}
     .md-table .status-dot.green{background:var(--success)}.md-table .status-dot.yellow{background:#FBBF24}
@@ -215,18 +215,18 @@
   <div class="breadcrumb">
     <a href="index.html">Themes</a>
     <span class="sep">/</span>
-    <span id="breadcrumbName" style="color:var(--text-secondary)">Analytics Pro</span>
+    <span id="breadcrumbName" style="color:var(--text-secondary)">SoftDesk</span>
   </div>
 
   <div class="detail-hero">
     <div class="detail-top">
       <div class="detail-info">
-        <h1 id="themeName">Analytics Pro</h1>
-        <p id="themeDesc">Data-heavy dashboard with real-time charts, KPIs, and advanced filtering. Perfect for SaaS products, internal tools, and analytics platforms.</p>
+        <h1 id="themeName">SoftDesk</h1>
+        <p id="themeDesc">A clean, accessible SaaS admin dashboard built with soft UI principles. Five production-ready pages, three chart types, and four accent color presets. Pure HTML/CSS/JS — no framework lock-in.</p>
         <div class="detail-tags" id="themeTags">
-          <span class="dtag">Analytics</span>
-          <span class="dtag">Charts</span>
-          <span class="dtag">Real-time</span>
+          <span class="dtag">SaaS</span>
+          <span class="dtag">Neumorphism</span>
+          <span class="dtag">Admin</span>
           <span class="dtag pro">Pro</span>
         </div>
       </div>
@@ -280,7 +280,7 @@
               </div>
             </div>
             <div class="md-stats">
-              <div class="md-stat"><div class="md-stat-label">Total Revenue</div><div class="md-stat-val">$45.2K</div><div class="md-stat-change up">↑ 12.5%</div></div>
+              <div class="md-stat" style="background:linear-gradient(135deg,#6C5CE7,#8B7CF6);box-shadow:0 4px 14px rgba(108,92,231,0.3);border:none"><div class="md-stat-label" style="color:rgba(255,255,255,0.7)">Monthly Revenue</div><div class="md-stat-val" style="color:#fff">$12.8K</div><div class="md-stat-change up" style="color:rgba(255,255,255,0.85)">↑ 12.5%</div></div>
               <div class="md-stat"><div class="md-stat-label">Active Users</div><div class="md-stat-val">2,340</div><div class="md-stat-change up">↑ 8.1%</div></div>
               <div class="md-stat"><div class="md-stat-label">Conversion</div><div class="md-stat-val">3.6%</div><div class="md-stat-change down">↓ 0.4%</div></div>
               <div class="md-stat"><div class="md-stat-label">Avg Session</div><div class="md-stat-val">4m 32s</div><div class="md-stat-change up">↑ 15s</div></div>
@@ -326,36 +326,32 @@
       <div>
         <!-- Components -->
         <div class="section-card">
-          <h2 id="componentsTitle">Included Components (28)</h2>
+          <h2 id="componentsTitle">Key Features</h2>
           <div class="component-list" id="featuresList">
-            <div class="comp-item"><span class="comp-icon">📊</span> Line Chart</div>
-            <div class="comp-item"><span class="comp-icon">📊</span> Bar Chart</div>
-            <div class="comp-item"><span class="comp-icon">📊</span> Pie / Donut</div>
-            <div class="comp-item"><span class="comp-icon">📊</span> Area Chart</div>
-            <div class="comp-item"><span class="comp-icon">📋</span> Data Table</div>
-            <div class="comp-item"><span class="comp-icon">🃏</span> Stat Card</div>
-            <div class="comp-item"><span class="comp-icon">🃏</span> KPI Widget</div>
-            <div class="comp-item"><span class="comp-icon">📁</span> Sidebar Nav</div>
-            <div class="comp-item"><span class="comp-icon">🔝</span> Top Bar</div>
-            <div class="comp-item"><span class="comp-icon">📄</span> Page Header</div>
+            <div class="comp-item"><span class="comp-icon">✨</span> Soft UI Design Language</div>
+            <div class="comp-item"><span class="comp-icon">📊</span> 3 Chart Types (Line, Bar, Doughnut)</div>
+            <div class="comp-item"><span class="comp-icon">🎨</span> 4 Accent Color Presets</div>
+            <div class="comp-item"><span class="comp-icon">📱</span> Fully Responsive (3 breakpoints)</div>
+            <div class="comp-item"><span class="comp-icon">♿</span> WCAG AA Accessible</div>
+            <div class="comp-item"><span class="comp-icon">📋</span> Data Table with Pagination</div>
+            <div class="comp-item"><span class="comp-icon">🃏</span> Neumorphic Stat Cards</div>
+            <div class="comp-item"><span class="comp-icon">📁</span> Sidebar Navigation</div>
             <div class="comp-item"><span class="comp-icon">🔍</span> Search Bar</div>
-            <div class="comp-item"><span class="comp-icon">🔔</span> Notification</div>
-            <div class="comp-item"><span class="comp-icon">📝</span> Form Input</div>
-            <div class="comp-item"><span class="comp-icon">☑️</span> Select Menu</div>
-            <div class="comp-item"><span class="comp-icon">📅</span> Date Picker</div>
-            <div class="comp-item"><span class="comp-icon">💬</span> Modal</div>
-            <div class="comp-item"><span class="comp-icon">🔄</span> Progress Bar</div>
-            <div class="comp-item"><span class="comp-icon">🏷️</span> Badge / Tag</div>
+            <div class="comp-item"><span class="comp-icon">🔔</span> Notification Badge</div>
+            <div class="comp-item"><span class="comp-icon">📝</span> Form Inputs (Neumorphic)</div>
+            <div class="comp-item"><span class="comp-icon">🎚</span> Toggle Switches</div>
+            <div class="comp-item"><span class="comp-icon">🔄</span> Progress Bars</div>
+            <div class="comp-item"><span class="comp-icon">🏷</span> Status Badges</div>
             <div class="comp-item"><span class="comp-icon">📑</span> Tabs</div>
-            <div class="comp-item"><span class="comp-icon">🍞</span> Breadcrumb</div>
-            <div class="comp-item"><span class="comp-icon">📄</span> Pagination</div>
-            <div class="comp-item"><span class="comp-icon">👤</span> Avatar</div>
-            <div class="comp-item"><span class="comp-icon">🎚️</span> Toggle</div>
-            <div class="comp-item"><span class="comp-icon">⬇️</span> Dropdown</div>
-            <div class="comp-item"><span class="comp-icon">📊</span> Sparkline</div>
-            <div class="comp-item"><span class="comp-icon">🗓️</span> Calendar</div>
-            <div class="comp-item"><span class="comp-icon">⏳</span> Skeleton</div>
-            <div class="comp-item"><span class="comp-icon">🚫</span> Empty State</div>
+            <div class="comp-item"><span class="comp-icon">👤</span> Avatar Components</div>
+          </div>
+          <h2 style="margin-top: 24px;">Included Pages (5)</h2>
+          <div class="component-list" style="margin-top: 12px;">
+            <div class="comp-item"><span class="comp-icon">📊</span> Dashboard — KPIs, charts, activity feed</div>
+            <div class="comp-item"><span class="comp-icon">👥</span> Users — Data table, filters, search</div>
+            <div class="comp-item"><span class="comp-icon">👤</span> User Detail — Profile, timeline, downloads</div>
+            <div class="comp-item"><span class="comp-icon">💳</span> Billing — Plans, transactions, invoices</div>
+            <div class="comp-item"><span class="comp-icon">⚙</span> Settings — Profile, notifications, security</div>
           </div>
         </div>
 
@@ -363,15 +359,19 @@
         <div class="section-card">
           <h2>Technical Specs</h2>
           <ul class="spec-list">
-            <li><span class="spec-label">File Size</span><span class="spec-value">48 KB (minified)</span></li>
-            <li><span class="spec-label">CSS Variables</span><span class="spec-value">42 tokens</span></li>
-            <li><span class="spec-label">Components</span><span class="spec-value" id="specComponents">28</span></li>
-            <li><span class="spec-label">Pages</span><span class="spec-value" id="specPages">6</span></li>
-            <li><span class="spec-label">Dark Mode</span><span class="spec-value">✓ Included</span></li>
-            <li><span class="spec-label">Responsive</span><span class="spec-value">✓ 3 breakpoints</span></li>
-            <li><span class="spec-label">Accessibility</span><span class="spec-value">WCAG AA</span></li>
-            <li><span class="spec-label">Dependencies</span><span class="spec-value">None (vanilla)</span></li>
+            <li><span class="spec-label">Style</span><span class="spec-value">Neumorphism (Light)</span></li>
+            <li><span class="spec-label">Pages</span><span class="spec-value" id="specPages">5</span></li>
+            <li><span class="spec-label">Components</span><span class="spec-value" id="specComponents">16+</span></li>
+            <li><span class="spec-label">Color Presets</span><span class="spec-value">4 (Violet, Blue, Emerald, Coral)</span></li>
+            <li><span class="spec-label">Charts</span><span class="spec-value">Chart.js 4.x (Line, Bar, Doughnut)</span></li>
+            <li><span class="spec-label">CSS Variables</span><span class="spec-value">60+ --merge-* tokens</span></li>
+            <li><span class="spec-label">Framework</span><span class="spec-value">Pure HTML/CSS/JS (no React/Vue)</span></li>
+            <li><span class="spec-label">Responsive</span><span class="spec-value">1280px+ / 768px / 375px</span></li>
+            <li><span class="spec-label">Accessibility</span><span class="spec-value">WCAG AA (4.5:1 contrast)</span></li>
+            <li><span class="spec-label">Font</span><span class="spec-value">Inter (Google Fonts, free)</span></li>
+            <li><span class="spec-label">Icons</span><span class="spec-value">Lucide (inline SVG)</span></li>
             <li><span class="spec-label">Browser Support</span><span class="spec-value">Chrome, Firefox, Safari, Edge</span></li>
+            <li><span class="spec-label">Build Step</span><span class="spec-value">None required</span></li>
             <li><span class="spec-label">Last Updated</span><span class="spec-value" id="specUpdated">April 2026</span></li>
           </ul>
         </div>
@@ -653,15 +653,20 @@ window.addEventListener('load',function(){
   var desc = document.getElementById('themeDesc');
   if (desc) desc.textContent = theme.desc;
 
+  function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
   // Tags
   var tagsEl = document.getElementById('themeTags');
   if (tagsEl) {
     var html = '';
     for (var i = 0; i < theme.tags.length; i++) {
-      html += '<span class="dtag">' + theme.tags[i] + '</span>';
+      html += '<span class="dtag">' + escapeHtml(theme.tags[i]) + '</span>';
     }
     var badgeClass = theme.badge === 'pro' ? ' pro' : '';
-    var badgeLabel = theme.badge.charAt(0).toUpperCase() + theme.badge.slice(1);
+    var badgeLabel = escapeHtml(theme.badge.charAt(0).toUpperCase() + theme.badge.slice(1));
     html += '<span class="dtag' + badgeClass + '">' + badgeLabel + '</span>';
     tagsEl.innerHTML = html;
   }
@@ -680,7 +685,7 @@ window.addEventListener('load',function(){
     var icons = ['\uD83D\uDCCA','\uD83D\uDCCB','\u2699\uFE0F','\uD83D\uDD0D','\uD83D\uDCF1','\uD83C\uDF19'];
     var fhtml = '';
     for (var j = 0; j < theme.features.length; j++) {
-      fhtml += '<div class="comp-item"><span class="comp-icon">' + icons[j % icons.length] + '</span> ' + theme.features[j] + '</div>';
+      fhtml += '<div class="comp-item"><span class="comp-icon">' + icons[j % icons.length] + '</span> ' + escapeHtml(theme.features[j]) + '</div>';
     }
     fl.innerHTML = fhtml;
   }
@@ -702,7 +707,7 @@ window.addEventListener('load',function(){
   }
 })();
 </script>
-  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
 <script>
 function toggleFav(el){
   var isFav = el.textContent.trim() === '\u2665';

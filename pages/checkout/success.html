@@ -4,7 +4,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Successful — MergeUi</title>
   <meta name="description" content="Your MergeUi payment was successful. Welcome to Pro!">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
   <link rel="stylesheet" href="../../src/styles/nav.css">
@@ -59,12 +59,12 @@
     <h1>Payment <span class="gradient-text">Successful</span>!</h1>
     <p class="desc">Thank you for subscribing to MergeUi Pro. You now have full access to all themes and components.</p>
     <div class="order-card">
-      <div class="order-row"><span class="label">Plan</span><span class="value">Pro Monthly</span></div>
-      <div class="order-row"><span class="label">Amount</span><span class="value">$19.00/month</span></div>
-      <div class="order-row"><span class="label">Next billing</span><span class="value" id="nextBilling">—</span></div>
+      <div class="order-row"><span class="label">Plan</span><span class="value" id="planName">--</span></div>
+      <div class="order-row"><span class="label">Amount</span><span class="value" id="planAmount">--</span></div>
+      <div class="order-row"><span class="label">Next billing</span><span class="value" id="nextBilling">--</span></div>
       <div class="order-row"><span class="label">Status</span><span class="value" style="color:var(--success)">Active</span></div>
       <div class="license-row">
-        <span class="license-key" id="licenseKey">MERGE-PRO-A7F2-X9K4</span>
+        <span class="license-key" id="licenseKey">--</span>
         <button type="button" class="copy-btn" onclick="copyLicense()">Copy</button>
       </div>
     </div>
@@ -74,21 +74,37 @@
     </div>
   </main>
 
-  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
 
 <script>
-// Next billing date
-(function(){
-  var d=new Date();d.setMonth(d.getMonth()+1);
-  var el=document.getElementById('nextBilling');
-  if(el)el.textContent=d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
-})();
+// DB에서 구독/라이선스 정보 로드
+document.addEventListener('mergedb-ready', async function() {
+  try {
+    var sub = await MergeDB.getMySubscription();
+    if (sub) {
+      var planEl = document.getElementById('planName');
+      var amtEl = document.getElementById('planAmount');
+      var nextEl = document.getElementById('nextBilling');
+      if (planEl) planEl.textContent = (sub.plan || 'Pro').charAt(0).toUpperCase() + (sub.plan || 'pro').slice(1) + ' ' + (sub.interval || 'Monthly');
+      if (amtEl && sub.amount) amtEl.textContent = '$' + (sub.amount / 100).toFixed(2) + '/' + (sub.interval === 'yearly' ? 'year' : 'month');
+      if (nextEl && sub.current_period_end) {
+        nextEl.textContent = new Date(sub.current_period_end).toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
+      }
+    }
+    var license = await MergeDB.getMyLicenseKey();
+    if (license && license.key) {
+      document.getElementById('licenseKey').textContent = license.key;
+    }
+  } catch(e) { /* DB 미연동 시 기본값(--) 유지 */ }
+});
 function copyLicense(){
-  var key=document.getElementById('licenseKey').textContent;
+  var key = document.getElementById('licenseKey').textContent;
+  if (!key || key === '--') return;
   navigator.clipboard.writeText(key).then(function(){
-    var btn=document.querySelector('.copy-btn');btn.textContent='Copied!';
-    setTimeout(function(){btn.textContent='Copy';},2000);
-  });
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(function(){ btn.textContent = 'Copy'; }, 2000);
+  }).catch(function(){});
 }
 </script>
 <script src="../../src/js/auth.js"></script>

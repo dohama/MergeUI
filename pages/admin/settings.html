@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>관리자: 설정 — MergeUi</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
   <link rel="stylesheet" href="../../src/styles/sidebar.css">
@@ -27,6 +27,18 @@
   <aside class="sidebar">
     <a href="../../landing/index.html" class="sb-logo" style="text-decoration:none;color:inherit"><span class="mark">A</span><span>MergeUi Admin</span></a>
     <nav class="sb-nav"><div class="sb-group"><div class="sb-label">개요</div><a href="dashboard.html" class="sb-item "><span class="sb-icon"></span> 대시보드</a><a href="subscribers.html" class="sb-item "><span class="sb-icon"></span> 구독자</a><a href="orders.html" class="sb-item "><span class="sb-icon"></span> 주문</a></div><div class="sb-group"><div class="sb-label">콘텐츠</div><a href="themes.html" class="sb-item "><span class="sb-icon"></span> 테마</a><a href="components.html" class="sb-item "><span class="sb-icon"></span> 컴포넌트</a><a href="releases.html" class="sb-item "><span class="sb-icon"></span> 릴리즈</a></div><div class="sb-group"><div class="sb-label">지원</div><a href="inquiries.html" class="sb-item "><span class="sb-icon"></span> 문의</a><a href="analytics.html" class="sb-item "><span class="sb-icon"></span> 분석</a><a href="settings.html" class="sb-item active"><span class="sb-icon"></span> 설정</a></div></nav>
+    <div class="sb-footer" style="padding:16px;border-top:1px solid var(--border)">
+      <div class="sb-user" style="display:flex;align-items:center;gap:10px">
+        <div class="sb-avatar" style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:white">A</div>
+        <div>
+          <div class="sb-user-name" style="font-size:13px;font-weight:600">Admin</div>
+          <div class="sb-user-plan" style="font-size:10px;color:var(--brand-light)">Admin</div>
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <a onclick="logout()" style="font-size:11px;color:var(--text-muted);cursor:pointer">Sign Out</a>
+      </div>
+    </div>
   </aside>
 
   <main class="main">

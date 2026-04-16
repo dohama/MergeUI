@@ -33,26 +33,37 @@
     }
   }
 
-  // Logout
+  // Logout — Supabase signOut 우선 호출, fallback으로 localStorage 직접 삭제
   window.logout = function() {
-    localStorage.removeItem('mergeui_session');
-    window.location.href = BASE + 'pages/auth/login.html';
+    if (window.MergeDB && typeof window.MergeDB.logout === 'function') {
+      window.MergeDB.logout();
+    } else {
+      localStorage.removeItem('mergeui_session');
+      var path = window.location.pathname;
+      var isProtected = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
+      if (isProtected) {
+        window.location.href = BASE + 'pages/auth/login.html';
+      } else {
+        window.location.reload();
+      }
+    }
   };
 
   // Update nav for logged-in state (public pages)
   function updatePublicNav(session) {
     if (!session) return;
     var dashUrl = BASE + 'pages/subscriber/dashboard.html';
+    if (session.role === 'admin') dashUrl = BASE + 'pages/admin/dashboard.html';
     var navRight = document.querySelector('.nav-right');
     if (navRight) {
-      navRight.innerHTML = '<a href="' + dashUrl + '" class="nav-cta">My Dashboard</a>';
+      navRight.innerHTML = '<a onclick="logout()" style="font-size:14px;color:var(--text-muted);cursor:pointer;font-weight:500">Sign Out</a><a href="' + dashUrl + '" class="nav-cta">My Dashboard</a>';
     }
     var mob = document.getElementById('mobileMenu');
     if (mob) {
       var si = mob.querySelector('a[href*="login"]');
       if (si) { si.textContent = 'My Dashboard'; si.href = dashUrl; }
       var gs = mob.querySelector('a[href*="signup"]');
-      if (gs) gs.remove();
+      if (gs) { gs.textContent = 'Sign Out'; gs.href = '#'; gs.onclick = function(e) { e.preventDefault(); logout(); }; gs.style = ''; }
     }
   }
 
@@ -114,10 +125,22 @@
       return;
     }
 
-    // 관리자 페이지 — role 체크
+    // 관리자 페이지 — localStorage role로 1차 체크 (UI 힌트)
     if (isAdminPage && session && session.role !== 'admin') {
       window.location.href = BASE + 'pages/subscriber/dashboard.html';
       return;
+    }
+
+    // 관리자 페이지 — 서버에서 role 재검증 (localStorage 조작 방지)
+    if (isAdminPage && session) {
+      if (window.MergeDB && typeof window.MergeDB.getProfile === 'function') {
+        window.MergeDB.getProfile().then(function(profile) {
+          if (!profile || profile.role !== 'admin') {
+            localStorage.removeItem('mergeui_session');
+            window.location.href = BASE + 'pages/auth/login.html';
+          }
+        });
+      }
     }
 
     if (isSubscriberPage || isAdminPage) {

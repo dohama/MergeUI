@@ -15,10 +15,9 @@
   <aside class="sidebar" role="navigation" aria-label="Main navigation">
     <div class="sidebar-logo"><div class="sidebar-logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></div><span class="sidebar-logo-text">MergeUi</span></div>
     <nav class="sidebar-nav">
-      <div class="sidebar-section-title">Main</div>
+
       <a href="dashboard.html" class="sidebar-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg><span>Dashboard</span></a>
       <a href="users.html" class="sidebar-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Users</span></a>
-      <div class="sidebar-section-title">Management</div>
       <a href="billing.html" class="sidebar-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg><span>Billing</span></a>
       <a href="settings.html" class="sidebar-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span>Settings</span></a>
     </nav>
@@ -54,7 +53,10 @@
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-label">ARR</div>
+          <div class="stat-card-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+            ARR
+          </div>
           <div class="stat-card-value">$153,600</div>
           <div class="stat-card-change positive">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
@@ -62,7 +64,10 @@
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-label">Avg Revenue/User</div>
+          <div class="stat-card-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            Avg Revenue/User
+          </div>
           <div class="stat-card-value">$33.33</div>
           <div class="stat-card-change positive">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
@@ -70,7 +75,10 @@
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-card-label">Failed Payments</div>
+          <div class="stat-card-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+            Failed Payments
+          </div>
           <div class="stat-card-value" style="color: var(--merge-status-error);">3</div>
           <div class="stat-card-change negative">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
@@ -102,8 +110,9 @@
             <div class="text-muted" style="font: var(--merge-font-small);">$3,287/mo revenue</div>
           </div>
           <!-- Pro Yearly -->
-          <div class="neu-card" style="text-align: center; border: 2px solid var(--merge-color-primary);">
-            <div style="font: var(--merge-font-caption); color: var(--merge-color-primary); font-weight: 600; margin-bottom: var(--merge-space-2);">PRO YEARLY ★</div>
+          <div class="neu-card" style="text-align: center; background: linear-gradient(135deg, rgba(108,92,231,0.04) 0%, rgba(108,92,231,0.1) 100%); box-shadow: var(--merge-shadow-raised), var(--merge-glow-primary);">
+            <span style="display: inline-block; padding: 4px 14px; border-radius: 8px; background: var(--merge-bg-card-accent); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--merge-space-3);">Best Value</span>
+            <div style="font: var(--merge-font-caption); color: var(--merge-color-primary); font-weight: 600; margin-bottom: var(--merge-space-2);">PRO YEARLY</div>
             <div style="font: var(--merge-font-h1); margin-bottom: var(--merge-space-1);">$149</div>
             <div class="text-muted mb-4" style="font: var(--merge-font-small);">per year ($12.42/mo)</div>
             <div class="progress-bar mb-4"><div class="progress-bar-fill" style="width: 20%;"></div></div>

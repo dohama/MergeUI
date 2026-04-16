@@ -5,9 +5,9 @@
 
 :root {
   /* Brand */
-  --merge-brand: #6366F1;
-  --merge-brand-light: #818CF8;
-  --merge-brand-dark: #4F46E5;
+  --merge-brand: #6C5CE7;
+  --merge-brand-light: #8B7CF0;
+  --merge-brand-dark: #5A4BD1;
   --merge-accent: #22D3EE;
   --merge-accent2: #A78BFA;
 
@@ -33,8 +33,7 @@
   --merge-info: #3B82F6;
 
   /* Glow */
-  --merge-glow-brand: rgba(99,102,241,0.15);
-  --merge-glow-accent: rgba(34,211,238,0.1);
+  --merge-glow-brand: rgba(108,92,231,0.15);
 
   /* Admin */
   --merge-admin-primary: #EF4444;
@@ -54,13 +53,11 @@
   --merge-space-6: 24px;
   --merge-space-7: 32px;
   --merge-space-8: 48px;
-  --merge-space-9: 64px;
 
   /* Radius */
   --merge-radius-sm: 6px;
   --merge-radius-md: 8px;
   --merge-radius-lg: 12px;
-  --merge-radius-xl: 14px;
   --merge-radius-full: 999px;
 
   /* Backward compatibility aliases — 기존 코드 호환용 */
@@ -81,7 +78,6 @@
   --success: var(--merge-success);
   --warning: var(--merge-warning);
   --glow-brand: var(--merge-glow-brand);
-  --glow-accent: var(--merge-glow-accent);
   --font: var(--merge-font);
 }
 
@@ -96,8 +92,7 @@
   --merge-text-muted: #A1A1AA;
   --merge-border: rgba(0,0,0,0.06);
   --merge-border-strong: rgba(0,0,0,0.12);
-  --merge-glow-brand: rgba(99,102,241,0.08);
-  --merge-glow-accent: rgba(34,211,238,0.06);
+  --merge-glow-brand: rgba(108,92,231,0.08);
   --merge-admin-active-bg: rgba(239,68,68,0.06);
   --merge-admin-active-text: #DC2626;
 }

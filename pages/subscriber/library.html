@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Library — MergeUi</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
@@ -30,7 +30,7 @@
     .sb-item.active{background:var(--glow-brand);color:var(--brand-light)}
     .sb-item .sb-icon{width:18px;height:18px;border-radius:4px;border:1.5px solid currentColor;opacity:0.4;flex-shrink:0}
     .sb-item.active .sb-icon{opacity:0.7}
-    .sb-item .sb-badge{margin-left:auto;padding:1px 6px;background:rgba(99,102,241,0.15);color:var(--brand-light);font-size:10px;font-weight:700;border-radius:4px}
+    .sb-item .sb-badge{margin-left:auto;padding:1px 6px;background:rgba(108,92,231,0.15);color:var(--brand-light);font-size:10px;font-weight:700;border-radius:4px}
     .sb-footer{padding:16px;border-top:1px solid var(--border)}
     .sb-user{display:flex;align-items:center;gap:10px}
     .sb-avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:white}
@@ -57,7 +57,7 @@
     .content{padding:28px}
 
     /* Plan banner */
-    .plan-banner{padding:20px 24px;background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(34,211,238,0.05));border:1px solid rgba(99,102,241,0.15);border-radius:14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+    .plan-banner{padding:20px 24px;background:linear-gradient(135deg,rgba(108,92,231,0.08),rgba(34,211,238,0.05));border:1px solid rgba(108,92,231,0.15);border-radius:14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
     .plan-info h3{font-size:14px;font-weight:700;margin-bottom:2px}
     .plan-info p{font-size:12px;color:var(--text-secondary)}
     .plan-info .plan-tag{display:inline-block;padding:3px 8px;background:var(--brand);color:white;font-size:10px;font-weight:700;border-radius:5px;margin-right:8px}
@@ -95,7 +95,7 @@
     .theme-info{padding:16px}
     .theme-info h3{font-size:14px;font-weight:700;margin-bottom:8px}
     .theme-meta{display:flex;align-items:center;justify-content:space-between}
-    .ver-badge{padding:2px 8px;background:rgba(99,102,241,0.12);color:var(--brand-light);font-size:10px;font-weight:700;border-radius:4px}
+    .ver-badge{padding:2px 8px;background:rgba(108,92,231,0.12);color:var(--brand-light);font-size:10px;font-weight:700;border-radius:4px}
     .dl-btn{padding:6px 14px;background:var(--brand);color:white;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:background 0.15s}
     .dl-btn:hover{background:var(--brand-dark)}
     .comp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
@@ -110,7 +110,7 @@
     .fav-heart{color:#EF4444;font-size:16px;flex-shrink:0}
     .fav-name{font-size:13px;font-weight:600;flex:1}
     .type-badge{padding:2px 8px;font-size:10px;font-weight:700;border-radius:4px}
-    .type-badge.theme{background:rgba(99,102,241,0.12);color:var(--brand-light)}
+    .type-badge.theme{background:rgba(108,92,231,0.12);color:var(--brand-light)}
     .type-badge.component{background:rgba(34,211,238,0.1);color:var(--accent)}
     .remove-btn{padding:6px 12px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.15);color:#FCA5A5;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all 0.15s}
     .remove-btn:hover{background:rgba(239,68,68,0.2)}
@@ -127,7 +127,7 @@
     <nav class="sb-nav">
       <div class="sb-group"><div class="sb-label">Main</div>
         <a href="dashboard.html" class="sb-item"><span class="sb-icon"></span> Dashboard</a>
-        <a href="library.html" class="sb-item"><span class="sb-icon"></span> Library</a>
+        <a href="library.html" class="sb-item active"><span class="sb-icon"></span> Library</a>
       </div>
       <div class="sb-group"><div class="sb-label">Library</div>
         <a href="downloads.html" class="sb-item"><span class="sb-icon"></span> Downloads</a>
@@ -138,7 +138,7 @@
       </div>
     </nav>
     <div class="sb-footer">
-      <div class="sb-user"><div class="sb-avatar">JD</div><div><div class="sb-user-name">John Doe</div><div class="sb-user-plan">Pro Plan</div></div></div>
+      <div class="sb-user"><div class="sb-avatar">U</div><div><div class="sb-user-name">User</div><div class="sb-user-plan">Free Plan</div></div></div>
       <button onclick="logout()" style="width:100%;margin-top:12px;padding:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#FCA5A5;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all 0.15s">Sign Out</button>
     </div>
   </aside>
@@ -149,7 +149,7 @@
         <p>Your themes, components, and favorites</p>
       </div>
     </header>
-    <main class="content">
+    <div class="content">
       <div class="tabs" role="tablist">
         <button class="tab-btn active" role="tab" aria-selected="true" data-tab="themes">Themes</button>
         <button class="tab-btn" role="tab" aria-selected="false" data-tab="components">Components</button>
@@ -182,7 +182,7 @@
           <div style="font-size:13px">Browse themes and components to add some.</div>
         </div>
       </section>
-    </main>
+    </div>
   </main>
   <script>
   (function(){var session=JSON.parse(localStorage.getItem("mergeui_session"));if(!session){return;}var n=document.querySelector(".sb-user-name");if(n)n.textContent=session.name||"User";var p=document.querySelector(".sb-user-plan");if(p)p.textContent=(session.plan||"Free")+" Plan";var a=document.querySelector(".sb-avatar");if(a)a.textContent=(session.name||"U").charAt(0).toUpperCase();})();function logout(){localStorage.removeItem("mergeui_session");window.location.href="../auth/login.html";}

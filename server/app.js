@@ -12,7 +12,19 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 // --- Middleware ---
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https://api.dicebear.com"],
+      connectSrc: ["'self'", process.env.SUPABASE_URL || "https://agugcvugqjcetiulezim.supabase.co"],
+      frameSrc: ["'none'"]
+    }
+  }
+}));
 app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 

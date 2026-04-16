@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard — MergeUi</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -31,7 +31,7 @@
     .sb-item.active{background:var(--glow-brand);color:var(--brand-light)}
     .sb-item .sb-icon{width:18px;height:18px;border-radius:4px;border:1.5px solid currentColor;opacity:0.4;flex-shrink:0}
     .sb-item.active .sb-icon{opacity:0.7}
-    .sb-item .sb-badge{margin-left:auto;padding:1px 6px;background:rgba(99,102,241,0.15);color:var(--brand-light);font-size:10px;font-weight:700;border-radius:4px}
+    .sb-item .sb-badge{margin-left:auto;padding:1px 6px;background:rgba(108,92,231,0.15);color:var(--brand-light);font-size:10px;font-weight:700;border-radius:4px}
     .sb-footer{padding:16px;border-top:1px solid var(--border)}
     .sb-user{display:flex;align-items:center;gap:10px}
     .sb-avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:white}
@@ -58,7 +58,7 @@
     .content{padding:28px}
 
     /* Plan banner */
-    .plan-banner{padding:20px 24px;background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(34,211,238,0.05));border:1px solid rgba(99,102,241,0.15);border-radius:14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+    .plan-banner{padding:20px 24px;background:linear-gradient(135deg,rgba(108,92,231,0.08),rgba(34,211,238,0.05));border:1px solid rgba(108,92,231,0.15);border-radius:14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
     .plan-info h3{font-size:14px;font-weight:700;margin-bottom:2px}
     .plan-info p{font-size:12px;color:var(--text-secondary)}
     .plan-info .plan-tag{display:inline-block;padding:3px 8px;background:var(--brand);color:white;font-size:10px;font-weight:700;border-radius:5px;margin-right:8px}
@@ -150,8 +150,8 @@
     </nav>
     <div class="sb-footer">
       <div class="sb-user">
-        <div class="sb-avatar">JD</div>
-        <div><div class="sb-user-name">John Doe</div><div class="sb-user-plan">Pro Plan</div></div>
+        <div class="sb-avatar">U</div>
+        <div><div class="sb-user-name">User</div><div class="sb-user-plan">Free Plan</div></div>
       </div>
       <button onclick="logout()" style="width:100%;margin-top:12px;padding:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:8px;color:#FCA5A5;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all 0.15s">Sign Out</button>
     </div>
@@ -161,7 +161,7 @@
     <div class="topbar">
       <div class="topbar-left">
         <h1>Dashboard</h1>
-        <p>Welcome back, John</p>
+        <p>Welcome back</p>
       </div>
       <div class="topbar-right">
         <div class="topbar-search">
@@ -177,7 +177,7 @@
       <div class="plan-banner">
         <div class="plan-info">
           <h3><span class="plan-tag">Pro</span> Your current plan</h3>
-          <p>Next billing: May 11, 2026 • All themes & components included</p>
+          <p>-- • All themes & components included</p>
         </div>
         <button type="button" class="plan-upgrade">Manage Subscription</button>
       </div>

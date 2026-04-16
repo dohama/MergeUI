@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Components — MergeUi</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
+  <title>Dashboard Components — MergeUi</title>
+  <meta name="description" content="Browse MergeUi's dashboard component library. Cards, charts, tables, and more.">
+  <meta property="og:title" content="Dashboard Components — MergeUi">
+  <meta property="og:description" content="Browse MergeUi's dashboard component library. Cards, charts, tables, and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mergeui.com/components">
+  <link rel="canonical" href="https://mergeui.com/components">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -54,8 +60,8 @@
     .comp-body p{font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:12px}
     .comp-btn{display:block;width:100%;padding:9px;text-align:center;font-size:13px;font-weight:600;border-radius:8px;border:1px solid var(--border);color:var(--text-secondary);background:none;cursor:pointer;transition:all 0.15s;font-family:var(--font)}
     .comp-btn:hover{border-color:var(--brand);color:var(--brand-light)}
-    .comp-btn.locked{color:var(--brand-light);cursor:pointer;font-weight:600;border-color:rgba(99,102,241,0.3);background:rgba(99,102,241,0.06)}
-    .comp-btn.locked:hover{border-color:var(--brand);background:rgba(99,102,241,0.12);color:white;transform:translateY(-1px)}
+    .comp-btn.locked{color:var(--brand-light);cursor:pointer;font-weight:600;border-color:rgba(108,92,231,0.3);background:rgba(108,92,231,0.06)}
+    .comp-btn.locked:hover{border-color:var(--brand);background:rgba(108,92,231,0.12);color:white;transform:translateY(-1px)}
     .comp-empty{grid-column:1/-1;text-align:center;padding:64px 24px;color:var(--text-muted);font-size:15px}
     @media(max-width:768px){.comp-layout{flex-direction:column;padding:0 20px 40px}.comp-sidebar{width:100%;position:static}.cat-list{flex-direction:row;flex-wrap:wrap;gap:6px}.cat-list li{padding:6px 12px;font-size:13px}.cat-list li .count{display:none}.comp-grid{grid-template-columns:1fr}}
     footer{padding:40px 32px;border-top:1px solid var(--border)}
@@ -96,9 +102,14 @@
       <section class="comp-grid" id="compGrid" aria-label="Components"></section>
     </div>
   </main>
-  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
 
 <script>
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 var components = [];
 
 // Load from DB
@@ -128,7 +139,7 @@ function renderCategories() {
   var list = document.getElementById('catList');
   var html = '<li class="active" data-cat="all" role="tab" aria-selected="true">All <span class="count">' + components.length + '</span></li>';
   Object.keys(cats).sort().forEach(function(cat) {
-    html += '<li data-cat="' + cat + '" role="tab">' + cat + ' <span class="count">' + cats[cat] + '</span></li>';
+    html += '<li data-cat="' + escapeHtml(cat) + '" role="tab">' + escapeHtml(cat) + ' <span class="count">' + cats[cat] + '</span></li>';
   });
   list.innerHTML = html;
   list.addEventListener('click', function(e) {
@@ -154,9 +165,9 @@ function renderComponents(list) {
     return '<div class="comp-card">' +
       '<div class="comp-preview">' + (c.preview_html || '<div style="padding:40px;text-align:center;color:var(--text-muted)">Preview</div>') + '</div>' +
       '<div class="comp-info">' +
-        '<div class="comp-name">' + c.name + '</div>' +
-        '<div class="comp-desc">' + (c.description || '') + '</div>' +
-        '<a href="components-detail.html?slug=' + c.slug + '" class="comp-btn ' + badgeClass + '">' + btnText + '</a>' +
+        '<div class="comp-name">' + escapeHtml(c.name) + '</div>' +
+        '<div class="comp-desc">' + escapeHtml(c.description || '') + '</div>' +
+        '<a href="components-detail.html?slug=' + encodeURIComponent(c.slug) + '" class="comp-btn ' + badgeClass + '">' + btnText + '</a>' +
       '</div></div>';
   }).join('');
 }

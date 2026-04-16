@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stat Card — MergeUi Component</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <meta name="description" content="Dashboard component details, live preview, and code examples.">
+  <meta property="og:title" content="Stat Card — MergeUi Component">
+  <meta property="og:description" content="Dashboard component details, live preview, and code examples.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mergeui.com/components/detail">
+  <link rel="canonical" href="https://mergeui.com/components/detail">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
   <link rel="stylesheet" href="../../src/styles/nav.css">
@@ -19,7 +25,7 @@
   .docs-content h2{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:16px;padding-top:8px}
   .docs-content h3{font-size:17px;font-weight:700;margin:24px 0 8px;color:var(--text-primary)}
   .docs-content p{font-size:15px;color:var(--text-secondary);line-height:1.75;margin-bottom:12px}
-  .dtag{padding:4px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;color:var(--text-muted)}.dtag.pro{background:rgba(99,102,241,0.1);color:var(--brand-light);border-color:rgba(99,102,241,0.15)}.dtag.free{background:rgba(34,197,94,0.1);color:var(--success);border-color:rgba(34,197,94,0.15)}
+  .dtag{padding:4px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;color:var(--text-muted)}.dtag.pro{background:rgba(108,92,231,0.1);color:var(--brand-light);border-color:rgba(108,92,231,0.15)}.dtag.free{background:rgba(34,197,94,0.1);color:var(--success);border-color:rgba(34,197,94,0.15)}
   .component-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
   .preview-area{background:var(--bg-surface);border:1px solid var(--border);border-radius:14px;height:300px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;position:relative;overflow:hidden}
   .preview-toggle{position:absolute;top:12px;right:12px;padding:6px 14px;background:var(--bg-raised);border:1px solid var(--border-strong);border-radius:8px;font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.12s;font-family:var(--font)}
@@ -144,9 +150,36 @@
       </div>
     </div>
   </main>
-  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">Discord</a></li><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
   
 <script>
+// 코드 탭 전환
+document.querySelectorAll('.code-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.code-tab').forEach(function(t) { t.classList.remove('active'); });
+    this.classList.add('active');
+    var target = this.getAttribute('data-tab');
+    document.getElementById('codeHtml').style.display = target === 'html' ? 'block' : 'none';
+    document.getElementById('codeCss').style.display = target === 'css' ? 'block' : 'none';
+  });
+});
+
+// Copy 버튼
+document.querySelectorAll('.copy-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var targetId = this.getAttribute('data-target');
+    var pre = document.querySelector('#' + targetId + ' pre');
+    if (!pre) return;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+    }).catch(function() {
+      btn.textContent = 'Failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+    });
+  });
+});
+
 // DB에서 컴포넌트 상세 로드
 document.addEventListener('mergedb-ready', async function() {
   var slug = new URLSearchParams(window.location.search).get('slug');
@@ -154,12 +187,10 @@ document.addEventListener('mergedb-ready', async function() {
   try {
     var comp = await MergeDB.getComponent(slug);
     if (!comp) return;
-    // 제목 업데이트
-    var title = document.querySelector('.detail-title');
+    var title = document.getElementById('compName');
     if (title) title.textContent = comp.name;
     document.title = comp.name + ' — MergeUi Component';
-    // 설명 업데이트
-    var desc = document.querySelector('.detail-desc');
+    var desc = document.getElementById('compDesc');
     if (desc) desc.textContent = comp.description || '';
     // 코드 업데이트
     if (comp.code_html) {

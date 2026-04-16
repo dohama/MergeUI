@@ -31,7 +31,7 @@
   --merge-color-primary-hover: #059669;
   --merge-color-primary-light: #E6FAF2;
   --merge-color-primary-dark: #065F46;
-  --merge-color-secondary: #6366F1;
+  --merge-color-secondary: #6C5CE7;
   --merge-color-accent: #F59E0B;
   */
 
@@ -49,7 +49,7 @@
   --merge-bg-surface: #E8EDF2;
   --merge-bg-elevated: #EEF3F7;
   --merge-bg-inset: #D9DEE4;
-  --merge-bg-sidebar: #DFE4EA;
+  --merge-bg-sidebar: #E8EDF2;
   --merge-bg-card-accent: linear-gradient(135deg, #6C5CE7 0%, #8B7CF6 100%);
 
   /* ── Text ── */

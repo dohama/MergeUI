@@ -306,7 +306,7 @@ function initMergeSupabase() {
       var session = await sb.auth.getSession();
       var token = session.data.session?.access_token;
       if (!token) throw new Error('Please log in first');
-      var res = await fetch('/api/v1/checkout/create', {
+      var res = await fetch('/api/v1/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
         body: JSON.stringify({ variant_id: variantId })

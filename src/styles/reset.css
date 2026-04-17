@@ -40,6 +40,12 @@ input, select, textarea {
   font-family: var(--merge-font);
 }
 
+/* Accessibility: Focus visible */
+:focus-visible {
+  outline: 2px solid var(--merge-brand);
+  outline-offset: 2px;
+}
+
 /* Utility */
 .gradient-text {
   background: linear-gradient(135deg, var(--merge-brand-light), var(--merge-accent));

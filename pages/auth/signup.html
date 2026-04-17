@@ -187,6 +187,10 @@
           <input type="checkbox" id="terms">
           <label for="terms">I agree to the <a href="../legal/terms.html">Terms of Service</a> and <a href="../legal/privacy.html">Privacy Policy</a></label>
         </div>
+        <div class="form-check-row">
+          <input type="checkbox" id="marketing">
+          <label for="marketing">I agree to receive product updates and newsletters (optional)</label>
+        </div>
 
         <button type="submit" class="submit-btn">Create Account</button>
       </form>
@@ -253,8 +257,17 @@ document.addEventListener('mergedb-ready', function() {
     if (password.length < 8) { showError('Password must be at least 8 characters.'); return; }
     if (!terms) { showError('Please agree to the Terms of Service.'); return; }
 
+    var marketingConsent = document.getElementById('marketing').checked;
+
     try {
       await MergeDB.signup(email, password, firstName + ' ' + lastName);
+      // Store marketing consent in profile
+      try {
+        if (marketingConsent && MergeDB.client) {
+          var { data: { user } } = await MergeDB.client.auth.getUser();
+          if (user) await MergeDB.client.from('profiles').update({ marketing_consent: true }).eq('id', user.id);
+        }
+      } catch(mc) { console.warn('Marketing consent save deferred:', mc.message); }
       showSuccess('Account created! Please check your email to verify, or sign in now.');
       setTimeout(function() { window.location.href = 'login.html'; }, 2000);
     } catch(err) {
@@ -291,5 +304,6 @@ function checkStrength(pw){
   document.getElementById('pwLabel').textContent=pw.length>0?labels[score]:'';
 }
 </script>
+<script src="../../src/js/cookie-consent.js"></script>
 </body>
 </html>

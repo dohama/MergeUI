@@ -1,0 +1,91 @@
+/* ============================================
+   SoftDesk v1 — Design Tokens (Neumorphism)
+   Customize this file to match your brand.
+   ============================================ */
+
+:root {
+  /* Fonts */
+  --sd-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --sd-font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing (8px grid) */
+  --sd-space-1: 4px;
+  --sd-space-2: 8px;
+  --sd-space-3: 12px;
+  --sd-space-4: 16px;
+  --sd-space-5: 24px;
+  --sd-space-6: 32px;
+  --sd-space-7: 48px;
+  --sd-space-8: 64px;
+
+  /* Border Radius */
+  --sd-radius-sm: 8px;
+  --sd-radius-md: 12px;
+  --sd-radius-lg: 16px;
+  --sd-radius-xl: 24px;
+  --sd-radius-full: 50%;
+
+  /* Sidebar / Topbar */
+  --sd-sidebar-w: 240px;
+  --sd-sidebar-collapsed: 64px;
+  --sd-topbar-h: 64px;
+
+  /* Colors — Light Mode (default for neumorphism) */
+  --sd-bg-base: #E8EAF0;
+  --sd-bg-surface: #E8EAF0;
+  --sd-bg-elevated: #DFE1E8;
+  --sd-text-primary: #2D3748;
+  --sd-text-secondary: #4A5568;
+  --sd-text-muted: #718096;
+  --sd-border-default: rgba(255,255,255,0.5);
+  --sd-border-strong: rgba(0,0,0,0.08);
+  --sd-primary: #7C3AED;
+  --sd-primary-hover: #6D28D9;
+  --sd-primary-light: rgba(124,58,237,0.12);
+  --sd-secondary: #8B5CF6;
+  --sd-accent: #06B6D4;
+  --sd-success: #38A169;
+  --sd-warning: #DD6B20;
+  --sd-error: #E53E3E;
+  --sd-info: #3182CE;
+
+  /* Neumorphism Shadows — Light */
+  --sd-shadow-raised: 8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7);
+  --sd-shadow-raised-hover: 10px 10px 20px rgba(0,0,0,0.12), -10px -10px 20px rgba(255,255,255,0.8);
+  --sd-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7);
+  --sd-shadow-flat: none;
+  --sd-shadow-sm-raised: 4px 4px 8px rgba(0,0,0,0.08), -4px -4px 8px rgba(255,255,255,0.6);
+  --sd-shadow-sm-inset: inset 2px 2px 4px rgba(0,0,0,0.08), inset -2px -2px 4px rgba(255,255,255,0.6);
+
+  /* Chart palette (deuteranopia-safe) */
+  --sd-chart-1: #7C3AED;
+  --sd-chart-2: #06B6D4;
+  --sd-chart-3: #DD6B20;
+  --sd-chart-4: #E53E3E;
+  --sd-chart-5: #38A169;
+  --sd-chart-6: #3182CE;
+  --sd-chart-7: #8B5CF6;
+  --sd-chart-8: #D69E2E;
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --sd-bg-base: #1A1A2E;
+  --sd-bg-surface: #1A1A2E;
+  --sd-bg-elevated: #16162A;
+  --sd-text-primary: #E2E8F0;
+  --sd-text-secondary: #A0AEC0;
+  --sd-text-muted: #718096;
+  --sd-border-default: rgba(255,255,255,0.04);
+  --sd-border-strong: rgba(255,255,255,0.08);
+  --sd-primary: #A78BFA;
+  --sd-primary-hover: #8B5CF6;
+  --sd-primary-light: rgba(167,139,250,0.12);
+
+  /* Neumorphism Shadows — Dark */
+  --sd-shadow-raised: 8px 8px 16px rgba(0,0,0,0.4), -8px -8px 16px rgba(255,255,255,0.03);
+  --sd-shadow-raised-hover: 10px 10px 20px rgba(0,0,0,0.5), -10px -10px 20px rgba(255,255,255,0.04);
+  --sd-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.4), inset -4px -4px 8px rgba(255,255,255,0.03);
+  --sd-shadow-sm-raised: 4px 4px 8px rgba(0,0,0,0.3), -4px -4px 8px rgba(255,255,255,0.02);
+  --sd-shadow-sm-inset: inset 2px 2px 4px rgba(0,0,0,0.3), inset -2px -2px 4px rgba(255,255,255,0.02);
+}

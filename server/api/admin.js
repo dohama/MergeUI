@@ -40,7 +40,10 @@ router.get('/subscribers', async (req, res) => {
     .select('*, subscriptions(plan, status, current_period_end)', { count: 'exact' });
 
   if (plan) query = query.eq('plan', plan);
-  if (search) query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%`);
+  if (search) {
+    const sanitized = search.replace(/[%_,().*]/g, '');
+    if (sanitized) query = query.or(`name.ilike.%${sanitized}%,email.ilike.%${sanitized}%`);
+  }
 
   const { data, count, error } = await query.range(offset, offset + limit - 1).order('created_at', { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
@@ -71,14 +74,20 @@ router.get('/themes', async (req, res) => {
 
 // POST /api/v1/admin/themes — 테마 추가
 router.post('/themes', async (req, res) => {
-  const { data, error } = await supabaseAdmin.from('themes').insert(req.body).select().single();
+  const { slug, name, description, category, badge, is_public, preview_url, download_url, version, features, tech_stack, pages_count, components_count, price } = req.body;
+  const allowed = { slug, name, description, category, badge, is_public, preview_url, download_url, version, features, tech_stack, pages_count, components_count, price };
+  Object.keys(allowed).forEach(k => allowed[k] === undefined && delete allowed[k]);
+  const { data, error } = await supabaseAdmin.from('themes').insert(allowed).select().single();
   if (error) return res.status(400).json({ error: error.message });
   res.status(201).json({ theme: data });
 });
 
 // PUT /api/v1/admin/themes/:id — 테마 수정
 router.put('/themes/:id', async (req, res) => {
-  const { data, error } = await supabaseAdmin.from('themes').update(req.body).eq('id', req.params.id).select().single();
+  const { slug, name, description, category, badge, is_public, preview_url, download_url, version, features, tech_stack, pages_count, components_count, price } = req.body;
+  const allowed = { slug, name, description, category, badge, is_public, preview_url, download_url, version, features, tech_stack, pages_count, components_count, price };
+  Object.keys(allowed).forEach(k => allowed[k] === undefined && delete allowed[k]);
+  const { data, error } = await supabaseAdmin.from('themes').update(allowed).eq('id', req.params.id).select().single();
   if (error) return res.status(400).json({ error: error.message });
   res.json({ theme: data });
 });

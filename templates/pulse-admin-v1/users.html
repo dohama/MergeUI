@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users — Pulse Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/pulse-tokens.css">
+  <link rel="stylesheet" href="css/pulse-admin.css">
+  <style>
+    .filter-bar .form-input,.filter-bar .form-select{height:40px;width:auto;min-width:160px}
+    .filter-bar .topbar-search{margin-right:auto}
+    .user-email{font-size:12px;color:var(--pulse-text-muted)}
+    .data-table tr[data-user]{cursor:pointer}
+    .slide-panel-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:199;opacity:0;pointer-events:none;transition:opacity 200ms}
+    .slide-panel-overlay.open{opacity:1;pointer-events:auto}
+    .panel-avatar{width:64px;height:64px;border-radius:var(--pulse-radius-full);background:linear-gradient(135deg,var(--pulse-primary),var(--pulse-secondary));display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:white;margin:0 auto var(--pulse-space-4)}
+    .panel-name{font-size:18px;font-weight:700;text-align:center;margin-bottom:var(--pulse-space-1)}
+    .panel-email{font-size:13px;color:var(--pulse-text-muted);text-align:center;margin-bottom:var(--pulse-space-5)}
+    .panel-info{display:flex;flex-direction:column;gap:var(--pulse-space-3)}
+    .panel-info-row{display:flex;justify-content:space-between;align-items:center;padding:var(--pulse-space-3) 0;border-bottom:1px solid var(--pulse-border-default);font-size:13px}
+    .panel-info-row:last-child{border:none}
+    .panel-info-label{color:var(--pulse-text-muted);font-weight:500}
+    .panel-info-value{font-weight:600}
+    .panel-section-title{font-size:14px;font-weight:700;margin:var(--pulse-space-5) 0 var(--pulse-space-3);color:var(--pulse-text-secondary)}
+    .panel-activity-item{display:flex;gap:var(--pulse-space-3);padding:var(--pulse-space-2) 0;font-size:13px}
+    .panel-close{width:32px;height:32px;border-radius:var(--pulse-radius-sm);display:flex;align-items:center;justify-content:center;color:var(--pulse-text-muted);font-size:18px;line-height:1}
+    .panel-close:hover{background:var(--pulse-bg-elevated);color:var(--pulse-text-primary)}
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="sb-logo"><span class="sb-logo-icon">P</span><span class="sb-logo-text">Pulse Admin</span></a>
+    <nav class="sb-nav">
+      <div class="sb-group"><div class="sb-group-label">Main</div>
+        <a href="index.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Overview</span></a>
+        <a href="analytics.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Analytics</span></a>
+      </div>
+      <div class="sb-group"><div class="sb-group-label">Management</div>
+        <a href="users.html" class="sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Users</span></a>
+        <a href="settings.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg><span>Settings</span></a>
+      </div>
+    </nav>
+    <div class="sb-footer"><div class="sb-user"><div class="sb-avatar">JD</div><div class="sb-user-info"><div class="sb-user-name">John Doe</div><div class="sb-user-role">Administrator</div></div></div></div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left"><h1 class="topbar-title">Users</h1></div>
+      <div class="topbar-right">
+        <button class="btn btn-primary btn-sm">+ Add User</button>
+        <button class="topbar-icon theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg></button>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Filter Bar -->
+      <div class="filter-bar" role="search" aria-label="Filter users">
+        <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search users..." aria-label="Search users" id="userSearch"></div>
+        <select class="form-input form-select" aria-label="Filter by role" id="roleFilter">
+          <option value="">All Roles</option>
+          <option value="Admin">Admin</option>
+          <option value="Subscriber">Subscriber</option>
+          <option value="Editor">Editor</option>
+          <option value="Viewer">Viewer</option>
+        </select>
+        <select class="form-input form-select" aria-label="Filter by status" id="statusFilter">
+          <option value="">All Status</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+          <option value="Suspended">Suspended</option>
+        </select>
+      </div>
+
+      <!-- Users Table -->
+      <div class="card">
+        <div class="card-header"><span class="card-title">All Users</span><span style="font-size:13px;color:var(--pulse-text-muted)" id="userCount">10 users</span></div>
+        <div class="table-wrap">
+          <table class="data-table" id="usersTable" aria-label="Users list">
+            <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Plan</th><th>Status</th><th>Joined</th></tr></thead>
+            <tbody>
+              <tr data-user="0"><td><div class="table-user"><div class="table-avatar">SC</div>Sarah Chen</div></td><td class="user-email">sarah.chen@example.com</td><td>Admin</td><td>Team</td><td><span class="badge badge-success">Active</span></td><td>Jan 12, 2026</td></tr>
+              <tr data-user="1"><td><div class="table-user"><div class="table-avatar">MJ</div>Mike Johnson</div></td><td class="user-email">mike.j@example.com</td><td>Subscriber</td><td>Pro</td><td><span class="badge badge-success">Active</span></td><td>Feb 3, 2026</td></tr>
+              <tr data-user="2"><td><div class="table-user"><div class="table-avatar">LP</div>Lisa Park</div></td><td class="user-email">lisa.park@example.com</td><td>Subscriber</td><td>Pro</td><td><span class="badge badge-success">Active</span></td><td>Feb 18, 2026</td></tr>
+              <tr data-user="3"><td><div class="table-user"><div class="table-avatar">AK</div>Alex Kim</div></td><td class="user-email">alex.kim@example.com</td><td>Editor</td><td>Pro</td><td><span class="badge badge-warning">Inactive</span></td><td>Mar 1, 2026</td></tr>
+              <tr data-user="4"><td><div class="table-user"><div class="table-avatar">EW</div>Emma Wilson</div></td><td class="user-email">emma.w@example.com</td><td>Subscriber</td><td>Free</td><td><span class="badge badge-success">Active</span></td><td>Mar 9, 2026</td></tr>
+              <tr data-user="5"><td><div class="table-user"><div class="table-avatar">DL</div>David Lee</div></td><td class="user-email">david.lee@example.com</td><td>Viewer</td><td>Free</td><td><span class="badge badge-error">Suspended</span></td><td>Mar 15, 2026</td></tr>
+              <tr data-user="6"><td><div class="table-user"><div class="table-avatar">JT</div>James Taylor</div></td><td class="user-email">james.t@example.com</td><td>Subscriber</td><td>Pro</td><td><span class="badge badge-success">Active</span></td><td>Mar 22, 2026</td></tr>
+              <tr data-user="7"><td><div class="table-user"><div class="table-avatar">OM</div>Olivia Martinez</div></td><td class="user-email">olivia.m@example.com</td><td>Admin</td><td>Team</td><td><span class="badge badge-success">Active</span></td><td>Apr 1, 2026</td></tr>
+              <tr data-user="8"><td><div class="table-user"><div class="table-avatar">RB</div>Ryan Brown</div></td><td class="user-email">ryan.b@example.com</td><td>Subscriber</td><td>Pro</td><td><span class="badge badge-warning">Inactive</span></td><td>Apr 8, 2026</td></tr>
+              <tr data-user="9"><td><div class="table-user"><div class="table-avatar">SN</div>Sofia Nguyen</div></td><td class="user-email">sofia.n@example.com</td><td>Editor</td><td>Free</td><td><span class="badge badge-success">Active</span></td><td>Apr 14, 2026</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-pagination">
+          <button aria-label="Previous page">← Prev</button><button class="active" aria-label="Page 1">1</button><button aria-label="Page 2">2</button><button aria-label="Page 3">3</button><button aria-label="Next page">Next →</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Slide Panel -->
+  <div class="slide-panel-overlay" id="panelOverlay" aria-hidden="true"></div>
+  <aside class="slide-panel" id="userPanel" role="dialog" aria-label="User details" aria-hidden="true">
+    <div class="slide-panel-header">
+      <span style="font-size:16px;font-weight:700">User Details</span>
+      <button class="panel-close" id="panelClose" aria-label="Close panel">&times;</button>
+    </div>
+    <div class="slide-panel-body" id="panelBody"></div>
+  </aside>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav" aria-label="Mobile navigation"><div class="mobile-nav-inner">
+    <a href="index.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a>
+    <a href="analytics.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Analytics</a>
+    <a href="users.html" class="mobile-nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Users</a>
+    <a href="settings.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg>Settings</a>
+  </div></nav>
+
+  <script src="js/pulse-admin.js"></script>
+  <script>
+    var users = [
+      {name:'Sarah Chen',initials:'SC',email:'sarah.chen@example.com',role:'Admin',plan:'Team',status:'Active',joined:'Jan 12, 2026',activity:['Exported subscriber report — 1h ago','Updated site settings — 3h ago','Approved new theme — Yesterday']},
+      {name:'Mike Johnson',initials:'MJ',email:'mike.j@example.com',role:'Subscriber',plan:'Pro',status:'Active',joined:'Feb 3, 2026',activity:['Downloaded Pulse theme — 2h ago','Viewed analytics page — 5h ago','Updated profile — 2 days ago']},
+      {name:'Lisa Park',initials:'LP',email:'lisa.park@example.com',role:'Subscriber',plan:'Pro',status:'Active',joined:'Feb 18, 2026',activity:['Downloaded components pack — 30m ago','Upgraded to Pro — 1 week ago','Signed up — Feb 18']},
+      {name:'Alex Kim',initials:'AK',email:'alex.kim@example.com',role:'Editor',plan:'Pro',status:'Inactive',joined:'Mar 1, 2026',activity:['Last login — 2 weeks ago','Submitted support ticket — 3 weeks ago','Downloaded theme — 1 month ago']},
+      {name:'Emma Wilson',initials:'EW',email:'emma.w@example.com',role:'Subscriber',plan:'Free',status:'Active',joined:'Mar 9, 2026',activity:['Viewed pricing page — 1h ago','Browsed theme gallery — 3h ago','Signed up — Mar 9']},
+      {name:'David Lee',initials:'DL',email:'david.lee@example.com',role:'Viewer',plan:'Free',status:'Suspended',joined:'Mar 15, 2026',activity:['Account suspended — 3 days ago','Multiple failed logins — 4 days ago','Last active — 1 week ago']},
+      {name:'James Taylor',initials:'JT',email:'james.t@example.com',role:'Subscriber',plan:'Pro',status:'Active',joined:'Mar 22, 2026',activity:['Downloaded analytics theme — 4h ago','Left a review — Yesterday','Renewed subscription — 3 days ago']},
+      {name:'Olivia Martinez',initials:'OM',email:'olivia.m@example.com',role:'Admin',plan:'Team',status:'Active',joined:'Apr 1, 2026',activity:['Published release notes — 2h ago','Managed user roles — 5h ago','Updated FAQ — Yesterday']},
+      {name:'Ryan Brown',initials:'RB',email:'ryan.b@example.com',role:'Subscriber',plan:'Pro',status:'Inactive',joined:'Apr 8, 2026',activity:['Subscription expired — 5 days ago','Downloaded theme — 2 weeks ago','Last login — 1 week ago']},
+      {name:'Sofia Nguyen',initials:'SN',email:'sofia.n@example.com',role:'Editor',plan:'Free',status:'Active',joined:'Apr 14, 2026',activity:['Edited component docs — 1h ago','Uploaded new icon set — Yesterday','Joined team — Apr 14']}
+    ];
+
+    var panel = document.getElementById('userPanel');
+    var overlay = document.getElementById('panelOverlay');
+    var panelBody = document.getElementById('panelBody');
+
+    function openPanel(idx) {
+      var u = users[idx];
+      if (!u) return;
+      var actHtml = u.activity.map(function(a) { return '<div class="panel-activity-item"><span>' + a + '</span></div>'; }).join('');
+      panelBody.innerHTML = '<div class="panel-avatar">' + u.initials + '</div>'
+        + '<div class="panel-name">' + u.name + '</div>'
+        + '<div class="panel-email">' + u.email + '</div>'
+        + '<div class="panel-info">'
+        + '<div class="panel-info-row"><span class="panel-info-label">Role</span><span class="panel-info-value">' + u.role + '</span></div>'
+        + '<div class="panel-info-row"><span class="panel-info-label">Plan</span><span class="panel-info-value">' + u.plan + '</span></div>'
+        + '<div class="panel-info-row"><span class="panel-info-label">Status</span><span class="panel-info-value">' + u.status + '</span></div>'
+        + '<div class="panel-info-row"><span class="panel-info-label">Joined</span><span class="panel-info-value">' + u.joined + '</span></div>'
+        + '</div>'
+        + '<div class="panel-section-title">Recent Activity</div>'
+        + actHtml;
+      panel.classList.add('open');
+      panel.setAttribute('aria-hidden', 'false');
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function closePanel() {
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    document.getElementById('usersTable').addEventListener('click', function(e) {
+      var row = e.target.closest('tr[data-user]');
+      if (row) openPanel(parseInt(row.getAttribute('data-user')));
+    });
+    document.getElementById('panelClose').addEventListener('click', closePanel);
+    overlay.addEventListener('click', closePanel);
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closePanel(); });
+
+    // Filter logic
+    var searchInput = document.getElementById('userSearch');
+    var roleFilter = document.getElementById('roleFilter');
+    var statusFilter = document.getElementById('statusFilter');
+    var rows = document.querySelectorAll('#usersTable tbody tr');
+    var userCountEl = document.getElementById('userCount');
+
+    function filterUsers() {
+      var q = searchInput.value.toLowerCase();
+      var role = roleFilter.value;
+      var status = statusFilter.value;
+      var visible = 0;
+      rows.forEach(function(row) {
+        var name = row.cells[0].textContent.toLowerCase();
+        var email = row.cells[1].textContent.toLowerCase();
+        var r = row.cells[2].textContent.trim();
+        var s = row.cells[4].textContent.trim();
+        var show = (name.indexOf(q) !== -1 || email.indexOf(q) !== -1)
+          && (!role || r === role)
+          && (!status || s === status);
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      userCountEl.textContent = visible + ' user' + (visible !== 1 ? 's' : '');
+    }
+
+    searchInput.addEventListener('input', filterUsers);
+    roleFilter.addEventListener('change', filterUsers);
+    statusFilter.addEventListener('change', filterUsers);
+  </script>
+</body>
+</html>

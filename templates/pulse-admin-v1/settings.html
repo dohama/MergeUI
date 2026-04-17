@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — Pulse Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/pulse-tokens.css">
+  <link rel="stylesheet" href="css/pulse-admin.css">
+  <style>
+    .tab-content{display:none}
+    .tab-content.active{display:block}
+    .settings-section{margin-bottom:var(--pulse-space-6)}
+    .settings-section-title{font-size:16px;font-weight:700;margin-bottom:var(--pulse-space-4)}
+    .settings-section-desc{font-size:13px;color:var(--pulse-text-muted);margin-bottom:var(--pulse-space-5)}
+    .settings-row{display:flex;align-items:center;justify-content:space-between;padding:var(--pulse-space-4) 0;border-bottom:1px solid var(--pulse-border-default)}
+    .settings-row:last-child{border:none}
+    .settings-row-info{flex:1;min-width:0;margin-right:var(--pulse-space-4)}
+    .settings-row-label{font-size:14px;font-weight:600}
+    .settings-row-desc{font-size:12px;color:var(--pulse-text-muted);margin-top:2px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:var(--pulse-space-4)}
+    .logo-upload{width:80px;height:80px;border-radius:var(--pulse-radius-lg);border:2px dashed var(--pulse-border-strong);display:flex;align-items:center;justify-content:center;color:var(--pulse-text-muted);font-size:12px;cursor:pointer;transition:border-color 200ms}
+    .logo-upload:hover{border-color:var(--pulse-primary);color:var(--pulse-primary)}
+    .api-key-display{display:flex;align-items:center;gap:var(--pulse-space-3)}
+    .api-key-value{font-family:var(--pulse-font-mono);font-size:13px;background:var(--pulse-bg-elevated);padding:var(--pulse-space-2) var(--pulse-space-4);border-radius:var(--pulse-radius-md);border:1px solid var(--pulse-border-default);letter-spacing:1px}
+    .plan-card{background:var(--pulse-bg-elevated);border-radius:var(--pulse-radius-lg);padding:var(--pulse-space-5);border:1px solid var(--pulse-border-default)}
+    .plan-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--pulse-space-4)}
+    .plan-name{font-size:18px;font-weight:700}
+    .plan-price{font-family:var(--pulse-font-mono);font-size:24px;font-weight:700;color:var(--pulse-primary)}
+    .plan-price span{font-size:14px;font-weight:400;color:var(--pulse-text-muted)}
+    .plan-features{list-style:none;display:flex;flex-direction:column;gap:var(--pulse-space-2)}
+    .plan-features li{font-size:13px;color:var(--pulse-text-secondary);display:flex;align-items:center;gap:var(--pulse-space-2)}
+    .plan-features li::before{content:'';display:inline-block;width:16px;height:16px;border-radius:50%;background:rgba(34,197,94,0.1);flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%2322C55E' viewBox='0 0 16 16'%3E%3Cpath d='M13.485 1.929a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 011.06-1.06L5.42 8.87l6.97-6.97a.75.75 0 011.06 0z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
+    .billing-info-row{display:flex;justify-content:space-between;padding:var(--pulse-space-3) 0;font-size:14px;border-bottom:1px solid var(--pulse-border-default)}
+    .billing-info-row:last-child{border:none}
+    .billing-info-label{color:var(--pulse-text-muted)}
+    .billing-info-value{font-weight:600}
+    .settings-actions{display:flex;gap:var(--pulse-space-3);padding-top:var(--pulse-space-5);border-top:1px solid var(--pulse-border-default);margin-top:var(--pulse-space-5)}
+    .toast{position:fixed;bottom:var(--pulse-space-5);right:var(--pulse-space-5);background:var(--pulse-success);color:white;padding:var(--pulse-space-3) var(--pulse-space-5);border-radius:var(--pulse-radius-md);font-size:14px;font-weight:600;z-index:300;opacity:0;transform:translateY(8px);transition:all 200ms;pointer-events:none}
+    .toast.show{opacity:1;transform:translateY(0)}
+    @media(max-width:767px){.form-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="sb-logo"><span class="sb-logo-icon">P</span><span class="sb-logo-text">Pulse Admin</span></a>
+    <nav class="sb-nav">
+      <div class="sb-group"><div class="sb-group-label">Main</div>
+        <a href="index.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Overview</span></a>
+        <a href="analytics.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Analytics</span></a>
+      </div>
+      <div class="sb-group"><div class="sb-group-label">Management</div>
+        <a href="users.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Users</span></a>
+        <a href="settings.html" class="sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg><span>Settings</span></a>
+      </div>
+    </nav>
+    <div class="sb-footer"><div class="sb-user"><div class="sb-avatar">JD</div><div class="sb-user-info"><div class="sb-user-name">John Doe</div><div class="sb-user-role">Administrator</div></div></div></div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left"><h1 class="topbar-title">Settings</h1></div>
+      <div class="topbar-right">
+        <button class="topbar-icon theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg></button>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="card">
+        <!-- Tabs -->
+        <div class="tabs" role="tablist" aria-label="Settings tabs">
+          <button class="tab active" data-tab="tab-general" role="tab" aria-selected="true" aria-controls="tab-general">General</button>
+          <button class="tab" data-tab="tab-notifications" role="tab" aria-selected="false" aria-controls="tab-notifications">Notifications</button>
+          <button class="tab" data-tab="tab-security" role="tab" aria-selected="false" aria-controls="tab-security">Security</button>
+          <button class="tab" data-tab="tab-billing" role="tab" aria-selected="false" aria-controls="tab-billing">Billing</button>
+        </div>
+
+        <div class="card-body">
+          <!-- General Tab -->
+          <div class="tab-content active" id="tab-general" role="tabpanel">
+            <section class="settings-section">
+              <div class="settings-section-title">Site Information</div>
+              <div class="settings-section-desc">Basic settings for your admin panel.</div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label" for="siteName">Site Name</label><input type="text" class="form-input" id="siteName" value="Pulse Admin"></div>
+                <div class="form-group"><label class="form-label" for="siteUrl">Site URL</label><input type="text" class="form-input" id="siteUrl" value="https://admin.pulseui.com"></div>
+              </div>
+              <div class="form-group"><label class="form-label" for="siteDesc">Description</label><textarea class="form-input" id="siteDesc" rows="3" style="resize:vertical">Modern admin dashboard for managing your SaaS business.</textarea></div>
+            </section>
+            <section class="settings-section">
+              <div class="settings-section-title">Branding</div>
+              <div style="display:flex;align-items:center;gap:var(--pulse-space-5)">
+                <div>
+                  <div class="form-label">Logo</div>
+                  <div class="logo-upload" role="button" tabindex="0" aria-label="Upload logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  </div>
+                </div>
+                <div style="flex:1">
+                  <div class="form-group"><label class="form-label" for="timezone">Timezone</label>
+                    <select class="form-input form-select" id="timezone">
+                      <option>UTC (GMT+0)</option>
+                      <option selected>Asia/Seoul (GMT+9)</option>
+                      <option>America/New_York (GMT-5)</option>
+                      <option>Europe/London (GMT+0)</option>
+                      <option>America/Los_Angeles (GMT-8)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <div class="settings-actions">
+              <button class="btn btn-primary" onclick="showToast()">Save Changes</button>
+              <button class="btn btn-outline">Cancel</button>
+            </div>
+          </div>
+
+          <!-- Notifications Tab -->
+          <div class="tab-content" id="tab-notifications" role="tabpanel">
+            <section class="settings-section">
+              <div class="settings-section-title">Email Notifications</div>
+              <div class="settings-section-desc">Choose which email notifications you want to receive.</div>
+              <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">New User Signup</div><div class="settings-row-desc">Get notified when a new user registers.</div></div><div class="form-toggle on" role="switch" aria-checked="true" aria-label="New user signup notifications" tabindex="0"></div></div>
+              <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Subscription Changes</div><div class="settings-row-desc">Alerts for upgrades, downgrades, and cancellations.</div></div><div class="form-toggle on" role="switch" aria-checked="true" aria-label="Subscription change notifications" tabindex="0"></div></div>
+              <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Payment Received</div><div class="settings-row-desc">Confirmation when a payment is processed.</div></div><div class="form-toggle on" role="switch" aria-checked="true" aria-label="Payment received notifications" tabindex="0"></div></div>
+              <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Support Tickets</div><div class="settings-row-desc">Get notified about new and updated support tickets.</div></div><div class="form-toggle" role="switch" aria-checked="false" aria-label="Support ticket notifications" tabindex="0"></div></div>
+              <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Newsletter Reports</div><div class="settings-row-desc">Weekly summary of newsletter performance.</div></div><div class="form-toggle" role="switch" aria-checked="false" aria-label="Newsletter report notifications" tabindex="0"></div></div>
+            </section>
+            <div class="settings-actions">
+              <button class="btn btn-primary" onclick="showToast()">Save Changes</button>
+              <button class="btn btn-outline">Cancel</button>
+            </div>
+          </div>
+
+          <!-- Security Tab -->
+          <div class="tab-content" id="tab-security" role="tabpanel">
+            <section class="settings-section">
+              <div class="settings-section-title">Authentication</div>
+              <div class="settings-section-desc">Manage security settings for your account.</div>
+              <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Two-Factor Authentication</div><div class="settings-row-desc">Add an extra layer of security to your account.</div></div><div class="form-toggle" role="switch" aria-checked="false" aria-label="Two-factor authentication" tabindex="0"></div></div>
+              <div class="settings-row">
+                <div class="settings-row-info"><div class="settings-row-label">Session Timeout</div><div class="settings-row-desc">Automatically log out after inactivity.</div></div>
+                <select class="form-input form-select" style="width:160px" aria-label="Session timeout duration">
+                  <option>15 minutes</option>
+                  <option selected>30 minutes</option>
+                  <option>1 hour</option>
+                  <option>4 hours</option>
+                  <option>Never</option>
+                </select>
+              </div>
+            </section>
+            <section class="settings-section">
+              <div class="settings-section-title">API Key</div>
+              <div class="settings-section-desc">Use this key to authenticate API requests.</div>
+              <div class="api-key-display">
+                <span class="api-key-value" id="apiKeyValue">pk_live_****************************3f7a</span>
+                <button class="btn btn-outline btn-sm" id="toggleApiKey" aria-label="Show or hide API key">Show</button>
+                <button class="btn btn-outline btn-sm" onclick="navigator.clipboard.writeText('pk_live_a8f29c4e61b7d0523f91e84ca27b3f7a');showToast('Copied!')" aria-label="Copy API key">Copy</button>
+              </div>
+            </section>
+            <div class="settings-actions">
+              <button class="btn btn-primary" onclick="showToast()">Save Changes</button>
+              <button class="btn btn-outline">Cancel</button>
+            </div>
+          </div>
+
+          <!-- Billing Tab -->
+          <div class="tab-content" id="tab-billing" role="tabpanel">
+            <section class="settings-section">
+              <div class="settings-section-title">Current Plan</div>
+              <div class="plan-card">
+                <div class="plan-card-header">
+                  <div><div class="plan-name">Pro Plan</div><span class="badge badge-primary" style="margin-top:var(--pulse-space-1)">Active</span></div>
+                  <div class="plan-price">$19<span>/mo</span></div>
+                </div>
+                <ul class="plan-features">
+                  <li>All dashboard themes</li>
+                  <li>Full component library</li>
+                  <li>Priority support</li>
+                  <li>New updates included</li>
+                </ul>
+                <div style="margin-top:var(--pulse-space-5)"><button class="btn btn-outline btn-sm">Change Plan</button></div>
+              </div>
+            </section>
+            <section class="settings-section">
+              <div class="settings-section-title">Billing Information</div>
+              <div class="billing-info-row"><span class="billing-info-label">Payment Method</span><span class="billing-info-value">Visa ending in 4242</span></div>
+              <div class="billing-info-row"><span class="billing-info-label">Next Billing Date</span><span class="billing-info-value">May 17, 2026</span></div>
+              <div class="billing-info-row"><span class="billing-info-label">Billing Email</span><span class="billing-info-value">john.doe@example.com</span></div>
+              <div style="margin-top:var(--pulse-space-4)"><button class="btn btn-outline btn-sm">Update Payment Method</button></div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">Settings saved successfully</div>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav" aria-label="Mobile navigation"><div class="mobile-nav-inner">
+    <a href="index.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a>
+    <a href="analytics.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Analytics</a>
+    <a href="users.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Users</a>
+    <a href="settings.html" class="mobile-nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg>Settings</a>
+  </div></nav>
+
+  <script src="js/pulse-admin.js"></script>
+  <script>
+    // Tab switching (extends pulse-admin.js tab logic with aria)
+    document.querySelectorAll('.tabs .tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tabs .tab').forEach(function(t) { t.setAttribute('aria-selected', 'false'); });
+        tab.setAttribute('aria-selected', 'true');
+        document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+        var target = document.getElementById(tab.getAttribute('data-tab'));
+        if (target) target.classList.add('active');
+      });
+    });
+
+    // Toggle aria-checked for switches
+    document.addEventListener('click', function(e) {
+      var toggle = e.target.closest('.form-toggle');
+      if (toggle) toggle.setAttribute('aria-checked', toggle.classList.contains('on') ? 'true' : 'false');
+    });
+
+    // API key show/hide
+    var apiKeyHidden = 'pk_live_****************************3f7a';
+    var apiKeyFull = 'pk_live_a8f29c4e61b7d0523f91e84ca27b3f7a';
+    var apiShown = false;
+    document.getElementById('toggleApiKey').addEventListener('click', function() {
+      apiShown = !apiShown;
+      document.getElementById('apiKeyValue').textContent = apiShown ? apiKeyFull : apiKeyHidden;
+      this.textContent = apiShown ? 'Hide' : 'Show';
+    });
+
+    // Toast
+    function showToast(msg) {
+      var toast = document.getElementById('toast');
+      if (msg) toast.textContent = msg;
+      else toast.textContent = 'Settings saved successfully';
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2000);
+    }
+  </script>
+</body>
+</html>

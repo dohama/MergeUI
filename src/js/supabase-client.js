@@ -201,6 +201,12 @@ function initMergeSupabase() {
       return data;
     },
 
+    updatePassword: async function(newPassword) {
+      var { data, error } = await sb.auth.updateUser({ password: newPassword });
+      if (error) throw error;
+      return data;
+    },
+
     // ========== THEMES ==========
 
     getThemes: async function(filters) {

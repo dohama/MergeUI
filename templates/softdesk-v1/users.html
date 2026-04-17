@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users — SoftDesk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/softdesk-tokens.css">
+  <link rel="stylesheet" href="css/softdesk.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="sb-logo"><span class="sb-logo-icon">S</span><span class="sb-logo-text">SoftDesk</span></a>
+    <nav class="sb-nav">
+      <div class="sb-group"><div class="sb-group-label">Main</div>
+        <a href="index.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Overview</span></a>
+        <a href="analytics.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Analytics</span></a>
+      </div>
+      <div class="sb-group"><div class="sb-group-label">Management</div>
+        <a href="users.html" class="sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Users</span></a>
+        <a href="projects.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Projects</span></a>
+        <a href="settings.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg><span>Settings</span></a>
+      </div>
+    </nav>
+    <div class="sb-footer"><div class="sb-user"><div class="sb-avatar">JD</div><div class="sb-user-info"><div class="sb-user-name">John Doe</div><div class="sb-user-role">Administrator</div></div></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left"><h1 class="topbar-title">Users</h1></div>
+      <div class="topbar-right">
+        <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search users..." aria-label="Search users"></div>
+        <button class="btn btn-primary btn-sm">+ Add User</button>
+        <button class="topbar-icon theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Filter -->
+      <div class="filter-bar">
+        <select class="form-input form-select" style="width:auto;box-shadow:var(--sd-shadow-sm-raised)" aria-label="Filter by role">
+          <option>All Roles</option><option>Admin</option><option>Editor</option><option>Viewer</option>
+        </select>
+        <select class="form-input form-select" style="width:auto;box-shadow:var(--sd-shadow-sm-raised)" aria-label="Filter by status">
+          <option>All Status</option><option>Active</option><option>Inactive</option>
+        </select>
+      </div>
+
+      <!-- Users Table -->
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table" aria-label="Users list">
+            <thead><tr><th>User</th><th>Email</th><th>Role</th><th>Status</th><th>Last Active</th><th>Joined</th></tr></thead>
+            <tbody>
+              <tr><td><div class="table-user"><div class="table-avatar">SC</div>Sarah Chen</div></td><td style="font-size:13px;color:var(--sd-text-muted)">sarah@example.com</td><td><span class="badge badge-primary">Admin</span></td><td><span class="badge badge-success">Active</span></td><td>2 min ago</td><td>Jan 15, 2026</td></tr>
+              <tr><td><div class="table-user"><div class="table-avatar">MJ</div>Mike Johnson</div></td><td style="font-size:13px;color:var(--sd-text-muted)">mike@example.com</td><td><span class="badge badge-info">Editor</span></td><td><span class="badge badge-success">Active</span></td><td>15 min ago</td><td>Feb 3, 2026</td></tr>
+              <tr><td><div class="table-user"><div class="table-avatar">LP</div>Lisa Park</div></td><td style="font-size:13px;color:var(--sd-text-muted)">lisa@example.com</td><td><span class="badge badge-info">Editor</span></td><td><span class="badge badge-success">Active</span></td><td>1 hour ago</td><td>Feb 10, 2026</td></tr>
+              <tr><td><div class="table-user"><div class="table-avatar">AK</div>Alex Kim</div></td><td style="font-size:13px;color:var(--sd-text-muted)">alex@example.com</td><td><span class="badge badge-primary">Admin</span></td><td><span class="badge badge-success">Active</span></td><td>3 hours ago</td><td>Mar 1, 2026</td></tr>
+              <tr><td><div class="table-user"><div class="table-avatar">EW</div>Emma Wilson</div></td><td style="font-size:13px;color:var(--sd-text-muted)">emma@example.com</td><td>Viewer</td><td><span class="badge badge-success">Active</span></td><td>5 hours ago</td><td>Mar 8, 2026</td></tr>
+              <tr><td><div class="table-user"><div class="table-avatar">DL</div>David Lee</div></td><td style="font-size:13px;color:var(--sd-text-muted)">david@example.com</td><td>Viewer</td><td><span class="badge badge-warning">Inactive</span></td><td>2 days ago</td><td>Mar 12, 2026</td></tr>
+              <tr><td><div class="table-user"><div class="table-avatar">JW</div>Jane Wang</div></td><td style="font-size:13px;color:var(--sd-text-muted)">jane@example.com</td><td><span class="badge badge-info">Editor</span></td><td><span class="badge badge-success">Active</span></td><td>1 day ago</td><td>Mar 20, 2026</td></tr>
+              <tr><td><div class="table-user"><div class="table-avatar">TN</div>Tom Nguyen</div></td><td style="font-size:13px;color:var(--sd-text-muted)">tom@example.com</td><td>Viewer</td><td><span class="badge badge-success">Active</span></td><td>6 hours ago</td><td>Mar 25, 2026</td></tr>
+              <tr><td><div class="table-user"><div class="table-avatar">RG</div>Rachel Green</div></td><td style="font-size:13px;color:var(--sd-text-muted)">rachel@example.com</td><td>Viewer</td><td><span class="badge badge-warning">Inactive</span></td><td>5 days ago</td><td>Apr 1, 2026</td></tr>
+              <tr><td><div class="table-user"><div class="table-avatar">CS</div>Chris Smith</div></td><td style="font-size:13px;color:var(--sd-text-muted)">chris@example.com</td><td><span class="badge badge-info">Editor</span></td><td><span class="badge badge-success">Active</span></td><td>30 min ago</td><td>Apr 5, 2026</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-pagination">
+          <button aria-label="Previous page">Prev</button><button class="active" aria-current="page">1</button><button>2</button><button>3</button><button>4</button><button aria-label="Next page">Next</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation"><div class="mobile-nav-inner">
+    <a href="index.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a>
+    <a href="analytics.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Analytics</a>
+    <a href="projects.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Projects</a>
+    <a href="users.html" class="mobile-nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Users</a>
+    <a href="settings.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg>Settings</a>
+  </div></nav>
+
+  <script src="js/softdesk.js"></script>
+</body>
+</html>

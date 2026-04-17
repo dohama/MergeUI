@@ -1,4 +1,5 @@
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
 const crypto = require('crypto');
 const { supabaseAdmin } = require('../supabase');
 
@@ -25,14 +26,15 @@ router.post('/lemonsqueezy', express.raw({ type: 'application/json' }), async (r
   const data = event.data?.attributes;
   const userEmail = data?.user_email;
 
-  console.log('Webhook received:', eventName, userEmail);
+  const maskedEmail = userEmail ? userEmail.replace(/^(.)(.*)(@.*)$/, '$1***$3') : 'unknown';
+  console.log('Webhook received:', eventName, maskedEmail);
 
   // 사용자 찾기
   const { data: profile } = await supabaseAdmin
     .from('profiles').select('id').eq('email', userEmail).single();
 
   if (!profile) {
-    console.warn('Webhook: user not found for', userEmail);
+    console.warn('Webhook: user not found for', maskedEmail);
     return res.json({ received: true });
   }
 
@@ -95,8 +97,5 @@ router.post('/lemonsqueezy', express.raw({ type: 'application/json' }), async (r
 
   res.json({ received: true });
 });
-
-// express.raw가 이 라우트 전에 필요하므로 별도 미들웨어로 처리
-const express = require('express');
 
 module.exports = router;

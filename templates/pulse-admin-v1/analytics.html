@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics — Pulse Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/pulse-tokens.css">
+  <link rel="stylesheet" href="css/pulse-admin.css">
+</head>
+<body>
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="sb-logo"><span class="sb-logo-icon">P</span><span class="sb-logo-text">Pulse Admin</span></a>
+    <nav class="sb-nav">
+      <div class="sb-group"><div class="sb-group-label">Main</div>
+        <a href="index.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Overview</span></a>
+        <a href="analytics.html" class="sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Analytics</span></a>
+      </div>
+      <div class="sb-group"><div class="sb-group-label">Management</div>
+        <a href="users.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Users</span></a>
+        <a href="settings.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg><span>Settings</span></a>
+      </div>
+    </nav>
+    <div class="sb-footer"><div class="sb-user"><div class="sb-avatar">JD</div><div class="sb-user-info"><div class="sb-user-name">John Doe</div><div class="sb-user-role">Administrator</div></div></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left"><h1 class="topbar-title">Analytics</h1></div>
+      <div class="topbar-right">
+        <button class="btn btn-outline btn-sm">Last 30 days</button>
+        <button class="topbar-icon theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg></button>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- KPI Row -->
+      <section class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-icon primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><div class="kpi-row"><span class="kpi-value">48.2k</span><span class="kpi-trend up">↑ 18.2%</span></div><div class="kpi-label">Page Views</div></div>
+        <div class="kpi-card"><div class="kpi-icon success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="kpi-row"><span class="kpi-value">12.8k</span><span class="kpi-trend up">↑ 9.4%</span></div><div class="kpi-label">Unique Visitors</div></div>
+        <div class="kpi-card"><div class="kpi-icon accent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="kpi-row"><span class="kpi-value">3m 42s</span></div><div class="kpi-label">Avg. Session</div></div>
+        <div class="kpi-card"><div class="kpi-icon warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div><div class="kpi-row"><span class="kpi-value">34.1%</span><span class="kpi-trend down">↓ 2.3%</span></div><div class="kpi-label">Bounce Rate</div></div>
+      </section>
+
+      <!-- Traffic Chart -->
+      <div class="row row-12">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Traffic Overview</span></div>
+          <div class="card-body">
+            <div id="trafficChart" class="chart-container" style="height:300px"></div>
+            <div class="chart-legend">
+              <div class="chart-legend-item"><span class="chart-legend-dot" style="background:var(--pulse-primary)"></span> Visitors</div>
+              <div class="chart-legend-item"><span class="chart-legend-dot" style="background:var(--pulse-accent)"></span> Page Views</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bar Chart + Donut -->
+      <div class="row row-8-4">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Top Pages</span></div>
+          <div class="card-body">
+            <div class="bar-chart">
+              <div class="bar-col"><div class="bar-fill" style="height:90%;background:var(--pulse-chart-1)"></div><div class="bar-label">/home</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:72%;background:var(--pulse-chart-2)"></div><div class="bar-label">/pricing</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:65%;background:var(--pulse-chart-3)"></div><div class="bar-label">/themes</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:48%;background:var(--pulse-chart-4)"></div><div class="bar-label">/docs</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:35%;background:var(--pulse-chart-5)"></div><div class="bar-label">/blog</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:28%;background:var(--pulse-chart-6)"></div><div class="bar-label">/login</div></div>
+              <div class="bar-col"><div class="bar-fill" style="height:20%;background:var(--pulse-chart-7)"></div><div class="bar-label">/signup</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Traffic Sources</span></div>
+          <div class="card-body">
+            <div class="donut-container" style="flex-direction:column">
+              <svg class="donut-chart" viewBox="0 0 42 42">
+                <circle cx="21" cy="21" r="15.91" fill="none" stroke="var(--pulse-bg-elevated)" stroke-width="5"/>
+                <circle cx="21" cy="21" r="15.91" fill="none" stroke="var(--pulse-chart-1)" stroke-width="5" stroke-dasharray="40 60" stroke-dashoffset="25"/>
+                <circle cx="21" cy="21" r="15.91" fill="none" stroke="var(--pulse-chart-2)" stroke-width="5" stroke-dasharray="25 75" stroke-dashoffset="85"/>
+                <circle cx="21" cy="21" r="15.91" fill="none" stroke="var(--pulse-chart-3)" stroke-width="5" stroke-dasharray="20 80" stroke-dashoffset="60"/>
+                <circle cx="21" cy="21" r="15.91" fill="none" stroke="var(--pulse-chart-4)" stroke-width="5" stroke-dasharray="15 85" stroke-dashoffset="40"/>
+              </svg>
+              <div class="donut-legend">
+                <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--pulse-chart-1)"></span>Direct<span class="donut-legend-val">40%</span></div>
+                <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--pulse-chart-2)"></span>Organic<span class="donut-legend-val">25%</span></div>
+                <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--pulse-chart-3)"></span>Social<span class="donut-legend-val">20%</span></div>
+                <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--pulse-chart-4)"></span>Referral<span class="donut-legend-val">15%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Device Distribution -->
+      <div class="card">
+        <div class="card-header"><span class="card-title">Device Distribution</span></div>
+        <div class="card-body">
+          <div style="display:flex;gap:var(--pulse-space-6);flex-wrap:wrap">
+            <div style="flex:1;min-width:200px;text-align:center;padding:var(--pulse-space-5)">
+              <div style="font-size:36px;font-weight:700;font-family:var(--pulse-font-mono);color:var(--pulse-chart-1)">64%</div>
+              <div style="font-size:14px;color:var(--pulse-text-muted);margin-top:var(--pulse-space-2)">Desktop</div>
+            </div>
+            <div style="flex:1;min-width:200px;text-align:center;padding:var(--pulse-space-5)">
+              <div style="font-size:36px;font-weight:700;font-family:var(--pulse-font-mono);color:var(--pulse-chart-2)">28%</div>
+              <div style="font-size:14px;color:var(--pulse-text-muted);margin-top:var(--pulse-space-2)">Mobile</div>
+            </div>
+            <div style="flex:1;min-width:200px;text-align:center;padding:var(--pulse-space-5)">
+              <div style="font-size:36px;font-weight:700;font-family:var(--pulse-font-mono);color:var(--pulse-chart-3)">8%</div>
+              <div style="font-size:14px;color:var(--pulse-text-muted);margin-top:var(--pulse-space-2)">Tablet</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation"><div class="mobile-nav-inner">
+    <a href="index.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a>
+    <a href="analytics.html" class="mobile-nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Analytics</a>
+    <a href="users.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Users</a>
+    <a href="settings.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg>Settings</a>
+  </div></nav>
+
+  <script src="js/pulse-admin.js"></script>
+  <script>
+    drawLineChart('trafficChart', [
+      {label:'Week 1',value:3200},{label:'Week 2',value:4100},{label:'Week 3',value:3800},
+      {label:'Week 4',value:5200},{label:'Week 5',value:4800},{label:'Week 6',value:6100},
+      {label:'Week 7',value:5900},{label:'Week 8',value:7200}
+    ], {color:'var(--pulse-primary)'});
+  </script>
+</body>
+</html>

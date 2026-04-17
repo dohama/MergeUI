@@ -44,6 +44,7 @@ app.use('/api/v1/components', require('./api/components'));
 app.use('/api/v1/downloads', require('./api/downloads'));
 app.use('/api/v1/inquiries', require('./api/inquiries'));
 app.use('/api/v1/admin', require('./api/admin'));
+app.use('/api/v1/checkout', require('./api/checkout'));
 app.use('/api/v1/webhooks', require('./api/webhooks'));
 
 // Health check

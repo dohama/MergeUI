@@ -300,6 +300,22 @@ function initMergeSupabase() {
       }
     },
 
+    // ========== CHECKOUT ==========
+
+    getCheckoutUrl: async function(variantId) {
+      var session = await sb.auth.getSession();
+      var token = session.data.session?.access_token;
+      if (!token) throw new Error('Please log in first');
+      var res = await fetch('/api/v1/checkout/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ variant_id: variantId })
+      });
+      var data = await res.json();
+      if (data.checkout_url) return data.checkout_url;
+      throw new Error(data.error || 'Failed to create checkout');
+    },
+
     // ========== INQUIRIES ==========
 
     submitInquiry: async function(name, email, category, subject, message) {

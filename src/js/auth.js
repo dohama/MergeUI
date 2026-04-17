@@ -190,22 +190,41 @@
                          fullUrl.indexOf('refresh_token') !== -1 ||
                          fullUrl.indexOf('code=') !== -1;
 
-  // 초기 표시: localStorage 세션 기준
-  initPage(session);
+  // 초기 표시: 보호 페이지는 세션 기준, 공개 페이지는 로그아웃 상태로 시작 (검증 후 변경)
+  if (isProtected) {
+    initPage(session);
+  } else {
+    initPage(null);
+  }
 
   // Supabase 세션과 동기화 — localStorage에 세션이 있어도 실제 Supabase 세션이 없으면 정리
-  if (session && window.MergeDB && window.MergeDB.client) {
+  function verifySession() {
+    if (!window.MergeDB || !window.MergeDB.client) return;
     window.MergeDB.client.auth.getSession().then(function(result) {
       if (!result.data.session) {
-        // Supabase 세션 만료됨 — localStorage 정리하고 UI 복원
+        // 세션 만료 — 정리
         localStorage.removeItem('mergeui_session');
-        if (isProtected) {
+        if (isProtected && !isLocal) {
           window.location.href = BASE + 'pages/auth/login.html';
         } else {
           resetPublicNav();
         }
+      } else {
+        // 세션 유효 — 로그인 상태 UI 표시
+        var s = getSession();
+        if (s && !isProtected) {
+          updatePublicNav(s);
+          updateCtaLinks(s);
+        }
       }
     }).catch(function() {});
+  }
+  if (session) {
+    if (window.MergeDB && window.MergeDB.client) {
+      verifySession();
+    } else {
+      document.addEventListener('mergedb-ready', verifySession);
+    }
   }
 
   // 세션 업데이트 이벤트 수신

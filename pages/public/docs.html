@@ -63,7 +63,6 @@
           <li><a href="#customization">Customization</a></li>
           <li><a href="#themes">Themes</a></li>
           <li><a href="#components">Components</a></li>
-          <li><a href="#dark-mode">Dark Mode</a></li>
           <li><a href="#responsive">Responsive</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
@@ -76,7 +75,7 @@
           <ul>
             <li><strong>Framework independent</strong> -- works with React, Vue, Angular, Svelte, or plain HTML.</li>
             <li><strong>CSS variable based</strong> -- change <code>--merge-*</code> variables to match your brand in seconds.</li>
-            <li><strong>Dark mode included</strong> -- every template ships with light and dark themes.</li>
+            <li><strong>Accent color presets</strong> -- each theme ships with multiple color presets you can switch instantly.</li>
             <li><strong>Accessible</strong> -- ARIA labels, keyboard navigation, and WCAG AA color contrast.</li>
           </ul>
         </section>
@@ -127,7 +126,7 @@ your-project/
           <ul>
             <li>Full dashboard layout (sidebar, topbar, content grid)</li>
             <li>Pre-built widgets and chart placeholders</li>
-            <li>Light and dark mode variants</li>
+            <li>Multiple accent color presets</li>
             <li>Responsive breakpoints for desktop, tablet, and mobile</li>
           </ul>
           <p>Browse available themes on the <a href="../themes/index.html" style="color:var(--brand-light);text-decoration:underline">Themes page</a>.</p>
@@ -145,24 +144,6 @@ your-project/
             <li><strong>Widgets</strong> -- Calendar, activity feed, notifications</li>
           </ul>
           <p>Explore all components in the <a href="components.html" style="color:var(--brand-light);text-decoration:underline">Component Browser</a>.</p>
-        </section>
-
-        <section id="dark-mode">
-          <h2>Dark Mode</h2>
-          <p>Toggle between light and dark themes using the <code>data-theme</code> attribute on the root element.</p>
-          <div class="code-block"><span class="cmt">&lt;!-- Light mode (default) --&gt;</span>
-&lt;<span class="kw">html</span> <span class="str">data-theme</span>=<span class="str">"light"</span>&gt;
-
-<span class="cmt">&lt;!-- Dark mode --&gt;</span>
-&lt;<span class="kw">html</span> <span class="str">data-theme</span>=<span class="str">"dark"</span>&gt;</div>
-          <div class="code-block"><span class="cmt">/* Toggle with JavaScript */</span>
-<span class="kw">function</span> toggleTheme() {
-  <span class="kw">var</span> html = document.documentElement;
-  <span class="kw">var</span> current = html.getAttribute(<span class="str">'data-theme'</span>);
-  html.setAttribute(<span class="str">'data-theme'</span>,
-    current === <span class="str">'dark'</span> ? <span class="str">'light'</span> : <span class="str">'dark'</span>
-  );
-}</div>
         </section>
 
         <section id="responsive">

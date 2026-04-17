@@ -67,13 +67,14 @@ function initMergeSupabase() {
 
     if (event === 'SIGNED_OUT') {
       localStorage.removeItem('mergeui_session');
+      document.dispatchEvent(new Event('mergeui-session-cleared'));
     }
   });
 
   // 보호 페이지 접근 제어 — 즉시 세션 확인 후 판단
   var path = window.location.pathname;
   var isProtected = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
-  if (isProtected) {
+  if (isProtected && window.location.protocol !== 'file:') {
     var fullUrl = window.location.href;
     var isOAuthCallback = fullUrl.indexOf('access_token') !== -1 ||
                            fullUrl.indexOf('refresh_token') !== -1 ||

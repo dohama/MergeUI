@@ -49,6 +49,14 @@
     }
   };
 
+  // Reset nav to logged-out state (public pages)
+  function resetPublicNav() {
+    var navRight = document.querySelector('.nav-right');
+    if (navRight) {
+      navRight.innerHTML = '<a href="' + BASE + 'pages/auth/login.html" class="nav-signin" style="font-size:14px;color:var(--text-muted);font-weight:500;transition:color 0.15s">Sign In</a><a href="' + BASE + 'pages/auth/signup.html" class="nav-cta">Get Started</a>';
+    }
+  }
+
   // Update nav for logged-in state (public pages)
   function updatePublicNav(session) {
     if (!session) return;
@@ -120,19 +128,21 @@
     var isAdminPage = path.indexOf('/admin/') !== -1;
     var isProtectedPage = isSubscriberPage || isAdminPage;
 
-    if (isProtectedPage && !session) {
+    // 로컬 파일 접속 시 세션 체크 우회 (file:// 프로토콜)
+    var isLocal = window.location.protocol === 'file:';
+    if (isProtectedPage && !session && !isLocal) {
       window.location.href = BASE + 'pages/auth/login.html';
       return;
     }
 
     // 관리자 페이지 — localStorage role로 1차 체크 (UI 힌트)
-    if (isAdminPage && session && session.role !== 'admin') {
+    if (isAdminPage && !isLocal && session && session.role !== 'admin') {
       window.location.href = BASE + 'pages/subscriber/dashboard.html';
       return;
     }
 
     // 관리자 페이지 — 서버에서 role 재검증 (localStorage 조작 방지)
-    if (isAdminPage && session) {
+    if (isAdminPage && !isLocal && session) {
       if (window.MergeDB && typeof window.MergeDB.getProfile === 'function') {
         window.MergeDB.getProfile().then(function(profile) {
           if (!profile || profile.role !== 'admin') {
@@ -180,28 +190,39 @@
                          fullUrl.indexOf('refresh_token') !== -1 ||
                          fullUrl.indexOf('code=') !== -1;
 
-  if (session) {
-    // localStorage에 세션이 있으면 바로 초기화
-    initPage(session);
-  } else if (!isProtected) {
-    // 공개 페이지 — 세션 없어도 정상 표시
-    initPage(null);
-    document.addEventListener('mergeui-session-updated', function() {
-      var s = getSession();
-      if (s) {
-        updatePublicNav(s);
-        updateCtaLinks(s);
+  // 초기 표시: localStorage 세션 기준
+  initPage(session);
+
+  // Supabase 세션과 동기화 — localStorage에 세션이 있어도 실제 Supabase 세션이 없으면 정리
+  if (session && window.MergeDB && window.MergeDB.client) {
+    window.MergeDB.client.auth.getSession().then(function(result) {
+      if (!result.data.session) {
+        // Supabase 세션 만료됨 — localStorage 정리하고 UI 복원
+        localStorage.removeItem('mergeui_session');
+        if (isProtected) {
+          window.location.href = BASE + 'pages/auth/login.html';
+        } else {
+          resetPublicNav();
+        }
       }
-    });
-  } else {
-    // 보호 페이지 + 세션 없음
-    // auth.js는 절대 리다이렉트하지 않음. supabase-client.js가 처리.
-    // 세션이 생기면 그때 페이지 초기화만 함.
-    document.addEventListener('mergeui-session-updated', function() {
-      var s = getSession();
-      if (s) { initPage(s); }
-    });
+    }).catch(function() {});
   }
+
+  // 세션 업데이트 이벤트 수신
+  document.addEventListener('mergeui-session-updated', function() {
+    var s = getSession();
+    if (s) {
+      if (!isProtected) { updatePublicNav(s); updateCtaLinks(s); }
+      else { initPage(s); }
+    }
+  });
+
+  // Supabase SIGNED_OUT 이벤트 수신 — 즉시 nav 복원
+  document.addEventListener('mergeui-session-cleared', function() {
+    if (!isProtected) {
+      resetPublicNav();
+    }
+  });
 
   // Expose for external use
   window.MergeAuth = {

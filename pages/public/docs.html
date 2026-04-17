@@ -189,6 +189,7 @@ your-project/
           <h3>How do I get support?</h3>
           <p>Reach out through our Discord community or use the contact form on the website. We typically respond within 24 hours.</p>
         </section>
+        <div style="min-height:50vh"></div>
       </div>
     </div>
   </main>
@@ -196,5 +197,21 @@ your-project/
   
 <script src="../../src/js/auth.js"></script>
 <script src="../../src/js/cookie-consent.js"></script>
+<script>
+(function(){
+  var links = document.querySelectorAll('.docs-sidebar a');
+  var sections = document.querySelectorAll('.docs-content section');
+  function updateActive(){
+    var scrollPos = window.scrollY + 120;
+    var current = '';
+    sections.forEach(function(s){ if(s.offsetTop <= scrollPos) current = s.id; });
+    links.forEach(function(l){
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', updateActive);
+  updateActive();
+})();
+</script>
 </body>
 </html>

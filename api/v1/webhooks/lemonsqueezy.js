@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { supabaseAdmin } = require('../_lib/supabase');
+const { supabaseAdmin } = require('../_lib/supabase.js');
 
 function verifySignature(rawBody, signature) {
   var secret = process.env.LEMON_WEBHOOK_SECRET;

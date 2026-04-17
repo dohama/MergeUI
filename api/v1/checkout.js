@@ -1,5 +1,5 @@
-const cors = require('./_lib/cors');
-const { getUser } = require('./_lib/supabase');
+const cors = require('./_lib/cors.js');
+const { getUser } = require('./_lib/supabase.js');
 
 const LEMON_API_URL = 'https://api.lemonsqueezy.com/v1';
 

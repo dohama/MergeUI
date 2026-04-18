@@ -17,7 +17,7 @@
 :root {
   /* Fonts */
   --sd-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --sd-font-mono: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --sd-font-mono: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Spacing (8px grid) */
   --sd-space-1: 4px;
@@ -48,7 +48,7 @@
 
   /* Text */
   --sd-text-primary: #2D3436;
-  --sd-text-secondary: #636E72;
+  --sd-text-secondary: #4A5568;
   --sd-text-muted: #A0AEC0;
 
   /* Borders (minimal) */

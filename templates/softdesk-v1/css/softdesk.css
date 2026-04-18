@@ -147,7 +147,7 @@ input,select,textarea{font-family:var(--sd-font)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--sd-space-2);padding:var(--sd-space-2) var(--sd-space-5);border-radius:var(--sd-radius-md);font-size:14px;font-weight:600;transition:all 200ms ease;box-shadow:var(--sd-shadow-sm-raised)}
 .btn:hover{box-shadow:var(--sd-shadow-raised)}
 .btn:active{box-shadow:var(--sd-shadow-pressed);transform:scale(0.97)}
-.btn-primary{background:var(--sd-primary);color:white;box-shadow:4px 4px 8px rgba(124,58,237,0.3),-4px -4px 8px rgba(255,255,255,0.1)}
+.btn-primary{background:var(--sd-primary);color:white;box-shadow:4px 4px 8px rgba(26,206,255,0.3),-4px -4px 8px rgba(255,255,255,0.1)}
 .btn-primary:hover{background:var(--sd-primary-hover)}
 .btn-primary:active{box-shadow:inset 3px 3px 6px rgba(0,0,0,0.2);transform:scale(0.97)}
 .btn-outline{color:var(--sd-text-secondary);background:transparent}

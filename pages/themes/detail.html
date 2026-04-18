@@ -345,13 +345,8 @@
             <div class="comp-item"><span class="comp-icon">📑</span> Tabs</div>
             <div class="comp-item"><span class="comp-icon">👤</span> Avatar Components</div>
           </div>
-          <h2 style="margin-top: 24px;">Included Pages (5)</h2>
-          <div class="component-list" style="margin-top: 12px;">
-            <div class="comp-item"><span class="comp-icon">📊</span> Dashboard — KPIs, charts, activity feed</div>
-            <div class="comp-item"><span class="comp-icon">👥</span> Users — Data table, filters, search</div>
-            <div class="comp-item"><span class="comp-icon">👤</span> User Detail — Profile, timeline, downloads</div>
-            <div class="comp-item"><span class="comp-icon">💳</span> Billing — Plans, transactions, invoices</div>
-            <div class="comp-item"><span class="comp-icon">⚙</span> Settings — Profile, notifications, security</div>
+          <h2 style="margin-top: 24px;">Included Pages (<span id="pageCount">5</span>)</h2>
+          <div class="component-list" id="pagesList" style="margin-top: 12px;">
           </div>
         </div>
 
@@ -364,11 +359,11 @@
             <li><span class="spec-label">Components</span><span class="spec-value" id="specComponents">16+</span></li>
             <li><span class="spec-label">Color Presets</span><span class="spec-value">4 (Violet, Blue, Emerald, Coral)</span></li>
             <li><span class="spec-label">Charts</span><span class="spec-value">Chart.js 4.x (Line, Bar, Doughnut)</span></li>
-            <li><span class="spec-label">CSS Variables</span><span class="spec-value">60+ --merge-* tokens</span></li>
+            <li><span class="spec-label">CSS Variables</span><span class="spec-value" id="specCssVars">60+ CSS variable tokens</span></li>
             <li><span class="spec-label">Framework</span><span class="spec-value">Pure HTML/CSS/JS (no React/Vue)</span></li>
             <li><span class="spec-label">Responsive</span><span class="spec-value">1280px+ / 768px / 375px</span></li>
             <li><span class="spec-label">Accessibility</span><span class="spec-value">WCAG AA (4.5:1 contrast)</span></li>
-            <li><span class="spec-label">Font</span><span class="spec-value">Inter (Google Fonts, free)</span></li>
+            <li><span class="spec-label">Font</span><span class="spec-value" id="specFont">Google Fonts (free)</span></li>
             <li><span class="spec-label">Icons</span><span class="spec-value">Lucide (inline SVG)</span></li>
             <li><span class="spec-label">Browser Support</span><span class="spec-value">Chrome, Firefox, Safari, Edge</span></li>
             <li><span class="spec-label">Build Step</span><span class="spec-value">None required</span></li>
@@ -392,17 +387,13 @@
 
         <div class="sidebar-card">
           <h3>Related Themes</h3>
-          <a href="detail.html?theme=devops-monitor" class="related-card" style="text-decoration:none;color:inherit">
-            <div class="related-thumb">📊</div>
-            <div class="related-info"><div class="ri-name">DevOps Monitor</div><div class="ri-cat">Analytics • 18 components</div></div>
+          <a href="detail.html?theme=softdesk" class="related-card" style="text-decoration:none;color:inherit">
+            <div class="related-thumb">🎯</div>
+            <div class="related-info"><div class="ri-name">SoftDesk</div><div class="ri-cat">SaaS • Neumorphism • 16 components</div></div>
           </a>
-          <a href="detail.html?theme=marketing-hub" class="related-card" style="text-decoration:none;color:inherit">
-            <div class="related-thumb">📈</div>
-            <div class="related-info"><div class="ri-name">Marketing Hub</div><div class="ri-cat">Analytics • 26 components</div></div>
-          </a>
-          <a href="detail.html?theme=findash" class="related-card" style="text-decoration:none;color:inherit">
-            <div class="related-thumb">💰</div>
-            <div class="related-info"><div class="ri-name">FinDash</div><div class="ri-cat">Finance • 24 components</div></div>
+          <a href="detail.html?theme=pulse-admin" class="related-card" style="text-decoration:none;color:inherit">
+            <div class="related-thumb">⚡</div>
+            <div class="related-info"><div class="ri-name">Pulse Admin</div><div class="ri-cat">SaaS • Minimal Dark • 12 components</div></div>
           </a>
         </div>
       </div>
@@ -615,7 +606,10 @@ window.addEventListener('load',function(){
       version: '1.0.0',
       updated: '2026-04-18',
       features: ['Neumorphic design system','Chart.js interactive charts','Accent color presets','Data-separated architecture','Utility classes (.neu-raised)','Plus Jakarta Sans typography'],
-      previewUrl: '../../templates/softdesk-v1/index.html'
+      previewUrl: '../../templates/softdesk-v1/index.html',
+      font: 'Plus Jakarta Sans',
+      cssPrefix: '--sd-*',
+      pageList: ['📊 Overview — KPIs, revenue chart, activity feed','📈 Analytics — Traffic, top pages, sources, devices','👥 Users — Data table, search, filters','📋 Projects — Project cards, progress, team','⚙ Settings — General, notifications, security']
     },
     'pulse-admin': {
       name: 'Pulse Admin',
@@ -628,7 +622,10 @@ window.addEventListener('load',function(){
       version: '1.0.0',
       updated: '2026-04-17',
       features: ['Dark theme optimized','Revenue trend charts','User management table','Settings with tabs','SVG line charts','Inter typography'],
-      previewUrl: '../../templates/pulse-admin-v1/index.html'
+      previewUrl: '../../templates/pulse-admin-v1/index.html',
+      font: 'Inter',
+      cssPrefix: '--pulse-*',
+      pageList: ['📊 Overview — KPIs, revenue chart, orders table','📈 Analytics — Traffic, bar chart, donut, devices','👥 Users — Data table, slide panel, filters','⚙ Settings — General, notifications, security, billing']
     }
   };
 
@@ -725,6 +722,16 @@ window.addEventListener('load',function(){
   if (sc) sc.textContent = String(theme.components);
   var sp = document.getElementById('specPages');
   if (sp) sp.textContent = String(theme.pages);
+  var sf = document.getElementById('specFont');
+  if (sf && theme.font) sf.textContent = theme.font + ' (Google Fonts, free)';
+  var sv = document.getElementById('specCssVars');
+  if (sv && theme.cssPrefix) sv.textContent = '60+ ' + theme.cssPrefix + ' tokens';
+  var pl = document.getElementById('pagesList');
+  var pc = document.getElementById('pageCount');
+  if (pl && theme.pageList) {
+    pc.textContent = theme.pageList.length;
+    pl.innerHTML = theme.pageList.map(function(p) { return '<div class="comp-item"><span class="comp-icon">' + p.charAt(0) + '</span> ' + escapeHtml(p.substring(2)) + '</div>'; }).join('');
+  }
   var su = document.getElementById('specUpdated');
   if (su) {
     var d = new Date(theme.updated);

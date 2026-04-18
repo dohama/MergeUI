@@ -4,7 +4,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Analytics — SoftDesk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=display=swapdisplay=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/softdesk-tokens.css">
   <link rel="stylesheet" href="css/softdesk.css">
 </head>
@@ -25,9 +25,10 @@
   <main class="main">
     <header class="topbar">
       <div class="topbar-left">
-        <h1 class="topbar-title">Analytics</h1>
+        <h1 class="topbar-title">Analytics</h1></div>
       <div class="topbar-right">
         <button class="btn btn-outline btn-sm">Last 30 days</button>
+      </div><!-- /topbar-right -->
     </header>
 
     <div class="content">
@@ -47,6 +48,7 @@
             <div class="chart-container" style="height:300px;padding:0"><canvas id="trafficChart"></canvas></div>
           </div>
         </div>
+      </div><!-- /row-12 -->
 
       <!-- Top Pages + Traffic Sources -->
       <div class="row row-8-4">
@@ -68,6 +70,7 @@
             </div>
           </div>
         </div>
+      </div><!-- /row-8-4 -->
 
       <!-- Device Distribution -->
       <div class="row row-6-6">
@@ -88,6 +91,7 @@
             <div class="chart-container" style="height:200px;padding:0"><canvas id="browserChart"></canvas></div>
           </div>
         </div>
+      </div><!-- /row-6-6 -->
     </div>
   </main>
 
@@ -112,6 +116,7 @@
     var SD = SOFTDESK_DATA;
 
     /* Traffic — Line Chart */
+    try {
     new Chart(document.getElementById('trafficChart'), {
       type: 'line',
       data: {
@@ -163,6 +168,7 @@
       },
       options: { responsive: true, maintainAspectRatio: false, plugins:{legend:{display:false}}, scales: { y:{beginAtZero:true, grid:{color:'rgba(166,180,200,0.15)'}}, x:{grid:{display:false}} } }
     });
+    } catch(e) { console.warn("Analytics charts init failed:", e); }
   </script>
 </body>
 </html>

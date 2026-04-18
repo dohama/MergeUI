@@ -4,7 +4,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Users — SoftDesk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=display=swapdisplay=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/softdesk-tokens.css">
   <link rel="stylesheet" href="css/softdesk.css">
 </head>
@@ -24,10 +24,11 @@
   <main class="main">
     <header class="topbar">
       <div class="topbar-left">
-        <h1 class="topbar-title">Users</h1>
+        <h1 class="topbar-title">Users</h1></div>
       <div class="topbar-right">
         <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search users..." aria-label="Search users"></div>
         <button class="btn btn-primary btn-sm">+ Add User</button>
+      </div><!-- /topbar-right -->
     </header>
 
     <div class="content">
@@ -38,6 +39,7 @@
         <select class="form-input form-select" style="width:auto;box-shadow:var(--sd-shadow-sm-raised)" aria-label="Filter by status">
           <option>All Status</option><option>Active</option><option>Inactive</option>
         </select>
+      </div><!-- /filter-bar -->
 
       <div class="card">
         <div class="table-wrap">
@@ -61,6 +63,7 @@
           <button aria-label="Previous page">Prev</button><button class="active" aria-current="page">1</button><button>2</button><button>3</button><button>4</button><button aria-label="Next page">Next</button>
         </div>
     </div>
+    </div><!-- /content -->
   </main>
 
   <nav class="mobile-nav" aria-label="Mobile navigation"><div class="mobile-nav-inner">

@@ -10,7 +10,7 @@ router.post('/signup', async (req, res) => {
   const { data, error } = await supabaseAdmin.auth.admin.createUser({
     email, password,
     user_metadata: { full_name: name || '' },
-    email_confirm: false
+    email_confirm: true
   });
 
   if (error) return res.status(400).json({ error: error.message });
@@ -22,7 +22,8 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ error: 'Email and password required' });
 
-  const { data, error } = await supabaseAdmin.auth.signInWithPassword({ email, password });
+  const { supabaseAnon } = require('../supabase');
+  const { data, error } = await supabaseAnon.auth.signInWithPassword({ email, password });
   if (error) return res.status(401).json({ error: 'Invalid email or password' });
 
   // 프로필 조회
@@ -48,8 +49,7 @@ router.post('/login', async (req, res) => {
 
 // POST /api/v1/auth/logout
 router.post('/logout', async (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (token) await supabaseAdmin.auth.admin.signOut(token);
+  // 서버 측에서는 세션 무효화만 처리 (클라이언트에서 localStorage 정리)
   res.json({ message: 'Logged out' });
 });
 

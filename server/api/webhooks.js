@@ -6,9 +6,11 @@ const { supabaseAdmin } = require('../supabase');
 // Lemonsqueezy 웹훅 서명 검증
 function verifyWebhookSignature(rawBody, signature) {
   const secret = process.env.LEMON_WEBHOOK_SECRET;
-  if (!secret) return false;
-  const hmac = crypto.createHmac('sha256', secret).update(rawBody).digest('hex');
-  return crypto.timingSafeEqual(Buffer.from(hmac), Buffer.from(signature));
+  if (!secret || !signature) return false;
+  try {
+    const hmac = crypto.createHmac('sha256', secret).update(rawBody).digest('hex');
+    return crypto.timingSafeEqual(Buffer.from(hmac), Buffer.from(signature));
+  } catch(e) { return false; }
 }
 
 // POST /api/v1/webhooks/lemonsqueezy
@@ -91,6 +93,14 @@ router.post('/lemonsqueezy', express.raw({ type: 'application/json' }), async (r
       await supabaseAdmin.from('subscriptions')
         .update({ status: 'past_due' })
         .eq('lemon_subscription_id', String(event.data.id));
+      break;
+    }
+
+    case 'subscription_expired': {
+      await supabaseAdmin.from('subscriptions')
+        .update({ status: 'expired' })
+        .eq('lemon_subscription_id', String(event.data.id));
+      await supabaseAdmin.from('profiles').update({ plan: 'free' }).eq('id', profile.id);
       break;
     }
   }

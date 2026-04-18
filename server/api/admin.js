@@ -7,6 +7,7 @@ router.use(requireAdmin);
 
 // GET /api/v1/admin/stats — 대시보드 KPI
 router.get('/stats', async (req, res) => {
+  try {
   const [
     { count: totalUsers },
     { count: activeSubscribers },
@@ -20,7 +21,9 @@ router.get('/stats', async (req, res) => {
   ]);
 
   const totalRevenue = (revenueData || []).reduce((sum, o) => sum + parseFloat(o.amount), 0);
-  const mrr = activeSubscribers * 19; // 간단 계산 (실제로는 플랜별 금액)
+  // 플랜별 금액: Pro=$19, Team=$49
+  const { data: subData } = await supabaseAdmin.from('subscriptions').select('plan').eq('status', 'active');
+  const mrr = (subData || []).reduce(function(sum, s) { return sum + (s.plan === 'team' ? 49 : 19); }, 0);
 
   res.json({
     mrr,
@@ -29,11 +32,14 @@ router.get('/stats', async (req, res) => {
     total_users: totalUsers,
     open_inquiries: openInquiries
   });
+  } catch(e) { res.status(500).json({ error: e.message || 'Failed to load stats' }); }
 });
 
 // GET /api/v1/admin/subscribers — 구독자 목록
 router.get('/subscribers', async (req, res) => {
-  const { page = 1, limit = 10, plan, status, search } = req.query;
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const { plan, status, search } = req.query;
   const offset = (page - 1) * limit;
 
   let query = supabaseAdmin.from('profiles')

@@ -4,7 +4,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Settings — SoftDesk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=display=swapdisplay=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/softdesk-tokens.css">
   <link rel="stylesheet" href="css/softdesk.css">
 </head>
@@ -24,7 +24,7 @@
   <main class="main">
     <header class="topbar">
       <div class="topbar-left">
-        <h1 class="topbar-title">Settings</h1>
+        <h1 class="topbar-title">Settings</h1></div>
       <div class="topbar-right"></div>
     </header>
 
@@ -33,6 +33,7 @@
         <button class="tab active" role="tab" aria-selected="true" data-tab="tab-general">General</button>
         <button class="tab" role="tab" aria-selected="false" data-tab="tab-notifications">Notifications</button>
         <button class="tab" role="tab" aria-selected="false" data-tab="tab-security">Security</button>
+      </div><!-- /tabs -->
 
       <div id="tab-general" class="tab-content" style="display:block">
         <div class="card" style="margin-bottom:var(--sd-space-5)">
@@ -55,6 +56,7 @@
             <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Animations</div><div class="settings-row-desc">Enable UI animations and transitions</div></div><div class="form-toggle on" role="switch" aria-label="Animations toggle" aria-checked="true" tabindex="0"></div></div>
           </div>
         </div>
+      </div><!-- /tab-general -->
 
       <div id="tab-notifications" class="tab-content" style="display:none">
         <div class="card">
@@ -67,6 +69,7 @@
             <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Security Alerts</div><div class="settings-row-desc">Login attempts and account security events</div></div><div class="form-toggle on" role="switch" aria-label="Security alerts" aria-checked="true" tabindex="0"></div></div>
           </div>
         </div>
+      </div><!-- /tab-notifications -->
 
       <div id="tab-security" class="tab-content" style="display:none">
         <div class="card" style="margin-bottom:var(--sd-space-5)">
@@ -90,6 +93,7 @@
             <div class="settings-row"><div class="settings-row-info"><div class="settings-row-label">Firefox on Windows</div><div class="settings-row-desc">Last active: 3 days ago</div></div><button class="btn btn-outline btn-sm" style="color:var(--sd-error)">Revoke</button></div>
           </div>
         </div>
+      </div><!-- /tab-security -->
     </div>
   </main>
 

@@ -24,9 +24,9 @@ module.exports = async function(req, res) {
 
   var signature = req.headers['x-signature'];
 
-  // 서명 검증 — 실패해도 로그 남기고 계속 진행 (디버깅용, 추후 강제 적용)
-  if (signature && !verifySignature(rawBody, signature)) {
-    console.warn('Webhook signature mismatch — processing anyway for now');
+  // 서명 검증 — 실패 시 거부
+  if (!signature || !verifySignature(rawBody, signature)) {
+    return res.status(401).json({ error: 'Invalid webhook signature' });
   }
 
   var event = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;

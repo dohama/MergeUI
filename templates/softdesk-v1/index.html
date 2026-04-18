@@ -4,7 +4,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Overview — SoftDesk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=display=swapdisplay=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/softdesk-tokens.css">
   <link rel="stylesheet" href="css/softdesk.css">
 </head>
@@ -31,11 +31,11 @@
   <main class="main">
     <header class="topbar">
       <div class="topbar-left">
-        <h1 class="topbar-title">Overview</h1>
+        <h1 class="topbar-title">Overview</h1></div>
       <div class="topbar-right">
         <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search..." aria-label="Search"></div>
         <button class="topbar-icon" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="topbar-dot"></span></button>
-        <div class="sb-avatar" style="width:32px;height:32px;font-size:11px">JD</div>
+        <div class="sb-avatar" style="width:32px;height:32px;font-size:11px">JD</div></div>
     </header>
 
     <div class="content">
@@ -94,6 +94,7 @@
             </div>
           </div>
         </div>
+      </div><!-- /row-8-4 -->
 
       <!-- ============================================
            Orders Table
@@ -119,6 +120,7 @@
           <button aria-label="Previous page">Prev</button><button class="active" aria-current="page">1</button><button>2</button><button>3</button><button aria-label="Next page">Next</button>
         </div>
     </div>
+    </div><!-- /content -->
   </main>
 
   <!-- Mobile Nav -->
@@ -136,6 +138,7 @@
   <script>
     applyChartJsDefaults();
     var SD = SOFTDESK_DATA;
+    try {
     new Chart(document.getElementById('revenueChart'), {
       type: 'line',
       data: {
@@ -155,6 +158,7 @@
       options: { responsive: true, maintainAspectRatio: false, plugins:{legend:{display:false}}, scales: { y:{beginAtZero:false, grid:{color:'rgba(166,180,200,0.15)'}}, x:{grid:{display:false}} } }
     });
 
+    } catch(e) { console.warn("Revenue chart init failed:", e); }
     /* KPI 카드 데이터 바인딩 */
     var kpiCards = document.querySelectorAll('.kpi-card');
     if (SD.kpi && kpiCards.length === SD.kpi.length) {

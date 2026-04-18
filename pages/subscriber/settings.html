@@ -151,6 +151,12 @@ document.getElementById('savePw').addEventListener('click', async function(){
   if(np!==cp){msg.style.display='block';msg.className='msg error';msg.textContent='New passwords do not match.';return;}
   try {
     if(typeof MergeDB!=='undefined'&&MergeDB.updatePassword){
+      // 현재 비밀번호 검증 — 재로그인 시도
+      var session=JSON.parse(localStorage.getItem('mergeui_session'));
+      if(session&&session.email){
+        var { error: verifyErr } = await MergeDB.client.auth.signInWithPassword({email:session.email, password:cur});
+        if(verifyErr){msg.style.display='block';msg.className='msg error';msg.textContent='Current password is incorrect.';return;}
+      }
       await MergeDB.updatePassword(np);
       msg.style.display='block';msg.className='msg success';msg.textContent='Password updated successfully.';
     } else {

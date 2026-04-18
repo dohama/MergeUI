@@ -26,7 +26,12 @@ app.use(helmet({
     }
   }
 }));
-app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:3000', credentials: true }));
+var allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000').split(',');
+app.use(cors({ origin: function(origin, cb) { if (!origin || allowedOrigins.indexOf(origin) !== -1) cb(null, true); else cb(null, false); }, credentials: true }));
+
+// Webhook은 raw body가 필요하므로 express.json() 전에 마운트
+app.use('/api/v1/webhooks', require('./api/webhooks'));
+
 app.use(express.json());
 
 // Rate limiting
@@ -45,7 +50,6 @@ app.use('/api/v1/downloads', require('./api/downloads'));
 app.use('/api/v1/inquiries', require('./api/inquiries'));
 app.use('/api/v1/admin', require('./api/admin'));
 app.use('/api/v1/checkout', require('./api/checkout'));
-app.use('/api/v1/webhooks', require('./api/webhooks'));
 
 // Health check
 app.get('/api/health', (req, res) => {

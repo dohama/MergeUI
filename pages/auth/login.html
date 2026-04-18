@@ -518,18 +518,16 @@ document.querySelector('form').onsubmit = async function(e) {
   });
 };
 
-// GitHub/Google OAuth — 직접 Supabase 호출 (MergeDB 대기 없이)
-document.querySelectorAll('.social-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    var text = btn.textContent.toLowerCase();
-    var SUPABASE_URL = 'https://agugcvugqjcetiulezim.supabase.co';
-    var redirectTo = window.location.origin + '/pages/subscriber/dashboard.html';
-
-    if (text.indexOf('github') !== -1) {
-      window.location.href = SUPABASE_URL + '/auth/v1/authorize?provider=github&redirect_to=' + encodeURIComponent(redirectTo);
-    } else if (text.indexOf('google') !== -1) {
-      window.location.href = SUPABASE_URL + '/auth/v1/authorize?provider=google&redirect_to=' + encodeURIComponent(redirectTo);
-    }
+// GitHub/Google OAuth — MergeDB 대기 후 호출
+document.addEventListener('mergedb-ready', function() {
+  document.querySelectorAll('.social-btn').forEach(function(btn) {
+    btn.addEventListener('click', async function() {
+      var text = btn.textContent.toLowerCase();
+      try {
+        if (text.indexOf('github') !== -1) await MergeDB.loginWithGitHub();
+        else if (text.indexOf('google') !== -1) await MergeDB.loginWithGoogle();
+      } catch(e) { showError(e.message || 'OAuth login failed'); }
+    });
   });
 });
 </script>

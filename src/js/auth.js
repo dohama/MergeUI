@@ -183,6 +183,7 @@
 
   var path = window.location.pathname;
   var isProtected = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
+  var isLocal = window.location.protocol === 'file:';
 
   // OAuth 콜백 감지 — hash(#access_token) 또는 query(?code=) 둘 다 체크
   var fullUrl = window.location.href;

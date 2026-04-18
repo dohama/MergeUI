@@ -4,7 +4,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects — SoftDesk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=display=swapdisplay=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/softdesk-tokens.css">
   <link rel="stylesheet" href="css/softdesk.css">
 </head>
@@ -24,9 +24,10 @@
   <main class="main">
     <header class="topbar">
       <div class="topbar-left">
-        <h1 class="topbar-title">Projects</h1>
+        <h1 class="topbar-title">Projects</h1></div>
       <div class="topbar-right">
         <button class="btn btn-primary btn-sm">+ New Project</button>
+      </div><!-- /topbar-right -->
     </header>
 
     <div class="content">
@@ -34,6 +35,7 @@
         <select class="form-input form-select" style="width:auto;box-shadow:var(--sd-shadow-sm-raised)" aria-label="Filter by status">
           <option>All Status</option><option>In Progress</option><option>Completed</option><option>On Hold</option>
         </select>
+      </div><!-- /filter-bar -->
 
       <section class="project-grid" aria-label="Projects">
         <article class="project-card">

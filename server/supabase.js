@@ -22,4 +22,9 @@ function createUserClient(accessToken) {
   });
 }
 
-module.exports = { supabaseAdmin, createUserClient };
+// Anon client (로그인용 — RLS 적용)
+const supabaseAnon = createClient(supabaseUrl || '', supabaseAnonKey || '', {
+  auth: { autoRefreshToken: false, persistSession: false }
+});
+
+module.exports = { supabaseAdmin, supabaseAnon, createUserClient };

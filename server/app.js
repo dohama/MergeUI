@@ -22,9 +22,13 @@ app.use(helmet({
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "https://api.dicebear.com"],
       connectSrc: ["'self'", process.env.SUPABASE_URL || "https://agugcvugqjcetiulezim.supabase.co"],
-      frameSrc: ["'none'"]
+      frameSrc: ["'self'"],
+      formAction: ["'self'", "https://mergeui.lemonsqueezy.com"],
+      upgradeInsecureRequests: []
     }
-  }
+  },
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+  crossOriginEmbedderPolicy: false
 }));
 var allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000').split(',');
 app.use(cors({ origin: function(origin, cb) { if (!origin || allowedOrigins.indexOf(origin) !== -1) cb(null, true); else cb(null, false); }, credentials: true }));
@@ -33,6 +37,17 @@ app.use(cors({ origin: function(origin, cb) { if (!origin || allowedOrigins.inde
 app.use('/api/v1/webhooks', require('./api/webhooks'));
 
 app.use(express.json());
+
+// CSRF 방어 — Origin/Referer 체크 (상태 변경 요청)
+app.use(function(req, res, next) {
+  if (['POST','PUT','DELETE'].indexOf(req.method) !== -1 && req.path.indexOf('/api/') === 0 && req.path.indexOf('/webhooks/') === -1) {
+    var origin = req.headers.origin || req.headers.referer || '';
+    var allowed = (process.env.CORS_ORIGIN || 'http://localhost:3000').split(',');
+    var ok = allowed.some(function(a) { return origin.indexOf(a) === 0; });
+    if (!ok && origin) return res.status(403).json({ error: 'CSRF: origin not allowed' });
+  }
+  next();
+});
 
 // Rate limiting
 const limiter = rateLimit({

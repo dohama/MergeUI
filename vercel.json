@@ -1,6 +1,8 @@
 {
   "rewrites": [
     { "source": "/api/v1/checkout", "destination": "/api/v1/checkout" },
+    { "source": "/api/v1/download", "destination": "/api/v1/download" },
+    { "source": "/api/v1/account", "destination": "/api/v1/account" },
     { "source": "/api/v1/webhooks/lemonsqueezy", "destination": "/api/v1/webhooks/lemonsqueezy" }
   ],
   "headers": [

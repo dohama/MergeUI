@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1200">
+  <title>MergeUi OG Image</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1200px; height: 630px; overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #6C5CE7 0%, #8B7CF0 50%, #A78BFA 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: white; position: relative;
+    }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3; }
+    .orb-1 { width: 400px; height: 400px; background: #00CEC9; top: -100px; right: -50px; }
+    .orb-2 { width: 300px; height: 300px; background: #FD79A8; bottom: -80px; left: -30px; }
+    .content { position: relative; z-index: 1; text-align: center; }
+    .logo { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 40px; }
+    .logo-mark { width: 64px; height: 64px; border-radius: 16px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 900; }
+    .logo-text { font-size: 48px; font-weight: 900; letter-spacing: -2px; }
+    h1 { font-size: 56px; font-weight: 900; letter-spacing: -2px; line-height: 1.1; margin-bottom: 24px; }
+    h1 span { background: linear-gradient(135deg, #00CEC9, #74B9FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .sub { font-size: 22px; font-weight: 400; opacity: 0.85; letter-spacing: 2px; text-transform: uppercase; }
+    .badges { display: flex; gap: 16px; margin-top: 40px; justify-content: center; }
+    .badge { padding: 8px 20px; border-radius: 999px; background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); font-size: 14px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="content">
+    <div class="logo">
+      <div class="logo-mark">O</div>
+      <div class="logo-text">MergeUi</div>
+    </div>
+    <h1>Dashboard Templates<br>That <span>Ship Fast.</span></h1>
+    <div class="sub">Production-ready &bull; Responsive &bull; Customizable</div>
+    <div class="badges">
+      <span class="badge">10+ Themes</span>
+      <span class="badge">50+ Components</span>
+      <span class="badge">$19/mo</span>
+    </div>
+  </div>
+</body>
+</html>

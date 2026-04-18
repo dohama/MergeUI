@@ -5,77 +5,39 @@
   <title>Preview — MergeUi</title>
   <meta name="description" content="Live preview of MergeUi dashboard theme.">
   <link rel="canonical" href="https://mergeui.com/themes/preview">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
   <style>
-    
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%;overflow:hidden}
     body{font-family:var(--font);background:var(--bg-base);color:var(--text-primary)}
     a{color:inherit;text-decoration:none}
 
-    .control-bar{height:48px;background:var(--bg-raised);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0}
-    .cb-left{display:flex;align-items:center;gap:12px}
+    .control-bar{height:52px;background:var(--bg-raised);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0}
+    .cb-left{display:flex;align-items:center;gap:14px}
     .cb-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;background:none;border:none;font-family:var(--font);transition:color 0.15s}
     .cb-back:hover{color:var(--text-primary)}
+    .cb-back svg{width:16px;height:16px}
+    .cb-divider{width:1px;height:20px;background:var(--border)}
     .cb-theme-name{font-size:14px;font-weight:800;color:var(--text-primary)}
-    .cb-center{display:flex;gap:4px}
-    .cb-device{padding:6px 16px;font-size:12px;font-weight:700;border-radius:8px;background:none;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;font-family:var(--font);transition:all 0.15s}
-    .cb-device.active{background:var(--brand);color:white;border-color:var(--brand)}
-    .cb-device:hover:not(.active){border-color:var(--border-strong);color:var(--text-secondary)}
+    .cb-center{display:flex;gap:4px;background:var(--bg-surface);border:1px solid var(--border);border-radius:10px;padding:3px}
+    .cb-device{padding:6px 18px;font-size:12px;font-weight:600;border-radius:8px;background:none;border:none;color:var(--text-muted);cursor:pointer;font-family:var(--font);transition:all 0.15s}
+    .cb-device.active{background:var(--brand);color:white}
+    .cb-device:hover:not(.active){color:var(--text-secondary)}
     .cb-right{display:flex;align-items:center;gap:10px}
-    .cb-toggle{padding:6px 14px;font-size:12px;font-weight:700;border-radius:8px;background:var(--bg-surface);border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;font-family:var(--font);transition:all 0.15s}
-    .cb-toggle:hover{border-color:var(--border-strong);color:var(--text-primary)}
-    .cb-cta{padding:6px 20px;background:var(--brand);color:white;font-size:12px;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:var(--font);transition:all 0.15s}
+    .cb-cta{padding:8px 24px;background:var(--brand);color:white;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:var(--font);transition:all 0.15s}
     .cb-cta:hover{background:var(--brand-light)}
 
-    .preview-viewport{height:calc(100vh - 48px);display:flex;align-items:flex-start;justify-content:center;overflow:auto;background:#D5DAE0;padding:24px}
-
-    /* SoftDesk Neumorphism Light */
-    .mock-dashboard{transition:width 0.4s,transform 0.4s;transform-origin:top center;background:#E8EDF2;border-radius:8px;overflow:hidden;border:none;box-shadow:8px 8px 24px rgba(163,174,186,0.4),-8px -8px 24px rgba(255,255,255,0.6)}
-    .md-layout{display:grid;grid-template-columns:220px 1fr;min-height:600px}
-    .md-sidebar{background:#E8EDF2;box-shadow:3px 0 12px rgba(0,0,0,0.04);padding:20px 14px}
-    .md-sb-logo{font-size:14px;font-weight:800;padding:4px 10px;margin-bottom:24px;color:#6C5CE7}
-    .md-sb-group{margin-bottom:18px}
-    .md-sb-label{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#8892A4;padding:0 10px;margin-bottom:6px}
-    .md-sb-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;font-size:12px;color:#8892A4;margin-bottom:2px;transition:all 0.1s}
-    .md-sb-item:hover{background:rgba(0,0,0,0.03)}
-    .md-sb-item.active{background:transparent;color:#6C5CE7;box-shadow:inset 3px 3px 6px rgba(163,174,186,0.3),inset -3px -3px 6px rgba(255,255,255,0.5)}
-    .md-sb-icon{width:16px;height:16px;border-radius:4px;border:1.5px solid currentColor;opacity:0.4}
-    .md-sb-item.active .md-sb-icon{opacity:0.8}
-    .md-main{padding:24px;background:#E8EDF2}
-    .md-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-    .md-title{font-size:20px;font-weight:800;color:#1A1D26}
-    .md-pills{display:flex;gap:6px}
-    .md-pill{padding:5px 14px;border-radius:7px;font-size:11px;font-weight:600;background:#E8EDF2;color:#8892A4;border:none;box-shadow:inset 2px 2px 4px rgba(163,174,186,0.3),inset -2px -2px 4px rgba(255,255,255,0.5)}
-    .md-pill.active{background:linear-gradient(135deg,#6C5CE7,#8B7CF6);color:white;box-shadow:0 2px 8px rgba(108,92,231,0.3)}
-    .md-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-    .md-stat{padding:16px;border-radius:12px;background:#E8EDF2;border:none;box-shadow:4px 4px 10px rgba(163,174,186,0.4),-4px -4px 10px rgba(255,255,255,0.6);border-top:1px solid rgba(255,255,255,0.5)}
-    .md-stat-label{font-size:10px;color:#8892A4;text-transform:uppercase;letter-spacing:0.5px}
-    .md-stat-val{font-size:24px;font-weight:800;margin-top:4px;color:#1A1D26}
-    .md-stat-change{font-size:11px;margin-top:2px}
-    .md-stat-change.up{color:#00B894}.md-stat-change.down{color:#FF6B6B}
-    .md-charts{display:grid;grid-template-columns:2fr 1fr;gap:14px}
-    .md-chart-card{padding:18px;border-radius:12px;background:#E8EDF2;border:none;box-shadow:4px 4px 10px rgba(163,174,186,0.4),-4px -4px 10px rgba(255,255,255,0.6);border-top:1px solid rgba(255,255,255,0.5)}
-    .md-chart-title{font-size:13px;font-weight:700;margin-bottom:14px;color:#1A1D26}
-    .md-bar-chart{display:flex;align-items:flex-end;gap:4px;height:140px}
-    .md-bar{flex:1;border-radius:6px 6px 0 0;background:linear-gradient(to top,rgba(108,92,231,0.5),#6C5CE7);opacity:0.7;transition:opacity 0.2s}
-    .md-bar:hover{opacity:1}
-    .md-donut{width:120px;height:120px;border-radius:50%;border:18px solid #E8EDF2;border-top-color:#6C5CE7;border-right-color:#00CEC9;border-bottom-color:#FD79A8;margin:10px auto;position:relative;box-shadow:3px 3px 8px rgba(163,174,186,0.3),-3px -3px 8px rgba(255,255,255,0.5)}
-    .md-donut-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#1A1D26}
-    .md-table{margin-top:14px;padding:18px;border-radius:12px;background:#E8EDF2;border:none;box-shadow:4px 4px 10px rgba(163,174,186,0.4),-4px -4px 10px rgba(255,255,255,0.6);border-top:1px solid rgba(255,255,255,0.5)}
-    .md-table-title{font-size:13px;font-weight:700;margin-bottom:12px;color:#1A1D26}
-    .md-table table{width:100%;border-collapse:collapse}
-    .md-table th{text-align:left;font-size:10px;color:#8892A4;text-transform:uppercase;letter-spacing:0.5px;padding:8px 12px;border-bottom:1px solid rgba(0,0,0,0.06)}
-    .md-table td{font-size:12px;padding:10px 12px;border-bottom:1px solid rgba(0,0,0,0.04);color:#4A5168}
-    .md-table tr:last-child td{border:none}
-    .md-table .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}
-    .md-table .status-dot.green{background:#00B894}.md-table .status-dot.yellow{background:#FDCB6E}
+    .preview-viewport{height:calc(100vh - 52px);display:flex;align-items:flex-start;justify-content:center;overflow:auto;background:#C8CDD3;padding:24px}
+    .preview-frame{border:none;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.15);transition:width 0.4s ease, height 0.4s ease;background:white;transform-origin:top center}
 
     @media(max-width:768px){
       .cb-center{display:none}
       .cb-theme-name{font-size:12px}
+      .preview-viewport{padding:12px}
     }
   </style>
   <script src="../../src/js/analytics.js" defer></script>
@@ -84,146 +46,92 @@
   <div class="control-bar">
     <div class="cb-left">
       <button type="button" class="cb-back" onclick="history.back()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         Back
       </button>
-      <span class="cb-theme-name" id="themeName">SoftDesk</span>
+      <span class="cb-divider"></span>
+      <span class="cb-theme-name" id="themeName">Theme Preview</span>
     </div>
     <div class="cb-center">
-      <button type="button" class="cb-device active" onclick="setDevice('desktop',this)">Desktop</button>
-      <button type="button" class="cb-device" onclick="setDevice('tablet',this)">Tablet</button>
-      <button type="button" class="cb-device" onclick="setDevice('mobile',this)">Mobile</button>
+      <button type="button" class="cb-device active" data-device="desktop">Desktop</button>
+      <button type="button" class="cb-device" data-device="tablet">Tablet</button>
+      <button type="button" class="cb-device" data-device="mobile">Mobile</button>
     </div>
     <div class="cb-right">
-      <button type="button" class="cb-toggle" id="themeToggle" onclick="toggleMockTheme()">Light</button>
-      <a href="detail.html" class="cb-cta">Get This Theme</a>
+      <a href="detail.html" class="cb-cta" id="ctaLink">Get This Theme</a>
     </div>
   </div>
 
   <div class="preview-viewport" id="viewport">
-    <div class="mock-dashboard" id="mockDash" style="width:1280px">
-      <div class="md-layout">
-        <div class="md-sidebar" id="mdSidebar">
-          <div class="md-sb-logo" id="mockSidebarLogo">SoftDesk</div>
-          <div class="md-sb-group">
-            <div class="md-sb-item active"><span class="md-sb-icon"></span> Dashboard</div>
-            <div class="md-sb-item"><span class="md-sb-icon"></span> Users</div>
-            <div class="md-sb-item"><span class="md-sb-icon"></span> Billing</div>
-            <div class="md-sb-item"><span class="md-sb-icon"></span> Settings</div>
-          </div>
-        </div>
-        <div class="md-main">
-          <div class="md-header">
-            <span class="md-title">Dashboard</span>
-            <div class="md-pills">
-              <span class="md-pill">7D</span>
-              <span class="md-pill active">30D</span>
-              <span class="md-pill">90D</span>
-              <span class="md-pill">1Y</span>
-            </div>
-          </div>
-          <div class="md-stats">
-            <div class="md-stat" style="background:linear-gradient(135deg,#6C5CE7,#8B7CF6);box-shadow:0 4px 14px rgba(108,92,231,0.3);border:none"><div class="md-stat-label" style="color:rgba(255,255,255,0.7)">Monthly Revenue</div><div class="md-stat-val" style="color:#fff">$12.8K</div><div class="md-stat-change up" style="color:rgba(255,255,255,0.85)">+12.5%</div></div>
-            <div class="md-stat"><div class="md-stat-label">Subscribers</div><div class="md-stat-val">384</div><div class="md-stat-change up">+24</div></div>
-            <div class="md-stat"><div class="md-stat-label">Churn Rate</div><div class="md-stat-val">3.2%</div><div class="md-stat-change down">+0.4%</div></div>
-            <div class="md-stat"><div class="md-stat-label">Downloads</div><div class="md-stat-val">1,247</div><div class="md-stat-change up">+18.2%</div></div>
-          </div>
-          <div class="md-charts">
-            <div class="md-chart-card">
-              <div class="md-chart-title">Revenue Over Time</div>
-              <div class="md-bar-chart">
-                <div class="md-bar" style="height:35%"></div><div class="md-bar" style="height:55%"></div>
-                <div class="md-bar" style="height:42%"></div><div class="md-bar" style="height:78%"></div>
-                <div class="md-bar" style="height:50%"></div><div class="md-bar" style="height:65%"></div>
-                <div class="md-bar" style="height:88%"></div><div class="md-bar" style="height:58%"></div>
-                <div class="md-bar" style="height:72%"></div><div class="md-bar" style="height:82%"></div>
-                <div class="md-bar" style="height:48%"></div><div class="md-bar" style="height:95%"></div>
-              </div>
-            </div>
-            <div class="md-chart-card">
-              <div class="md-chart-title">Traffic Sources</div>
-              <div class="md-donut"><div class="md-donut-center">68%</div></div>
-            </div>
-          </div>
-          <div class="md-table">
-            <div class="md-table-title">Recent Activity</div>
-            <table>
-              <thead><tr><th>Event</th><th>User</th><th>Status</th><th>Time</th></tr></thead>
-              <tbody>
-                <tr><td>Purchase completed</td><td>sarah@email.com</td><td><span class="status-dot green"></span>Success</td><td>2m ago</td></tr>
-                <tr><td>Subscription renewed</td><td>mike@dev.io</td><td><span class="status-dot green"></span>Success</td><td>15m ago</td></tr>
-                <tr><td>Payment pending</td><td>alex@startup.co</td><td><span class="status-dot yellow"></span>Pending</td><td>1h ago</td></tr>
-                <tr><td>New signup</td><td>jen@agency.com</td><td><span class="status-dot green"></span>Active</td><td>2h ago</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+    <iframe class="preview-frame" id="previewFrame" src="" style="width:1280px;height:100%"></iframe>
   </div>
 
 <script>
-var devices={desktop:{w:1280,h:800},tablet:{w:768,h:600},mobile:{w:375,h:667}};
-var currentDevice='desktop';
-var isDark=true;
+(function(){
+  /* 테마별 프리뷰 URL 매핑 */
+  var themeUrls = {
+    'softdesk': '../../templates/softdesk-v1/index.html',
+    'pulse-admin': '../../templates/pulse-admin-v1/index.html'
+  };
 
-function setDevice(d,btn){
-  currentDevice=d;
-  document.querySelectorAll('.cb-device').forEach(function(b){b.classList.remove('active')});
-  btn.classList.add('active');
-  var s=devices[d];
-  var vp=document.getElementById('viewport');
-  var container=vp.offsetWidth-48;
-  var scale=Math.min(1,container/s.w);
-  var mock=document.getElementById('mockDash');
-  mock.style.width=s.w+'px';
-  mock.style.transform='scale('+scale+')';
-  var sb=document.getElementById('mdSidebar');
-  if(sb) sb.style.display=d==='mobile'?'none':'block';
-  var layout=document.querySelector('.md-layout');
-  if(layout) layout.style.gridTemplateColumns=d==='mobile'?'1fr':'220px 1fr';
-}
+  /* URL 파라미터에서 테마 슬러그 가져오기 */
+  var params = new URLSearchParams(window.location.search);
+  var slug = params.get('theme') || 'softdesk';
 
-function toggleMockTheme(){
-  isDark=!isDark;
-  var btn=document.getElementById('themeToggle');
-  btn.textContent=isDark?'Light':'Dark';
-  var mock=document.getElementById('mockDash');
-  if(isDark){
-    mock.style.background='var(--bg-base)';mock.style.color='var(--text-primary)';
-  }else{
-    mock.style.background='#F8FAFC';mock.style.color='#18181B';
+  /* 테마 이름 표시 */
+  var name = slug.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+  document.getElementById('themeName').textContent = name;
+  document.title = name + ' Preview — MergeUi';
+
+  /* CTA 링크 */
+  var ctaLink = document.getElementById('ctaLink');
+  if (ctaLink) ctaLink.href = 'detail.html?theme=' + slug;
+
+  /* iframe에 실제 테마 로드 */
+  var frame = document.getElementById('previewFrame');
+  var src = themeUrls[slug];
+  if (src) {
+    frame.src = src;
+  } else {
+    frame.srcdoc = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Inter,sans-serif;color:#636E72;font-size:18px">This theme preview is coming soon.</div>';
   }
-}
 
-// URL param
-var params=new URLSearchParams(window.location.search);
-var slug=params.get('theme');
-if(slug){
-  var name=slug.replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()});
-  document.getElementById('themeName').textContent=name;
-  document.getElementById('mockSidebarLogo').textContent=name;
-  document.title=name+' Preview — MergeUi';
-  var ctaLink=document.querySelector('.cb-cta');
-  if(ctaLink)ctaLink.href='detail.html?theme='+slug;
-}
+  /* 디바이스 전환 */
+  var devices = { desktop: { w: 1280 }, tablet: { w: 768 }, mobile: { w: 375 } };
 
-// Init scale
-window.addEventListener('load',function(){
-  var s=devices[currentDevice];
-  var vp=document.getElementById('viewport');
-  var container=vp.offsetWidth-48;
-  var scale=Math.min(1,container/s.w);
-  var mock=document.getElementById('mockDash');
-  mock.style.transform='scale('+scale+')';
-});
-window.addEventListener('resize',function(){
-  var s=devices[currentDevice];
-  var vp=document.getElementById('viewport');
-  var container=vp.offsetWidth-48;
-  var scale=Math.min(1,container/s.w);
-  document.getElementById('mockDash').style.transform='scale('+scale+')';
-});
+  document.querySelectorAll('.cb-device').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.cb-device').forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      var d = this.getAttribute('data-device');
+      var w = devices[d].w;
+      var vp = document.getElementById('viewport');
+      var containerW = vp.clientWidth - 48;
+
+      frame.style.width = w + 'px';
+
+      /* 화면보다 크면 축소 */
+      if (w > containerW) {
+        var scale = containerW / w;
+        frame.style.transform = 'scale(' + scale + ')';
+        frame.style.transformOrigin = 'top center';
+      } else {
+        frame.style.transform = 'none';
+      }
+    });
+  });
+
+  /* 초기 크기 조정 */
+  window.addEventListener('load', function() {
+    var vp = document.getElementById('viewport');
+    var containerW = vp.clientWidth - 48;
+    if (1280 > containerW) {
+      var scale = containerW / 1280;
+      frame.style.transform = 'scale(' + scale + ')';
+      frame.style.transformOrigin = 'top center';
+    }
+  });
+})();
 </script>
 <script src="../../src/js/auth.js"></script>
 <script src="../../src/js/cookie-consent.js"></script>

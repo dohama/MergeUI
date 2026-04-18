@@ -1,12 +1,23 @@
 /* ============================================
    SoftDesk v1 — Design Tokens (Neumorphism)
-   Customize this file to match your brand.
+
+   ★ This is your customization file.
+   ★ Change values below to match your brand.
+   ★ Save and refresh — the entire theme updates.
+
+   Sections:
+   1. Fonts        — Change typeface
+   2. Spacing      — Adjust layout density
+   3. Radius       — Corner roundness
+   4. Colors       — Brand colors + accent presets
+   5. Shadows      — Neumorphism depth
+   6. Chart colors — Chart/graph palette
    ============================================ */
 
 :root {
   /* Fonts */
-  --sd-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --sd-font-mono: 'JetBrains Mono', monospace;
+  --sd-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --sd-font-mono: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Spacing (8px grid) */
   --sd-space-1: 4px;
@@ -19,10 +30,10 @@
   --sd-space-8: 64px;
 
   /* Border Radius */
-  --sd-radius-sm: 8px;
-  --sd-radius-md: 12px;
-  --sd-radius-lg: 16px;
-  --sd-radius-xl: 24px;
+  --sd-radius-sm: 10px;
+  --sd-radius-md: 14px;
+  --sd-radius-lg: 20px;
+  --sd-radius-xl: 28px;
   --sd-radius-full: 50%;
 
   /* Sidebar / Topbar */
@@ -30,62 +41,82 @@
   --sd-sidebar-collapsed: 64px;
   --sd-topbar-h: 64px;
 
-  /* Colors — Light Mode (default for neumorphism) */
-  --sd-bg-base: #E8EAF0;
-  --sd-bg-surface: #E8EAF0;
-  --sd-bg-elevated: #DFE1E8;
-  --sd-text-primary: #2D3748;
-  --sd-text-secondary: #4A5568;
-  --sd-text-muted: #718096;
-  --sd-border-default: rgba(255,255,255,0.5);
-  --sd-border-strong: rgba(0,0,0,0.08);
-  --sd-primary: #7C3AED;
-  --sd-primary-hover: #6D28D9;
-  --sd-primary-light: rgba(124,58,237,0.12);
-  --sd-secondary: #8B5CF6;
-  --sd-accent: #06B6D4;
-  --sd-success: #38A169;
-  --sd-warning: #DD6B20;
-  --sd-error: #E53E3E;
-  --sd-info: #3182CE;
+  /* ===== Background — Warm Cream Neumorphism ===== */
+  --sd-bg-base: #DFE4EA;
+  --sd-bg-surface: #DFE4EA;
+  --sd-bg-elevated: #D5DAE0;
 
-  /* Neumorphism Shadows — Light */
-  --sd-shadow-raised: 8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7);
-  --sd-shadow-raised-hover: 10px 10px 20px rgba(0,0,0,0.12), -10px -10px 20px rgba(255,255,255,0.8);
-  --sd-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7);
+  /* Text */
+  --sd-text-primary: #2D3436;
+  --sd-text-secondary: #636E72;
+  --sd-text-muted: #A0AEC0;
+
+  /* Borders (minimal) */
+  --sd-border-default: rgba(255,255,255,0.6);
+  --sd-border-strong: rgba(0,0,0,0.04);
+
+  /* ===== Colors — Captain Specified ===== */
+  /* Main: #1ACEFF — 주로 사용 */
+  --sd-primary: #1ACEFF;
+  --sd-primary-hover: #0BB8E8;
+  --sd-primary-light: rgba(26,206,255,0.12);
+  --sd-primary-dark: #0E9AC0;
+
+  /* Sub: #44EEEF — 그라디언트/포인트에만 사용 (밝은 곳 자제) */
+  --sd-sub: #44EEEF;
+  --sd-primary-gradient: linear-gradient(135deg, #1ACEFF, #44EEEF);
+
+  /* Third: #6C5CE7 — 보라 계열로 밸런스 (차가운 블루+따뜻한 보라 조화) */
+  --sd-third: #6C5CE7;
+  --sd-third-light: rgba(108,92,231,0.12);
+
+  /* ===== Accent Preset: Cyan (default) ===== */
+  /* 위 색상이 기본 프리셋입니다. 아래 주석을 해제하면 다른 프리셋 사용 가능 */
+
+  /* ===== Accent Preset: Indigo (alternative) =====
+  --sd-primary: #6366F1;
+  --sd-primary-hover: #4F46E5;
+  --sd-primary-light: rgba(99,102,241,0.12);
+  --sd-sub: #818CF8;
+  --sd-primary-gradient: linear-gradient(135deg, #6366F1, #818CF8);
+  --sd-third: #1ACEFF;
+  --sd-third-light: rgba(26,206,255,0.12);
+  */
+
+  /* ===== Accent Preset: Emerald (alternative) =====
+  --sd-primary: #10B981;
+  --sd-primary-hover: #059669;
+  --sd-primary-light: rgba(16,185,129,0.12);
+  --sd-sub: #34D399;
+  --sd-primary-gradient: linear-gradient(135deg, #10B981, #34D399);
+  --sd-third: #1ACEFF;
+  --sd-third-light: rgba(26,206,255,0.12);
+  */
+
+  --sd-secondary: #6C5CE7;
+  --sd-accent: #1ACEFF;
+  --sd-success: #00B894;
+  --sd-warning: #FDCB6E;
+  --sd-error: #FF6B6B;
+  --sd-info: #74B9FF;
+
+  /* ===== Neumorphism Shadows — Soft & Warm ===== */
+  --sd-shadow-raised: 6px 6px 14px rgba(166,180,200,0.5), -6px -6px 14px rgba(255,255,255,0.8);
+  --sd-shadow-raised-hover: 8px 8px 18px rgba(166,180,200,0.55), -8px -8px 18px rgba(255,255,255,0.85);
+  --sd-shadow-inset: inset 4px 4px 8px rgba(166,180,200,0.45), inset -4px -4px 8px rgba(255,255,255,0.75);
+  --sd-shadow-inset-deep: inset 6px 6px 14px rgba(166,180,200,0.55), inset -6px -6px 14px rgba(255,255,255,0.8);
   --sd-shadow-flat: none;
-  --sd-shadow-sm-raised: 4px 4px 8px rgba(0,0,0,0.08), -4px -4px 8px rgba(255,255,255,0.6);
-  --sd-shadow-sm-inset: inset 2px 2px 4px rgba(0,0,0,0.08), inset -2px -2px 4px rgba(255,255,255,0.6);
+  --sd-shadow-sm-raised: 3px 3px 8px rgba(166,180,200,0.45), -3px -3px 8px rgba(255,255,255,0.7);
+  --sd-shadow-sm-inset: inset 2px 2px 5px rgba(166,180,200,0.4), inset -2px -2px 5px rgba(255,255,255,0.65);
+  --sd-shadow-pressed: inset 3px 3px 7px rgba(166,180,200,0.5), inset -3px -3px 7px rgba(255,255,255,0.5);
 
-  /* Chart palette (deuteranopia-safe) */
-  --sd-chart-1: #7C3AED;
-  --sd-chart-2: #06B6D4;
-  --sd-chart-3: #DD6B20;
-  --sd-chart-4: #E53E3E;
-  --sd-chart-5: #38A169;
-  --sd-chart-6: #3182CE;
-  --sd-chart-7: #8B5CF6;
-  --sd-chart-8: #D69E2E;
-}
-
-/* Dark Mode */
-[data-theme="dark"] {
-  --sd-bg-base: #1A1A2E;
-  --sd-bg-surface: #1A1A2E;
-  --sd-bg-elevated: #16162A;
-  --sd-text-primary: #E2E8F0;
-  --sd-text-secondary: #A0AEC0;
-  --sd-text-muted: #718096;
-  --sd-border-default: rgba(255,255,255,0.04);
-  --sd-border-strong: rgba(255,255,255,0.08);
-  --sd-primary: #A78BFA;
-  --sd-primary-hover: #8B5CF6;
-  --sd-primary-light: rgba(167,139,250,0.12);
-
-  /* Neumorphism Shadows — Dark */
-  --sd-shadow-raised: 8px 8px 16px rgba(0,0,0,0.4), -8px -8px 16px rgba(255,255,255,0.03);
-  --sd-shadow-raised-hover: 10px 10px 20px rgba(0,0,0,0.5), -10px -10px 20px rgba(255,255,255,0.04);
-  --sd-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.4), inset -4px -4px 8px rgba(255,255,255,0.03);
-  --sd-shadow-sm-raised: 4px 4px 8px rgba(0,0,0,0.3), -4px -4px 8px rgba(255,255,255,0.02);
-  --sd-shadow-sm-inset: inset 2px 2px 4px rgba(0,0,0,0.3), inset -2px -2px 4px rgba(255,255,255,0.02);
+  /* Chart palette — Main/Sub/Third 기반 밸런스 */
+  --sd-chart-1: #1ACEFF;
+  --sd-chart-2: #6C5CE7;
+  --sd-chart-3: #FF6B6B;
+  --sd-chart-4: #00B894;
+  --sd-chart-5: #FDCB6E;
+  --sd-chart-6: #74B9FF;
+  --sd-chart-7: #A29BFE;
+  --sd-chart-8: #FD79A8;
 }

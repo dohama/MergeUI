@@ -4,7 +4,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Analytics — SoftDesk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/softdesk-tokens.css">
   <link rel="stylesheet" href="css/softdesk.css">
 </head>
@@ -13,11 +13,9 @@
   <aside class="sidebar" role="navigation" aria-label="Main navigation">
     <a href="index.html" class="sb-logo"><span class="sb-logo-icon">S</span><span class="sb-logo-text">SoftDesk</span></a>
     <nav class="sb-nav">
-      <div class="sb-group"><div class="sb-group-label">Main</div>
         <a href="index.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Overview</span></a>
         <a href="analytics.html" class="sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Analytics</span></a>
       </div>
-      <div class="sb-group"><div class="sb-group-label">Management</div>
         <a href="users.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Users</span></a>
         <a href="projects.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Projects</span></a>
         <a href="settings.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg><span>Settings</span></a>
@@ -28,10 +26,11 @@
 
   <main class="main">
     <header class="topbar">
-      <div class="topbar-left"><h1 class="topbar-title">Analytics</h1></div>
+      <div class="topbar-left">
+        <h1 class="topbar-title">Analytics</h1>
+      </div>
       <div class="topbar-right">
         <button class="btn btn-outline btn-sm">Last 30 days</button>
-        <button class="topbar-icon theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
       </div>
     </header>
 
@@ -49,70 +48,50 @@
         <div class="card">
           <div class="card-header"><span class="card-title">Traffic Overview</span></div>
           <div class="card-body">
-            <div id="trafficChart" class="chart-container" style="height:300px"></div>
-            <div class="chart-legend">
-              <div class="chart-legend-item"><span class="chart-legend-dot" style="background:var(--sd-primary)"></span> Visitors</div>
-              <div class="chart-legend-item"><span class="chart-legend-dot" style="background:var(--sd-accent)"></span> Page Views</div>
-            </div>
+            <div class="chart-container" style="height:300px;padding:0"><canvas id="trafficChart"></canvas></div>
           </div>
         </div>
       </div>
 
-      <!-- Bar Chart + Donut -->
+      <!-- Top Pages + Traffic Sources -->
       <div class="row row-8-4">
         <div class="card">
           <div class="card-header"><span class="card-title">Top Pages</span></div>
           <div class="card-body">
-            <div class="bar-chart">
-              <div class="bar-col"><div class="bar-fill" style="height:90%;background:var(--sd-chart-1)"></div><div class="bar-label">/home</div></div>
-              <div class="bar-col"><div class="bar-fill" style="height:72%;background:var(--sd-chart-2)"></div><div class="bar-label">/pricing</div></div>
-              <div class="bar-col"><div class="bar-fill" style="height:65%;background:var(--sd-chart-3)"></div><div class="bar-label">/themes</div></div>
-              <div class="bar-col"><div class="bar-fill" style="height:48%;background:var(--sd-chart-4)"></div><div class="bar-label">/docs</div></div>
-              <div class="bar-col"><div class="bar-fill" style="height:35%;background:var(--sd-chart-5)"></div><div class="bar-label">/blog</div></div>
-              <div class="bar-col"><div class="bar-fill" style="height:28%;background:var(--sd-chart-6)"></div><div class="bar-label">/login</div></div>
-              <div class="bar-col"><div class="bar-fill" style="height:20%;background:var(--sd-chart-7)"></div><div class="bar-label">/signup</div></div>
-            </div>
+            <div class="chart-container" style="height:260px;padding:0"><canvas id="topPagesChart"></canvas></div>
           </div>
         </div>
         <div class="card">
           <div class="card-header"><span class="card-title">Traffic Sources</span></div>
           <div class="card-body">
-            <div class="donut-container" style="flex-direction:column">
-              <svg class="donut-chart" viewBox="0 0 42 42" aria-label="Traffic sources donut chart" role="img">
-                <circle cx="21" cy="21" r="15.91" fill="none" stroke="var(--sd-bg-elevated)" stroke-width="5"/>
-                <circle cx="21" cy="21" r="15.91" fill="none" stroke="var(--sd-chart-1)" stroke-width="5" stroke-dasharray="40 60" stroke-dashoffset="25"/>
-                <circle cx="21" cy="21" r="15.91" fill="none" stroke="var(--sd-chart-2)" stroke-width="5" stroke-dasharray="25 75" stroke-dashoffset="85"/>
-                <circle cx="21" cy="21" r="15.91" fill="none" stroke="var(--sd-chart-3)" stroke-width="5" stroke-dasharray="20 80" stroke-dashoffset="60"/>
-                <circle cx="21" cy="21" r="15.91" fill="none" stroke="var(--sd-chart-4)" stroke-width="5" stroke-dasharray="15 85" stroke-dashoffset="40"/>
-              </svg>
-              <div class="donut-legend">
-                <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--sd-chart-1)"></span>Direct<span class="donut-legend-val">40%</span></div>
-                <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--sd-chart-2)"></span>Organic<span class="donut-legend-val">25%</span></div>
-                <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--sd-chart-3)"></span>Social<span class="donut-legend-val">20%</span></div>
-                <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--sd-chart-4)"></span>Referral<span class="donut-legend-val">15%</span></div>
-              </div>
+            <div style="width:180px;height:180px;margin:0 auto"><canvas id="sourcesChart"></canvas></div>
+            <div class="donut-legend" style="margin-top:var(--sd-space-4)">
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--sd-chart-1)"></span>Direct<span class="donut-legend-val">40%</span></div>
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--sd-chart-2)"></span>Organic<span class="donut-legend-val">25%</span></div>
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--sd-chart-3)"></span>Social<span class="donut-legend-val">20%</span></div>
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--sd-chart-4)"></span>Referral<span class="donut-legend-val">15%</span></div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Device Distribution -->
-      <div class="card">
-        <div class="card-header"><span class="card-title">Device Distribution</span></div>
-        <div class="card-body">
-          <div class="device-stats">
-            <div class="device-stat">
-              <div class="device-stat-value" style="color:var(--sd-chart-1)">64%</div>
-              <div class="device-stat-label">Desktop</div>
+      <div class="row row-6-6">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Device Distribution</span></div>
+          <div class="card-body">
+            <div style="width:200px;height:200px;margin:0 auto"><canvas id="deviceChart"></canvas></div>
+            <div class="donut-legend" style="margin-top:var(--sd-space-4)">
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--sd-chart-1)"></span>Desktop<span class="donut-legend-val">64%</span></div>
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--sd-chart-2)"></span>Mobile<span class="donut-legend-val">28%</span></div>
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--sd-chart-3)"></span>Tablet<span class="donut-legend-val">8%</span></div>
             </div>
-            <div class="device-stat">
-              <div class="device-stat-value" style="color:var(--sd-chart-2)">28%</div>
-              <div class="device-stat-label">Mobile</div>
-            </div>
-            <div class="device-stat">
-              <div class="device-stat-value" style="color:var(--sd-chart-3)">8%</div>
-              <div class="device-stat-label">Tablet</div>
-            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Browser Usage</span></div>
+          <div class="card-body">
+            <div class="chart-container" style="height:200px;padding:0"><canvas id="browserChart"></canvas></div>
           </div>
         </div>
       </div>
@@ -121,25 +100,75 @@
 
   <nav class="mobile-nav" aria-label="Mobile navigation"><div class="mobile-nav-inner">
     <a href="index.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a>
-    <a href="analytics.html" class="mobile-nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Analytics</a>
-    <a href="projects.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Projects</a>
+    <a href="analytics.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Analytics</a>
     <a href="users.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Users</a>
+    <a href="projects.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Projects</a>
     <a href="settings.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg>Settings</a>
   </div></nav>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script src="js/data.js"></script>
   <script src="js/softdesk.js"></script>
   <script>
-    drawLineChart('trafficChart', [
-      {label:'Week 1',value:3200},{label:'Week 2',value:4100},{label:'Week 3',value:3800},
-      {label:'Week 4',value:5200},{label:'Week 5',value:4800},{label:'Week 6',value:6100},
-      {label:'Week 7',value:5900},{label:'Week 8',value:7200}
-    ], {color:'var(--sd-primary)'});
-    window.addEventListener('resize', function() {
-      drawLineChart('trafficChart', [
-        {label:'Week 1',value:3200},{label:'Week 2',value:4100},{label:'Week 3',value:3800},
-        {label:'Week 4',value:5200},{label:'Week 5',value:4800},{label:'Week 6',value:6100},
-        {label:'Week 7',value:5900},{label:'Week 8',value:7200}
-      ], {color:'var(--sd-primary)'});
+    applyChartJsDefaults();
+    /* 차트 컬러 — tokens.css 변수가 로드 안 될 때를 대비한 직접 지정 */
+    var C = {
+      main: '#1ACEFF', third: '#6C5CE7', red: '#FF6B6B',
+      green: '#00B894', yellow: '#FDCB6E', blue: '#74B9FF', purple: '#A29BFE', pink: '#FD79A8'
+    };
+    var SD = SOFTDESK_DATA;
+
+    /* Traffic — Line Chart */
+    new Chart(document.getElementById('trafficChart'), {
+      type: 'line',
+      data: {
+        labels: SD.trafficChart.labels,
+        datasets: [
+          { label: 'Visitors', data: SD.trafficChart.visitors, borderColor: C.main, backgroundColor: C.main+'15', fill: true, pointBackgroundColor:'#DFE4EA', pointBorderColor: C.main },
+          { label: 'Page Views', data: SD.trafficChart.pageViews, borderColor: C.third, backgroundColor: C.third+'15', fill: true, pointBackgroundColor:'#DFE4EA', pointBorderColor: C.third }
+        ]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, position:'bottom', labels:{ usePointStyle:true, padding:20, font:{family:'Plus Jakarta Sans'} } } }, scales: { y: { beginAtZero: true, grid:{color:'rgba(166,180,200,0.15)'} }, x: { grid:{display:false} } } }
+    });
+
+    /* Top Pages — Horizontal Bar */
+    new Chart(document.getElementById('topPagesChart'), {
+      type: 'bar',
+      data: {
+        labels: SD.topPages.labels,
+        datasets: [{ data: SD.topPages.data, backgroundColor: [C.main, C.third, C.red, C.green, C.yellow, C.blue, C.purple], borderRadius: 6 }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins:{legend:{display:false}}, scales: { x:{beginAtZero:true, grid:{color:'rgba(166,180,200,0.15)'}}, y:{grid:{display:false}} } }
+    });
+
+    /* Traffic Sources — Doughnut */
+    new Chart(document.getElementById('sourcesChart'), {
+      type: 'doughnut',
+      data: {
+        labels: SD.trafficSources.labels,
+        datasets: [{ data: SD.trafficSources.data, backgroundColor: [C.main, C.third, C.red, C.green], borderWidth: 0, hoverOffset: 8 }]
+      },
+      options: { responsive: true, cutout: '68%', plugins:{legend:{display:false}} }
+    });
+
+    /* Device Distribution — Doughnut */
+    new Chart(document.getElementById('deviceChart'), {
+      type: 'doughnut',
+      data: {
+        labels: SD.devices.labels,
+        datasets: [{ data: SD.devices.data, backgroundColor: [C.main, C.third, C.red], borderWidth: 0, hoverOffset: 8 }]
+      },
+      options: { responsive: true, cutout: '68%', plugins:{legend:{display:false}} }
+    });
+
+    /* Browser Usage — Bar */
+    new Chart(document.getElementById('browserChart'), {
+      type: 'bar',
+      data: {
+        labels: SD.browsers.labels,
+        datasets: [{ data: SD.browsers.data, backgroundColor: [C.main, C.third, C.red, C.green, C.yellow], borderRadius: 6 }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins:{legend:{display:false}}, scales: { y:{beginAtZero:true, grid:{color:'rgba(166,180,200,0.15)'}}, x:{grid:{display:false}} } }
     });
   </script>
 </body>

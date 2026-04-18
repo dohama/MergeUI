@@ -154,6 +154,37 @@
       },
       options: { responsive: true, maintainAspectRatio: false, plugins:{legend:{display:false}}, scales: { y:{beginAtZero:false, grid:{color:'rgba(166,180,200,0.15)'}}, x:{grid:{display:false}} } }
     });
+
+    /* KPI 카드 데이터 바인딩 */
+    var kpiCards = document.querySelectorAll('.kpi-card');
+    if (SD.kpi && kpiCards.length === SD.kpi.length) {
+      SD.kpi.forEach(function(k, i) {
+        var card = kpiCards[i];
+        var val = card.querySelector('.kpi-value');
+        var trend = card.querySelector('.kpi-trend');
+        var label = card.querySelector('.kpi-label');
+        if (val) val.textContent = k.value;
+        if (trend) { trend.textContent = k.trend; trend.className = 'kpi-trend ' + k.dir; }
+        if (label) label.textContent = k.label;
+      });
+    }
+
+    /* Activity 바인딩 */
+    var actList = document.querySelector('.activity-list');
+    if (actList && SD.recentActivity) {
+      var colorMap = { success:'var(--sd-success)', primary:'var(--sd-primary)', warning:'var(--sd-warning)', accent:'var(--sd-accent)', error:'var(--sd-error)' };
+      actList.innerHTML = SD.recentActivity.map(function(a) {
+        return '<div class="activity-item"><span class="activity-dot" style="background:' + (colorMap[a.color]||'var(--sd-primary)') + '"></span><div><div class="activity-text"><strong>' + a.user + '</strong> ' + a.action + '</div><div class="activity-time">' + a.time + '</div></div></div>';
+      }).join('');
+    }
+
+    /* Orders Table 바인딩 */
+    var tbody = document.querySelector('.data-table tbody');
+    if (tbody && SD.recentOrders) {
+      tbody.innerHTML = SD.recentOrders.map(function(o) {
+        return '<tr><td><div class="table-user"><div class="table-avatar">' + o.initials + '</div>' + o.name + '</div></td><td>' + o.plan + '</td><td>' + o.amount + '</td><td><span class="badge badge-' + o.statusType + '">' + o.status + '</span></td><td>' + o.date + '</td></tr>';
+      }).join('');
+    }
   </script>
 </body>
 </html>

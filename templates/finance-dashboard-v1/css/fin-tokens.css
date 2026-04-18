@@ -1,0 +1,128 @@
+/* ============================================
+   Finance Dashboard v1 — Design Tokens (Claymorphism)
+
+   ★ This is your customization file.
+   ★ Change values below to match your brand.
+   ★ Save and refresh — the entire theme updates.
+
+   Sections:
+   1. Fonts        — Change typeface
+   2. Spacing      — Adjust layout density
+   3. Radius       — Corner roundness
+   4. Colors       — Brand colors + accent presets
+   5. Shadows      — Claymorphism depth
+   6. Chart colors — Chart/graph palette
+   ============================================ */
+
+:root {
+  /* Fonts */
+  --fin-font: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Spacing (8px grid) */
+  --fin-space-1: 4px;
+  --fin-space-2: 8px;
+  --fin-space-3: 12px;
+  --fin-space-4: 16px;
+  --fin-space-5: 24px;
+  --fin-space-6: 32px;
+  --fin-space-7: 48px;
+  --fin-space-8: 64px;
+
+  /* Border Radius — Claymorphism: extra rounded */
+  --fin-radius-sm: 12px;
+  --fin-radius-md: 16px;
+  --fin-radius-lg: 20px;
+  --fin-radius-xl: 28px;
+  --fin-radius-full: 50%;
+
+  /* Sidebar / Topbar */
+  --fin-sidebar-w: 72px;
+  --fin-sidebar-expanded: 240px;
+  --fin-topbar-h: 60px;
+
+  /* ===== Background — Light Pastel (Claymorphism) ===== */
+  --fin-bg-base: #F0F4F3;
+  --fin-bg-surface: #FFFFFF;
+  --fin-bg-elevated: #E8EEEC;
+
+  /* Text */
+  --fin-text-primary: #2D3436;
+  --fin-text-secondary: #4A5568;
+  --fin-text-muted: #8395A7;
+
+  /* Borders */
+  --fin-border-default: rgba(0,0,0,0.04);
+  --fin-border-strong: rgba(0,0,0,0.08);
+
+  /* ===== Colors — Emerald Preset (default) ===== */
+  --fin-primary: #00B894;
+  --fin-primary-hover: #00A381;
+  --fin-primary-light: rgba(0,184,148,0.12);
+  --fin-primary-gradient: linear-gradient(145deg, #00B894, #00A381);
+
+  --fin-sub: #FDCB6E;
+  --fin-sub-light: rgba(253,203,110,0.15);
+
+  --fin-third: #2D3436;
+
+  /* ===== Accent Preset: Blue (alternative) =====
+  --fin-primary: #0984E3;
+  --fin-primary-hover: #0773C5;
+  --fin-primary-light: rgba(9,132,227,0.12);
+  --fin-primary-gradient: linear-gradient(145deg, #0984E3, #0773C5);
+  --fin-sub: #74B9FF;
+  --fin-sub-light: rgba(116,185,255,0.15);
+  */
+
+  /* ===== Accent Preset: Coral (alternative) =====
+  --fin-primary: #FF6B6B;
+  --fin-primary-hover: #E05555;
+  --fin-primary-light: rgba(255,107,107,0.12);
+  --fin-primary-gradient: linear-gradient(145deg, #FF6B6B, #E05555);
+  --fin-sub: #FFA502;
+  --fin-sub-light: rgba(255,165,2,0.15);
+  */
+
+  /* Status */
+  --fin-success: #00B894;
+  --fin-warning: #FDCB6E;
+  --fin-error: #E17055;
+  --fin-info: #74B9FF;
+
+  /* ===== Claymorphism Shadows ===== */
+  --fin-clay-shadow:
+    8px 8px 16px rgba(0,0,0,0.08),
+    inset -2px -2px 4px rgba(0,0,0,0.03),
+    inset 2px 2px 4px rgba(255,255,255,0.8);
+  --fin-clay-shadow-hover:
+    10px 10px 20px rgba(0,0,0,0.10),
+    inset -2px -2px 4px rgba(0,0,0,0.03),
+    inset 2px 2px 4px rgba(255,255,255,0.8);
+  --fin-clay-shadow-sm:
+    4px 4px 8px rgba(0,0,0,0.06),
+    inset -1px -1px 2px rgba(0,0,0,0.02),
+    inset 1px 1px 2px rgba(255,255,255,0.7);
+  --fin-clay-inset:
+    inset 4px 4px 8px rgba(0,0,0,0.06),
+    inset -4px -4px 8px rgba(255,255,255,0.8);
+  --fin-clay-btn:
+    4px 4px 8px rgba(0,184,148,0.3),
+    inset -1px -1px 2px rgba(0,0,0,0.1),
+    inset 1px 1px 2px rgba(255,255,255,0.2);
+  --fin-clay-btn-active:
+    inset 2px 2px 4px rgba(0,0,0,0.15),
+    inset -1px -1px 2px rgba(255,255,255,0.1);
+  --fin-clay-progress:
+    inset 2px 2px 4px rgba(0,0,0,0.06),
+    inset -2px -2px 4px rgba(255,255,255,0.7);
+
+  /* Chart palette */
+  --fin-chart-1: #00B894;
+  --fin-chart-2: #FDCB6E;
+  --fin-chart-3: #E17055;
+  --fin-chart-4: #74B9FF;
+  --fin-chart-5: #A29BFE;
+  --fin-chart-6: #00CEC9;
+  --fin-chart-7: #FD79A8;
+  --fin-chart-8: #636E72;
+}

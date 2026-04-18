@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JFGRBL1JQG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JFGRBL1JQG');
+</script>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports - CRM Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/crm-tokens.css">
+  <link rel="stylesheet" href="css/crm-pipeline.css">
+</head>
+<body>
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="sb-logo"><span class="sb-logo-icon">C</span><span class="sb-logo-text">CRM Pipeline</span></a>
+    <nav class="sb-nav">
+      <a href="index.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Pipeline</span></a>
+      <a href="contacts.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Contacts</span></a>
+      <a href="deals.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span>Deals</span></a>
+      <a href="activities.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Activities</span></a>
+      <a href="reports.html" class="sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg><span>Reports</span></a>
+    </nav>
+    <div class="sb-footer"><div class="sb-user"><div class="sb-avatar">JD</div><div class="sb-user-info"><div class="sb-user-name">John Doe</div><div class="sb-user-role">Sales Manager</div></div></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle" aria-label="Toggle sidebar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <h1 class="topbar-title">Reports</h1>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-outline btn-sm">Export PDF</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- ============================================
+           Report KPI Cards
+           - Data: js/data.js -> CRM_DATA.reportKpi
+           ============================================ -->
+      <section class="kpi-grid" aria-label="Report metrics">
+        <div class="kpi-card">
+          <div class="kpi-icon primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="kpi-row"><span class="kpi-value">$284,500</span><span class="kpi-trend up">+12.3%</span></div>
+          <div class="kpi-label">Pipeline Value</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div class="kpi-row"><span class="kpi-value">8</span><span class="kpi-trend up">+3</span></div>
+          <div class="kpi-label">Deals Won</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon third"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="kpi-row"><span class="kpi-value">34.2%</span><span class="kpi-trend up">+2.4%</span></div>
+          <div class="kpi-label">Win Rate</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon sub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="kpi-row"><span class="kpi-value">18 days</span><span class="kpi-trend up">-2</span></div>
+          <div class="kpi-label">Avg Cycle</div>
+        </div>
+      </section>
+
+      <!-- ============================================
+           Charts: Pipeline Funnel + Win/Loss
+           ============================================ -->
+      <div class="row row-6-6">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Pipeline Funnel</span></div>
+          <div class="card-body">
+            <div class="funnel" id="funnelChart"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Won vs Lost</span></div>
+          <div class="card-body">
+            <div class="chart-container" style="height:260px"><canvas id="winLossChart"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           Revenue by Month + Rep Performance
+           ============================================ -->
+      <div class="row row-6-6">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Revenue by Month</span></div>
+          <div class="card-body">
+            <div class="chart-container" style="height:260px"><canvas id="revenueChart"></canvas></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Rep Performance</span></div>
+          <div class="table-wrap">
+            <table class="data-table" aria-label="Rep performance">
+              <thead>
+                <tr><th>Rep</th><th>Deals</th><th>Won</th><th>Revenue</th><th>Win Rate</th></tr>
+              </thead>
+              <tbody id="repTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation"><div class="mobile-nav-inner">
+    <a href="index.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Pipeline</a>
+    <a href="contacts.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Contacts</a>
+    <a href="deals.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Deals</a>
+    <a href="activities.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Activities</a>
+    <a href="reports.html" class="mobile-nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Reports</a>
+  </div></nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script src="js/data.js"></script>
+  <script src="js/crm-pipeline.js"></script>
+  <script>
+    applyChartJsDefaults();
+    var D = CRM_DATA;
+    bindKpi(D.reportKpi);
+
+    /* Funnel chart (CSS-based) */
+    var funnelEl = document.getElementById('funnelChart');
+    if (funnelEl && D.pipelineFunnel) {
+      var maxCount = D.pipelineFunnel[0].count;
+      funnelEl.innerHTML = D.pipelineFunnel.map(function(f) {
+        var pct = (f.count / maxCount * 100);
+        return '<div class="funnel-step">' +
+          '<div class="funnel-label">' + f.stage + '</div>' +
+          '<div class="funnel-bar" style="width:' + pct + '%;background:' + f.color + '">' + f.count + '</div>' +
+          '<div class="funnel-value">' + Math.round(f.count/maxCount*100) + '%</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    /* Win vs Loss bar chart */
+    try {
+      new Chart(document.getElementById('winLossChart'), {
+        type: 'bar',
+        data: {
+          labels: D.monthlyWinRate.labels,
+          datasets: [
+            { label: 'Won',  data: D.monthlyWinRate.won,  backgroundColor: '#2ED573', borderRadius: 6 },
+            { label: 'Lost', data: D.monthlyWinRate.lost, backgroundColor: '#FF6B6B', borderRadius: 6 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: true, position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', padding: 16, font: { size: 12, family: 'Manrope' } } } },
+          scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.06)' } }, x: { grid: { display: false } } }
+        }
+      });
+    } catch(e) { console.warn('Win/Loss chart failed:', e); }
+
+    /* Revenue line chart */
+    try {
+      new Chart(document.getElementById('revenueChart'), {
+        type: 'line',
+        data: {
+          labels: D.revenueByMonth.labels,
+          datasets: [{
+            label: 'Revenue',
+            data: D.revenueByMonth.data,
+            borderColor: '#0984E3',
+            backgroundColor: 'rgba(9,132,227,0.08)',
+            fill: true,
+            pointBackgroundColor: '#FFFFFF',
+            pointBorderColor: '#0984E3',
+            tension: 0.4,
+            borderWidth: 2.5
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: { y: { beginAtZero: false, grid: { color: 'rgba(0,0,0,0.06)' } }, x: { grid: { display: false } } }
+        }
+      });
+    } catch(e) { console.warn('Revenue chart failed:', e); }
+
+    /* Rep performance table */
+    var repTbody = document.getElementById('repTable');
+    if (repTbody && D.repPerformance) {
+      repTbody.innerHTML = D.repPerformance.map(function(r) {
+        return '<tr><td><strong>' + r.name + '</strong></td><td>' + r.deals + '</td><td>' + r.won + '</td><td style="color:var(--crm-third);font-weight:700">' + r.revenue + '</td><td>' + r.rate + '</td></tr>';
+      }).join('');
+    }
+  </script>
+</body>
+</html>

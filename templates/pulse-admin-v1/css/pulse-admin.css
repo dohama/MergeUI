@@ -12,7 +12,7 @@ input,select,textarea{font-family:var(--pulse-font)}
 .sidebar{width:var(--pulse-sidebar-w);height:100vh;background:var(--pulse-bg-surface);border-right:1px solid var(--pulse-border-default);display:flex;flex-direction:column;position:fixed;left:0;top:0;z-index:100;transition:width 200ms ease-in-out}
 .main{margin-left:var(--pulse-sidebar-w);flex:1;min-height:100vh;transition:margin-left 200ms ease-in-out}
 .topbar{height:var(--pulse-topbar-h);padding:0 var(--pulse-space-6);border-bottom:1px solid var(--pulse-border-default);display:flex;align-items:center;justify-content:space-between;background:var(--pulse-bg-surface)}
-.content{padding:var(--pulse-space-6);max-width:1440px}
+.content{padding:var(--pulse-space-6)}
 
 /* ===== Sidebar ===== */
 .sb-logo{padding:var(--pulse-space-4) var(--pulse-space-4);height:var(--pulse-topbar-h);display:flex;align-items:center;gap:var(--pulse-space-2);border-bottom:1px solid var(--pulse-border-default)}

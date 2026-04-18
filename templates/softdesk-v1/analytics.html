@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JFGRBL1JQG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JFGRBL1JQG');
+</script>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Analytics — SoftDesk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,7 +96,14 @@
         <div class="card">
           <div class="card-header"><span class="card-title">Browser Usage</span></div>
           <div class="card-body">
-            <div class="chart-container" style="height:200px;padding:0"><canvas id="browserChart"></canvas></div>
+            <div class="chart-container" style="height:180px;padding:0"><canvas id="browserChart"></canvas></div>
+            <div class="donut-legend" style="margin-top:var(--sd-space-4)">
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:#1ACEFF"></span>Chrome<span class="donut-legend-val">58%</span></div>
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:#6C5CE7"></span>Safari<span class="donut-legend-val">22%</span></div>
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:#FF6B6B"></span>Firefox<span class="donut-legend-val">10%</span></div>
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:#00B894"></span>Edge<span class="donut-legend-val">7%</span></div>
+              <div class="donut-legend-item"><span class="donut-legend-dot" style="background:#FDCB6E"></span>Other<span class="donut-legend-val">3%</span></div>
+            </div>
           </div>
         </div>
       </div><!-- /row-6-6 -->
@@ -159,7 +174,7 @@
       options: { responsive: true, cutout: '68%', plugins:{legend:{display:false}} }
     });
 
-    /* Browser Usage — Bar */
+    /* Browser Usage — Vertical Bar */
     new Chart(document.getElementById('browserChart'), {
       type: 'bar',
       data: {

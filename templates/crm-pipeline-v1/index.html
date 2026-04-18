@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JFGRBL1JQG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JFGRBL1JQG');
+</script>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pipeline - CRM Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/crm-tokens.css">
+  <link rel="stylesheet" href="css/crm-pipeline.css">
+</head>
+<body>
+  <!-- ============================================
+       Sidebar Navigation
+       - Active page: add class="sb-item active"
+       - Logo: change sb-logo-icon + sb-logo-text
+       ============================================ -->
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="sb-logo"><span class="sb-logo-icon">C</span><span class="sb-logo-text">CRM Pipeline</span></a>
+    <nav class="sb-nav">
+      <a href="index.html" class="sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Pipeline</span></a>
+      <a href="contacts.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Contacts</span></a>
+      <a href="deals.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span>Deals</span></a>
+      <a href="activities.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Activities</span></a>
+      <a href="reports.html" class="sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg><span>Reports</span></a>
+    </nav>
+    <div class="sb-footer"><div class="sb-user"><div class="sb-avatar">JD</div><div class="sb-user-info"><div class="sb-user-name">John Doe</div><div class="sb-user-role">Sales Manager</div></div></div></div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle" aria-label="Toggle sidebar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <h1 class="topbar-title">Pipeline</h1>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search deals..." aria-label="Search"></div>
+        <button class="topbar-icon" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="topbar-dot"></span></button>
+        <div class="sb-avatar" style="width:32px;height:32px;font-size:11px">JD</div>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- ============================================
+           KPI Cards
+           - Data: js/data.js -> CRM_DATA.kpi
+           ============================================ -->
+      <section class="kpi-grid" aria-label="Key metrics">
+        <div class="kpi-card">
+          <div class="kpi-icon primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="kpi-row"><span class="kpi-value">$284,500</span><span class="kpi-trend up">+12.3%</span></div>
+          <div class="kpi-label">Total Deals</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div class="kpi-row"><span class="kpi-value">$68,000</span><span class="kpi-trend up">+8.1%</span></div>
+          <div class="kpi-label">Won This Month</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon third"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="kpi-row"><span class="kpi-value">34.2%</span><span class="kpi-trend up">+2.4%</span></div>
+          <div class="kpi-label">Win Rate</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+          <div class="kpi-row"><span class="kpi-value">$23,708</span><span class="kpi-trend down">-1.2%</span></div>
+          <div class="kpi-label">Avg Deal Size</div>
+        </div>
+      </section>
+
+      <!-- ============================================
+           Pipeline Kanban Board
+           - Data: js/data.js -> CRM_DATA.pipeline
+           - Each column = pipeline stage
+           - Cards are draggable (visual cursor)
+           ============================================ -->
+      <section aria-label="Pipeline board">
+        <div class="pipeline-board">
+          <div class="pipeline-col" data-stage="lead">
+            <div class="col-header"><span class="stage-dot" style="background:var(--crm-stage-lead)"></span> Lead <span class="count">3</span></div>
+            <div class="pipeline-cards"></div>
+          </div>
+          <div class="pipeline-col" data-stage="qualified">
+            <div class="col-header"><span class="stage-dot" style="background:var(--crm-stage-qualified)"></span> Qualified <span class="count">3</span></div>
+            <div class="pipeline-cards"></div>
+          </div>
+          <div class="pipeline-col" data-stage="proposal">
+            <div class="col-header"><span class="stage-dot" style="background:var(--crm-stage-proposal)"></span> Proposal <span class="count">2</span></div>
+            <div class="pipeline-cards"></div>
+          </div>
+          <div class="pipeline-col" data-stage="negotiation">
+            <div class="col-header"><span class="stage-dot" style="background:var(--crm-stage-negotiation)"></span> Negotiation <span class="count">1</span></div>
+            <div class="pipeline-cards"></div>
+          </div>
+          <div class="pipeline-col" data-stage="won">
+            <div class="col-header"><span class="stage-dot" style="background:var(--crm-stage-won)"></span> Won <span class="count">2</span></div>
+            <div class="pipeline-cards"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav" aria-label="Mobile navigation"><div class="mobile-nav-inner">
+    <a href="index.html" class="mobile-nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Pipeline</a>
+    <a href="contacts.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Contacts</a>
+    <a href="deals.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Deals</a>
+    <a href="activities.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Activities</a>
+    <a href="reports.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Reports</a>
+  </div></nav>
+
+  <script src="js/data.js"></script>
+  <script src="js/crm-pipeline.js"></script>
+  <script>
+    var D = CRM_DATA;
+    bindKpi(D.kpi);
+    renderPipeline(D.pipeline);
+  </script>
+</body>
+</html>

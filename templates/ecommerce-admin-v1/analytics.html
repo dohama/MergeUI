@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JFGRBL1JQG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JFGRBL1JQG');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics - ShopDesk</title>
+  <meta name="description" content="E-commerce analytics and insights">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/ec-tokens.css">
+  <link rel="stylesheet" href="css/ec-admin.css">
+</head>
+<body class="has-icon-bar">
+  <div class="orb-mint" aria-hidden="true"></div>
+
+  <!-- ============ Top Navigation ============ -->
+  <nav class="topnav" aria-label="Main navigation">
+    <a class="logo" href="index.html">ShopDesk</a>
+    <div class="nav-links">
+      <a href="index.html">Overview</a>
+      <a href="orders.html">Orders</a>
+      <a href="products.html">Products</a>
+      <a href="customers.html">Customers</a>
+      <a href="analytics.html" class="active">Analytics</a>
+    </div>
+    <button class="hamburger" aria-label="Open menu">&#9776;</button>
+    <div class="nav-right">
+      <input type="search" class="search-input" placeholder="Search..." aria-label="Search">
+      <div class="avatar" aria-label="User menu">JD</div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" aria-label="Mobile navigation">
+    <button class="close-btn" aria-label="Close menu">&times;</button>
+    <a href="index.html">Overview</a>
+    <a href="orders.html">Orders</a>
+    <a href="products.html">Products</a>
+    <a href="customers.html">Customers</a>
+    <a href="analytics.html" class="active">Analytics</a>
+  </div>
+
+  <!-- ============ Main Content ============ -->
+  <aside class="icon-bar" aria-label="Quick access">
+    <div class="icon-bar-item active" title="Dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+    <div class="icon-bar-item" title="Charts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+    <div class="icon-bar-item" title="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div>
+    <div class="icon-bar-item" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg></div>
+  </aside>
+  <main class="main-content">
+    <header class="page-header">
+      <div>
+        <h1>Analytics</h1>
+        <p>Deep dive into your store performance.</p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-glass">Last 30 Days</button>
+        <button class="btn btn-primary">Download Report</button>
+      </div>
+    </header>
+
+    <!-- KPI Cards -->
+    <!-- 데이터 변경: data.js -> EC_DATA.kpi -->
+    <section class="kpi-grid" aria-label="Key metrics">
+      <article class="glass-card kpi-card accent" data-kpi="totalRevenue">
+        <div class="kpi-label">Total Revenue</div>
+        <div class="kpi-value">$128,430</div>
+        <div class="kpi-change up">+12.5%</div>
+      </article>
+      <article class="glass-card kpi-card" data-kpi="orders">
+        <div class="kpi-label">Total Orders</div>
+        <div class="kpi-value">1,284</div>
+        <div class="kpi-change up">+8.2%</div>
+      </article>
+      <article class="glass-card kpi-card" data-kpi="avgOrderValue">
+        <div class="kpi-label">Avg Order Value</div>
+        <div class="kpi-value">$99.87</div>
+        <div class="kpi-change down">-2.1%</div>
+      </article>
+      <article class="glass-card kpi-card" data-kpi="customers">
+        <div class="kpi-label">Customers</div>
+        <div class="kpi-value">3,847</div>
+        <div class="kpi-change up">+15.3%</div>
+      </article>
+    </section>
+
+    <!-- Revenue Trend (full width) -->
+    <!-- 데이터 변경: data.js -> EC_DATA.monthlyRevenue -->
+    <section class="glass-card" style="margin-bottom: var(--ec-sp-32);">
+      <h2 class="card-title">Revenue Trend</h2>
+      <div class="chart-wrap" style="height: 350px;">
+        <canvas id="revenue-area-chart" aria-label="Revenue area chart"></canvas>
+      </div>
+    </section>
+
+    <!-- Category Revenue + Regional -->
+    <!-- 데이터 변경: data.js -> EC_DATA.categoryRevenue, EC_DATA.regionalData -->
+    <section class="grid-equal">
+      <article class="glass-card">
+        <h2 class="card-title">Revenue by Category</h2>
+        <div class="chart-wrap">
+          <canvas id="category-chart" aria-label="Category revenue doughnut chart"></canvas>
+        </div>
+      </article>
+      <article class="glass-card">
+        <h2 class="card-title">Revenue by Region</h2>
+        <div class="chart-wrap">
+          <canvas id="region-chart" aria-label="Regional revenue bar chart"></canvas>
+        </div>
+      </article>
+    </section>
+
+    <!-- Weekly Orders + Top Products -->
+    <!-- 데이터 변경: data.js -> EC_DATA.weeklyOrders, EC_DATA.topProducts -->
+    <section class="grid-2">
+      <article class="glass-card">
+        <h2 class="card-title">Daily Orders (This Week)</h2>
+        <div class="chart-wrap">
+          <canvas id="weekly-bar-chart" aria-label="Weekly orders chart"></canvas>
+        </div>
+      </article>
+      <article class="glass-card">
+        <h2 class="card-title">Top Products</h2>
+        <ol class="rank-list" id="top-products-list" aria-label="Top selling products">
+          <!-- Populated by ec-admin.js -->
+        </ol>
+      </article>
+    </section>
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="bottom-nav" aria-label="Mobile navigation">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg>
+      Overview
+    </a>
+    <a href="orders.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      Orders
+    </a>
+    <a href="products.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      Products
+    </a>
+    <a href="customers.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Customers
+    </a>
+    <a href="analytics.html" class="active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      Analytics
+    </a>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script src="js/data.js"></script>
+  <script src="js/ec-admin.js"></script>
+  <script>
+    var tooltipStyle = {
+      backgroundColor: "rgba(15,15,26,0.9)",
+      titleColor: "#F8F9FA",
+      bodyColor: "#ADB5BD",
+      borderColor: "rgba(255,255,255,0.12)",
+      borderWidth: 1,
+      cornerRadius: 8,
+      padding: 12
+    };
+    var gridColor = "rgba(255,255,255,0.04)";
+    var tickStyle = { color: "#6C757D", font: { family: "DM Sans" } };
+
+    /* Revenue Area Chart */
+    (function() {
+      var ctx = document.getElementById("revenue-area-chart");
+      if (!ctx) return;
+      var gradient = ctx.getContext("2d").createLinearGradient(0, 0, 0, 350);
+      gradient.addColorStop(0, "rgba(255,107,107,0.3)");
+      gradient.addColorStop(1, "rgba(255,107,107,0)");
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: EC_DATA.monthlyRevenue.labels,
+          datasets: [{
+            label: "Revenue",
+            data: EC_DATA.monthlyRevenue.data,
+            borderColor: "#FF6B6B",
+            backgroundColor: gradient,
+            borderWidth: 2.5,
+            pointBackgroundColor: "#FF6B6B",
+            pointRadius: 4,
+            pointHoverRadius: 7,
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: Object.assign({}, tooltipStyle, {
+              callbacks: { label: function(c) { return "$" + c.parsed.y.toLocaleString(); } }
+            })
+          },
+          scales: {
+            x: { grid: { color: gridColor }, ticks: tickStyle },
+            y: { grid: { color: gridColor }, ticks: Object.assign({}, tickStyle, {
+              callback: function(v) { return "$" + (v/1000) + "k"; }
+            }) }
+          }
+        }
+      });
+    })();
+
+    /* Category Doughnut */
+    (function() {
+      var ctx = document.getElementById("category-chart");
+      if (!ctx) return;
+      new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: EC_DATA.categoryRevenue.labels,
+          datasets: [{
+            data: EC_DATA.categoryRevenue.data,
+            backgroundColor: ["#FF6B6B", "#FFA502", "#2ED573", "#70A1FF", "#A29BFE"],
+            borderColor: "rgba(15,15,26,0.5)",
+            borderWidth: 2,
+            hoverOffset: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: "65%",
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: { color: "#ADB5BD", font: { family: "DM Sans", size: 12 }, padding: 16, usePointStyle: true, pointStyleWidth: 8 }
+            },
+            tooltip: Object.assign({}, tooltipStyle, {
+              callbacks: { label: function(c) { return c.label + ": $" + c.parsed.toLocaleString(); } }
+            })
+          }
+        }
+      });
+    })();
+
+    /* Regional Bar Chart */
+    (function() {
+      var ctx = document.getElementById("region-chart");
+      if (!ctx) return;
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: EC_DATA.regionalData.labels,
+          datasets: [{
+            label: "Revenue",
+            data: EC_DATA.regionalData.data,
+            backgroundColor: ["#FF6B6B", "#FFA502", "#2ED573", "#70A1FF", "#FD79A8"],
+            borderRadius: 8,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: Object.assign({}, tooltipStyle, {
+              callbacks: { label: function(c) { return "$" + c.parsed.x.toLocaleString(); } }
+            })
+          },
+          scales: {
+            x: { grid: { color: gridColor }, ticks: Object.assign({}, tickStyle, {
+              callback: function(v) { return "$" + (v/1000) + "k"; }
+            }) },
+            y: { grid: { display: false }, ticks: tickStyle }
+          }
+        }
+      });
+    })();
+
+    /* Weekly Bar Chart */
+    (function() {
+      var ctx = document.getElementById("weekly-bar-chart");
+      if (!ctx) return;
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: EC_DATA.weeklyOrders.labels,
+          datasets: [{
+            label: "Orders",
+            data: EC_DATA.weeklyOrders.data,
+            backgroundColor: "rgba(255,107,107,0.6)",
+            hoverBackgroundColor: "rgba(255,107,107,0.9)",
+            borderRadius: 8,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: tooltipStyle },
+          scales: {
+            x: { grid: { display: false }, ticks: tickStyle },
+            y: { grid: { color: gridColor }, ticks: tickStyle }
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JFGRBL1JQG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JFGRBL1JQG');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders - ShopDesk</title>
+  <meta name="description" content="Manage your e-commerce orders">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/ec-tokens.css">
+  <link rel="stylesheet" href="css/ec-admin.css">
+</head>
+<body class="has-icon-bar">
+  <div class="orb-mint" aria-hidden="true"></div>
+
+  <!-- ============ Top Navigation ============ -->
+  <nav class="topnav" aria-label="Main navigation">
+    <a class="logo" href="index.html">ShopDesk</a>
+    <div class="nav-links">
+      <a href="index.html">Overview</a>
+      <a href="orders.html" class="active">Orders</a>
+      <a href="products.html">Products</a>
+      <a href="customers.html">Customers</a>
+      <a href="analytics.html">Analytics</a>
+    </div>
+    <button class="hamburger" aria-label="Open menu">&#9776;</button>
+    <div class="nav-right">
+      <input type="search" class="search-input" placeholder="Search orders..." aria-label="Search orders">
+      <div class="avatar" aria-label="User menu">JD</div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" aria-label="Mobile navigation">
+    <button class="close-btn" aria-label="Close menu">&times;</button>
+    <a href="index.html">Overview</a>
+    <a href="orders.html" class="active">Orders</a>
+    <a href="products.html">Products</a>
+    <a href="customers.html">Customers</a>
+    <a href="analytics.html">Analytics</a>
+  </div>
+
+  <!-- ============ Main Content ============ -->
+  <aside class="icon-bar" aria-label="Quick access">
+    <div class="icon-bar-item active" title="Dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+    <div class="icon-bar-item" title="Charts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+    <div class="icon-bar-item" title="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div>
+    <div class="icon-bar-item" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2"/></svg></div>
+  </aside>
+  <main class="main-content">
+    <header class="page-header">
+      <div>
+        <h1>Orders</h1>
+        <p>Manage and track all customer orders.</p>
+      </div>
+      <button class="btn btn-primary">+ New Order</button>
+    </header>
+
+    <!-- Status Filters -->
+    <div class="filters" role="group" aria-label="Filter by status">
+      <button class="filter-btn active" data-filter="all">All Orders</button>
+      <button class="filter-btn" data-filter="delivered">Delivered</button>
+      <button class="filter-btn" data-filter="shipped">Shipped</button>
+      <button class="filter-btn" data-filter="processing">Processing</button>
+      <button class="filter-btn" data-filter="cancelled">Cancelled</button>
+    </div>
+
+    <!-- Orders Table -->
+    <!-- 데이터 변경: data.js -> EC_DATA.orders -->
+    <section class="glass-card">
+      <div style="overflow-x: auto;">
+        <table class="glass-table" aria-label="Orders list">
+          <thead>
+            <tr>
+              <th scope="col">Order ID</th>
+              <th scope="col">Customer</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Status</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody id="orders-table-body">
+            <!-- Populated by ec-admin.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="bottom-nav" aria-label="Mobile navigation">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg>
+      Overview
+    </a>
+    <a href="orders.html" class="active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      Orders
+    </a>
+    <a href="products.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      Products
+    </a>
+    <a href="customers.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Customers
+    </a>
+    <a href="analytics.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      Analytics
+    </a>
+  </nav>
+
+  <script src="js/data.js"></script>
+  <script src="js/ec-admin.js"></script>
+</body>
+</html>

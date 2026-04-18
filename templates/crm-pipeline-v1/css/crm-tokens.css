@@ -1,0 +1,113 @@
+/* ============================================
+   CRM Pipeline v1 — Design Tokens (Clean Flat)
+
+   ★ This is your customization file.
+   ★ Change values below to match your brand.
+   ★ Save and refresh — the entire theme updates.
+
+   Sections:
+   1. Fonts        — Change typeface
+   2. Spacing      — Adjust layout density
+   3. Radius       — Corner roundness
+   4. Colors       — Brand colors + accent presets
+   5. Pipeline     — Stage colors
+   6. Chart colors — Chart/graph palette
+   ============================================ */
+
+:root {
+  /* Fonts */
+  --crm-font: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Spacing (8px grid) */
+  --crm-space-1: 4px;
+  --crm-space-2: 8px;
+  --crm-space-3: 12px;
+  --crm-space-4: 16px;
+  --crm-space-5: 24px;
+  --crm-space-6: 32px;
+  --crm-space-7: 48px;
+  --crm-space-8: 64px;
+
+  /* Border Radius */
+  --crm-radius-sm: 8px;
+  --crm-radius-md: 12px;
+  --crm-radius-lg: 16px;
+  --crm-radius-full: 50%;
+
+  /* Sidebar / Topbar */
+  --crm-sidebar-w: 240px;
+  --crm-sidebar-collapsed: 64px;
+  --crm-topbar-h: 64px;
+
+  /* ===== Background — Clean White ===== */
+  --crm-bg-base: #F7F8FC;
+  --crm-bg-surface: #FFFFFF;
+  --crm-bg-elevated: #F0F2F8;
+
+  /* Text */
+  --crm-text-primary: #1A202C;
+  --crm-text-secondary: #4A5568;
+  --crm-text-muted: #A0AEC0;
+
+  /* Borders (clean flat core) */
+  --crm-border: #E2E8F0;
+  --crm-border-hover: #CBD5E0;
+
+  /* ===== Colors — Blue (default) ===== */
+  --crm-primary: #0984E3;
+  --crm-primary-hover: #0770C4;
+  --crm-primary-light: rgba(9,132,227,0.10);
+  --crm-sub: #00CEC9;
+  --crm-sub-light: rgba(0,206,201,0.10);
+  --crm-third: #6C5CE7;
+  --crm-third-light: rgba(108,92,231,0.10);
+
+  /* ===== Accent Preset: Coral =====
+  --crm-primary: #FF6B6B;
+  --crm-primary-hover: #E05555;
+  --crm-primary-light: rgba(255,107,107,0.10);
+  --crm-sub: #FFA502;
+  --crm-sub-light: rgba(255,165,2,0.10);
+  --crm-third: #2ED573;
+  --crm-third-light: rgba(46,213,115,0.10);
+  */
+
+  /* ===== Accent Preset: Emerald =====
+  --crm-primary: #00B894;
+  --crm-primary-hover: #009A7B;
+  --crm-primary-light: rgba(0,184,148,0.10);
+  --crm-sub: #55EFC4;
+  --crm-sub-light: rgba(85,239,196,0.10);
+  --crm-third: #0984E3;
+  --crm-third-light: rgba(9,132,227,0.10);
+  */
+
+  /* Status */
+  --crm-success: #2ED573;
+  --crm-warning: #FFA502;
+  --crm-error: #FF6B6B;
+  --crm-info: #74B9FF;
+
+  /* ===== Pipeline Stage Colors ===== */
+  --crm-stage-lead: #74B9FF;
+  --crm-stage-qualified: #0984E3;
+  --crm-stage-proposal: #6C5CE7;
+  --crm-stage-negotiation: #FFA502;
+  --crm-stage-won: #2ED573;
+  --crm-stage-lost: #FF6B6B;
+
+  /* ===== Shadows — Minimal (Clean Flat) ===== */
+  --crm-shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --crm-shadow-md: 0 2px 8px rgba(0,0,0,0.06);
+  --crm-shadow-lg: 0 4px 16px rgba(0,0,0,0.08);
+
+  /* Chart palette */
+  --crm-chart-1: #0984E3;
+  --crm-chart-2: #00CEC9;
+  --crm-chart-3: #6C5CE7;
+  --crm-chart-4: #FF6B6B;
+  --crm-chart-5: #2ED573;
+  --crm-chart-6: #FFA502;
+  --crm-chart-7: #74B9FF;
+  --crm-chart-8: #FD79A8;
+}

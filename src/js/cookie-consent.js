@@ -1,5 +1,10 @@
 (function(){
-  if(localStorage.getItem('cookie_consent'))return;
+  // GA4 Consent Mode — 이전 선택이 있으면 즉시 반영
+  var prev=localStorage.getItem('cookie_consent');
+  if(prev==='accepted'&&typeof gtag==='function'){
+    gtag('consent','update',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+  }
+  if(prev)return;
   var b=document.createElement('div');
   b.id='cookie-banner';
   b.setAttribute('role','dialog');
@@ -25,9 +30,13 @@
   document.head.appendChild(s);
   document.body.appendChild(b);
   document.getElementById('cb-accept').addEventListener('click',function(){
-    localStorage.setItem('cookie_consent','accepted');b.remove();
+    localStorage.setItem('cookie_consent','accepted');
+    if(typeof gtag==='function') gtag('consent','update',{analytics_storage:'granted'});
+    b.remove();
   });
   document.getElementById('cb-essential').addEventListener('click',function(){
-    localStorage.setItem('cookie_consent','essential');b.remove();
+    localStorage.setItem('cookie_consent','essential');
+    if(typeof gtag==='function') gtag('consent','update',{analytics_storage:'denied'});
+    b.remove();
   });
 })();

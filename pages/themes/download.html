@@ -128,6 +128,7 @@
 
   btnDownload.addEventListener('click', function() {
     if (this.disabled) return;
+    gtag('event', 'file_download', { file_name: document.getElementById('themeName').textContent });
     downloadMsg.style.display = 'block';
     this.textContent = 'Downloaded!';
     this.disabled = true;

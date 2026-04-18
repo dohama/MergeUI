@@ -332,6 +332,11 @@ document.querySelectorAll('.faq-q').forEach(function(btn){
     if(!wasOpen){item.classList.add('open');this.setAttribute('aria-expanded','true')}
   });
 });
+document.querySelectorAll('[data-track="cta"]').forEach(function(el) {
+  el.addEventListener('click', function() {
+    gtag('event', 'select_content', { content_type: 'cta', item_id: this.getAttribute('data-label') });
+  });
+});
 </script>
 <script src="../../src/js/auth.js"></script>
 <script src="../../src/js/cookie-consent.js"></script>

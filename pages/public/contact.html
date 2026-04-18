@@ -190,6 +190,7 @@ document.getElementById('submitBtn').addEventListener('click', async function(){
   try {
     if(typeof MergeDB !== 'undefined') {
       await MergeDB.submitInquiry(name, email, category, '', message);
+      gtag('event', 'generate_lead', { event_category: 'contact', contact_type: category });
       this.style.display='none';
       document.getElementById('formSuccess').style.display='block';
     } else {

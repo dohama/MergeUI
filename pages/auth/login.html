@@ -517,6 +517,7 @@ document.querySelector('form').onsubmit = async function(e) {
   waitForMergeDB(async function() {
     try {
       var session = await MergeDB.login(email, password);
+      gtag('event', 'login', { method: 'email' });
       showSuccess('Welcome back! Redirecting...');
       var dest = session.role === 'admin' ? '../admin/dashboard.html' : '../subscriber/dashboard.html';
       setTimeout(function() { window.location.href = dest; }, 1000);
@@ -532,8 +533,8 @@ document.addEventListener('mergedb-ready', function() {
     btn.addEventListener('click', async function() {
       var text = btn.textContent.toLowerCase();
       try {
-        if (text.indexOf('github') !== -1) await MergeDB.loginWithGitHub();
-        else if (text.indexOf('google') !== -1) await MergeDB.loginWithGoogle();
+        if (text.indexOf('github') !== -1) { gtag('event', 'login', { method: 'github' }); await MergeDB.loginWithGitHub(); }
+        else if (text.indexOf('google') !== -1) { gtag('event', 'login', { method: 'google' }); await MergeDB.loginWithGoogle(); }
       } catch(e) { showError(e.message || 'OAuth login failed'); }
     });
   });

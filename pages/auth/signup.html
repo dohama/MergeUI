@@ -276,6 +276,7 @@ document.addEventListener('mergedb-ready', function() {
           if (user) await MergeDB.client.from('profiles').update({ marketing_consent: true }).eq('id', user.id);
         }
       } catch(mc) { console.warn('Marketing consent save deferred:', mc.message); }
+      gtag('event', 'sign_up', { method: 'email' });
       showSuccess('Account created! Please check your email to verify, or sign in now.');
       setTimeout(function() { window.location.href = 'login.html'; }, 2000);
     } catch(err) {

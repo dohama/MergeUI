@@ -180,20 +180,75 @@ document.getElementById('savePw').addEventListener('click', async function(){
   document.getElementById('currentPw').value='';document.getElementById('newPw').value='';document.getElementById('confirmPw').value='';
 });
 
+// GDPR: Data Export — 본인 데이터 JSON 파일로 즉시 다운로드
 document.getElementById('downloadDataBtn').addEventListener('click', async function(){
   var msg=document.getElementById('dataMsg');
-  msg.style.display='block';msg.className='msg success';msg.textContent='Your data export request has been submitted. You will receive an email with your data shortly.';
-  console.log('Data download requested for user:', JSON.parse(localStorage.getItem('mergeui_session'))?.email);
+  var btn=this;
+  btn.disabled=true; btn.textContent='Preparing...';
+  msg.style.display='block'; msg.className='msg'; msg.textContent='Preparing your data...';
+  try {
+    if(typeof MergeDB === 'undefined' || !MergeDB.client){ throw new Error('Service not ready. Please refresh and try again.'); }
+    var { data: { session } } = await MergeDB.client.auth.getSession();
+    if(!session) throw new Error('Please log in first.');
+    var res = await fetch('/api/v1/account', {
+      method: 'GET',
+      headers: { 'Authorization': 'Bearer ' + session.access_token }
+    });
+    if(!res.ok){
+      var err = await res.json().catch(function(){return{};});
+      throw new Error(err.error || 'Failed to export data (HTTP ' + res.status + ')');
+    }
+    var data = await res.json();
+    // JSON 파일로 다운로드
+    var content = JSON.stringify(data, null, 2);
+    var blob = new Blob([content], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    var d = new Date();
+    var ts = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
+    a.download = 'mergeui_my-data_' + ts + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 100);
+    msg.className='msg success';
+    msg.textContent='Your data has been downloaded. Check your Downloads folder.';
+  } catch(e){
+    msg.className='msg error';
+    msg.textContent=e.message || 'Failed to download data.';
+  } finally {
+    btn.disabled=false; btn.textContent='Download My Data';
+  }
 });
 
-document.getElementById('deleteBtn').addEventListener('click',function(){
-  if(confirm('Are you sure you want to delete your account? This action cannot be undone. All your data will be permanently deleted.')){
-    if(confirm('This is your final confirmation. Type DELETE in the next prompt to confirm.')){
-      console.log('Account deletion requested for user:', JSON.parse(localStorage.getItem('mergeui_session'))?.email);
-      localStorage.removeItem('mergeui_session');
-      alert('Your account deletion request has been submitted. You will receive a confirmation email.');
-      window.location.href='../auth/login.html';
+// GDPR: Right to Erasure — 계정 + 모든 연관 데이터 영구 삭제
+document.getElementById('deleteBtn').addEventListener('click', async function(){
+  var btn=this;
+  if(!confirm('Are you sure you want to delete your account? This action cannot be undone. All your data will be permanently deleted.')) return;
+  var typed = prompt('Type DELETE (in uppercase) to confirm account deletion:');
+  if(typed !== 'DELETE'){ alert('Deletion cancelled. Text did not match.'); return; }
+  btn.disabled=true; btn.textContent='Deleting...';
+  try {
+    if(typeof MergeDB === 'undefined' || !MergeDB.client){ throw new Error('Service not ready. Please refresh and try again.'); }
+    var { data: { session } } = await MergeDB.client.auth.getSession();
+    if(!session) throw new Error('Please log in first.');
+    var res = await fetch('/api/v1/account', {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + session.access_token }
+    });
+    if(!res.ok){
+      var err = await res.json().catch(function(){return{};});
+      throw new Error(err.error || 'Failed to delete account (HTTP ' + res.status + ')');
     }
+    // 로컬 세션 정리 + 리다이렉트
+    if(MergeDB.logout) await MergeDB.logout();
+    localStorage.removeItem('mergeui_session');
+    alert('Your account has been permanently deleted. We are sorry to see you go.');
+    window.location.replace('../../landing/index.html');
+  } catch(e){
+    btn.disabled=false; btn.textContent='Delete My Account';
+    alert(e.message || 'Failed to delete account. Please contact support@mergeui.com.');
   }
 });
 

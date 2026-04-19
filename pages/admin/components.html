@@ -138,19 +138,55 @@ document.addEventListener("mergedb-ready", async function() {
       var comp = data[idx];
       if (!comp) return;
       if (btn.classList.contains('danger')) {
-        if (!confirm('정말 "' + (comp.name||'') + '" 컴포넌트를 삭제하시겠습니까?')) return;
+        if (!confirm('정말 "' + (comp.name||'') + '" 컴포넌트를 삭제하시겠습니까?\n\n※ 되돌릴 수 없습니다.')) return;
         var { error } = await sb.from('components').delete().eq('id', comp.id);
         if (error) { alert('삭제 실패: ' + error.message); return; }
         row.remove(); data.splice(idx, 1);
+        alert('삭제 완료');
       } else {
-        alert('컴포넌트 편집 기능은 준비 중입니다. 곧 업데이트됩니다.');
+        var newName = prompt('이름:', comp.name || '');
+        if (newName === null) return;
+        var newCategory = prompt('카테고리 (예: buttons / forms / cards):', comp.category || '');
+        if (newCategory === null) return;
+        var newVersion = prompt('버전:', comp.version || '1.0');
+        if (newVersion === null) return;
+        var newStatus = prompt('상태 (published / draft / hidden):', comp.status || 'draft');
+        if (newStatus === null) return;
+        if (!['published','draft','hidden'].includes(newStatus)) { alert('잘못된 상태값'); return; }
+
+        var { error } = await sb.from('components').update({
+          name: newName, category: newCategory, version: newVersion, status: newStatus,
+          updated_at: new Date().toISOString()
+        }).eq('id', comp.id);
+        if (error) { alert('수정 실패: ' + error.message); return; }
+        alert('수정 완료. 새로고침됩니다.');
+        location.reload();
       }
     });
   } catch(e) { console.error(e); }
 });
 
-document.querySelector('.add-btn').addEventListener('click', function() {
-  alert('컴포넌트 추가 기능은 준비 중입니다. 곧 업데이트됩니다.');
+document.querySelector('.add-btn').addEventListener('click', async function() {
+  var name = prompt('컴포넌트 이름 (예: Primary Button):');
+  if (!name) return;
+  var slug = prompt('URL 슬러그 (영문/숫자/하이픈. 예: primary-button):');
+  if (!slug) return;
+  if (!/^[a-z0-9-]+$/i.test(slug)) { alert('슬러그는 영문/숫자/하이픈만 가능'); return; }
+  var category = prompt('카테고리 (예: buttons, forms, cards, charts):', 'buttons');
+  if (!category) return;
+
+  if (!MergeDB || !MergeDB.client) { alert('서비스 준비 중'); return; }
+  var { error } = await MergeDB.client.from('components').insert({
+    slug: slug.toLowerCase(),
+    name: name,
+    category: category,
+    version: '1.0',
+    status: 'draft',
+    is_public: false
+  });
+  if (error) { alert('추가 실패: ' + error.message); return; }
+  alert('컴포넌트 추가 완료. 새로고침됩니다.');
+  location.reload();
 });
 </script>
 </body>

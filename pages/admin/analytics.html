@@ -139,22 +139,90 @@ function escapeHtml(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').rep
 document.addEventListener("mergedb-ready", async function() {
   var sb = MergeDB.client;
   try {
-    var r = await sb.from("page_views").select("page, created_at");
-    var data=r.data||[];
-    var cards=document.querySelectorAll(".stat-card");
-    if(cards[0])cards[0].querySelector(".sc-val").textContent=data.length;
-    var uniq=new Set();data.forEach(function(v){uniq.add((v.created_at||"").substring(0,10));});
-    if(cards[1])cards[1].querySelector(".sc-val").textContent=uniq.size;
-    var pageCounts={};
-    data.forEach(function(v){var pg=v.page||"/";pageCounts[pg]=(pageCounts[pg]||0)+1;});
-    var sorted=Object.entries(pageCounts).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
-    var maxViews=sorted.length>0?sorted[0][1]:1;
-    var pageList=document.querySelector(".page-list");
-    if(pageList&&sorted.length>0){
-      pageList.innerHTML=sorted.map(function(p){
-        var pct=Math.round(p[1]/maxViews*100);
-        return'<div class="page-item"><div><span class="page-name">'+escapeHtml(p[0])+'</span><div class="page-bar"><div class="page-bar-fill" style="width:'+pct+'%"></div></div></div><span class="page-views">'+p[1]+'</span></div>';
-      }).join('');
+    // 실제 DB 기반 전환 퍼널 — profiles → subscriptions → orders → downloads
+    var [profRes, subRes, ordRes, dlRes] = await Promise.all([
+      sb.from("profiles").select("id"),
+      sb.from("subscriptions").select("id, user_id").eq("status", "active"),
+      sb.from("orders").select("id").eq("status", "paid"),
+      sb.from("downloads").select("id")
+    ]);
+    var profiles = profRes.data || [];
+    var subs = subRes.data || [];
+    var orders = ordRes.data || [];
+    var downloads = dlRes.data || [];
+
+    // KPI 카드 — 페이지뷰/방문자는 DB로 측정 불가 → GA4 대시보드 안내
+    var cards = document.querySelectorAll(".stat-card");
+    if (cards[0]) {
+      cards[0].querySelector(".sc-val").textContent = "—";
+      cards[0].querySelector(".sc-sub").textContent = "GA4에서 확인";
+    }
+    if (cards[1]) {
+      cards[1].querySelector(".sc-val").textContent = profiles.length;
+      cards[1].querySelector(".sc-sub").textContent = "가입 회원(DB 기준)";
+    }
+    if (cards[2]) {
+      cards[2].querySelector(".sc-val").textContent = "—";
+      cards[2].querySelector(".sc-sub").textContent = "GA4에서 확인";
+    }
+    if (cards[3]) {
+      var churnCnt = 0; // 간이 지표 — 정확한 값은 dashboard.html 참조
+      cards[3].querySelector(".sc-val").textContent = "—";
+      cards[3].querySelector(".sc-sub").textContent = "GA4에서 확인";
+    }
+
+    // 전환 퍼널 — 실제 DB 값 (방문 대신 '가입' 기준으로 정규화)
+    var signups = profiles.length;
+    var steps = [
+      { label: "가입", count: signups },
+      { label: "결제", count: orders.length },
+      { label: "활성 구독", count: subs.length },
+      { label: "다운로드", count: downloads.length }
+    ];
+    var maxStep = Math.max.apply(null, steps.map(function(s){return s.count;})) || 1;
+    var funnelSteps = document.querySelectorAll(".funnel-step");
+    steps.forEach(function(s, i) {
+      if (!funnelSteps[i]) return;
+      var pct = Math.round(s.count / maxStep * 100);
+      var bar = funnelSteps[i].querySelector(".funnel-bar");
+      var rate = funnelSteps[i].querySelector(".funnel-rate");
+      var label = funnelSteps[i].querySelector(".funnel-label");
+      if (label) label.textContent = s.label;
+      if (bar) {
+        bar.style.width = pct + "%";
+        bar.textContent = s.count;
+      }
+      if (rate) rate.textContent = i === 0 ? "100%" : (signups > 0 ? Math.round(s.count / signups * 100) + "%" : "—");
+    });
+
+    // 페이지뷰 — page_views 테이블 조회 시도 (없으면 GA4 링크 안내)
+    var pageList = document.querySelector(".page-list");
+    try {
+      var pvRes = await sb.from("page_views").select("page, created_at").limit(1000);
+      if (pvRes.data && pvRes.data.length > 0) {
+        var pageCounts = {};
+        pvRes.data.forEach(function(v){ var pg = v.page || "/"; pageCounts[pg] = (pageCounts[pg]||0) + 1; });
+        var sorted = Object.entries(pageCounts).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
+        var maxViews = sorted[0][1] || 1;
+        if (pageList) {
+          pageList.innerHTML = sorted.map(function(p){
+            var pct = Math.round(p[1] / maxViews * 100);
+            return '<div class="page-item"><div><span class="page-name">' + escapeHtml(p[0]) + '</span><div class="page-bar"><div class="page-bar-fill" style="width:' + pct + '%"></div></div></div><span class="page-views">' + p[1] + '</span></div>';
+          }).join('');
+        }
+      } else {
+        throw new Error("No page views data");
+      }
+    } catch(e) {
+      if (pageList) {
+        pageList.innerHTML = '<div style="text-align:center;padding:32px 16px;color:var(--text-muted);font-size:13px"><p style="margin-bottom:12px">페이지뷰는 GA4에서 측정 중입니다.</p><a href="https://analytics.google.com" target="_blank" rel="noopener" style="display:inline-block;padding:8px 16px;background:var(--brand);color:white;border-radius:6px;font-weight:600;text-decoration:none;font-size:12px">GA4 대시보드 바로가기 →</a></div>';
+      }
+    }
+
+    // 세션 리스트 — 세션 리코딩 기능 미구현 안내
+    var sessionsList = document.querySelector(".sessions-list");
+    if (sessionsList) {
+      sessionsList.innerHTML = '<div style="text-align:center;padding:48px 24px;color:var(--text-muted)"><div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#128250;</div><div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">세션 녹화 기능 준비 중</div><div style="font-size:13px">런칭 후 100명+ 시 Hotjar 스타일 세션 리코딩 추가 예정</div></div>';
     }
   } catch(e) { console.error("Analytics:", e.message); }
 });

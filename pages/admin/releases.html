@@ -100,7 +100,67 @@ document.addEventListener("mergedb-ready", async function() {
     } else {
       list.innerHTML='<div style="text-align:center;padding:48px 24px;color:var(--text-muted)"><div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#128230;</div><div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">릴리즈 노트가 없습니다</div><div style="font-size:13px">첫 릴리즈를 작성해보세요.</div></div>';
     }
+
+    // 편집/삭제 이벤트 위임
+    list.addEventListener('click', async function(e) {
+      var btn = e.target.closest('.act-btn');
+      if (!btn) return;
+      var card = btn.closest('.release-card');
+      var idx = Array.from(list.children).indexOf(card);
+      var rel = data[idx];
+      if (!rel) return;
+      if (btn.classList.contains('danger')) {
+        if (!confirm('릴리즈 "' + (rel.version||'') + '" 삭제?\n\n※ 되돌릴 수 없습니다.')) return;
+        var { error } = await sb.from('releases').delete().eq('id', rel.id);
+        if (error) { alert('삭제 실패: ' + error.message); return; }
+        card.remove(); data.splice(idx, 1);
+      } else {
+        var newVersion = prompt('버전 (예: 1.2.0):', rel.version || '');
+        if (newVersion === null) return;
+        var newTitle = prompt('제목:', rel.title || '');
+        if (newTitle === null) return;
+        var newBody = prompt('본문 (여러 줄은 \\n 사용):', rel.body || '');
+        if (newBody === null) return;
+        var newStatus = prompt('상태 (draft / published):', rel.status || 'draft');
+        if (newStatus === null) return;
+        if (!['draft','published'].includes(newStatus)) { alert('잘못된 상태'); return; }
+
+        var updateData = {
+          version: newVersion, title: newTitle, body: newBody, status: newStatus
+        };
+        if (newStatus === 'published' && rel.status !== 'published') {
+          updateData.published_at = new Date().toISOString();
+        }
+        var { error } = await sb.from('releases').update(updateData).eq('id', rel.id);
+        if (error) { alert('수정 실패: ' + error.message); return; }
+        alert('수정 완료. 새로고침됩니다.');
+        location.reload();
+      }
+    });
   } catch(e) { console.error(e); }
+});
+
+// 새 릴리즈 추가
+document.querySelector('.add-btn').addEventListener('click', async function() {
+  var version = prompt('버전 (예: 1.2.0):');
+  if (!version) return;
+  var title = prompt('제목 (예: 12월 업데이트 — 신규 테마 3종 추가):');
+  if (!title) return;
+  var body = prompt('본문 (변경 내역. 여러 줄 가능):', '');
+  if (body === null) return;
+  var shouldPublish = confirm('바로 발행하시겠습니까?\n\nOK = 발행 / 취소 = 임시저장');
+
+  if (!MergeDB || !MergeDB.client) { alert('서비스 준비 중'); return; }
+  var insertData = {
+    version: version, title: title, body: body,
+    status: shouldPublish ? 'published' : 'draft'
+  };
+  if (shouldPublish) insertData.published_at = new Date().toISOString();
+
+  var { error } = await MergeDB.client.from('releases').insert(insertData);
+  if (error) { alert('추가 실패: ' + error.message); return; }
+  alert('릴리즈 추가 완료. 새로고침됩니다.');
+  location.reload();
 });
 </script>
 </body>

@@ -139,19 +139,61 @@ document.addEventListener("mergedb-ready", async function() {
       var theme = data[idx];
       if (!theme) return;
       if (btn.classList.contains('danger')) {
-        if (!confirm('정말 "' + (theme.name||'') + '" 테마를 삭제하시겠습니까?')) return;
+        if (!confirm('정말 "' + (theme.name||'') + '" 테마를 삭제하시겠습니까?\n\n※ 이 작업은 되돌릴 수 없습니다.')) return;
         var { error } = await sb.from('themes').delete().eq('id', theme.id);
         if (error) { alert('삭제 실패: ' + error.message); return; }
         row.remove(); data.splice(idx, 1);
+        alert('삭제 완료');
       } else {
-        alert('테마 편집 기능은 준비 중입니다. 곧 업데이트됩니다.');
+        // 편집 — 필드별 prompt로 수정 (간이 편집)
+        var newName = prompt('이름:', theme.name || '');
+        if (newName === null) return;
+        var newVersion = prompt('버전:', theme.version || '1.0');
+        if (newVersion === null) return;
+        var newStatus = prompt('상태 (published / draft / hidden):', theme.status || 'draft');
+        if (newStatus === null) return;
+        if (!['published','draft','hidden'].includes(newStatus)) { alert('잘못된 상태값'); return; }
+        var newAccess = prompt('접근 권한 (free / pro):', theme.access || 'free');
+        if (newAccess === null) return;
+        if (!['free','pro'].includes(newAccess)) { alert('잘못된 접근 권한'); return; }
+
+        var { error } = await sb.from('themes').update({
+          name: newName, version: newVersion, status: newStatus, access: newAccess,
+          updated_at: new Date().toISOString()
+        }).eq('id', theme.id);
+        if (error) { alert('수정 실패: ' + error.message); return; }
+        alert('수정 완료. 새로고침됩니다.');
+        location.reload();
       }
     });
   } catch(e) { console.error(e); }
 });
 
-document.querySelector('.add-btn').addEventListener('click', function() {
-  alert('테마 추가 기능은 준비 중입니다. 곧 업데이트됩니다.');
+// 테마 추가
+document.querySelector('.add-btn').addEventListener('click', async function() {
+  var name = prompt('테마 이름 (예: Analytics Pro):');
+  if (!name) return;
+  var slug = prompt('URL 슬러그 (영문/숫자/하이픈만. 예: analytics-pro):');
+  if (!slug) return;
+  if (!/^[a-z0-9-]+$/i.test(slug)) { alert('슬러그는 영문/숫자/하이픈만 가능'); return; }
+  var description = prompt('설명 (선택):', '') || '';
+  var access = prompt('접근 권한 (free / pro):', 'pro');
+  if (!['free','pro'].includes(access)) { alert('잘못된 접근 권한'); return; }
+
+  if (!MergeDB || !MergeDB.client) { alert('서비스 준비 중'); return; }
+  var { error } = await MergeDB.client.from('themes').insert({
+    slug: slug.toLowerCase(),
+    name: name,
+    description: description,
+    access: access,
+    status: 'draft',
+    version: '1.0',
+    is_public: false,
+    downloads_count: 0
+  });
+  if (error) { alert('추가 실패: ' + error.message); return; }
+  alert('테마 추가 완료. 새로고침됩니다.');
+  location.reload();
 });
 </script>
 </body>

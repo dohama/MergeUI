@@ -146,8 +146,7 @@ document.addEventListener("mergedb-ready", async function() {
         var dl=dlMap[p.id]||0;
         var d=new Date(p.created_at);
         var dateStr=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-        var initials=(p.name||"?").charAt(0).toUpperCase();
-        return '<tr><td><div class="user-cell"><span class="user-avatar">'+initials+'</span><span class="user-name">'+escapeHtml(p.name||"--")+'</span></div></td><td>'+escapeHtml(p.email||"--")+'</td><td><span class="plan-badge '+plan+'">'+plan+'</span></td><td><span class="status-badge '+status+'">'+status+'</span></td><td>'+dateStr+'</td><td>'+dl+'</td><td><button type="button" class="view-btn">보기</button></td></tr>';
+        return '<tr><td><span class="user-name">'+escapeHtml(p.name||"--")+'</span></td><td>'+escapeHtml(p.email||"--")+'</td><td><span class="plan-badge '+plan+'">'+plan+'</span></td><td><span class="status-badge '+status+'">'+status+'</span></td><td>'+dateStr+'</td><td>'+dl+'</td><td><button type="button" class="view-btn">보기</button></td></tr>';
       }).join('');
       if(pageInfo)pageInfo.textContent="표시 "+profiles.length+" / "+profiles.length;
     } else {

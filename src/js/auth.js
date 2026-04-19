@@ -198,34 +198,50 @@
     initPage(null);
   }
 
-  // Supabase 세션과 동기화 — localStorage에 세션이 있어도 실제 Supabase 세션이 없으면 정리
+  // Supabase 세션과 동기화 — 공식 세션 우선, UI 캐시(mergeui_session)는 보조 역할
   function verifySession() {
     if (!window.MergeDB || !window.MergeDB.client) return;
     window.MergeDB.client.auth.getSession().then(function(result) {
-      if (!result.data.session) {
-        // 세션 만료 — 정리
+      var officialSession = result.data.session;
+      if (!officialSession) {
+        // 공식 세션 없음 — 캐시 정리
         localStorage.removeItem('mergeui_session');
         if (isProtected && !isLocal) {
-          window.location.href = BASE + 'pages/auth/login.html';
+          window.location.replace(BASE + 'pages/auth/login.html');
         } else {
           resetPublicNav();
         }
+        return;
+      }
+      // 공식 세션 있음 — UI 캐시가 비어있으면 최소 정보로 복원 (창 재오픈 시나리오)
+      var s = getSession();
+      if (!s) {
+        s = {
+          name: officialSession.user.user_metadata?.full_name
+                || officialSession.user.user_metadata?.name
+                || officialSession.user.email?.split('@')[0]
+                || 'User',
+          email: officialSession.user.email,
+          plan: 'free',
+          role: 'subscriber',
+          avatar_url: officialSession.user.user_metadata?.avatar_url || ''
+        };
+        localStorage.setItem('mergeui_session', JSON.stringify(s));
+      }
+      // UI 반영
+      if (!isProtected) {
+        updatePublicNav(s);
+        updateCtaLinks(s);
       } else {
-        // 세션 유효 — 로그인 상태 UI 표시
-        var s = getSession();
-        if (s && !isProtected) {
-          updatePublicNav(s);
-          updateCtaLinks(s);
-        }
+        updateSidebar(s);
       }
     }).catch(function() {});
   }
-  if (session) {
-    if (window.MergeDB && window.MergeDB.client) {
-      verifySession();
-    } else {
-      document.addEventListener('mergedb-ready', verifySession);
-    }
+  // 세션 캐시 유무와 무관하게 항상 공식 세션 확인 (창 재오픈 시 복원 보장)
+  if (window.MergeDB && window.MergeDB.client) {
+    verifySession();
+  } else {
+    document.addEventListener('mergedb-ready', verifySession);
   }
 
   // 세션 업데이트 이벤트 수신

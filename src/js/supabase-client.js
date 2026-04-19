@@ -15,7 +15,16 @@ function initMergeSupabase() {
   var SUPABASE_URL = (window.MERGE_CONFIG && window.MERGE_CONFIG.SUPABASE_URL) || 'https://agugcvugqjcetiulezim.supabase.co';
   var SUPABASE_ANON_KEY = (window.MERGE_CONFIG && window.MERGE_CONFIG.SUPABASE_ANON_KEY) || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFndWdjdnVncWpjZXRpdWxlemltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODc4ODMsImV4cCI6MjA5MTc2Mzg4M30.u2Z7nLkZe14_ng21hvX-NSv4DGXnG6JIB2GEhtPhxEI';
 
-  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      storage: window.localStorage,
+      storageKey: 'sb-mergeui-auth',
+      flowType: 'pkce'
+    }
+  });
 
   // onAuthStateChange — 세션이 생기면 저장, 로그아웃되면 삭제
   console.log('[MergeAuth] Supabase client initialized');
@@ -52,7 +61,7 @@ function initMergeSupabase() {
         // 프로필 조회 실패해도 기본 세션은 이미 저장됨 — 문제없음
       }
 
-      // OAuth 로그인 완료 — 공개 페이지에 있으면 대시보드로 이동
+      // OAuth 로그인 완료 — 공개 페이지/로그인 페이지에 있으면 대시보드로 이동
       if (event === 'SIGNED_IN') {
         var path = window.location.pathname;
         var isAlreadyInApp = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
@@ -60,8 +69,12 @@ function initMergeSupabase() {
           // role에 따라 관리자/구독자 대시보드 분기
           var savedSession = JSON.parse(localStorage.getItem('mergeui_session') || '{}');
           var dest = savedSession.role === 'admin' ? '/pages/admin/dashboard.html' : '/pages/subscriber/dashboard.html';
-          window.location.href = window.location.origin + dest;
+          window.location.replace(window.location.origin + dest);
         }
+      }
+
+      if (event === 'USER_UPDATED') {
+        document.dispatchEvent(new Event('mergeui-session-updated'));
       }
     }
 
@@ -81,20 +94,23 @@ function initMergeSupabase() {
                            fullUrl.indexOf('code=') !== -1;
 
     if (!isOAuthCallback) {
-      // OAuth 콜백이 아닌 경우: 즉시 세션 확인
+      // OAuth 콜백이 아닌 경우: Supabase 공식 세션 우선 확인
       sb.auth.getSession().then(function(result) {
         var session = result.data.session;
-        if (!session && !localStorage.getItem('mergeui_session')) {
-          window.location.href = window.location.origin + '/pages/auth/login.html';
+        if (!session) {
+          localStorage.removeItem('mergeui_session');
+          window.location.replace(window.location.origin + '/pages/auth/login.html');
         }
       });
     } else {
-      // OAuth 콜백: SDK가 코드 교환 완료할 때까지 3초 대기
+      // OAuth 콜백: SDK가 코드 교환 완료할 때까지 5초 대기 후 공식 세션 재확인
       setTimeout(function() {
-        if (!localStorage.getItem('mergeui_session')) {
-          window.location.href = window.location.origin + '/pages/auth/login.html';
-        }
-      }, 3000);
+        sb.auth.getSession().then(function(result) {
+          if (!result.data.session) {
+            window.location.replace(window.location.origin + '/pages/auth/login.html');
+          }
+        });
+      }, 5000);
     }
   }
 
@@ -132,21 +148,21 @@ function initMergeSupabase() {
       return session;
     },
 
-    // GitHub OAuth 로그인
+    // GitHub OAuth 로그인 — 로그인 페이지로 돌아와서 세션 파싱 후 onAuthStateChange에서 이동
     loginWithGitHub: async function() {
       var { data, error } = await sb.auth.signInWithOAuth({
         provider: 'github',
-        options: { redirectTo: window.location.origin + '/pages/subscriber/dashboard.html' }
+        options: { redirectTo: window.location.origin + '/pages/auth/login.html' }
       });
       if (error) throw error;
       return data;
     },
 
-    // Google OAuth 로그인
+    // Google OAuth 로그인 — 로그인 페이지로 돌아와서 세션 파싱 후 onAuthStateChange에서 이동
     loginWithGoogle: async function() {
       var { data, error } = await sb.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: window.location.origin + '/pages/subscriber/dashboard.html' }
+        options: { redirectTo: window.location.origin + '/pages/auth/login.html' }
       });
       if (error) throw error;
       return data;

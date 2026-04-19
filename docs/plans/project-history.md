@@ -252,4 +252,47 @@
 2026-04-13  대량 페이지 생성, _mission-control.html
 2026-04-14  관리자 7개 신규, ia-sitemap.md 전면 갱신
 2026-04-15  CSS 분리(src/styles/), JS 모듈(src/js/), SEO 태그, GA4, 레거시 정리
+2026-04-20  문서 일원화(SSoT), 마케팅 통합본 병합, OAuth 세션 유지 버그 수정
 ```
+
+---
+
+## Day 6 — 2026-04-20 (월) : 문서 일원화 + OAuth 세션 버그 수정
+
+### 문서 정리
+- 마케팅 레거시 5개(launch-strategy, pre-launch-plan, product-hunt-launch, social-launch-content, conversion-checklist) → `launch-marketing-plan.md`로 통합 (945→1273줄) 후 물리 삭제
+- `refund-policy.md` → `docs/legal/`로 이동 (환불 정책은 법적 문서)
+- `production-roadmap.md` 중복 섹션 제거 + 3개 문서 역할 분리 (roadmap = 로드맵·가이드 / master-todo = 실시간 TODO / project-history = 과거 기록)
+- CLAUDE.md 핵심 규칙 11번 신설 — "단일 출처 원칙(한 주제당 한 MD 파일)" 명문화
+
+### OAuth 세션 유지 버그 수정 (런칭 최우선 블로커 해결)
+**문제**: "GitHub으로 시작하기" 버튼 클릭 → 로그인은 되지만 창 닫고 재접속 시 세션 풀림 → 구독자 이탈 100%
+
+**근본 원인 3가지 (D 진단)**:
+1. Supabase 클라이언트 초기화 시 `persistSession`, `autoRefreshToken` 등 세션 저장 옵션 미명시
+2. OAuth 콜백 리다이렉트가 보호 페이지(`dashboard.html`)로 바로 가서 SDK 세션 파싱 완료 전에 "세션 없음" 판정 발생 (레이스 컨디션)
+3. 세션 복원을 UI 캐시(`mergeui_session`)에만 의존, Supabase 공식 세션(`sb.auth.getSession()`) 무시
+
+**수정 내역**:
+- `src/js/supabase-client.js`:
+  - createClient에 auth 옵션 명시 (`persistSession: true`, `autoRefreshToken: true`, `detectSessionInUrl: true`, `flowType: 'pkce'`, `storageKey: 'sb-mergeui-auth'`)
+  - GitHub/Google OAuth redirectTo를 `login.html`로 변경 (SDK가 안전하게 세션 파싱한 뒤 `onAuthStateChange(SIGNED_IN)` 에서 대시보드로 이동)
+  - 보호 페이지 세션 체크를 `sb.auth.getSession()` 우선으로 변경
+  - OAuth 콜백 대기 시간 3초 → 5초 + 타임아웃 후 공식 세션 재확인
+  - `window.location.href` → `window.location.replace` (뒤로가기로 콜백 URL 재진입 방지)
+  - `onAuthStateChange`에 `USER_UPDATED` 이벤트 처리 추가
+- `src/js/auth.js`:
+  - `verifySession()`을 세션 캐시 유무와 무관하게 항상 호출 (창 재오픈 시 복원 보장)
+  - 공식 세션이 있고 UI 캐시가 비어있으면 user_metadata로 최소 정보 복원
+  - `window.location.href` → `window.location.replace`
+
+**런칭 전 캡틴 수동 작업 2가지**:
+1. Supabase 대시보드 → Authentication → URL Configuration
+   - Site URL: `https://mergeui.com`
+   - Redirect URLs: `https://mergeui.com/pages/auth/login.html`, `http://localhost:*/pages/auth/login.html`
+2. 캡틴 계정 가입 후 SQL Editor에서 `UPDATE profiles SET role = 'admin' WHERE id = (SELECT id FROM auth.users WHERE email = 'weed.conv@gmail.com')`
+
+**관련 master-todo.md 항목 업데이트**:
+- F-07 (OAuth 처리 불일치) → ✅ 완료
+- B-03 (인증 시스템 미구현) → ⚠️ 부분 완료 (OAuth 세션 유지만 해결, 이메일 인증 API·admin role 설정 미착수)
+- S-03 (OAuth 콜백 URL 화이트리스트) → ⏳ 캡틴 대기 (Supabase 대시보드 등록)

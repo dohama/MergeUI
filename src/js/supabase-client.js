@@ -31,13 +31,20 @@ function initMergeSupabase() {
   sb.auth.onAuthStateChange(async function(event, session) {
     console.log('[MergeAuth] Event:', event, 'Session:', session ? 'YES' : 'NO');
     if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION')) {
-      // 1단계: 기본 세션 즉시 저장 (프로필 조회 전에)
+      // 1단계: 기본 세션 즉시 저장
+      // 기존 localStorage에 이미 확정된 role/plan 정보가 있으면 보존 (무한 리다이렉트 방지)
+      var existingCache = {};
+      try { existingCache = JSON.parse(localStorage.getItem('mergeui_session') || '{}'); } catch(e) {}
+      // 이메일이 다르면 다른 사용자 전환 — 캐시 무시
+      if (existingCache.email && existingCache.email !== session.user.email) {
+        existingCache = {};
+      }
       var basicSession = {
-        name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+        name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || existingCache.name || 'User',
         email: session.user.email,
-        plan: 'free',
-        role: 'subscriber',
-        avatar_url: session.user.user_metadata?.avatar_url || ''
+        plan: existingCache.plan || 'free',
+        role: existingCache.role || 'subscriber',
+        avatar_url: session.user.user_metadata?.avatar_url || existingCache.avatar_url || ''
       };
       localStorage.setItem('mergeui_session', JSON.stringify(basicSession));
       document.dispatchEvent(new Event('mergeui-session-updated'));

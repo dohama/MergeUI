@@ -230,7 +230,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
           <li>Commercial license</li>
           <li>CSS source files</li>
         </ul>
-        <a href="https://mergeui.lemonsqueezy.com/checkout/buy/b9d4acab-7b2d-42c7-9bbd-ed4f745769ca" class="pc-btn" id="proCta" style="display:block;text-align:center" data-track="cta" data-label="pricing-pro">Start Pro — $19/mo</a>
+        <button type="button" class="pc-btn" id="proCta" style="display:block;text-align:center;width:100%" data-track="cta" data-label="pricing-pro">Start Pro — $19/mo</button>
       </div>
 
       <div class="price-card">
@@ -342,6 +342,60 @@ document.querySelectorAll('[data-track="cta"]').forEach(function(el) {
     gtag('event', 'select_content', { content_type: 'cta', item_id: this.getAttribute('data-label') });
   });
 });
+
+// Pro CTA — 로그인 상태 확인 → 이미 Pro면 billing, 아니면 Lemonsqueezy checkout (user 정보 전달)
+(function() {
+  var proBtn = document.getElementById('proCta');
+  var LEMON_BUY_URL = 'https://mergeui.lemonsqueezy.com/checkout/buy/b9d4acab-7b2d-42c7-9bbd-ed4f745769ca';
+
+  // 로그인 상태면 버튼 라벨 사전 교체 (구독 상태에 따라)
+  function updateProCta() {
+    try {
+      var session = JSON.parse(localStorage.getItem('mergeui_session') || '{}');
+      if (session && session.email && (session.plan === 'pro' || session.plan === 'team')) {
+        proBtn.textContent = 'Manage Subscription';
+        proBtn.dataset.mode = 'manage';
+      } else if (session && session.email) {
+        proBtn.textContent = 'Start Pro — $19/mo';
+        proBtn.dataset.mode = 'checkout-loggedin';
+      } else {
+        proBtn.dataset.mode = 'checkout-guest';
+      }
+    } catch (e) {}
+  }
+  updateProCta();
+  document.addEventListener('mergeui-session-updated', updateProCta);
+
+  proBtn.addEventListener('click', function() {
+    var session = {};
+    try { session = JSON.parse(localStorage.getItem('mergeui_session') || '{}'); } catch (e) {}
+
+    // 1. 이미 Pro/Team 구독 중 → billing 페이지로
+    if (session.plan === 'pro' || session.plan === 'team') {
+      window.location.href = '../subscriber/billing.html';
+      return;
+    }
+
+    // 2. 비로그인 → signup 후 돌아오도록
+    if (!session.email) {
+      if (confirm('Pro 구독을 시작하려면 먼저 로그인이 필요합니다. 회원가입 페이지로 이동할까요?')) {
+        window.location.href = '../auth/signup.html?next=/pages/public/pricing.html';
+      }
+      return;
+    }
+
+    // 3. 로그인 + Free → Lemonsqueezy checkout (이메일/이름/user_id 사전 전달)
+    var params = new URLSearchParams();
+    params.set('checkout[email]', session.email);
+    if (session.name) params.set('checkout[name]', session.name);
+    // 웹훅이 user_id로 프로필 매칭 가능하도록 custom data 전달
+    try {
+      var uid = (typeof MergeDB !== 'undefined' && MergeDB.client) ? null : null;
+      // Supabase user id는 비동기로 조회해야 해서, 이메일 기반 매칭으로 충분
+    } catch (e) {}
+    window.location.href = LEMON_BUY_URL + '?' + params.toString();
+  });
+})();
 </script>
 <script src="../../src/js/auth.js"></script>
 <script src="../../src/js/cookie-consent.js"></script>

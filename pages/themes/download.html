@@ -131,12 +131,70 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     });
   });
 
-  btnDownload.addEventListener('click', function() {
+  btnDownload.addEventListener('click', async function() {
     if (this.disabled) return;
-    gtag('event', 'file_download', { file_name: document.getElementById('themeName').textContent });
-    downloadMsg.style.display = 'block';
-    this.textContent = 'Downloaded!';
-    this.disabled = true;
+    var self = this;
+    var themeName = document.getElementById('themeName').textContent;
+    var params = new URLSearchParams(window.location.search);
+    var slug = params.get('slug') || params.get('theme');
+    if (!slug) { downloadMsg.style.display = 'block'; downloadMsg.textContent = 'Theme not specified.'; return; }
+
+    gtag('event', 'file_download', { file_name: themeName });
+    self.disabled = true;
+    self.textContent = 'Preparing...';
+
+    try {
+      if (typeof MergeDB === 'undefined' || !MergeDB.client) {
+        throw new Error('Service not ready. Please refresh and try again.');
+      }
+      var { data: { session } } = await MergeDB.client.auth.getSession();
+      if (!session) {
+        if (confirm('로그인이 필요합니다. 로그인 페이지로 이동할까요?')) {
+          window.location.href = '../auth/login.html?next=' + encodeURIComponent(window.location.pathname + window.location.search);
+        }
+        self.disabled = false;
+        self.textContent = 'Download';
+        return;
+      }
+
+      var res = await fetch('/api/v1/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+        body: JSON.stringify({ theme_slug: slug })
+      });
+      if (res.status === 403) {
+        // Free 사용자 — Pro 안내
+        downloadMsg.style.display = 'block';
+        downloadMsg.textContent = 'Pro 구독이 필요합니다. 가격표로 이동합니다...';
+        setTimeout(function() { window.location.href = '../public/pricing.html'; }, 1500);
+        self.disabled = false;
+        self.textContent = 'Download';
+        return;
+      }
+      if (!res.ok) {
+        var err = await res.json().catch(function(){return{};});
+        throw new Error(err.error || 'Download failed (HTTP ' + res.status + ')');
+      }
+      var data = await res.json();
+      if (!data.download_url) throw new Error('다운로드 URL 생성 실패');
+
+      // 실제 파일 다운로드 트리거
+      var a = document.createElement('a');
+      a.href = data.download_url;
+      a.download = slug + '-v1.zip';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      downloadMsg.style.display = 'block';
+      downloadMsg.textContent = 'Download started! Check your Downloads folder.';
+      self.textContent = 'Downloaded!';
+    } catch (e) {
+      self.disabled = false;
+      self.textContent = 'Download';
+      downloadMsg.style.display = 'block';
+      downloadMsg.textContent = e.message || 'Download failed. Please try again.';
+    }
   });
 
   var params = new URLSearchParams(window.location.search);

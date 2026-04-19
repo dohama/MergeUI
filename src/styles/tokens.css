@@ -60,6 +60,10 @@
   --merge-radius-lg: 12px;
   --merge-radius-full: 999px;
 
+  /* Shadows — Quiet Quality */
+  --merge-shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+  --merge-shadow-card-hover: 0 2px 4px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.08);
+
   /* Backward compatibility aliases — 기존 코드 호환용 */
   --brand: var(--merge-brand);
   --brand-light: var(--merge-brand-light);
@@ -95,4 +99,6 @@
   --merge-glow-brand: rgba(108,92,231,0.08);
   --merge-admin-active-bg: rgba(239,68,68,0.06);
   --merge-admin-active-text: #DC2626;
+  --merge-shadow-card: 0 1px 2px rgba(15,23,42,0.04), 0 1px 3px rgba(15,23,42,0.06);
+  --merge-shadow-card-hover: 0 2px 4px rgba(15,23,42,0.06), 0 6px 16px rgba(15,23,42,0.08);
 }

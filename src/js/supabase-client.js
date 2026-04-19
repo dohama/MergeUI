@@ -42,40 +42,43 @@ function initMergeSupabase() {
       localStorage.setItem('mergeui_session', JSON.stringify(basicSession));
       document.dispatchEvent(new Event('mergeui-session-updated'));
 
-      // 2단계: 프로필 조회 후 세션 업데이트 (실패해도 기본 세션은 유지)
-      try {
-        var { data: profile, error: profileError } = await sb.from('profiles').select('name, role, plan, avatar_url').eq('id', session.user.id).single();
-        console.log('[MergeAuth] Profile query result:', profile, 'Error:', profileError);
-        if (profile) {
-          var fullSession = {
-            name: profile.name || basicSession.name,
-            email: session.user.email,
-            plan: profile.plan || 'free',
-            role: profile.role || 'subscriber',
-            avatar_url: profile.avatar_url || basicSession.avatar_url
-          };
-          localStorage.setItem('mergeui_session', JSON.stringify(fullSession));
-          document.dispatchEvent(new Event('mergeui-session-updated'));
-        }
-      } catch (e) {
-        // 프로필 조회 실패해도 기본 세션은 이미 저장됨 — 문제없음
-      }
-
-      // OAuth 로그인 완료 — 공개 페이지/로그인 페이지에 있으면 대시보드로 이동
+      // 2단계: OAuth 로그인 완료 시 즉시 대시보드 이동 (프로필 조회는 백그라운드)
       if (event === 'SIGNED_IN') {
         var path = window.location.pathname;
         var isAlreadyInApp = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
         if (!isAlreadyInApp) {
-          // role에 따라 관리자/구독자 대시보드 분기
-          var savedSession = JSON.parse(localStorage.getItem('mergeui_session') || '{}');
-          var dest = savedSession.role === 'admin' ? '/pages/admin/dashboard.html' : '/pages/subscriber/dashboard.html';
-          window.location.replace(window.location.origin + dest);
+          console.log('[MergeAuth] SIGNED_IN → redirecting to dashboard');
+          // role 확정 전이므로 구독자 대시보드로 기본 이동 (admin은 로그인 후 자체 검증으로 재이동)
+          window.location.replace(window.location.origin + '/pages/subscriber/dashboard.html');
+          return; // 리다이렉트 후 코드 중단
         }
       }
 
       if (event === 'USER_UPDATED') {
         document.dispatchEvent(new Event('mergeui-session-updated'));
       }
+
+      // 3단계: 프로필 조회 (백그라운드 — 리다이렉트를 막지 않음)
+      sb.from('profiles').select('name, role, plan, avatar_url').eq('id', session.user.id).single()
+        .then(function(result) {
+          console.log('[MergeAuth] Profile query result:', result.data, 'Error:', result.error);
+          if (result.data) {
+            var fullSession = {
+              name: result.data.name || basicSession.name,
+              email: session.user.email,
+              plan: result.data.plan || 'free',
+              role: result.data.role || 'subscriber',
+              avatar_url: result.data.avatar_url || basicSession.avatar_url
+            };
+            localStorage.setItem('mergeui_session', JSON.stringify(fullSession));
+            document.dispatchEvent(new Event('mergeui-session-updated'));
+            // admin role 확정 시 관리자 대시보드로 재이동
+            if (fullSession.role === 'admin' && window.location.pathname.indexOf('/subscriber/') !== -1) {
+              window.location.replace(window.location.origin + '/pages/admin/dashboard.html');
+            }
+          }
+        })
+        .catch(function() { /* 프로필 조회 실패해도 기본 세션은 이미 저장됨 */ });
     }
 
     if (event === 'SIGNED_OUT') {

@@ -394,6 +394,10 @@ a:hover { color: var(--merge-color-primary-hover); }
   padding: var(--merge-space-5) var(--merge-space-6);
 }
 
+.table-wrapper { width: 100%; overflow-x: auto; }
+.table-user { display: flex; align-items: center; gap: var(--merge-space-3); }
+.table-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--merge-color-primary), var(--merge-color-secondary, #00CEC9)); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+
 .data-table { width: 100%; border-collapse: collapse; }
 
 .data-table thead th {
@@ -652,6 +656,8 @@ a:hover { color: var(--merge-color-primary-hover); }
   .col-span-8 { grid-column: span 12; }
   .col-span-4 { grid-column: span 12; }
 }
+
+.bottom-nav { display: none; }
 
 @media (max-width: 767px) {
   .sidebar { display: none; }

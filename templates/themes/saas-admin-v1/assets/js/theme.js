@@ -20,11 +20,11 @@ function initCharts() {
   if (typeof Chart === 'undefined') return;
 
   const style = getComputedStyle(document.documentElement);
-  const primary = '#6C5CE7';
-  const secondary = '#00CEC9';
-  const accent = '#FD79A8';
-  const yellow = '#FDCB6E';
-  const muted = '#8892A4';
+  const primary = style.getPropertyValue('--merge-color-primary').trim() || '#6C5CE7';
+  const secondary = style.getPropertyValue('--merge-chart-2').trim() || '#00CEC9';
+  const accent = style.getPropertyValue('--merge-chart-3').trim() || '#FD79A8';
+  const yellow = style.getPropertyValue('--merge-chart-4').trim() || '#FDCB6E';
+  const muted = style.getPropertyValue('--merge-text-muted').trim() || '#8892A4';
   const gridColor = 'rgba(0,0,0,0.03)';
 
   // Global defaults

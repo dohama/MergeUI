@@ -35,7 +35,7 @@
   --ec-sp-48: 48px;
   --ec-sp-64: 64px;
   --ec-topnav-h: 72px;
-  --ec-content-max: 1440px;
+  --ec-content-max: 100%;
   --ec-content-pad: 32px;
   --ec-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }

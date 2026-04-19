@@ -1,20 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-<script>
-window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});
-</script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JFGRBL1JQG"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-JFGRBL1JQG');
-</script>
-  <meta name="google-site-verification" content="FI3WZCPFHDkL0FRTAwgkgYrv287bU_wRNBRDiCbttek">
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Overview — SoftDesk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -149,8 +136,9 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <script src="js/data.js"></script>
   <script src="js/softdesk.js"></script>
   <script>
-    applyChartJsDefaults();
-    var SD = SOFTDESK_DATA;
+    if (typeof SOFTDESK_DATA === 'undefined') { console.warn('SOFTDESK_DATA not loaded'); }
+    if (typeof applyChartJsDefaults === 'function') applyChartJsDefaults();
+    var SD = (typeof SOFTDESK_DATA !== 'undefined') ? SOFTDESK_DATA : {};
     try {
     new Chart(document.getElementById('revenueChart'), {
       type: 'line',
@@ -173,35 +161,41 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
 
     } catch(e) { console.warn("Revenue chart init failed:", e); }
     /* KPI 카드 데이터 바인딩 */
-    var kpiCards = document.querySelectorAll('.kpi-card');
-    if (SD.kpi && kpiCards.length === SD.kpi.length) {
-      SD.kpi.forEach(function(k, i) {
-        var card = kpiCards[i];
-        var val = card.querySelector('.kpi-value');
-        var trend = card.querySelector('.kpi-trend');
-        var label = card.querySelector('.kpi-label');
-        if (val) val.textContent = k.value;
-        if (trend) { trend.textContent = k.trend; trend.className = 'kpi-trend ' + k.dir; }
-        if (label) label.textContent = k.label;
-      });
-    }
+    try {
+      var kpiCards = document.querySelectorAll('.kpi-card');
+      if (SD.kpi && kpiCards.length === SD.kpi.length) {
+        SD.kpi.forEach(function(k, i) {
+          var card = kpiCards[i];
+          var val = card.querySelector('.kpi-value');
+          var trend = card.querySelector('.kpi-trend');
+          var label = card.querySelector('.kpi-label');
+          if (val) val.textContent = k.value;
+          if (trend) { trend.textContent = k.trend; trend.className = 'kpi-trend ' + k.dir; }
+          if (label) label.textContent = k.label;
+        });
+      }
+    } catch(e) { console.warn('KPI bind failed:', e); }
 
     /* Activity 바인딩 */
-    var actList = document.querySelector('.activity-list');
-    if (actList && SD.recentActivity) {
-      var colorMap = { success:'var(--sd-success)', primary:'var(--sd-primary)', warning:'var(--sd-warning)', accent:'var(--sd-accent)', error:'var(--sd-error)' };
-      actList.innerHTML = SD.recentActivity.map(function(a) {
-        return '<div class="activity-item"><span class="activity-dot" style="background:' + (colorMap[a.color]||'var(--sd-primary)') + '"></span><div><div class="activity-text"><strong>' + a.user + '</strong> ' + a.action + '</div><div class="activity-time">' + a.time + '</div></div></div>';
-      }).join('');
-    }
+    try {
+      var actList = document.querySelector('.activity-list');
+      if (actList && SD.recentActivity) {
+        var colorMap = { success:'var(--sd-success)', primary:'var(--sd-primary)', warning:'var(--sd-warning)', accent:'var(--sd-accent)', error:'var(--sd-error)' };
+        actList.innerHTML = SD.recentActivity.map(function(a) {
+          return '<div class="activity-item"><span class="activity-dot" style="background:' + (colorMap[a.color]||'var(--sd-primary)') + '"></span><div><div class="activity-text"><strong>' + a.user + '</strong> ' + a.action + '</div><div class="activity-time">' + a.time + '</div></div></div>';
+        }).join('');
+      }
+    } catch(e) { console.warn('Activity bind failed:', e); }
 
     /* Orders Table 바인딩 */
-    var tbody = document.querySelector('.data-table tbody');
-    if (tbody && SD.recentOrders) {
-      tbody.innerHTML = SD.recentOrders.map(function(o) {
-        return '<tr><td><div class="table-user"><div class="table-avatar">' + o.initials + '</div>' + o.name + '</div></td><td>' + o.plan + '</td><td>' + o.amount + '</td><td><span class="badge badge-' + o.statusType + '">' + o.status + '</span></td><td>' + o.date + '</td></tr>';
-      }).join('');
-    }
+    try {
+      var tbody = document.querySelector('.data-table tbody');
+      if (tbody && SD.recentOrders) {
+        tbody.innerHTML = SD.recentOrders.map(function(o) {
+          return '<tr><td><div class="table-user"><div class="table-avatar">' + o.initials + '</div>' + o.name + '</div></td><td>' + o.plan + '</td><td>' + o.amount + '</td><td><span class="badge badge-' + o.statusType + '">' + o.status + '</span></td><td>' + o.date + '</td></tr>';
+        }).join('');
+      }
+    } catch(e) { console.warn('Orders bind failed:', e); }
   </script>
 </body>
 </html>

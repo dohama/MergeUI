@@ -42,15 +42,18 @@ function initMergeSupabase() {
       localStorage.setItem('mergeui_session', JSON.stringify(basicSession));
       document.dispatchEvent(new Event('mergeui-session-updated'));
 
-      // 2단계: OAuth 로그인 완료 시 즉시 대시보드 이동 (프로필 조회는 백그라운드)
+      // 2단계: OAuth 로그인 완료 시 즉시 대시보드 이동
+      // 단, 실제 OAuth 콜백(login/signup 페이지에서 ?code= 또는 #access_token 포함)일 때만
+      // 이미 로그인된 사용자가 다른 공개 페이지를 탐색할 때는 리다이렉트하지 않음
       if (event === 'SIGNED_IN') {
         var path = window.location.pathname;
-        var isAlreadyInApp = path.indexOf('/subscriber/') !== -1 || path.indexOf('/admin/') !== -1;
-        if (!isAlreadyInApp) {
-          console.log('[MergeAuth] SIGNED_IN → redirecting to dashboard');
-          // role 확정 전이므로 구독자 대시보드로 기본 이동 (admin은 로그인 후 자체 검증으로 재이동)
+        var isAuthPage = path.indexOf('/auth/login') !== -1 || path.indexOf('/auth/signup') !== -1;
+        var isOAuthCallbackUrl = window.location.search.indexOf('code=') !== -1
+                               || window.location.hash.indexOf('access_token') !== -1;
+        if (isAuthPage && isOAuthCallbackUrl) {
+          console.log('[MergeAuth] OAuth callback → redirecting to dashboard');
           window.location.replace(window.location.origin + '/pages/subscriber/dashboard.html');
-          return; // 리다이렉트 후 코드 중단
+          return;
         }
       }
 

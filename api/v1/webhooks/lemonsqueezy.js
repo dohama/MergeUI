@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const { supabaseAdmin } = require('../_lib/supabase.js');
+const loops = require('../_lib/loops.js');
 
 function verifySignature(rawBody, signature) {
   var secret = process.env.LEMON_WEBHOOK_SECRET;
@@ -37,8 +38,27 @@ module.exports = async function(req, res) {
   var maskedEmail = userEmail ? userEmail.replace(/^(.)(.*)(@.*)$/, '$1***$3') : 'unknown';
   console.log('Webhook:', eventName, maskedEmail);
 
-  var { data: profile } = await supabaseAdmin.from('profiles').select('id').eq('email', userEmail).single();
+  var { data: profile } = await supabaseAdmin.from('profiles').select('id, name, marketing_consent').eq('email', userEmail).single();
   if (!profile) { console.warn('User not found:', maskedEmail); return res.json({ received: true }); }
+
+  // Loops 동기화 유틸 (plan 변경 시 userGroup 업데이트 + 이벤트 트리거)
+  async function syncLoopsAndEvent(newPlan, eventName) {
+    if (!profile.marketing_consent) return; // GDPR
+    try {
+      await loops.upsertContact({
+        email: userEmail,
+        firstName: (profile.name || '').split(' ')[0] || '',
+        userGroup: newPlan,
+        userId: profile.id
+      });
+      if (eventName) {
+        await loops.sendEvent(userEmail, eventName, {
+          plan: newPlan,
+          firstName: (profile.name || '').split(' ')[0] || ''
+        });
+      }
+    } catch (e) { console.error('[Loops sync]', e.message); }
+  }
 
   switch (eventName) {
     case 'subscription_created': {
@@ -52,21 +72,26 @@ module.exports = async function(req, res) {
       await supabaseAdmin.from('profiles').update({ plan: plan }).eq('id', profile.id);
       var key = 'MERGE-' + plan.toUpperCase() + '-' + crypto.randomBytes(4).toString('hex').toUpperCase();
       await supabaseAdmin.from('license_keys').insert({ user_id: profile.id, key: key });
+      await syncLoopsAndEvent(plan, 'subscription_started');
       break;
     }
     case 'subscription_updated': {
       var plan = data.variant_name?.toLowerCase().includes('team') ? 'team' : 'pro';
       await supabaseAdmin.from('subscriptions').update({ plan: plan, status: data.status, current_period_end: data.renews_at }).eq('lemon_subscription_id', String(event.data.id));
       await supabaseAdmin.from('profiles').update({ plan: plan }).eq('id', profile.id);
+      await syncLoopsAndEvent(plan, 'subscription_updated');
       break;
     }
     case 'subscription_cancelled': {
       await supabaseAdmin.from('subscriptions').update({ status: 'cancelled' }).eq('lemon_subscription_id', String(event.data.id));
+      // plan은 아직 변경하지 않음 — 기간 끝까지는 Pro 유지. 이탈 방지 캠페인 트리거
+      await syncLoopsAndEvent('pro', 'subscription_cancelled');
       break;
     }
     case 'subscription_expired': {
       await supabaseAdmin.from('subscriptions').update({ status: 'expired' }).eq('lemon_subscription_id', String(event.data.id));
       await supabaseAdmin.from('profiles').update({ plan: 'free' }).eq('id', profile.id);
+      await syncLoopsAndEvent('free', 'subscription_expired');
       break;
     }
     case 'subscription_payment_success': {

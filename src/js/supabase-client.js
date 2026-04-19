@@ -133,14 +133,34 @@ function initMergeSupabase() {
     // ========== AUTH ==========
 
     // 이메일 회원가입
-    signup: async function(email, password, name) {
+    signup: async function(email, password, name, marketingConsent) {
       var { data, error } = await sb.auth.signUp({
         email: email,
         password: password,
-        options: { data: { full_name: name } }
+        options: { data: { full_name: name, marketing_consent: !!marketingConsent } }
       });
       if (error) throw error;
+      // 가입 성공 + 세션 즉시 발급된 경우(이메일 인증 미요구)에만 Loops 동기화 시도
+      if (data && data.session) {
+        MergeDB._syncLoops(data.session.access_token).catch(function() {});
+      }
       return data;
+    },
+
+    // Loops 연락처 동기화 (로그인·가입 후 호출)
+    _syncLoops: async function(token) {
+      try {
+        var accessToken = token;
+        if (!accessToken) {
+          var { data: { session } } = await sb.auth.getSession();
+          accessToken = session?.access_token;
+        }
+        if (!accessToken) return;
+        await fetch('/api/v1/account/sync-contact', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + accessToken, 'Content-Type': 'application/json' }
+        });
+      } catch (e) { /* 조용히 실패 — 메일 동기화 실패가 사용자 흐름 차단하지 않음 */ }
     },
 
     // 이메일 로그인
@@ -158,6 +178,8 @@ function initMergeSupabase() {
         avatar_url: profile.avatar_url || ''
       };
       localStorage.setItem('mergeui_session', JSON.stringify(session));
+      // Loops 연락처 동기화 (로그인 때마다 최신 상태 반영)
+      MergeDB._syncLoops(data.session?.access_token).catch(function() {});
       return session;
     },
 

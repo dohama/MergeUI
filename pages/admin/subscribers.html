@@ -72,6 +72,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
         </div>
         <select class="filter-select"><option>전체 플랜</option><option>Free</option><option>Pro</option><option>Team</option></select>
         <select class="filter-select"><option>전체 상태</option><option>활성</option><option>Cancelled</option><option>Expired</option></select>
+        <button type="button" class="export-btn" id="sendEmailBtn" style="border-color:rgba(239,68,68,0.3);color:#FCA5A5">이메일 발송</button>
         <button type="button" class="export-btn" id="exportBtn">엑셀 다운로드</button>
       </div>
 
@@ -156,8 +157,55 @@ document.addEventListener("mergedb-ready", async function() {
   } catch(e) { console.error(e); }
 });
 
-// 엑셀 다운로드 버튼 연결
+// 이메일 발송 — Loops 이벤트 트리거 (필터+미리보기+발송)
 document.addEventListener("DOMContentLoaded", function() {
+  var emailBtn = document.getElementById("sendEmailBtn");
+  if (emailBtn) emailBtn.addEventListener("click", async function() {
+    var planFilter = prompt("어느 플랜에게 발송할까요? (all / free / pro / team)", "all");
+    if (planFilter === null) return;
+    planFilter = planFilter.trim().toLowerCase();
+    if (!['all','free','pro','team'].includes(planFilter)) { alert("잘못된 플랜입니다. all/free/pro/team 중 선택."); return; }
+
+    var eventName = prompt("Loops 이벤트 이름 (Loops 대시보드에서 Loop 트리거 이벤트와 일치해야 함):", "promo_announcement");
+    if (!eventName) return;
+
+    try {
+      if (typeof MergeDB === 'undefined' || !MergeDB.client) { alert("서비스 준비 중. 새로고침 후 시도."); return; }
+      var { data: { session } } = await MergeDB.client.auth.getSession();
+      if (!session) { alert("로그인이 필요합니다."); return; }
+
+      var filter = {};
+      if (planFilter !== 'all') filter.plan = planFilter;
+
+      // 1단계: dryRun으로 대상자 수 미리보기
+      var preview = await fetch('/api/v1/admin/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+        body: JSON.stringify({ filter: filter, eventName: eventName, mode: 'dryRun' })
+      }).then(function(r){ return r.json(); });
+
+      if (!preview.count) { alert("발송 대상이 없습니다 (수신 동의한 회원 중 조건 일치자 0명)."); return; }
+
+      var confirmMsg = "발송 대상: " + preview.count + "명 (플랜 필터: " + planFilter + ")\n이벤트명: " + eventName + "\n\n정말 발송하시겠습니까?";
+      if (!confirm(confirmMsg)) return;
+
+      // 2단계: 실제 발송
+      emailBtn.disabled = true; emailBtn.textContent = "발송 중...";
+      var result = await fetch('/api/v1/admin/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+        body: JSON.stringify({ filter: filter, eventName: eventName, mode: 'send' })
+      }).then(function(r){ return r.json(); });
+
+      alert("발송 완료\n성공: " + (result.sent || 0) + "\n실패: " + (result.failed || 0) + (result.errors && result.errors.length ? "\n\n에러 예시:\n" + result.errors.slice(0,3).map(function(e){return e.email+': '+(e.error?.error||e.error||'unknown');}).join("\n") : ""));
+    } catch (e) {
+      alert("발송 실패: " + (e.message || "알 수 없는 오류"));
+    } finally {
+      emailBtn.disabled = false; emailBtn.textContent = "이메일 발송";
+    }
+  });
+
+  // 엑셀 다운로드 버튼 연결
   var btn = document.getElementById("exportBtn");
   if (!btn) return;
   btn.addEventListener("click", function() {

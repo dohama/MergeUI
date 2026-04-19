@@ -273,8 +273,9 @@ document.addEventListener('mergedb-ready', function() {
     var marketingConsent = document.getElementById('marketing').checked;
 
     try {
-      await MergeDB.signup(email, password, firstName + ' ' + lastName);
-      // Store marketing consent in profile
+      // marketingConsent를 signup 호출에 전달 (user_metadata에 저장 → 트리거가 profiles에 반영)
+      await MergeDB.signup(email, password, firstName + ' ' + lastName, marketingConsent);
+      // Fallback: 트리거가 없는 DB에서도 프로필 업데이트 시도
       try {
         if (marketingConsent && MergeDB.client) {
           var { data: { user } } = await MergeDB.client.auth.getUser();

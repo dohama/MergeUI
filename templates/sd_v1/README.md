@@ -69,7 +69,7 @@ Update the Google Fonts link in each HTML file's `<head>`.
 ## File Structure
 
 ```
-softdesk-v1/
+sd_v1/
 ├── index.html            Overview dashboard
 ├── analytics.html        Analytics & charts
 ├── users.html            User management

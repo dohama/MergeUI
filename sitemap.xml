@@ -34,31 +34,31 @@
   <!-- ================= 판매 테마 (개별) ================= -->
   <!-- DB의 themes 테이블에서 자동 생성 권장. 현재는 수동 등록 — 테마 확정 시 업데이트 -->
   <url>
-    <loc>https://mergeui.com/themes/softdesk-v1</loc>
+    <loc>https://mergeui.com/themes/sd_v1</loc>
     <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mergeui.com/themes/crm-pipeline-v1</loc>
+    <loc>https://mergeui.com/themes/cr_v1</loc>
     <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mergeui.com/themes/ecommerce-admin-v1</loc>
+    <loc>https://mergeui.com/themes/ec_v1</loc>
     <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mergeui.com/themes/finance-dashboard-v1</loc>
+    <loc>https://mergeui.com/themes/fi_v1</loc>
     <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mergeui.com/themes/pulse-admin-v1</loc>
+    <loc>https://mergeui.com/themes/pa_v1</loc>
     <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

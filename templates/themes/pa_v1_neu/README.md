@@ -76,7 +76,7 @@ Replace the `--merge-color-primary` value with your own hex color. Update the `-
 ## File Structure
 
 ```
-saas-admin-v1/
+pa_v1_neu/
 ├── README.md
 ├── LICENSE.md
 ├── CHANGELOG.md

@@ -126,8 +126,8 @@
 - **Response 200**:
 ```json
 {
-  "download_url": "/downloads/pulse-admin-v1.0.0.zip",
-  "theme": { "id": "uuid", "slug": "pulse-admin", "name": "Pulse Admin", "version": "1.0.0", "file_size": "2.4 MB" }
+  "download_url": "/downloads/pa_v1-1.0.0.zip",
+  "theme": { "id": "uuid", "slug": "pa_v1", "name": "Pulse Admin", "version": "1.0.0", "file_size": "2.4 MB" }
 }
 ```
 - **에러**: 403 (Free 사용자), 404 (테마 없음)

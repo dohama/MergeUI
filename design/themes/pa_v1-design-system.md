@@ -292,7 +292,7 @@ Row 3: [Data Table — 12col (full width)]
 ## 파일 구조 (배포 패키지)
 
 ```
-templates/pulse-admin-v1/
+templates/pa_v1/
 ├── index.html            # Overview Dashboard
 ├── analytics.html        # Analytics 페이지
 ├── users.html            # Users/Customers 페이지

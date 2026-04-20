@@ -296,3 +296,53 @@
 - F-07 (OAuth 처리 불일치) → ✅ 완료
 - B-03 (인증 시스템 미구현) → ⚠️ 부분 완료 (OAuth 세션 유지만 해결, 이메일 인증 API·admin role 설정 미착수)
 - S-03 (OAuth 콜백 URL 화이트리스트) → ⏳ 캡틴 대기 (Supabase 대시보드 등록)
+
+---
+
+## Day 7 — 2026-04-21 (화) : SEO 기반 정비 검증 + 가격 정책 확정본 반영
+
+### SEO 배포 검증 (Day 6 커밋 `d198ac3` 후속)
+- `https://mergeui.com/pricing`, `/legal/terms|privacy|refund`, `/robots.txt`, `/sitemap.xml` 전부 정상 접속 확인
+- 캡틴이 Google Search Console 소유권 추가 인증:
+  - `https://www.mergeui.com/` (기존, URL 접두어)
+  - `https://mergeui.com/` (신규, URL 접두어 — www 없이) → 메타 태그 자동 인식 성공
+  - `mergeui.com` (도메인 속성) — 자동 인증됨
+- Sitemap 제출 → 현재 "가져올 수 없음" 상태 (구글 처리 대기 중, 수 시간~하루 내 "성공"으로 전환 예상)
+
+### 가격 정책 확정본 반영 (2026-04-19 결정의 구현)
+**커밋 `7f52c1f`**: `pages/public/pricing.html` 전면 재설계
+- Team 플랜 카드·비교 테이블 열·FAQ 전부 제거 (Free + Pro 2플랜 체계)
+- Monthly(`$19/mo`) / Annual(`$99/yr` 얼리버드, 정가 `$149`) 토글 실제 동작 구현
+- 상단 Launch Early Bird 배너 신설 (pulse dot + "50 seats only" 강조)
+- Annual 선택 시 빨간 점선 박스로 얼리버드 $99 노출 ($149 strike-through 표기)
+- 메타 디스크립션 · og 태그 가격 정책 최신화
+- FAQ "How does the Launch Early Bird work?" 질문 추가
+- JS: Lemonsqueezy URL을 `LEMON_URLS` 객체로 분리 (`monthly`/`annual`/`earlybird`)
+
+### Lemonsqueezy 연간 상품 2종 생성 + 연결 (커밋 `a55eaac`)
+캡틴이 Lemonsqueezy 대시보드에서 직접 생성:
+- `MergeUI Launch Early Bird` — $99/년 (얼리버드 50명 한정, 현재는 Lemonsqueezy 재고 제한 기능 없어 수동 관리)
+  - Checkout: `https://mergeui.lemonsqueezy.com/checkout/buy/5a3d801a-cf05-429d-9be1-febaf375fe08`
+- `MergeUI Pro Annual` — $149/년 (정식 연간, 무제한)
+  - Checkout: `https://mergeui.lemonsqueezy.com/checkout/buy/cf97bf55-c983-487f-88c3-56222c63b54b`
+- 기존 `MergeUI Pro` 월간($19/mo) URL은 유지
+
+### 최종 결제 연결 검증 (캡틴 수동 QA)
+- Monthly $19 결제창: ✅ OK (`MergeUI Pro` / $19 / per month 정상)
+- Annual 얼리버드 $99 결제창: ✅ OK (`MergeUI Launch Early Bird` / $99 / per year 정상)
+- 모바일 레이아웃: ✅ OK (카드 2개 세로 배치)
+
+### 레거시 정리 대기 (런칭 전 또는 후 가능)
+- Lemonsqueezy 대시보드에 남아있는 기존 `MergeUI Team` ($49/mo) 상품 → Unpublish/Archive 필요
+- 현재 사이트 UI에서는 이미 노출 제거됨, 상품만 존재
+
+### 관련 master-todo.md 항목 업데이트
+- M-02 (연간 가격 토글 + 가격 정책 반영) → ✅ 완료 (2026-04-21)
+- P-03 (결제 UI 실제 동작 미연동) → ✅ 완료 (2026-04-21) — Lemonsqueezy 3개 상품 URL 실제 연결
+- P-01 ~ P-04 중 웹훅/라이선스/환불 해제는 여전히 별도 검증 필요
+
+### 얼리버드 50명 소진 대응 계획 (후속)
+1. 캡틴이 Lemonsqueezy에서 `MergeUI Launch Early Bird` Total Sales 50 도달 확인
+2. 해당 상품 Status → `Unpublished`로 변경
+3. 캡틴이 Claude에게 "얼리버드 마감" 통보
+4. Claude가 `pricing.html`의 `currentLemonUrl()` 내 annual 분기를 `LEMON_URLS.earlybird` → `LEMON_URLS.annual` 로 교체 후 배포

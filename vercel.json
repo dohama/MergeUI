@@ -1,8 +1,49 @@
 {
   "rewrites": [
+    { "source": "/", "destination": "/landing/index.html" },
+    { "source": "/themes", "destination": "/pages/themes/index.html" },
+    { "source": "/themes/:slug", "destination": "/pages/themes/detail.html" },
+    { "source": "/themes/:slug/preview", "destination": "/pages/themes/preview.html" },
+    { "source": "/themes/:slug/download", "destination": "/pages/themes/download.html" },
+    { "source": "/components", "destination": "/pages/public/components.html" },
+    { "source": "/components/:slug", "destination": "/pages/public/components-detail.html" },
+    { "source": "/pricing", "destination": "/pages/public/pricing.html" },
+    { "source": "/docs", "destination": "/pages/public/docs.html" },
+    { "source": "/changelog", "destination": "/pages/public/changelog.html" },
+    { "source": "/contact", "destination": "/pages/public/contact.html" },
+    { "source": "/legal/terms", "destination": "/pages/legal/terms.html" },
+    { "source": "/legal/privacy", "destination": "/pages/legal/privacy.html" },
+    { "source": "/legal/refund", "destination": "/pages/legal/refund.html" },
+    { "source": "/login", "destination": "/pages/auth/login.html" },
+    { "source": "/signup", "destination": "/pages/auth/signup.html" },
+    { "source": "/forgot-password", "destination": "/pages/auth/forgot-password.html" },
+    { "source": "/reset-password", "destination": "/pages/auth/reset-password.html" },
+    { "source": "/verify-email", "destination": "/pages/auth/verify-email.html" },
+    { "source": "/checkout/success", "destination": "/pages/checkout/success.html" },
+    { "source": "/checkout/cancel", "destination": "/pages/checkout/cancel.html" },
+    { "source": "/dashboard", "destination": "/pages/subscriber/dashboard.html" },
+    { "source": "/dashboard/library", "destination": "/pages/subscriber/library.html" },
+    { "source": "/dashboard/downloads", "destination": "/pages/subscriber/downloads.html" },
+    { "source": "/dashboard/settings", "destination": "/pages/subscriber/settings.html" },
+    { "source": "/dashboard/billing", "destination": "/pages/subscriber/billing.html" },
+    { "source": "/admin", "destination": "/pages/admin/dashboard.html" },
+    { "source": "/admin/subscribers", "destination": "/pages/admin/subscribers.html" },
+    { "source": "/admin/orders", "destination": "/pages/admin/orders.html" },
+    { "source": "/admin/themes", "destination": "/pages/admin/themes.html" },
+    { "source": "/admin/components", "destination": "/pages/admin/components.html" },
+    { "source": "/admin/releases", "destination": "/pages/admin/releases.html" },
+    { "source": "/admin/inquiries", "destination": "/pages/admin/inquiries.html" },
+    { "source": "/admin/analytics", "destination": "/pages/admin/analytics.html" },
+    { "source": "/admin/settings", "destination": "/pages/admin/settings.html" },
+    { "source": "/404", "destination": "/pages/public/404.html" },
+    { "source": "/500", "destination": "/pages/public/500.html" },
+    { "source": "/maintenance", "destination": "/pages/public/maintenance.html" },
     { "source": "/api/v1/checkout", "destination": "/api/v1/checkout" },
     { "source": "/api/v1/download", "destination": "/api/v1/download" },
     { "source": "/api/v1/account", "destination": "/api/v1/account" },
+    { "source": "/api/v1/account/billing-portal", "destination": "/api/v1/account/billing-portal" },
+    { "source": "/api/v1/account/sync-contact", "destination": "/api/v1/account/sync-contact" },
+    { "source": "/api/v1/admin/send-email", "destination": "/api/v1/admin/send-email" },
     { "source": "/api/v1/webhooks/lemonsqueezy", "destination": "/api/v1/webhooks/lemonsqueezy" }
   ],
   "headers": [
@@ -12,6 +53,20 @@
         { "key": "Access-Control-Allow-Origin", "value": "*" },
         { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" },
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type,Authorization" }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
       ]
     }
   ]

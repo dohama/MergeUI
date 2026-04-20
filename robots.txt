@@ -1,0 +1,67 @@
+# MergeUi robots.txt
+# Last updated: 2026-04-20
+# Docs: https://developers.google.com/search/docs/crawling-indexing/robots/intro
+
+User-agent: *
+
+# ====== 크롤링 허용 (공개 페이지) ======
+Allow: /
+Allow: /themes
+Allow: /components
+Allow: /pricing
+Allow: /docs
+Allow: /changelog
+Allow: /contact
+Allow: /legal/
+Allow: /login
+Allow: /signup
+
+# ====== 크롤링 차단 ======
+# API 엔드포인트 — 검색 노출 불필요
+Disallow: /api/
+
+# 관리자 영역 — 인증 필요, 검색 노출 금지
+Disallow: /admin
+Disallow: /admin/
+Disallow: /pages/admin/
+
+# 구독자 영역 — 인증 필요
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /pages/subscriber/
+
+# 결제 완료/취소 페이지 — 동적 상태 의존, 색인 불필요
+Disallow: /checkout/
+Disallow: /pages/checkout/
+
+# 이메일 인증·비밀번호 재설정 등 토큰 포함 URL
+Disallow: /verify-email
+Disallow: /reset-password
+Disallow: /forgot-password
+
+# 에러·점검 페이지
+Disallow: /404
+Disallow: /500
+Disallow: /maintenance
+
+# 개발/내부 파일
+Disallow: /server/
+Disallow: /scripts/
+Disallow: /docs/
+Disallow: /design/
+Disallow: /output/
+Disallow: /_mission-control.html
+
+# ====== 봇별 별도 설정 (선택) ======
+# 악성 봇 차단 예시 — 필요 시 활성화
+# User-agent: AhrefsBot
+# Disallow: /
+# User-agent: SemrushBot
+# Disallow: /
+
+# ====== 사이트맵 ======
+Sitemap: https://mergeui.com/sitemap.xml
+
+# ====== Crawl-delay (선택, 초 단위) ======
+# 서버 부하 우려 시 활성화
+# Crawl-delay: 2

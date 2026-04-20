@@ -33,9 +33,16 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   .docs-content h1{font-size:clamp(28px,4vw,36px);font-weight:900;letter-spacing:-1.5px;margin-bottom:8px}
   .docs-content .updated{font-size:13px;color:var(--text-muted);margin-bottom:32px}
   .docs-content h2{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:16px;padding-top:8px}
+  .docs-content h3{font-size:17px;font-weight:700;letter-spacing:-0.3px;margin:18px 0 10px;color:var(--text-primary)}
   .docs-content p{font-size:15px;color:var(--text-secondary);line-height:1.75;margin-bottom:12px}
+  .docs-content ul,.docs-content ol{margin:8px 0 16px 24px;color:var(--text-secondary);font-size:15px;line-height:1.75}
+  .docs-content li{margin-bottom:6px}
   .docs-content section{margin-bottom:48px}
   .docs-content a{color:var(--brand-light);text-decoration:underline}
+  .docs-content .kr{display:block;margin-top:8px;padding:10px 14px;border-left:2px solid var(--border);background:rgba(255,255,255,0.02);font-size:13px;color:var(--text-muted);line-height:1.7;border-radius:0 6px 6px 0}
+  .docs-content .kr strong{color:var(--text-secondary)}
+  .draft-banner{margin:24px 0 32px;padding:16px 20px;border:1px solid #f59e0b;background:rgba(245,158,11,0.08);border-radius:10px;color:#fbbf24;font-size:13px;line-height:1.7}
+  .draft-banner strong{display:block;margin-bottom:4px;font-size:14px;color:#fde68a}
   footer{padding:40px 32px;border-top:1px solid var(--border)}.footer-inner{max-width:1600px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.footer-copy{font-size:12px;color:var(--text-muted)}.footer-links{display:flex;gap:24px;list-style:none}.footer-links a{font-size:12px;color:var(--text-muted);transition:color 0.15s;text-decoration:none}.footer-links a:hover{color:var(--text-primary)}@media(max-width:768px){.nav-links,.nav-right{display:none}.nav-burger{display:block}.nav-inner{padding:0 20px}.footer-inner{flex-direction:column;gap:16px;text-align:center}.docs-layout{flex-direction:column;padding:0 20px 40px;gap:0}.docs-sidebar{width:100%;position:static;padding:16px 0;border-bottom:1px solid var(--border);margin-bottom:24px}.docs-sidebar ul{flex-direction:row;flex-wrap:wrap;gap:4px}.docs-sidebar a{padding:6px 12px;font-size:13px;border-left:none;border-bottom:2px solid transparent}.docs-sidebar a.active{border-left-color:transparent;border-bottom-color:var(--brand)}}</style>
   <script src="../../src/js/analytics.js" defer></script>
 </head>
@@ -54,81 +61,174 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     <div class="docs-layout">
       <nav class="docs-sidebar" aria-label="Table of contents">
         <ul>
-          <li><a href="#acceptance" class="active">Acceptance</a></li>
-          <li><a href="#service">Service</a></li>
-          <li><a href="#registration">Registration</a></li>
-          <li><a href="#billing">Billing</a></li>
-          <li><a href="#license">License</a></li>
-          <li><a href="#ip">Intellectual Property</a></li>
-          <li><a href="#refund">Refund Policy</a></li>
-          <li><a href="#termination">Termination</a></li>
-          <li><a href="#liability">Liability</a></li>
-          <li><a href="#changes">Changes</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#acceptance" class="active">1. Acceptance</a></li>
+          <li><a href="#service">2. Service</a></li>
+          <li><a href="#eligibility">3. Eligibility & Account</a></li>
+          <li><a href="#plans">4. Plans & Billing</a></li>
+          <li><a href="#license">5. License</a></li>
+          <li><a href="#restrictions">6. Prohibited Uses</a></li>
+          <li><a href="#ip">7. Intellectual Property</a></li>
+          <li><a href="#ai-disclosure">8. AI Disclosure</a></li>
+          <li><a href="#refund">9. Refunds</a></li>
+          <li><a href="#termination">10. Termination</a></li>
+          <li><a href="#disclaimer">11. Warranties Disclaimer</a></li>
+          <li><a href="#liability">12. Limitation of Liability</a></li>
+          <li><a href="#indemnity">13. Indemnification</a></li>
+          <li><a href="#law">14. Governing Law</a></li>
+          <li><a href="#changes">15. Changes</a></li>
+          <li><a href="#contact">16. Contact</a></li>
         </ul>
       </nav>
       <div class="docs-content">
         <h1>Terms of Service</h1>
-        <p class="updated">Last updated: April 12, 2026</p>
+        <p class="updated">Last updated: April 19, 2026</p>
+
+        <div class="draft-banner" role="note">
+          <strong>Draft — Pending Legal Review / 초안 — 법률 전문가 검토 전</strong>
+          This document is a working draft prepared for internal review. It has not been reviewed or approved by a licensed attorney and does not constitute legal advice. MergeUi will publish a final, counsel-reviewed version before public launch. If you spot an issue, email <a href="mailto:legal@mergeui.com">legal@mergeui.com</a>.
+        </div>
 
         <section id="acceptance">
           <h2>1. Acceptance of Terms</h2>
-          <p>By accessing or using MergeUi, you agree to be bound by these Terms of Service. If you do not agree, you may not use the service. These terms apply to all visitors, users, and subscribers.</p>
+          <p>These Terms of Service ("Terms") form a binding agreement between you ("you", "User", "Subscriber") and [COMPANY_NAME] ("MergeUi", "we", "us"), registered at [COMPANY_ADDRESS]. By creating an account, accessing, browsing, downloading, or otherwise using mergeui.com and any related services (the "Service"), you agree to be bound by these Terms and our <a href="privacy.html">Privacy Policy</a>. If you do not agree, do not use the Service.</p>
+          <p>If you enter into these Terms on behalf of a company or other legal entity, you represent that you have the authority to bind that entity, in which case "you" refers to that entity.</p>
+          <div class="kr"><strong>한글 요약</strong> — 본 약관은 MergeUi 서비스 이용에 관한 법적 계약입니다. 서비스를 이용함으로써 약관과 개인정보처리방침에 동의한 것으로 간주합니다. 조직을 대표하여 가입하는 경우, 귀하는 해당 조직을 구속할 권한이 있음을 확인합니다.</div>
         </section>
 
         <section id="service">
           <h2>2. Description of Service</h2>
-          <p>MergeUi provides production-ready dashboard templates and UI components delivered via a subscription model. Templates are available as HTML/CSS packages for use in personal and commercial projects. We continuously update and add new themes and components for active subscribers.</p>
+          <p>MergeUi is a subscription-based digital product that provides HTML/CSS dashboard templates, UI components, design tokens, and related assets (collectively, "Templates") for use by developers, designers, and organizations. Templates are delivered as downloadable archive files. New Templates and updates may be released from time to time; availability of any specific Template is not guaranteed and may change without notice.</p>
+          <p>The Service does not include custom development, bespoke design work, hosting of the User's own applications, or one-on-one implementation support, unless expressly agreed in writing.</p>
+          <div class="kr"><strong>한글 요약</strong> — MergeUi는 HTML/CSS 대시보드 템플릿 및 UI 컴포넌트를 구독 방식으로 제공하는 디지털 재화입니다. 템플릿 구성은 사전 통지 없이 변경될 수 있으며, 맞춤 개발·호스팅·1:1 구현 지원은 본 서비스에 포함되지 않습니다.</div>
         </section>
 
-        <section id="registration">
-          <h2>3. Account Registration</h2>
-          <p>You may register using email or GitHub OAuth. You are responsible for maintaining the security of your account credentials. You must provide accurate information and promptly update it if it changes. One account per individual; sharing accounts is prohibited.</p>
+        <section id="eligibility">
+          <h2>3. Eligibility and Account</h2>
+          <h3>3.1 Age Requirement</h3>
+          <p>You must be at least 16 years of age (or the age of digital consent in your jurisdiction, whichever is higher) to create an account. The Service is not directed at children.</p>
+          <h3>3.2 Registration</h3>
+          <p>You may register using email, GitHub OAuth, or Google OAuth. You agree to provide accurate, current, and complete information and to keep it updated. Each account is intended for a single individual or legal entity; credential sharing outside your licensed seat count is prohibited.</p>
+          <h3>3.3 Account Security</h3>
+          <p>You are solely responsible for safeguarding your credentials and for all activities under your account. Notify us immediately at <a href="mailto:support@mergeui.com">support@mergeui.com</a> of any unauthorized use.</p>
+          <div class="kr"><strong>한글 요약</strong> — 만 16세 이상만 가입 가능하며, 이메일/GitHub/Google OAuth 중 선택하여 가입할 수 있습니다. 계정 정보의 정확성 유지와 자격 증명 보안은 이용자 책임이며, 부정 사용을 인지한 경우 즉시 통지해야 합니다.</div>
         </section>
 
-        <section id="billing">
+        <section id="plans">
           <h2>4. Subscription Plans and Billing</h2>
-          <p>MergeUi offers Free, Pro ($19/mo), and Team plans. All payments are processed securely through Lemonsqueezy. Pro and Team subscriptions renew automatically each billing period unless canceled before the renewal date. Prices may change with 30 days prior notice.</p>
+          <h3>4.1 Plans</h3>
+          <p>MergeUi offers a <strong>Free</strong> plan with limited access and a <strong>Pro</strong> plan at <strong>US$19 per month</strong> or <strong>US$149 per year</strong>. Features of each plan are described on the <a href="../public/pricing.html">Pricing page</a> and may be updated from time to time.</p>
+          <h3>4.2 Payment Processor — Lemonsqueezy</h3>
+          <p>All payments are processed by Lemonsqueezy, which acts as the Merchant of Record (MoR). Lemonsqueezy is responsible for tax collection (VAT, GST, US sales tax) and for issuing invoices. Your card details are handled entirely by Lemonsqueezy and are never stored on MergeUi servers.</p>
+          <h3>4.3 Auto-Renewal</h3>
+          <p>Paid subscriptions renew automatically at the end of each billing period (monthly or annual) using your saved payment method, unless canceled before renewal. You authorize Lemonsqueezy to charge the applicable fee each period.</p>
+          <h3>4.4 Price Changes</h3>
+          <p>We may change subscription prices at any time. Material price changes will be communicated by email at least 30 days in advance and will apply only to the billing period following the notice.</p>
+          <h3>4.5 Taxes</h3>
+          <p>Prices are displayed in US dollars and are exclusive of any applicable taxes, duties, or currency conversion fees, which Lemonsqueezy will collect and remit in the relevant jurisdictions.</p>
+          <div class="kr"><strong>한글 요약</strong> — Free 플랜과 Pro 플랜($19/월 또는 $149/년)을 제공하며 결제는 Lemonsqueezy(Merchant of Record)가 처리합니다. 정기 구독은 자동 갱신되며, 요금 변경은 30일 전 이메일로 고지합니다. 부가세·환율 수수료는 결제 시점에 추가 부과될 수 있습니다.</div>
         </section>
 
         <section id="license">
           <h2>5. License Grant</h2>
-          <p>Upon subscription, you receive a non-exclusive, non-transferable license to use MergeUi templates in personal and commercial projects. You may create derivative works for end products. Redistribution of MergeUi source files as a competing template or UI kit product is strictly prohibited.</p>
+          <h3>5.1 Grant</h3>
+          <p>Subject to your compliance with these Terms and payment of applicable fees, MergeUi grants you a <strong>worldwide, non-exclusive, non-transferable, non-sublicensable, revocable license</strong> to download, modify, and use the Templates as follows.</p>
+          <h3>5.2 Personal Use (Free Plan)</h3>
+          <p>The Free plan license permits use of the single preview Template made available under that plan for personal, non-commercial purposes (e.g., learning, portfolios, hobby projects). You may not use Free-plan Templates in revenue-generating products or client deliverables.</p>
+          <h3>5.3 Commercial Use (Pro Plan)</h3>
+          <p>An active Pro subscription grants a commercial-use license to use all Templates in an unlimited number of end products (including SaaS applications, internal tools, and client projects) that you or your employer own or are authorized to deliver. The license covers the subscriber named on the account plus team members up to any seat limit described on the Pricing page.</p>
+          <h3>5.4 Perpetual-Use of Downloaded Files</h3>
+          <p>If your Pro subscription ends for any reason, you may continue to use Templates already downloaded during your active subscription in end products shipped during that period. You will lose access to new Templates, updates, and re-downloads.</p>
+          <div class="kr"><strong>한글 요약</strong> — Free 플랜은 개인·비영리 용도에 한해 제공되며, 상업적 용도로는 사용할 수 없습니다. Pro 구독자는 본인 또는 고용주의 제품·클라이언트 프로젝트에 상업적으로 사용할 수 있습니다. 구독이 종료되어도 구독 기간 중 다운로드한 파일로 만든 결과물은 계속 사용할 수 있으나, 신규 다운로드·업데이트 접근은 차단됩니다.</div>
+        </section>
+
+        <section id="restrictions">
+          <h2>6. Prohibited Uses</h2>
+          <p>You may not, and may not permit any third party to:</p>
+          <ol>
+            <li>resell, relicense, sublicense, or redistribute the Templates, in whole or substantially similar form, as a standalone template, UI kit, theme, or design asset product, including on marketplaces, GitHub, or any other channel;</li>
+            <li>make the raw Template source files publicly available in a way that allows third parties to download them without a MergeUi license;</li>
+            <li>use the Templates to train, fine-tune, or evaluate any machine-learning model, including generative AI systems;</li>
+            <li>remove, obscure, or alter any copyright, trademark, or proprietary notices contained in the Templates;</li>
+            <li>use the Service or Templates for any unlawful, infringing, harassing, defamatory, or harmful purpose, or in any way that violates export controls or sanctions;</li>
+            <li>circumvent, disable, or otherwise interfere with security or access-control features of the Service;</li>
+            <li>scrape, crawl, or use automated means to access the Service at a rate that degrades performance for other users.</li>
+          </ol>
+          <div class="kr"><strong>한글 요약</strong> — 템플릿의 재판매·재배포·공개 공유, AI 모델 학습 데이터로의 사용, 저작권 표기 제거, 불법·유해 목적 사용, 보안 우회 등은 금지됩니다. 위반 시 계약 해지 및 법적 조치가 이루어질 수 있습니다.</div>
         </section>
 
         <section id="ip">
-          <h2>6. Intellectual Property</h2>
-          <p>All templates, components, design systems, and related assets remain the intellectual property of MergeUi. Your subscription grants a usage license only; it does not transfer ownership of any intellectual property.</p>
+          <h2>7. Intellectual Property</h2>
+          <p>MergeUi and its licensors retain all right, title, and interest, including all intellectual property rights, in and to the Service, the Templates, the MergeUi brand, and all related materials. These Terms grant you only the license expressly set out in Section 5 and no other rights. Feedback you provide about the Service may be used by MergeUi without restriction or compensation.</p>
+          <div class="kr"><strong>한글 요약</strong> — 서비스·템플릿·브랜드 등 모든 지식재산권은 MergeUi 또는 라이선서에게 귀속되며, 이용자는 제5조에 명시된 라이선스 이외의 권리를 갖지 않습니다.</div>
+        </section>
+
+        <section id="ai-disclosure">
+          <h2>8. AI Tools Disclosure (Transparency)</h2>
+          <p>We believe in transparency with our users. MergeUi's Templates, marketing copy, internal documentation, and parts of the underlying platform are produced with the assistance of AI tools (including large-language-model coding assistants) under human review. Every deliverable shipped to subscribers is reviewed, tested, and approved by a human team member before release. This disclosure is provided for trust and informational purposes; it does not create any additional legal obligations beyond those set out elsewhere in these Terms.</p>
+          <div class="kr"><strong>한글 요약</strong> — MergeUi는 템플릿 제작·문서 작성·플랫폼 운영 과정에서 AI 도구(코드 생성 보조 등)를 활용하며, 모든 산출물은 사람이 검토·테스트·승인한 후 배포합니다. 본 조항은 신뢰 형성을 위한 자발적 공개 사항입니다.</div>
         </section>
 
         <section id="refund">
-          <h2>7. Refund Policy</h2>
-          <p>We offer a 14-day money-back guarantee for Pro and Team plans. If you are unsatisfied, contact us within 14 days of your initial purchase for a full refund. Refunds are not available after the 14-day period or for renewal charges.</p>
+          <h2>9. Refund Policy</h2>
+          <p>Because Templates are digital goods delivered instantly upon subscription activation, you acknowledge and expressly consent that performance of the contract begins immediately and, in accordance with Article 16(m) of EU Directive 2011/83/EU, you waive your 14-day right of withdrawal to the extent the digital content has already been supplied.</p>
+          <p>Notwithstanding the above, MergeUi offers a goodwill refund policy covering duplicate charges, failed or corrupted downloads, and other exceptional circumstances. Full details are available in our <a href="../../docs/marketing/refund-policy.md">Refund Policy</a> and reproduced on the billing confirmation page.</p>
+          <div class="kr"><strong>한글 요약</strong> — 디지털 재화 특성상 EU 14일 청약 철회권은 즉시 이용 개시 동의를 통해 배제됩니다. 다만 중복 결제·다운로드 실패 등 예외 상황에서는 환불을 제공하며, 상세 기준은 별도 환불 정책 문서에 따릅니다.</div>
         </section>
 
         <section id="termination">
-          <h2>8. Termination</h2>
-          <p>We may terminate or suspend your account if you violate these terms. You may cancel your subscription at any time from your account settings. Upon cancellation, you retain access to previously downloaded files but lose access to new templates and updates.</p>
+          <h2>10. Termination</h2>
+          <h3>10.1 Termination by You</h3>
+          <p>You may cancel your subscription at any time from your account settings or by contacting <a href="mailto:support@mergeui.com">support@mergeui.com</a>. Cancellation takes effect at the end of the current billing period. You will retain access to Pro features until that date and will not be charged thereafter.</p>
+          <h3>10.2 Termination by MergeUi</h3>
+          <p>We may suspend or terminate your account, with or without notice, if you materially breach these Terms, engage in fraudulent or illegal activity, or use the Service in a way that creates risk or legal exposure for MergeUi or other users. Sections that by their nature should survive termination (including License restrictions, IP, Disclaimer, Liability, Indemnification, and Governing Law) will survive.</p>
+          <div class="kr"><strong>한글 요약</strong> — 이용자는 언제든 구독을 해지할 수 있으며 현 결제 주기 종료 시점에 효력이 발생합니다. 약관 중대한 위반·부정 사용 시 MergeUi는 통지 유무와 관계없이 계정을 정지 또는 해지할 수 있습니다.</div>
+        </section>
+
+        <section id="disclaimer">
+          <h2>11. Disclaimer of Warranties</h2>
+          <p>THE SERVICE AND TEMPLATES ARE PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR ERROR-FREE OR UNINTERRUPTED OPERATION. Some jurisdictions do not allow exclusion of certain warranties, so some of these exclusions may not apply to you.</p>
+          <div class="kr"><strong>한글 요약</strong> — 서비스·템플릿은 "있는 그대로(AS IS)" 제공되며, 상품성·특정 목적 적합성·비침해성 등에 관한 어떠한 보증도 하지 않습니다. 일부 국가에서는 면책 범위가 제한될 수 있습니다.</div>
         </section>
 
         <section id="liability">
-          <h2>9. Limitation of Liability</h2>
-          <p>MergeUi is provided "as is" without warranties of any kind. We shall not be liable for any indirect, incidental, or consequential damages arising from the use of our service. Our total liability shall not exceed the amount you paid in the 12 months preceding any claim.</p>
+          <h2>12. Limitation of Liability</h2>
+          <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, MERGEUI AND ITS AFFILIATES WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR FOR ANY LOSS OF PROFITS, REVENUE, DATA, OR GOODWILL, ARISING OUT OF OR RELATED TO YOUR USE OF THE SERVICE, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. OUR TOTAL AGGREGATE LIABILITY FOR ALL CLAIMS ARISING FROM OR RELATED TO THESE TERMS OR THE SERVICE SHALL NOT EXCEED THE GREATER OF (A) THE AMOUNT YOU PAID TO MERGEUI IN THE TWELVE (12) MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM OR (B) US$100.</p>
+          <p>Nothing in these Terms limits liability that cannot be limited under applicable law (including liability for gross negligence, willful misconduct, fraud, death, or personal injury caused by our negligence, and statutory consumer rights).</p>
+          <div class="kr"><strong>한글 요약</strong> — 법률이 허용하는 최대 범위에서, 간접·부수적·특별·결과적 손해에 대해 책임을 지지 않으며, 총 책임액은 직전 12개월 결제액 또는 US$100 중 큰 금액을 초과하지 않습니다. 다만 법률상 제한할 수 없는 책임은 제한되지 않습니다.</div>
+        </section>
+
+        <section id="indemnity">
+          <h2>13. Indemnification</h2>
+          <p>You agree to defend, indemnify, and hold harmless MergeUi and its officers, employees, and agents from any claims, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of (i) your breach of these Terms, (ii) your violation of any law or third-party right, or (iii) your use of the Templates outside the scope of the license granted herein.</p>
+          <div class="kr"><strong>한글 요약</strong> — 이용자는 본 약관 위반, 법령·제3자 권리 침해, 라이선스 범위 초과 사용 등으로 MergeUi에 발생한 손해를 배상해야 합니다.</div>
+        </section>
+
+        <section id="law">
+          <h2>14. Governing Law and Dispute Resolution</h2>
+          <p>These Terms are governed by the laws of the Republic of Korea, without regard to its conflict-of-law rules. The parties agree to the exclusive jurisdiction of the Seoul Central District Court for any dispute arising out of or relating to these Terms, except that MergeUi may seek injunctive relief in any court of competent jurisdiction. Nothing in this Section affects any non-waivable consumer-protection rights you have under the law of your country of residence.</p>
+          <div class="kr"><strong>한글 요약</strong> — 본 약관은 대한민국 법률에 따르며, 분쟁은 서울중앙지방법원을 전속 관할로 합니다. 거주지 소비자보호법에 따른 강행 규정은 영향을 받지 않습니다.</div>
         </section>
 
         <section id="changes">
-          <h2>10. Changes to Terms</h2>
-          <p>We reserve the right to modify these terms at any time. Material changes will be communicated via email or website notice at least 30 days before taking effect. Continued use of the service after changes constitutes acceptance of the revised terms.</p>
+          <h2>15. Changes to These Terms</h2>
+          <p>We may update these Terms from time to time. Non-material changes take effect upon posting. For material changes (such as changes affecting pricing, license scope, or governing law), we will provide at least 30 days' prior notice by email and/or a prominent notice on the Service. Continued use of the Service after the effective date constitutes acceptance of the updated Terms; if you do not agree, you must stop using the Service and may cancel your subscription.</p>
+          <div class="kr"><strong>한글 요약</strong> — 중요 변경은 최소 30일 전 이메일 또는 사이트 공지로 고지하며, 효력 발생일 이후 서비스 이용 시 변경 약관에 동의한 것으로 간주됩니다.</div>
         </section>
 
         <section id="contact">
-          <h2>11. Contact</h2>
-          <p>For questions about these terms, please contact us at <a href="mailto:support@mergeui.com">support@mergeui.com</a>.</p>
+          <h2>16. Contact</h2>
+          <p>Questions about these Terms? Contact us at:</p>
+          <ul>
+            <li>General support: <a href="mailto:support@mergeui.com">support@mergeui.com</a></li>
+            <li>Legal notices: <a href="mailto:legal@mergeui.com">legal@mergeui.com</a></li>
+            <li>Privacy: <a href="mailto:privacy@mergeui.com">privacy@mergeui.com</a></li>
+            <li>Postal address: [COMPANY_NAME], [COMPANY_ADDRESS]</li>
+          </ul>
         </section>
       </div>
     </div>
   </main>
-  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="terms.html">Terms</a></li><li><a href="privacy.html">Privacy</a></li></ul></div></footer>
+  <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="terms.html">Terms</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="refund.html">Refund</a></li></ul></div></footer>
   
 <script src="../../src/js/auth.js"></script>
 <script src="../../src/js/cookie-consent.js"></script>

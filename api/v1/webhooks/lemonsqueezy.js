@@ -106,6 +106,20 @@ module.exports = async function(req, res) {
       await supabaseAdmin.from('subscriptions').update({ status: 'past_due' }).eq('lemon_subscription_id', String(event.data.id));
       break;
     }
+    case 'order_refunded': {
+      // 주문 전액 환불 — 라이선스 해제 + 구독 취소 + 프로필 Free 강등
+      await supabaseAdmin.from('orders').update({ status: 'refunded' }).eq('lemon_order_id', String(event.data.id));
+      await supabaseAdmin.from('license_keys').update({ status: 'revoked' }).eq('user_id', profile.id).eq('status', 'active');
+      await supabaseAdmin.from('subscriptions').update({ status: 'cancelled' }).eq('user_id', profile.id).in('status', ['active', 'past_due']);
+      await supabaseAdmin.from('profiles').update({ plan: 'free' }).eq('id', profile.id);
+      await syncLoopsAndEvent('free', 'subscription_refunded');
+      break;
+    }
+    case 'subscription_payment_refunded': {
+      // 특정 결제 환불 — 해당 주문만 refunded 처리, 라이선스는 order_refunded 이벤트에서 일괄 해제됨
+      await supabaseAdmin.from('orders').update({ status: 'refunded' }).eq('lemon_order_id', String(data.order_id || event.data.id));
+      break;
+    }
   }
 
   res.json({ received: true });

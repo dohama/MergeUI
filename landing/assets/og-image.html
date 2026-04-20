@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<title>MergeUi — OG Image 1200x630</title>
+<!--
+  MergeUi Open Graph Image — HTML mockup (1200x630)
+  Author: B (Design Director)
+
+  Usage: Screenshot the .og-canvas element at 1200x630 to export PNG
+  (e.g. Playwright page.locator('.og-canvas').screenshot({path:'og-image.png'}))
+
+  Brand tokens reference: src/styles/tokens.css
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --merge-brand: #6C5CE7;
+    --merge-brand-light: #8B7CF0;
+    --merge-accent: #22D3EE;
+    --merge-accent2: #A78BFA;
+    --merge-bg-base: #06060A;
+    --merge-bg-surface: #16161E;
+    --merge-text-primary: #F4F4F5;
+    --merge-text-secondary: #A1A1AA;
+    --merge-text-muted: #71717A;
+    --merge-success: #22C55E;
+    --merge-warning: #FBBF24;
+    --merge-error: #EF4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #1a1a20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 40px;
+  }
+
+  .og-canvas {
+    width: 1200px;
+    height: 630px;
+    position: relative;
+    overflow: hidden;
+    background: var(--merge-bg-base);
+    color: var(--merge-text-primary);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+
+  /* Mesh gradient layers */
+  .og-canvas::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 720px 540px at 18% 22%, rgba(108,92,231,0.55), transparent 60%),
+      radial-gradient(ellipse 660px 540px at 88% 85%, rgba(34,211,238,0.35), transparent 65%),
+      radial-gradient(ellipse 480px 320px at 78% 18%, rgba(167,139,250,0.25), transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Grid overlay */
+  .og-canvas::after {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* ========== LEFT ========== */
+  .og-left {
+    position: absolute;
+    top: 92px;
+    left: 80px;
+    width: 560px;
+    z-index: 2;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 64px;
+  }
+  .logo-mark {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--merge-brand), var(--merge-accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 900;
+    font-size: 28px;
+  }
+  .logo-word {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--merge-text-primary);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgba(108,92,231,0.12);
+    border: 1px solid rgba(108,92,231,0.35);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: var(--merge-accent2);
+    margin-bottom: 28px;
+  }
+  .badge::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--merge-accent);
+  }
+
+  .headline {
+    font-size: 72px;
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -2.4px;
+    color: var(--merge-text-primary);
+    margin-bottom: 28px;
+  }
+  .headline .gradient-text {
+    background: linear-gradient(90deg, var(--merge-accent2), var(--merge-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .subhead {
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--merge-text-secondary);
+    font-weight: 400;
+    margin-bottom: 40px;
+  }
+
+  .tags {
+    display: flex;
+    gap: 28px;
+    position: absolute;
+    left: 80px;
+    bottom: 48px;
+    z-index: 2;
+  }
+  .tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--merge-text-muted);
+  }
+  .tag .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .tag.t1 .dot { background: var(--merge-success); }
+  .tag.t2 .dot { background: var(--merge-brand); }
+  .tag.t3 .dot { background: var(--merge-accent); }
+  .tag.t4 .dot { background: var(--merge-warning); }
+
+  /* ========== RIGHT: dashboard mockup ========== */
+  .dash-card {
+    position: absolute;
+    top: 110px;
+    right: 60px;
+    width: 460px;
+    height: 420px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #1C1C26, #12121A);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    overflow: hidden;
+    z-index: 2;
+  }
+
+  .dash-chrome {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .dot-r, .dot-y, .dot-g {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .dot-r { background: #EF4444; }
+  .dot-y { background: #FBBF24; }
+  .dot-g { background: #22C55E; }
+  .url-pill {
+    flex: 0 0 200px;
+    height: 18px;
+    border-radius: 9px;
+    background: rgba(255,255,255,0.04);
+    font-size: 10px;
+    color: var(--merge-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 18px;
+  }
+
+  .dash-body {
+    display: flex;
+    height: calc(100% - 52px);
+  }
+
+  .dash-sidebar {
+    flex: 0 0 110px;
+    background: rgba(255,255,255,0.015);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    padding: 18px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .sb-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--merge-text-muted);
+  }
+  .sb-item .bullet {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #52525B;
+  }
+  .sb-item.active {
+    background: rgba(108,92,231,0.18);
+    color: var(--merge-text-primary);
+  }
+  .sb-item.active .bullet { background: var(--merge-accent2); }
+
+  .dash-main {
+    flex: 1;
+    padding: 20px;
+  }
+  .dash-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--merge-text-primary);
+    margin-bottom: 2px;
+  }
+  .dash-sub {
+    font-size: 9px;
+    color: var(--merge-text-muted);
+    margin-bottom: 14px;
+  }
+
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .kpi {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 10px;
+  }
+  .kpi-label {
+    font-size: 8px;
+    color: var(--merge-text-muted);
+    margin-bottom: 4px;
+  }
+  .kpi-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--merge-text-primary);
+    margin-bottom: 2px;
+  }
+  .kpi-delta {
+    font-size: 8px;
+    font-weight: 600;
+  }
+  .kpi-delta.up { color: var(--merge-success); }
+  .kpi-delta.down { color: var(--merge-error); }
+
+  .chart-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 14px;
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+  }
+  .chart-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--merge-text-primary);
+  }
+  .chart-sub {
+    font-size: 8px;
+    color: var(--merge-text-muted);
+    margin-bottom: 8px;
+  }
+  .chart-svg {
+    width: 100%;
+    height: 110px;
+    display: block;
+  }
+
+  /* Bottom right URL */
+  .og-url {
+    position: absolute;
+    right: 80px;
+    bottom: 42px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--merge-text-muted);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+  <div class="og-canvas">
+    <!-- LEFT -->
+    <div class="og-left">
+      <div class="logo-row">
+        <div class="logo-mark">M</div>
+        <div class="logo-word">MergeUi</div>
+      </div>
+
+      <div class="badge">DASHBOARD TEMPLATES</div>
+
+      <h1 class="headline">
+        Dashboard templates<br>
+        that <span class="gradient-text">ship fast.</span>
+      </h1>
+
+      <p class="subhead">
+        Production-ready HTML/CSS for developers<br>
+        who'd rather build product than push pixels.
+      </p>
+    </div>
+
+    <!-- RIGHT dashboard mockup -->
+    <div class="dash-card">
+      <div class="dash-chrome">
+        <span class="dot-r"></span>
+        <span class="dot-y"></span>
+        <span class="dot-g"></span>
+        <div class="url-pill">mergeui.com/demo</div>
+      </div>
+      <div class="dash-body">
+        <aside class="dash-sidebar">
+          <div class="sb-item active"><span class="bullet"></span>Overview</div>
+          <div class="sb-item"><span class="bullet"></span>Analytics</div>
+          <div class="sb-item"><span class="bullet"></span>Customers</div>
+          <div class="sb-item"><span class="bullet"></span>Orders</div>
+          <div class="sb-item"><span class="bullet"></span>Products</div>
+          <div class="sb-item"><span class="bullet"></span>Reports</div>
+          <div class="sb-item"><span class="bullet"></span>Settings</div>
+        </aside>
+        <main class="dash-main">
+          <div class="dash-title">Overview</div>
+          <div class="dash-sub">Last 30 days</div>
+
+          <div class="kpi-row">
+            <div class="kpi">
+              <div class="kpi-label">Revenue</div>
+              <div class="kpi-value">$84.2K</div>
+              <div class="kpi-delta up">+12.4%</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Users</div>
+              <div class="kpi-value">12,480</div>
+              <div class="kpi-delta up">+8.1%</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Conversion</div>
+              <div class="kpi-value">3.8%</div>
+              <div class="kpi-delta down">-0.4%</div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-title">Monthly revenue</div>
+            <div class="chart-sub">Jan - Dec</div>
+            <svg class="chart-svg" viewBox="0 0 310 120" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="fill2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#6C5CE7" stop-opacity="0.55"/>
+                  <stop offset="100%" stop-color="#6C5CE7" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+                <line x1="0" y1="40" x2="310" y2="40"/>
+                <line x1="0" y1="70" x2="310" y2="70"/>
+                <line x1="0" y1="100" x2="310" y2="100"/>
+              </g>
+              <path d="M 0 100 L 28 82 L 56 88 L 84 68 L 112 75 L 140 50 L 168 55 L 196 32 L 224 40 L 252 20 L 280 28 L 310 12 L 310 120 L 0 120 Z" fill="url(#fill2)"/>
+              <path d="M 0 100 L 28 82 L 56 88 L 84 68 L 112 75 L 140 50 L 168 55 L 196 32 L 224 40 L 252 20 L 280 28 L 310 12"
+                    fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <g fill="#22D3EE">
+                <circle cx="140" cy="50" r="2.5"/>
+                <circle cx="196" cy="32" r="2.5"/>
+                <circle cx="252" cy="20" r="2.5"/>
+                <circle cx="310" cy="12" r="3"/>
+              </g>
+            </svg>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="tags">
+      <div class="tag t1"><span class="dot"></span>Responsive</div>
+      <div class="tag t2"><span class="dot"></span>Dark mode</div>
+      <div class="tag t3"><span class="dot"></span>Fully customizable</div>
+      <div class="tag t4"><span class="dot"></span>Accessible</div>
+    </div>
+
+    <!-- URL -->
+    <div class="og-url">mergeui.com</div>
+  </div>
+</body>
+</html>

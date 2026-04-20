@@ -52,6 +52,10 @@ Disallow: /design/
 Disallow: /output/
 Disallow: /_mission-control.html
 
+# OG 이미지 렌더링 헬퍼 (Playwright 스크린샷용, 사용자 페이지 아님)
+Disallow: /landing/assets/og-image.html
+Disallow: /pages/public/og-image.html
+
 # ====== 봇별 별도 설정 (선택) ======
 # 악성 봇 차단 예시 — 필요 시 활성화
 # User-agent: AhrefsBot

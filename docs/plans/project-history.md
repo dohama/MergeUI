@@ -363,3 +363,38 @@
 - S-03 (OAuth 콜백 URL 화이트리스트) → ✅ 완료 (2026-04-21 확인)
 - B-03 비고 — admin role SQL 완료 명시
 - 현재 상태 요약: Critical 25→24, 합계 61→60
+
+### 보안 Critical 9건 전수 감사 (2026-04-21 오후)
+커밋 `6284913` — Explore 에이전트로 코드·SQL·설정 전수 검증:
+- **S-01 JWT 만료**: Supabase 자동 관리, 자체 JWT 발급 없음 → ✅ 완료
+- **S-02 Refresh Token Rotation**: `autoRefreshToken: true` 확인 → ✅ 완료
+- **S-04 localStorage XSS**: UI 캐시만 저장, 토큰은 `sb-mergeui-auth` SDK 저장소 → ✅ 완료
+- **S-05 Admin role 서버 검증**: API getUser + RLS `is_admin()` 다층 검증 → ✅ 완료
+- **S-06 Lemonsqueezy 웹훅 서명**: HMAC-SHA256 + `crypto.timingSafeEqual` → ✅ 완료
+- **S-07 결제 상태 변조 방지**: RLS로 subscriptions UPDATE 차단, 웹훅 service role만 → ✅ 완료
+- **S-09 RLS 정책**: 10개 테이블 전부 RLS + 정책 다수 적용 → ✅ 완료
+- **S-08 구독 만료 접근 차단** (신규): `api/v1/_lib/supabase.js`에 `hasActiveSubscription(userId)` 헬퍼 추가(status='active' + current_period_end > now()), download.js에서 호출 → ✅ 완료
+- **S-10 서버 입력 검증**: 기본 필드 검증 + 문자열 정제 + SQL Injection 자동 방어 있음, 이메일 형식·배열 크기 제한 미완 → ⚠️ 부분 (Major 재분류)
+
+→ 보안 Critical 9건 전부 해소. master-todo S-섹션 대대적 갱신.
+
+### P-04 환불 시 라이선스 해제 추가 (2026-04-21)
+커밋 `1f4556b` — `api/v1/webhooks/lemonsqueezy.js`에 2개 이벤트 추가:
+- `order_refunded`: orders=refunded + license_keys=revoked + subscriptions=cancelled + profiles.plan=free + Loops 이벤트
+- `subscription_payment_refunded`: 해당 주문만 refunded (부분 환불 대응)
+
+### Critical 16건 전수 감사 (2026-04-21 오후)
+Explore 에이전트 두 번째 감사 — 백엔드/결제/법적/프론트 영역:
+- **B-01 ~ B-05, B-07**: ✅ 완료 (Supabase + Vercel + Express, schema.sql 10테이블, Supabase Auth PKCE, Lemon 웹훅·체크아웃·Billing Portal, download API, account.js GDPR 삭제/다운로드)
+- **B-06**: ⚠️ 부분 (관리자 대시보드 UI 8개 완성, CRUD API는 Phase 5)
+- **P-01 ~ P-04**: ✅ 완료 (오늘 P-04로 환불 핸들러 추가하며 전부 완료)
+- **L-01 ~ L-03**: ✅ 초안 완료 (법무 검토 대기이지만 런칭엔 가능)
+- **L-04**: ✅ 완료 (Supabase Auth 전적 위임, 자체 비밀번호 저장 없음)
+- **F-01**: ✅ 완료 (themes/download.html 다운로드 버튼·JS·에러 처리 전부 구현)
+
+**Critical 블로커 사실상 전부 해소** (B-06, S-10 부분완료만 남음 — 둘 다 런칭 비필수).
+
+### 문서 정리
+- `docs/agent-teams-guide.md` (426줄) 삭제 — 프로젝트와 무관한 Claude Code 일반 레퍼런스
+- 남은 중복 의심 2건(`template-standard.md` vs `product-standards.md`, `saas-admin-v1-spec.md` vs `saas-admin-v1/design-system.md`)은 캡틴 판단 대기
+- master-todo.md Critical 섹션 전면 재작성 (16→0(+부분2))

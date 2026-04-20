@@ -23,20 +23,28 @@
 
 ---
 
-## 🎯 현재 상태 요약 (2026-04-21)
+## 🎯 현재 상태 요약 (2026-04-21 오후, 전수 감사 후)
 
 | 카테고리 | 🔴 Critical | 🟡 Major | 🟢 Minor | 합계 |
 |---------|------------|---------|---------|------|
-| 보안 (S) | 0 (+⚠️1) | 5 | 0 | 6 |
-| 법적/컴플라이언스 (L) | 4 | 4 | 0 | 8 |
-| 백엔드 구축 (B) | 7 | 0 | 0 | 7 |
-| 결제/라이선스 (P) | 3 | 4 | 0 | 7 |
-| 프론트엔드 (F) | 1 | 11 | 6 | 18 |
+| 보안 (S) | 0 | 5 | 0 | 5 |
+| 법적/컴플라이언스 (L) | 0 (법무검토⏳) | 4 | 0 | 4 |
+| 백엔드 구축 (B) | 0 (⚠️1 부분) | 0 | 0 | 0~1 |
+| 결제/라이선스 (P) | 0 | 4 | 0 | 4 |
+| 프론트엔드 (F) | 0 | 11 | 6 | 17 |
 | SEO/마케팅 (M) | 0 | 3 | 3 | 6 |
-| **합계** | **16** | **27** | **9** | **52** |
+| **합계** | **0 (+⚠️1~2)** | **27** | **9** | **~37** |
 
-> 2026-04-21 감사 결과 보안 Critical 9건 중 **7건은 이미 코드로 완료**, S-08은 오늘 `hasActiveSubscription` 헬퍼 추가로 완료. S-10은 부분 완료(Major 등급으로 재분류 권고). 이에 따라 Critical 8건 감산.
-> 2026-04-21 일일 완료: P-03(결제 UI Lemonsqueezy 실연결), M-02(가격 정책), S-03(Supabase URL Config), S-01/02/04/05/06/07/08/09(보안 감사 결과 완료 반영)
+### 🎉 Critical 블로커 완전 해소 (2026-04-21 감사 결과)
+- **보안 9건 모두 완료** (S-01~S-09 완료, S-10 Major로 재분류 — 부분 완료)
+- **법적 4건 초안 완료** (법무 검토 대기이지만 런칭 자체는 가능)
+- **백엔드 7건 중 6건 완료** (B-06 관리자 CRUD만 부분, 운영엔 영향 없음)
+- **결제 4건 모두 완료** (P-04 환불 핸들러 오늘 추가)
+- **프론트엔드 F-01 완료**
+
+### 남은 부분 완료 항목 (⚠️)
+- **S-10**: 서버 입력 검증 — SQL Injection은 Supabase 파라미터 바인딩으로 자동 커버, 이메일 형식·배열 크기 제한은 미완 (Major 등급)
+- **B-06**: 관리자 CRUD API — 대시보드 UI는 완성, 추가 CRUD 엔드포인트는 Phase 5 일정
 > 2026-04-19 완료: GA4 측정 태그, 핵심 전환 이벤트, Consent Mode v2, Search Console 인증 5건 감산
 
 ---
@@ -62,13 +70,13 @@
 
 | # | 항목 | 현재 상태 | 리스크 발생 시 | 담당 | 비고 |
 |---|------|----------|--------------|------|------|
-| B-01 | 서버 기술 스택 결정 미완료 | ⏳ 분석 완료, 캡틴 결정 대기 | 개발 착수 자체가 불가 | A→캡틴 | 2026-04-19 A가 3안 비교 리포트 작성 → **1안 Supabase 추천**. `docs/analysis/backend-stack-comparison.md` 참조 |
-| B-02 | DB 스키마 설계 미완료 | ❌ 미착수 | 데이터 저장 불가 | D | users, subscriptions, license_keys, themes, downloads, payments |
-| B-03 | 인증 시스템 미구현 | ⚠️ 부분 완료 | 회원가입/로그인 불가 | D | 2026-04-20 OAuth 세션 버그 수정 + Supabase URL Config + admin role SQL 전부 완료(2026-04-21 확인). 이메일 인증 API는 미착수 (런칭 전 필수 여부 재검토 필요) |
-| B-04 | 결제 연동 미구현 | ❌ 미착수 | 수익화 불가 | D | Lemonsqueezy 웹훅 수신·처리 |
-| B-05 | 다운로드 시스템 미구현 | ❌ 미착수 | 구매 후 테마 제공 불가 | D | 권한 확인 + 서명된 URL 생성 + 다운로드 기록 |
-| B-06 | 관리자 백엔드 API 미구현 | ⏳ Phase 5 대기 | 사이트 운영 불가 | D | CRUD, 릴리즈 노트 발행, 정성 분석 |
-| B-07 | 개인정보 삭제·다운로드 API 미구현 | ❌ 미착수 | **GDPR 제17·20조 위반 → 과징금 매출 4%** | D | settings 페이지에서 호출 가능해야 함 |
+| B-01 | 서버 기술 스택 결정 | ✅ 완료 (2026-04-21 감사) | - | A→캡틴 | Supabase + Vercel Serverless(`api/v1/*`) + Express(`server/*`) 병행 구조 확정 및 실제 구동 중 |
+| B-02 | DB 스키마 설계 | ✅ 완료 (2026-04-21 감사) | - | D | `server/db/schema.sql` 10개 테이블 전부 구현 + Supabase Auth trigger(`handle_new_user()`) + RLS 정책 적용 |
+| B-03 | 인증 시스템 | ✅ 완료 (2026-04-21 감사) | - | D | Supabase Auth + PKCE + GitHub/Google OAuth + 이메일 인증(`verify-email.html`) + admin role 판별 전부 구현·동작 |
+| B-04 | 결제 연동 | ✅ 완료 (2026-04-21 감사) | - | D | Lemonsqueezy 웹훅(`webhooks/lemonsqueezy.js`) + Checkout API(`checkout.js`) + Billing Portal(`billing-portal.js`) 전부 구현 |
+| B-05 | 다운로드 시스템 | ✅ 완료 (2026-04-21 감사) | - | D | `api/v1/download.js`: 권한 확인 + `hasActiveSubscription` + downloads 기록 전부 구현. 파일 서빙은 `/templates/{slug}-v1/*.zip` public URL 방식 |
+| B-06 | 관리자 백엔드 API | ⚠️ 부분 완료 | 관리자 CRUD 일부 누락 | D | 관리자 대시보드 UI 8개 완성 + `admin/send-email.js` 완료. CRUD 전용 API(테마/컴포넌트 수정·삭제 등)는 대시보드가 UI 기반 처리 — 런칭에 필수 아님(Phase 5 정식화 예정) |
+| B-07 | 개인정보 삭제·다운로드 API (GDPR) | ✅ 완료 (2026-04-21 감사) | - | D | `api/v1/account.js`: DELETE(6개 테이블 + auth.users 완전 삭제) + GET(사용자 데이터 JSON 다운로드) 구현, settings.html에서 호출 확인 |
 
 ## C. 법적 / 컴플라이언스 (L-01 ~ L-04)
 
@@ -77,22 +85,22 @@
 | L-01 | 이용약관 실제 내용 미작성 | ⏳ 초안 완료, 법무 검토 대기 | 분쟁 시 법적 보호 부재 | F→캡틴→법무 | 2026-04-19 F가 16개 섹션 영문+한글 초안 작성 (`terms.html`). 법무 검토 포인트 5건 정리됨 |
 | L-02 | 개인정보처리방침 미작성 | ⏳ 초안 완료, 법무 검토 대기 | **GDPR 위반 → 과징금** | F→캡틴→법무 | 2026-04-19 F가 GDPR+PIPA 대응 14개 섹션 초안 작성 (`privacy.html`). EU 대리인 지정 여부 검토 필요 |
 | L-03 | 환불 정책 미명시 | ⏳ 초안 완료, 법무 검토 대기 | EU 14일 철회권 분쟁 | F→캡틴→법무 | 2026-04-19 F가 "즉시 이용 개시 동의" 모델 초안 작성 (`docs/marketing/refund-policy.md`). 체크박스 문구 법적 적합성 검토 필요 |
-| L-04 | 비밀번호 저장 방식 미확정 | ❌ 미착수 | **평문 저장 시 형사처벌 가능** | D | bcrypt 해싱 필수, Supabase Auth 사용 시 자동 처리 |
+| L-04 | 비밀번호 저장 방식 확정 | ✅ 완료 (2026-04-21 감사) | - | D | Supabase Auth에 전적 위임 — 자체 비밀번호 저장 없음. 프로필 테이블에는 email/name만 저장(비밀번호 미포함). bcrypt 해싱은 Supabase 측 자동 |
 
 ## D. 결제 / 라이선스 Critical (P-01 ~ P-04)
 
 | # | 항목 | 현재 상태 | 리스크 발생 시 | 담당 | 비고 |
 |---|------|----------|--------------|------|------|
-| P-01 | Lemonsqueezy 웹훅 처리 미구현 | ❌ 미착수 | 결제해도 구독 상태 미반영 | D | subscription_created/updated/cancelled/payment_success/failed 전 이벤트 |
-| P-02 | 라이선스 키 발급 시스템 미구현 | ❌ 미착수 | 구매자에게 키 전달 불가 | D | 자동 생성/검증/해제 로직 |
-| P-03 | 결제 UI 실제 동작 미연동 | ✅ 완료 (2026-04-21) | - | C+D | Lemonsqueezy 3개 상품 URL 연결 완료 (Pro Monthly $19, Pro Annual $149, Launch Early Bird $99). 캡틴 수동 QA로 결제창 상품·가격·주기 정상 표시 확인 |
-| P-04 | 환불 시 라이선스 해제 미구현 | ❌ 미착수 | 환불 후에도 다운로드 계속 → 수익 손실 | D | refund 웹훅 수신 시 `license_keys.status = revoked` |
+| P-01 | Lemonsqueezy 웹훅 처리 | ✅ 완료 (2026-04-21 감사) | - | D | subscription_created/updated/cancelled/expired/payment_success/payment_failed/order_refunded/subscription_payment_refunded 8개 이벤트 전부 처리. HMAC 서명 검증 + GDPR marketing_consent 체크 + Loops 트리거 |
+| P-02 | 라이선스 키 발급 시스템 | ✅ 완료 (2026-04-21 감사) | - | D | `subscription_created` 웹훅에서 `MERGE-{PLAN}-{HEX}` 포맷 자동 발급 + `license_keys` 테이블 저장. 검증 API(license/verify)는 현재 UI 사용 시점이 없어 필요 시 추가 |
+| P-03 | 결제 UI 실제 동작 | ✅ 완료 (2026-04-21) | - | C+D | Lemonsqueezy 3개 상품 URL 연결 완료 (Pro Monthly $19, Pro Annual $149, Launch Early Bird $99). 캡틴 수동 QA로 결제창 상품·가격·주기 정상 표시 확인 |
+| P-04 | 환불 시 라이선스 해제 | ✅ 완료 (2026-04-21) | - | D | `order_refunded` 핸들러: orders=refunded + license_keys=revoked + subscriptions=cancelled + profiles.plan=free + Loops 'subscription_refunded' 이벤트 트리거. `subscription_payment_refunded`는 orders만 refunded 처리 |
 
 ## E. 프론트엔드 Critical (F-01)
 
 | # | 항목 | 현재 상태 | 리스크 발생 시 | 담당 | 비고 |
 |---|------|----------|--------------|------|------|
-| F-01 | 테마 다운로드 기능 미구현 | ❌ 미착수 | 구매자에게 상품 제공 불가 | C | themes/download.html 다운로드 버튼/체크박스 JS 핸들러 완전 누락 |
+| F-01 | 테마 다운로드 기능 | ✅ 완료 (2026-04-21 감사) | - | C | `pages/themes/download.html`: 동의 체크박스 + 다운로드 버튼 + `POST /api/v1/download` 호출(Bearer token 포함) + 403(pricing 리다이렉트)/401(login 리다이렉트) 에러 처리 전부 구현 |
 
 ---
 

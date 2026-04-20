@@ -358,12 +358,11 @@ document.querySelectorAll('[data-track="cta"]').forEach(function(el) {
 // Pro CTA — 로그인 상태 확인 → 이미 Pro면 billing, 아니면 Lemonsqueezy checkout (user 정보 전달)
 (function() {
   var proBtn = document.getElementById('proCta');
-  // 결제 상품별 Lemonsqueezy checkout URL
-  // TODO(캡틴): Lemonsqueezy 대시보드에서 연간 상품 2개(정가 $149, 얼리버드 $99) 생성 후 아래 URL 교체 필요
+  // 결제 상품별 Lemonsqueezy checkout URL (2026-04-21 연동 완료)
   var LEMON_URLS = {
-    monthly:   'https://mergeui.lemonsqueezy.com/checkout/buy/b9d4acab-7b2d-42c7-9bbd-ed4f745769ca',
-    annual:    'https://mergeui.lemonsqueezy.com/checkout/buy/b9d4acab-7b2d-42c7-9bbd-ed4f745769ca', // 교체 필요: $149/yr
-    earlybird: 'https://mergeui.lemonsqueezy.com/checkout/buy/b9d4acab-7b2d-42c7-9bbd-ed4f745769ca'  // 교체 필요: $99/yr (50명 한정)
+    monthly:   'https://mergeui.lemonsqueezy.com/checkout/buy/b9d4acab-7b2d-42c7-9bbd-ed4f745769ca', // MergeUI Pro $19/mo
+    annual:    'https://mergeui.lemonsqueezy.com/checkout/buy/cf97bf55-c983-487f-88c3-56222c63b54b', // MergeUI Pro Annual $149/yr
+    earlybird: 'https://mergeui.lemonsqueezy.com/checkout/buy/5a3d801a-cf05-429d-9be1-febaf375fe08'  // MergeUI Launch Early Bird $99/yr (50명 한정)
   };
   proBtn.dataset.period = 'monthly';
 

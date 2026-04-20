@@ -10,18 +10,25 @@ function verifySignature(rawBody, signature) {
   catch(e) { return false; }
 }
 
+// Vercel Node 함수: bodyParser:false 설정 상태에서 원본 바이트 스트림을 직접 읽어와야
+// Lemonsqueezy가 서명한 그대로의 바이트열로 HMAC 검증이 가능하다. (JSON.stringify 재구성은 공백/정렬 차이로 401을 유발)
+function readRawBody(req) {
+  return new Promise(function(resolve, reject) {
+    if (typeof req.body === 'string') return resolve(req.body);
+    if (Buffer.isBuffer(req.body)) return resolve(req.body.toString('utf8'));
+    var chunks = [];
+    req.on('data', function(chunk) { chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)); });
+    req.on('end', function() { resolve(Buffer.concat(chunks).toString('utf8')); });
+    req.on('error', reject);
+  });
+}
+
 module.exports = async function(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
 
-  // Vercel에서는 body가 이미 파싱됨 — raw body를 다시 만들어서 서명 검증
   var rawBody;
-  if (typeof req.body === 'string') {
-    rawBody = req.body;
-  } else if (Buffer.isBuffer(req.body)) {
-    rawBody = req.body.toString();
-  } else {
-    rawBody = JSON.stringify(req.body);
-  }
+  try { rawBody = await readRawBody(req); }
+  catch (e) { return res.status(400).json({ error: 'Unable to read body' }); }
 
   var signature = req.headers['x-signature'];
 
@@ -30,7 +37,9 @@ module.exports = async function(req, res) {
     return res.status(401).json({ error: 'Invalid webhook signature' });
   }
 
-  var event = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+  var event;
+  try { event = JSON.parse(rawBody); }
+  catch (e) { return res.status(400).json({ error: 'Invalid JSON' }); }
   var eventName = event.meta?.event_name;
   var data = event.data?.attributes;
   var userEmail = data?.user_email;

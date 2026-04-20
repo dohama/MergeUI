@@ -16,4 +16,18 @@ async function getUser(req) {
   return { id: user.id, email: user.email, role: profile?.role || 'subscriber', plan: profile?.plan || 'free', name: profile?.name || '' };
 }
 
-module.exports = { supabaseAdmin, getUser };
+async function hasActiveSubscription(userId) {
+  if (!userId) return false;
+  const { data } = await supabaseAdmin
+    .from('subscriptions')
+    .select('status, current_period_end')
+    .eq('user_id', userId)
+    .eq('status', 'active')
+    .order('current_period_end', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (!data || !data.current_period_end) return false;
+  return new Date(data.current_period_end) > new Date();
+}
+
+module.exports = { supabaseAdmin, getUser, hasActiveSubscription };

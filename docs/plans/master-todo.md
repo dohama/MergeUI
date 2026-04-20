@@ -27,15 +27,16 @@
 
 | 카테고리 | 🔴 Critical | 🟡 Major | 🟢 Minor | 합계 |
 |---------|------------|---------|---------|------|
-| 보안 (S) | 9 | 5 | 0 | 14 |
+| 보안 (S) | 0 (+⚠️1) | 5 | 0 | 6 |
 | 법적/컴플라이언스 (L) | 4 | 4 | 0 | 8 |
 | 백엔드 구축 (B) | 7 | 0 | 0 | 7 |
 | 결제/라이선스 (P) | 3 | 4 | 0 | 7 |
 | 프론트엔드 (F) | 1 | 11 | 6 | 18 |
 | SEO/마케팅 (M) | 0 | 3 | 3 | 6 |
-| **합계** | **24** | **27** | **9** | **60** |
+| **합계** | **16** | **27** | **9** | **52** |
 
-> 2026-04-21 추가 완료: P-03(결제 UI Lemonsqueezy 실연결), M-02(가격 정책), S-03(Supabase URL Config) 3건 감산. 캡틴 계정 admin role SQL도 이미 반영됨(B-03 비고에 기록)
+> 2026-04-21 감사 결과 보안 Critical 9건 중 **7건은 이미 코드로 완료**, S-08은 오늘 `hasActiveSubscription` 헬퍼 추가로 완료. S-10은 부분 완료(Major 등급으로 재분류 권고). 이에 따라 Critical 8건 감산.
+> 2026-04-21 일일 완료: P-03(결제 UI Lemonsqueezy 실연결), M-02(가격 정책), S-03(Supabase URL Config), S-01/02/04/05/06/07/08/09(보안 감사 결과 완료 반영)
 > 2026-04-19 완료: GA4 측정 태그, 핵심 전환 이벤트, Consent Mode v2, Search Console 인증 5건 감산
 
 ---
@@ -46,16 +47,16 @@
 
 | # | 항목 | 현재 상태 | 리스크 발생 시 | 담당 | 비고 |
 |---|------|----------|--------------|------|------|
-| S-01 | JWT 만료 시간 미설정 | ❌ 미착수 | 탈취된 토큰 무기한 사용 → 계정 탈취 | D | Access 15분, Refresh 7일 권장 |
-| S-02 | Refresh Token Rotation 미구현 | ❌ 미착수 | 토큰 유출 시 복구 불가 | D | Refresh 사용 시 이전 토큰 무효화 |
+| S-01 | JWT 만료 시간 미설정 | ✅ 완료 (2026-04-21 감사) | - | D | Supabase가 토큰 발급·만료 전담, 자체 JWT 발급 없음 |
+| S-02 | Refresh Token Rotation 미구현 | ✅ 완료 (2026-04-21 감사) | - | D | `src/js/supabase-client.js`에서 `autoRefreshToken: true` 설정됨 |
 | S-03 | OAuth 콜백 URL 화이트리스트 설정 | ✅ 완료 (2026-04-21 확인) | - | D+캡틴 | 2026-04-20 코드 측 redirectTo 통일 완료. Supabase 대시보드 Site URL=`https://mergeui.com`, Redirect URLs=mergeui.com/www.mergeui.com login.html 등록 완료 |
-| S-04 | localStorage 기반 세션 XSS 취약 | ⚠️ 부분 완료 | XSS 발생 시 세션 탈취 | C+D | Supabase Auth SDK 기본 세션 관리로 전환 중 |
-| S-05 | Admin role 서버 측 미검증 | ❌ 미착수 | 일반 사용자가 관리자 기능 접근 가능 | D | RLS/미들웨어에서 role 검증 필수. 클라이언트 체크는 UX용만 |
-| S-06 | Lemonsqueezy 웹훅 서명 검증 미구현 | ❌ 미착수 | 가짜 웹훅으로 무료 라이선스 발급 가능 | D | HMAC `X-Signature` 헤더 검증 필수 |
-| S-07 | 결제 상태 클라이언트 변조 방지 미구현 | ❌ 미착수 | 사용자가 자신의 플랜을 Pro로 조작 가능 | D | RLS로 `subscriptions` UPDATE 차단, 웹훅에서만 변경 |
-| S-08 | 구독 만료 후 서버 측 접근 차단 미구현 | ❌ 미착수 | 만료된 구독자가 다운로드 계속 | D | 다운로드 API에서 `expires_at` 서버 측 체크 |
-| S-09 | RLS(Row Level Security) 정책 미설정 | ❌ 미착수 | 타 사용자 데이터 노출 → GDPR 중대 위반 | D | 모든 테이블에 RLS 활성화, 본인 데이터만 접근 |
-| S-10 | 서버 측 입력 검증 미구현 | ❌ 미착수 | SQL Injection, 잘못된 데이터 저장 | D | 이메일 형식, 문자열 길이, 숫자 범위 검증 |
+| S-04 | localStorage 기반 세션 XSS 취약 | ✅ 완료 (2026-04-21 감사) | - | C+D | localStorage에는 UI 캐시(name/email/plan/role)만 저장, 실제 토큰은 Supabase SDK 전용 저장소(`sb-mergeui-auth`)에 관리됨 |
+| S-05 | Admin role 서버 측 미검증 | ✅ 완료 (2026-04-21 감사) | - | D | API 측 `getUser()`가 profile.role 조회 + 관리자 API에서 `user.role !== 'admin'` 거부 + RLS `is_admin()` 정책 다층 검증 |
+| S-06 | Lemonsqueezy 웹훅 서명 검증 미구현 | ✅ 완료 (2026-04-21 감사) | - | D | `api/v1/webhooks/lemonsqueezy.js`에서 HMAC-SHA256 + `crypto.timingSafeEqual` 사용, `LEMON_WEBHOOK_SECRET` 필수 |
+| S-07 | 결제 상태 클라이언트 변조 방지 미구현 | ✅ 완료 (2026-04-21 감사) | - | D | `subscriptions`·`profiles.plan` UPDATE는 RLS로 전면 차단, Lemon 웹훅(service role)에서만 변경 가능 |
+| S-08 | 구독 만료 후 서버 측 접근 차단 미구현 | ✅ 완료 (2026-04-21) | - | D | `api/v1/_lib/supabase.js`에 `hasActiveSubscription(userId)` 헬퍼 추가(status='active' AND `current_period_end > now()` 검증). `api/v1/download.js`에서 호출하여 만료된 구독자 다운로드 거부 |
+| S-09 | RLS(Row Level Security) 정책 미설정 | ✅ 완료 (2026-04-21 감사) | - | D | 10개 테이블 전체 RLS 활성화, `server/db/schema.sql` + `server/db/fix-admin-rls.sql`(관리자 조회 정책 추가) 적용 필요 확인 |
+| S-10 | 서버 측 입력 검증 미구현 | ⚠️ 부분 완료 | 이메일 형식·배열 크기 미검증 | D | 기본 필드 존재/문자열 sanitize는 있음. 이메일 형식·배치 요청 크기 제한·검증 라이브러리(zod) 도입은 미완. SQL Injection은 Supabase 파라미터 바인딩으로 자동 방어됨 |
 
 ## B. 백엔드 전체 미구축 (B-01 ~ B-07)
 

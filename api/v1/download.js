@@ -1,5 +1,5 @@
 const cors = require('./_lib/cors');
-const { supabaseAdmin, getUser } = require('./_lib/supabase');
+const { supabaseAdmin, getUser, hasActiveSubscription } = require('./_lib/supabase');
 
 module.exports = async function handler(req, res) {
   if (cors(req, res)) return;
@@ -11,6 +11,9 @@ module.exports = async function handler(req, res) {
   var user = await getUser(req);
   if (!user) return res.status(401).json({ error: 'Unauthorized' });
   if (user.plan === 'free') return res.status(403).json({ error: 'Pro or Team plan required to download themes' });
+
+  var active = await hasActiveSubscription(user.id);
+  if (!active) return res.status(403).json({ error: 'Subscription expired or inactive. Please renew to continue downloading.', code: 'SUBSCRIPTION_EXPIRED' });
 
   var theme_slug = (req.body && req.body.theme_slug) || '';
   var slug = theme_slug.replace(/[^a-z0-9-]/gi, '');

@@ -27,11 +27,22 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     .filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center}.filter-search{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;flex:1;min-width:200px}.filter-search svg{width:14px;height:14px;color:var(--text-muted);flex-shrink:0}.filter-search input{background:none;border:none;color:var(--text-primary);font-size:13px;font-family:var(--font);outline:none;width:100%}.filter-search input::placeholder{color:var(--text-muted)}.filter-select{padding:8px 32px 8px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-size:13px;font-family:var(--font);cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2371717A' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;outline:none}
     .card{background:var(--bg-raised);border:1px solid var(--border);border-radius:14px;overflow:hidden}.card-body{padding:0}
     .o-table{width:100%;border-collapse:collapse}.o-table th{text-align:left;padding:12px 16px;font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);background:var(--bg-surface)}.o-table td{padding:12px 16px;font-size:13px;border-bottom:1px solid var(--border)}.o-table tr:last-child td{border:none}.o-table tr:hover td{background:rgba(255,255,255,0.01)}
-    .order-id{font-family:monospace;font-size:12px;color:var(--brand-light)}.cust-name{font-weight:600}.amount{font-weight:700}
+    .order-id{font-family:monospace;font-size:12px;color:var(--brand-light)}.cust-name{font-weight:600}.cust-email{font-size:11px;color:var(--text-muted);margin-top:2px}.amount{font-weight:700}
     .status-badge{padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase}.status-badge.paid{background:rgba(34,197,94,0.12);color:var(--success)}.status-badge.refunded{background:rgba(239,68,68,0.12);color:#FCA5A5}.status-badge.pending{background:rgba(251,191,36,0.12);color:var(--warning)}
     .act-btns{display:flex;gap:6px}.act-btn{padding:4px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;color:var(--text-secondary);cursor:pointer;font-family:var(--font);transition:all 0.12s}.act-btn:hover{border-color:var(--brand);color:var(--brand-light)}.act-btn.refund{color:#FCA5A5;border-color:rgba(239,68,68,0.2)}.act-btn.refund:hover{background:rgba(239,68,68,0.1)}
     .table-wrap{overflow-x:auto}
     .pagination{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-top:1px solid var(--border)}.page-info{font-size:12px;color:var(--text-muted)}.page-btns{display:flex;gap:6px}.page-btn{padding:6px 14px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--text-secondary);cursor:pointer;font-family:var(--font);transition:all 0.12s}.page-btn:hover{border-color:var(--brand);color:var(--brand-light)}.page-btn.disabled{opacity:0.4;cursor:default;pointer-events:none}
+    .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:1000;align-items:center;justify-content:center}
+    .modal-backdrop.open{display:flex}
+    .modal{background:var(--bg-raised);border:1px solid var(--border);border-radius:14px;max-width:560px;width:90%;max-height:85vh;overflow-y:auto}
+    .modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .modal-header h2{font-size:16px;font-weight:800}
+    .modal-close{background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;line-height:1}
+    .modal-body{padding:20px 24px}
+    .detail-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .detail-row:last-child{border:none}
+    .detail-row .label{color:var(--text-muted);min-width:110px}
+    .detail-row .value{color:var(--text-primary);font-weight:600;text-align:right;word-break:break-all}
     @media(max-width:1024px){.quick-stats{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:768px){.main{margin-left:0}.content{padding:20px}.quick-stats{grid-template-columns:1fr 1fr}.filters{flex-direction:column}}
   </style>
@@ -72,10 +83,19 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
       <div class="filters">
         <div class="filter-search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="text" placeholder="주문번호 또는 고객 검색...">
+          <input type="text" id="searchInput" placeholder="주문번호 · 고객 · 이메일 검색...">
         </div>
-        <select class="filter-select"><option>전체 상태</option><option>Paid</option><option>Pending</option><option>Refunded</option></select>
-        <select class="filter-select"><option>전체 플랜</option><option>Pro Monthly</option><option>Pro Annual</option><option>Team Monthly</option></select>
+        <select class="filter-select" id="statusFilter">
+          <option value="all">전체 상태</option>
+          <option value="paid">Paid</option>
+          <option value="pending">Pending</option>
+          <option value="refunded">Refunded</option>
+        </select>
+        <select class="filter-select" id="planFilter">
+          <option value="all">전체 플랜</option>
+          <option value="pro">Pro</option>
+          <option value="team">Team</option>
+        </select>
       </div>
 
       <div class="card">
@@ -99,6 +119,18 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
 
     </div>
   </main>
+
+  <!-- 주문 상세 모달 -->
+  <div class="modal-backdrop" id="orderDetailModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>주문 상세</h2>
+        <button type="button" class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
 <script>
 (function(){var s=JSON.parse(localStorage.getItem('mergeui_session'));if(!s){return;}})();
 </script>
@@ -108,59 +140,163 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
 <nav class="mobile-bottom-nav" aria-label="Mobile navigation"><div class="mobile-bottom-nav-inner"><a href="dashboard.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>홈</a><a href="subscribers.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>회원</a><a href="orders.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>주문</a><a href="settings.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2m-3.3-6.7l-1.4 1.4M6.7 17.3l-1.4 1.4m0-13.4l1.4 1.4m10.6 10.6l1.4 1.4"/></svg>설정</a></div></nav>
 <script>
 function escapeHtml(str){if(!str)return '';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-window.__ordersData = [];
-document.addEventListener("mergedb-ready", async function() {
+function fmtDate(v){if(!v)return '--';var d=new Date(v);if(isNaN(d))return '--';return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function fmtDateTime(v){if(!v)return '--';var d=new Date(v);if(isNaN(d))return '--';return fmtDate(v)+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+
+window.__ordersData = { orders: [], profileMap: {} };
+
+function renderOrders(){
+  var d = window.__ordersData;
+  var q = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+  var statusF = document.getElementById('statusFilter')?.value || 'all';
+  var planF = document.getElementById('planFilter')?.value || 'all';
+
+  var filtered = d.orders.filter(function(o){
+    var prof = d.profileMap[o.user_id] || {};
+    if (q) {
+      var hay = ((o.id||'') + ' ' + (o.lemon_order_id||'') + ' ' + (prof.name||'') + ' ' + (prof.email||'')).toLowerCase();
+      if (hay.indexOf(q) === -1) return false;
+    }
+    if (statusF !== 'all' && (o.status||'').toLowerCase() !== statusF) return false;
+    if (planF !== 'all' && (o.plan||'').toLowerCase() !== planF) return false;
+    return true;
+  });
+
+  // Quick stats (전체 기준)
+  var tot=0, mo=0, ref=0, cnt=d.orders.length;
+  var ms = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString();
+  d.orders.forEach(function(o){
+    if (o.status === 'paid') {
+      tot += (o.amount||0);
+      if (o.created_at >= ms) mo += (o.amount||0);
+    }
+    if (o.status === 'refunded') ref++;
+  });
+  var qv = document.querySelectorAll('.qs-val');
+  if(qv[0]) qv[0].textContent = '$' + tot.toLocaleString();
+  if(qv[1]) qv[1].textContent = '$' + mo.toLocaleString();
+  if(qv[2]) qv[2].textContent = cnt;
+  if(qv[3]) qv[3].textContent = ref;
+
+  var tbody = document.querySelector('.o-table tbody');
+  var emptyDiv = document.querySelector(".card > div[style*='text-align:center']");
+  var pageInfo = document.querySelector('.page-info');
+
+  if (filtered.length > 0) {
+    if (emptyDiv) emptyDiv.style.display = 'none';
+    tbody.innerHTML = filtered.map(function(o){
+      var prof = d.profileMap[o.user_id] || {};
+      var statusClass = (o.status || 'pending').toLowerCase();
+      var dateStr = fmtDate(o.created_at);
+      var custDisplay = prof.name
+        ? '<span class="cust-name">'+escapeHtml(prof.name)+'</span><div class="cust-email">'+escapeHtml(prof.email||'')+'</div>'
+        : '<span class="cust-email">'+escapeHtml(prof.email||o.user_id||'--')+'</span>';
+      return '<tr data-oid="'+o.id+'">'
+        + '<td><span class="order-id">#'+escapeHtml(o.lemon_order_id||o.id.substring(0,8))+'</span></td>'
+        + '<td>'+custDisplay+'</td>'
+        + '<td>'+escapeHtml(o.plan||'--')+'</td>'
+        + '<td><span class="amount">$'+(o.amount||0).toLocaleString()+'</span></td>'
+        + '<td><span class="status-badge '+statusClass+'">'+statusClass+'</span></td>'
+        + '<td>'+dateStr+'</td>'
+        + '<td><div class="act-btns"><button type="button" class="act-btn" data-oid="'+o.id+'">상세</button></div></td>'
+        + '</tr>';
+    }).join('');
+    if(pageInfo) pageInfo.textContent = '표시 '+filtered.length+' / '+d.orders.length;
+  } else {
+    tbody.innerHTML = '';
+    if (emptyDiv) {
+      emptyDiv.style.display = '';
+      var title = emptyDiv.querySelector('div:nth-child(2)');
+      var sub = emptyDiv.querySelector('div:nth-child(3)');
+      if (d.orders.length === 0) {
+        if(title) title.textContent = '주문 없음';
+        if(sub) sub.textContent = '결제가 발생하면 이 목록에 표시됩니다.';
+      } else {
+        if(title) title.textContent = '검색 결과 없음';
+        if(sub) sub.textContent = '필터 조건을 변경해 보세요.';
+      }
+    }
+    if(pageInfo) pageInfo.textContent = '표시 0 / '+d.orders.length;
+  }
+}
+
+function openOrderDetail(oid){
+  var d = window.__ordersData;
+  var o = d.orders.find(function(x){return x.id===oid;});
+  if (!o) return;
+  var prof = d.profileMap[o.user_id] || {};
+  var body = document.getElementById('modalBody');
+  body.innerHTML = ''
+    + '<div class="detail-row"><span class="label">주문 ID</span><span class="value" style="font-family:monospace;font-size:11px">'+escapeHtml(o.id)+'</span></div>'
+    + '<div class="detail-row"><span class="label">Lemon 주문번호</span><span class="value">'+escapeHtml(o.lemon_order_id||'--')+'</span></div>'
+    + '<div class="detail-row"><span class="label">상태</span><span class="value"><span class="status-badge '+(o.status||'pending')+'">'+(o.status||'pending')+'</span></span></div>'
+    + '<div class="detail-row"><span class="label">플랜</span><span class="value">'+escapeHtml(o.plan||'--')+'</span></div>'
+    + '<div class="detail-row"><span class="label">금액</span><span class="value"><span class="amount">$'+(o.amount||0).toLocaleString()+' '+escapeHtml(o.currency||'USD')+'</span></span></div>'
+    + '<div class="detail-row"><span class="label">고객 이름</span><span class="value">'+escapeHtml(prof.name||'--')+'</span></div>'
+    + '<div class="detail-row"><span class="label">고객 이메일</span><span class="value">'+escapeHtml(prof.email||'--')+'</span></div>'
+    + '<div class="detail-row"><span class="label">고객 ID</span><span class="value" style="font-family:monospace;font-size:11px">'+escapeHtml(o.user_id||'--')+'</span></div>'
+    + '<div class="detail-row"><span class="label">주문일시</span><span class="value">'+fmtDateTime(o.created_at)+'</span></div>';
+  document.getElementById('orderDetailModal').classList.add('open');
+}
+
+document.addEventListener('mergedb-ready', async function(){
   var sb = MergeDB.client;
   try {
-    var r = await sb.from("orders").select("*").order("created_at", { ascending: false });
-    var data=r.data||[];
-    window.__ordersData = data;
-    var tot=0,mo=0,ref=0,ms=new Date(new Date().getFullYear(),new Date().getMonth(),1).toISOString();
-    data.forEach(function(o){if(o.status==="paid"){tot+=(o.amount||0);if(o.created_at>=ms)mo+=(o.amount||0);}if(o.status==="refunded")ref++;});
-    var qv=document.querySelectorAll(".qs-val");
-    if(qv[0])qv[0].textContent="$"+tot.toLocaleString();
-    if(qv[1])qv[1].textContent="$"+mo.toLocaleString();
-    if(qv[2])qv[2].textContent=data.length;
-    if(qv[3])qv[3].textContent=ref;
+    var ord = await sb.from('orders').select('*').order('created_at', { ascending: false });
+    var orders = ord.data || [];
+    window.__ordersData.orders = orders;
 
-    var emptyDiv=document.querySelector(".card > div[style*='text-align:center']");
-    var tbody=document.querySelector(".o-table tbody");
-    var pageInfo=document.querySelector(".page-info");
-
-    if(data.length>0){
-      if(emptyDiv)emptyDiv.style.display="none";
-      tbody.innerHTML=data.map(function(o){
-        var d=new Date(o.created_at);
-        var dateStr=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-        var statusClass=(o.status||"pending").toLowerCase();
-        return '<tr><td><span class="order-id">'+escapeHtml((o.id||"").substring(0,8))+'</span></td><td><span class="cust-name">'+escapeHtml(o.customer_name||o.user_id||"--")+'</span></td><td>'+escapeHtml(o.plan||"--")+'</td><td><span class="amount">$'+(o.amount||0).toLocaleString()+'</span></td><td><span class="status-badge '+statusClass+'">'+statusClass+'</span></td><td>'+dateStr+'</td><td><div class="act-btns"><button type="button" class="act-btn">상세</button></div></td></tr>';
-      }).join('');
-      if(pageInfo)pageInfo.textContent="표시 "+data.length+" / "+data.length;
+    // 고객 정보 매핑 (orders.user_id → profiles)
+    var uids = Array.from(new Set(orders.map(function(o){return o.user_id;}).filter(Boolean)));
+    if (uids.length > 0) {
+      var prof = await sb.from('profiles').select('id, name, email').in('id', uids);
+      var map = {};
+      (prof.data||[]).forEach(function(p){ map[p.id] = p; });
+      window.__ordersData.profileMap = map;
     }
+    renderOrders();
   } catch(e) { console.error(e); }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-  var btn = document.getElementById("exportBtn");
-  if (!btn) return;
-  btn.addEventListener("click", function() {
-    if (!window.MergeCSV) { alert("CSV 모듈이 로드되지 않았습니다"); return; }
-    var data = window.__ordersData || [];
-    if (!data.length) { alert("내보낼 주문 데이터가 없습니다"); return; }
-    var headers = ["주문번호", "Lemonsqueezy 주문ID", "고객 user_id", "플랜", "금액", "통화", "상태", "주문일시"];
-    var rows = data.map(function(o) {
-      return [
-        o.id || "",
-        o.lemon_order_id || "",
-        o.user_id || "",
-        o.plan || "",
-        o.amount || 0,
-        o.currency || "USD",
-        o.status || "",
-        MergeCSV.formatDate(o.created_at)
-      ];
+document.addEventListener('DOMContentLoaded', function(){
+  ['searchInput','statusFilter','planFilter'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.addEventListener(id === 'searchInput' ? 'input' : 'change', renderOrders);
+  });
+
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.act-btn');
+    if (btn && btn.dataset.oid) openOrderDetail(btn.dataset.oid);
+  });
+
+  var modal = document.getElementById('orderDetailModal');
+  var closeBtn = document.getElementById('modalClose');
+  if (closeBtn) closeBtn.addEventListener('click', function(){ modal.classList.remove('open'); });
+  if (modal) modal.addEventListener('click', function(e){ if(e.target===modal) modal.classList.remove('open'); });
+
+  var btn = document.getElementById('exportBtn');
+  if (btn) btn.addEventListener('click', function(){
+    if (!window.MergeCSV) { alert('CSV 모듈이 로드되지 않았습니다'); return; }
+    var d = window.__ordersData;
+    // 현재 필터 기준으로 export
+    var q = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+    var statusF = document.getElementById('statusFilter')?.value || 'all';
+    var planF = document.getElementById('planFilter')?.value || 'all';
+    var filtered = d.orders.filter(function(o){
+      var prof = d.profileMap[o.user_id] || {};
+      if (q && (((o.id||'')+' '+(o.lemon_order_id||'')+' '+(prof.name||'')+' '+(prof.email||'')).toLowerCase()).indexOf(q) === -1) return false;
+      if (statusF !== 'all' && (o.status||'').toLowerCase() !== statusF) return false;
+      if (planF !== 'all' && (o.plan||'').toLowerCase() !== planF) return false;
+      return true;
     });
-    MergeCSV.export("mergeui_orders_" + MergeCSV.timestamp() + ".csv", headers, rows);
+    if (!filtered.length) { alert('내보낼 주문 데이터가 없습니다'); return; }
+    var headers = ['주문번호','Lemon주문ID','고객이름','고객이메일','user_id','플랜','금액','통화','상태','주문일시'];
+    var rows = filtered.map(function(o){
+      var prof = d.profileMap[o.user_id] || {};
+      return [o.id||'', o.lemon_order_id||'', prof.name||'', prof.email||'', o.user_id||'',
+        o.plan||'', o.amount||0, o.currency||'USD', o.status||'', MergeCSV.formatDate(o.created_at)];
+    });
+    MergeCSV.export('mergeui_orders_'+MergeCSV.timestamp()+'.csv', headers, rows);
   });
 });
 </script>

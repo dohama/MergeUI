@@ -30,6 +30,22 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     .plan-badge{padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase}.plan-badge.free{background:rgba(113,113,122,0.15);color:var(--text-muted)}.plan-badge.pro{background:rgba(108,92,231,0.15);color:var(--brand-light)}.plan-badge.team{background:rgba(34,211,238,0.15);color:var(--accent)}
     .status-badge{padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase}.status-badge.active{background:rgba(34,197,94,0.12);color:var(--success)}.status-badge.cancelled{background:rgba(239,68,68,0.12);color:#FCA5A5}.status-badge.expired{background:rgba(113,113,122,0.15);color:var(--text-muted)}
     .view-btn{padding:4px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;color:var(--text-secondary);cursor:pointer;font-family:var(--font);transition:all 0.12s}.view-btn:hover{border-color:var(--brand);color:var(--brand-light)}
+    .sub-table th.col-check,.sub-table td.col-check{width:40px;padding-right:0}
+    .row-check,.select-all-check{cursor:pointer;width:14px;height:14px;accent-color:var(--brand)}
+    .selection-bar{display:none;align-items:center;gap:12px;padding:10px 16px;margin-bottom:12px;background:rgba(108,92,231,0.1);border:1px solid var(--brand);border-radius:8px;font-size:13px}
+    .selection-bar.active{display:flex}
+    .selection-bar .count-badge{padding:2px 8px;background:var(--brand);color:white;border-radius:4px;font-weight:700}
+    .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:1000;align-items:center;justify-content:center}
+    .modal-backdrop.open{display:flex}
+    .modal{background:var(--bg-raised);border:1px solid var(--border);border-radius:14px;max-width:560px;width:90%;max-height:85vh;overflow-y:auto}
+    .modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .modal-header h2{font-size:16px;font-weight:800}
+    .modal-close{background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;line-height:1}
+    .modal-body{padding:20px 24px}
+    .detail-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .detail-row:last-child{border:none}
+    .detail-row .label{color:var(--text-muted);min-width:110px}
+    .detail-row .value{color:var(--text-primary);font-weight:600;text-align:right;word-break:break-all}
     .pagination{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-top:1px solid var(--border)}.page-info{font-size:12px;color:var(--text-muted)}.page-btns{display:flex;gap:6px}.page-btn{padding:6px 14px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--text-secondary);cursor:pointer;font-family:var(--font);transition:all 0.12s}.page-btn:hover{border-color:var(--brand);color:var(--brand-light)}.page-btn.disabled{opacity:0.4;cursor:default;pointer-events:none}
     .table-wrap{overflow-x:auto}
     @media(max-width:1024px){.quick-stats{grid-template-columns:1fr 1fr 1fr}}
@@ -68,18 +84,37 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
       <div class="filters">
         <div class="filter-search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="text" placeholder="이름 또는 이메일 검색...">
+          <input type="text" id="searchInput" placeholder="이름 또는 이메일 검색...">
         </div>
-        <select class="filter-select"><option>전체 플랜</option><option>Free</option><option>Pro</option><option>Team</option></select>
-        <select class="filter-select"><option>전체 상태</option><option>활성</option><option>Cancelled</option><option>Expired</option></select>
+        <select class="filter-select" id="planFilter">
+          <option value="all">전체 플랜</option>
+          <option value="free">Free</option>
+          <option value="pro">Pro</option>
+          <option value="team">Team</option>
+        </select>
+        <select class="filter-select" id="statusFilter">
+          <option value="all">전체 상태</option>
+          <option value="active">활성</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="expired">Expired</option>
+        </select>
         <button type="button" class="export-btn" id="sendEmailBtn" style="border-color:rgba(239,68,68,0.3);color:#FCA5A5">이메일 발송</button>
         <button type="button" class="export-btn" id="exportBtn">엑셀 다운로드</button>
+      </div>
+
+      <div class="selection-bar" id="selectionBar">
+        <span class="count-badge" id="selectedCount">0</span>
+        <span>명 선택됨 · 위 버튼이 선택 회원에만 적용됩니다</span>
+        <button type="button" class="view-btn" id="clearSelection" style="margin-left:auto">선택 해제</button>
       </div>
 
       <div class="card">
         <div class="table-wrap">
           <table class="sub-table">
-            <thead><tr><th>사용자</th><th>이메일</th><th>플랜</th><th>상태</th><th>가입일</th><th>다운로드</th><th>관리</th></tr></thead>
+            <thead><tr>
+              <th class="col-check"><input type="checkbox" class="select-all-check" id="selectAll" aria-label="전체 선택"></th>
+              <th>사용자</th><th>이메일</th><th>플랜</th><th>상태</th><th>가입일</th><th>다운로드</th><th>관리</th>
+            </tr></thead>
             <tbody>
             </tbody>
           </table>
@@ -101,6 +136,17 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     </div>
   </div>
 
+  <!-- 회원 상세 모달 -->
+  <div class="modal-backdrop" id="memberDetailModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>회원 상세</h2>
+        <button type="button" class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
 <script>
 (function(){var s=JSON.parse(localStorage.getItem('mergeui_session'));if(!s){return;}})();
 </script>
@@ -110,125 +156,277 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
 <nav class="mobile-bottom-nav" aria-label="Mobile navigation"><div class="mobile-bottom-nav-inner"><a href="dashboard.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>홈</a><a href="subscribers.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>회원</a><a href="orders.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>주문</a><a href="settings.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2m-3.3-6.7l-1.4 1.4M6.7 17.3l-1.4 1.4m0-13.4l1.4 1.4m10.6 10.6l1.4 1.4"/></svg>설정</a></div></nav>
 <script>
 function escapeHtml(str){if(!str)return '';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-window.__membersData = { profiles: [], subMap: {}, dlMap: {} };
-document.addEventListener("mergedb-ready", async function() {
+function fmtDate(v){if(!v)return '--';var d=new Date(v);if(isNaN(d))return '--';return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function effectivePlan(profile, sub){
+  // 구독이 active일 때만 sub.plan 사용, 그 외에는 profile.plan (또는 'free') 표시 → 환불·만료된 pro 잔재가 표시되는 문제 해결
+  if (sub && (sub.status||'').toLowerCase() === 'active') return (sub.plan || profile.plan || 'free').toLowerCase();
+  return (profile.plan || 'free').toLowerCase();
+}
+function effectiveStatus(sub){ return ((sub && sub.status) || 'active').toLowerCase(); }
+
+window.__membersData = { profiles: [], subMap: {}, dlMap: {}, selected: new Set() };
+
+function renderMembers(){
+  var d = window.__membersData;
+  var tbody = document.querySelector('.sub-table tbody');
+  var emptyDiv = document.querySelector(".card > div[style*='text-align:center']");
+  var pageInfo = document.querySelector('.page-info');
+
+  // 필터 값
+  var q = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+  var planF = document.getElementById('planFilter')?.value || 'all';
+  var statusF = document.getElementById('statusFilter')?.value || 'all';
+
+  var filtered = d.profiles.filter(function(p){
+    var sub = d.subMap[p.id] || {};
+    var plan = effectivePlan(p, sub);
+    var st = effectiveStatus(sub);
+    if (q) {
+      var hay = ((p.name||'') + ' ' + (p.email||'')).toLowerCase();
+      if (hay.indexOf(q) === -1) return false;
+    }
+    if (planF !== 'all' && plan !== planF) return false;
+    if (statusF !== 'all' && st !== statusF) return false;
+    return true;
+  });
+
+  // Quick stats (필터와 무관 전체 기준)
+  var active=0, cancelled=0;
+  d.profiles.forEach(function(p){var s=d.subMap[p.id];if(s&&s.status==='active')active++;else if(s&&(s.status==='cancelled'||s.status==='expired'))cancelled++;});
+  var qv = document.querySelectorAll('.qs-val');
+  if(qv[0]) qv[0].textContent = d.profiles.length;
+  if(qv[1]) qv[1].textContent = active;
+  if(qv[2]) qv[2].textContent = cancelled;
+
+  if (filtered.length > 0) {
+    if (emptyDiv) emptyDiv.style.display = 'none';
+    tbody.innerHTML = filtered.map(function(p){
+      var sub = d.subMap[p.id] || {};
+      var plan = effectivePlan(p, sub);
+      var status = effectiveStatus(sub);
+      var dl = d.dlMap[p.id] || 0;
+      var checked = d.selected.has(p.id) ? 'checked' : '';
+      return '<tr data-uid="'+p.id+'">'
+        + '<td class="col-check"><input type="checkbox" class="row-check" data-uid="'+p.id+'" '+checked+'></td>'
+        + '<td><span class="user-name">'+escapeHtml(p.name||'--')+'</span></td>'
+        + '<td>'+escapeHtml(p.email||'--')+'</td>'
+        + '<td><span class="plan-badge '+plan+'">'+plan+'</span></td>'
+        + '<td><span class="status-badge '+status+'">'+status+'</span></td>'
+        + '<td>'+fmtDate(p.created_at)+'</td>'
+        + '<td>'+dl+'</td>'
+        + '<td><button type="button" class="view-btn" data-uid="'+p.id+'">보기</button></td>'
+        + '</tr>';
+    }).join('');
+    if(pageInfo) pageInfo.textContent = '표시 '+filtered.length+' / '+d.profiles.length;
+  } else {
+    tbody.innerHTML = '';
+    if (emptyDiv) {
+      emptyDiv.style.display = '';
+      var title = emptyDiv.querySelector('div:nth-child(2)');
+      var sub = emptyDiv.querySelector('div:nth-child(3)');
+      if (d.profiles.length === 0) {
+        if(title) title.textContent = '등록된 회원 없음';
+        if(sub) sub.textContent = '신규 가입이 발생하면 이 목록에 표시됩니다.';
+      } else {
+        if(title) title.textContent = '검색 결과 없음';
+        if(sub) sub.textContent = '필터 조건을 변경해 보세요.';
+      }
+    }
+    if(pageInfo) pageInfo.textContent = '표시 0 / '+d.profiles.length;
+  }
+
+  updateSelectionBar();
+}
+
+function updateSelectionBar(){
+  var d = window.__membersData;
+  var bar = document.getElementById('selectionBar');
+  var count = document.getElementById('selectedCount');
+  if (count) count.textContent = d.selected.size;
+  if (bar) bar.classList.toggle('active', d.selected.size > 0);
+  // select-all 체크박스 상태 동기화
+  var rowChecks = document.querySelectorAll('.row-check');
+  var allCheck = document.getElementById('selectAll');
+  if (allCheck) {
+    var visibleChecked = Array.from(rowChecks).filter(function(c){return c.checked;}).length;
+    allCheck.checked = rowChecks.length > 0 && visibleChecked === rowChecks.length;
+    allCheck.indeterminate = visibleChecked > 0 && visibleChecked < rowChecks.length;
+  }
+}
+
+function openDetailModal(uid){
+  var d = window.__membersData;
+  var p = d.profiles.find(function(x){return x.id===uid;});
+  if (!p) return;
+  var sub = d.subMap[p.id] || {};
+  var dl = d.dlMap[p.id] || 0;
+  var plan = effectivePlan(p, sub);
+  var status = effectiveStatus(sub);
+  var body = document.getElementById('modalBody');
+  body.innerHTML = ''
+    + '<div class="detail-row"><span class="label">이름</span><span class="value">'+escapeHtml(p.name||'--')+'</span></div>'
+    + '<div class="detail-row"><span class="label">이메일</span><span class="value">'+escapeHtml(p.email||'--')+'</span></div>'
+    + '<div class="detail-row"><span class="label">현재 플랜</span><span class="value"><span class="plan-badge '+plan+'">'+plan+'</span></span></div>'
+    + '<div class="detail-row"><span class="label">구독 상태</span><span class="value"><span class="status-badge '+status+'">'+status+'</span></span></div>'
+    + '<div class="detail-row"><span class="label">가입일</span><span class="value">'+fmtDate(p.created_at)+'</span></div>'
+    + '<div class="detail-row"><span class="label">구독 시작</span><span class="value">'+fmtDate(sub.current_period_start)+'</span></div>'
+    + '<div class="detail-row"><span class="label">구독 만료</span><span class="value">'+fmtDate(sub.current_period_end)+'</span></div>'
+    + '<div class="detail-row"><span class="label">총 다운로드</span><span class="value">'+dl+'회</span></div>'
+    + '<div class="detail-row"><span class="label">회원 ID</span><span class="value" style="font-family:monospace;font-size:11px">'+escapeHtml(p.id)+'</span></div>';
+  document.getElementById('memberDetailModal').classList.add('open');
+}
+
+document.addEventListener('mergedb-ready', async function(){
   var sb = MergeDB.client;
   try {
-    var r1 = await sb.from("profiles").select("id, name, email, plan, created_at");
-    var r2 = await sb.from("subscriptions").select("user_id, plan, status, current_period_end");
-    var r3 = await sb.from("downloads").select("user_id");
+    var r1 = await sb.from('profiles').select('id, name, email, plan, created_at, marketing_consent');
+    var r2 = await sb.from('subscriptions').select('user_id, plan, status, current_period_start, current_period_end');
+    var r3 = await sb.from('downloads').select('user_id');
 
-    var subMap={};(r2.data||[]).forEach(function(s){subMap[s.user_id]=s;});
-    var dlMap={};(r3.data||[]).forEach(function(d){dlMap[d.user_id]=(dlMap[d.user_id]||0)+1;});
-    var profiles=r1.data||[];
+    var subMap = {};
+    (r2.data||[]).forEach(function(s){
+      var existing = subMap[s.user_id];
+      if (!existing || (s.status==='active' && existing.status!=='active')) subMap[s.user_id] = s;
+    });
+    var dlMap = {};
+    (r3.data||[]).forEach(function(d){ dlMap[d.user_id] = (dlMap[d.user_id]||0) + 1; });
 
-    // CSV 내보내기용 데이터 보관
-    window.__membersData = { profiles: profiles, subMap: subMap, dlMap: dlMap };
-
-    /* Quick stats */
-    var active=0,cancelled=0;
-    profiles.forEach(function(p){var s=subMap[p.id];if(s&&s.status==="active")active++;else if(s&&(s.status==="cancelled"||s.status==="expired"))cancelled++;});
-    var qv=document.querySelectorAll(".qs-val");
-    if(qv[0])qv[0].textContent=profiles.length;
-    if(qv[1])qv[1].textContent=active;
-    if(qv[2])qv[2].textContent=cancelled;
-
-    /* Empty state toggle */
-    var emptyDiv=document.querySelector(".card > div[style*='text-align:center']");
-    var tbody=document.querySelector(".sub-table tbody");
-    var pageInfo=document.querySelector(".page-info");
-
-    if(profiles.length>0){
-      if(emptyDiv)emptyDiv.style.display="none";
-      tbody.innerHTML=profiles.map(function(p){
-        var sub=subMap[p.id]||{};
-        var plan=(sub.plan||p.plan||"free").toLowerCase();
-        var status=(sub.status||"active").toLowerCase();
-        var dl=dlMap[p.id]||0;
-        var d=new Date(p.created_at);
-        var dateStr=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-        return '<tr><td><span class="user-name">'+escapeHtml(p.name||"--")+'</span></td><td>'+escapeHtml(p.email||"--")+'</td><td><span class="plan-badge '+plan+'">'+plan+'</span></td><td><span class="status-badge '+status+'">'+status+'</span></td><td>'+dateStr+'</td><td>'+dl+'</td><td><button type="button" class="view-btn">보기</button></td></tr>';
-      }).join('');
-      if(pageInfo)pageInfo.textContent="표시 "+profiles.length+" / "+profiles.length;
-    } else {
-      if(emptyDiv)emptyDiv.style.display="";
-    }
-
+    window.__membersData.profiles = r1.data || [];
+    window.__membersData.subMap = subMap;
+    window.__membersData.dlMap = dlMap;
+    renderMembers();
   } catch(e) { console.error(e); }
 });
 
-// 이메일 발송 — Loops 이벤트 트리거 (필터+미리보기+발송)
-document.addEventListener("DOMContentLoaded", function() {
-  var emailBtn = document.getElementById("sendEmailBtn");
-  if (emailBtn) emailBtn.addEventListener("click", async function() {
-    var planFilter = prompt("어느 플랜에게 발송할까요? (all / free / pro / team)", "all");
-    if (planFilter === null) return;
-    planFilter = planFilter.trim().toLowerCase();
-    if (!['all','free','pro','team'].includes(planFilter)) { alert("잘못된 플랜입니다. all/free/pro/team 중 선택."); return; }
+// 이벤트 바인딩
+document.addEventListener('DOMContentLoaded', function(){
+  var searchInput = document.getElementById('searchInput');
+  var planFilter = document.getElementById('planFilter');
+  var statusFilter = document.getElementById('statusFilter');
+  if (searchInput) searchInput.addEventListener('input', renderMembers);
+  if (planFilter) planFilter.addEventListener('change', renderMembers);
+  if (statusFilter) statusFilter.addEventListener('change', renderMembers);
 
-    var eventName = prompt("Loops 이벤트 이름 (Loops 대시보드에서 Loop 트리거 이벤트와 일치해야 함):", "promo_announcement");
-    if (!eventName) return;
-
-    try {
-      if (typeof MergeDB === 'undefined' || !MergeDB.client) { alert("서비스 준비 중. 새로고침 후 시도."); return; }
-      var { data: { session } } = await MergeDB.client.auth.getSession();
-      if (!session) { alert("로그인이 필요합니다."); return; }
-
-      var filter = {};
-      if (planFilter !== 'all') filter.plan = planFilter;
-
-      // 1단계: dryRun으로 대상자 수 미리보기
-      var preview = await fetch('/api/v1/admin/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
-        body: JSON.stringify({ filter: filter, eventName: eventName, mode: 'dryRun' })
-      }).then(function(r){ return r.json(); });
-
-      if (!preview.count) { alert("발송 대상이 없습니다 (수신 동의한 회원 중 조건 일치자 0명)."); return; }
-
-      var confirmMsg = "발송 대상: " + preview.count + "명 (플랜 필터: " + planFilter + ")\n이벤트명: " + eventName + "\n\n정말 발송하시겠습니까?";
-      if (!confirm(confirmMsg)) return;
-
-      // 2단계: 실제 발송
-      emailBtn.disabled = true; emailBtn.textContent = "발송 중...";
-      var result = await fetch('/api/v1/admin/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
-        body: JSON.stringify({ filter: filter, eventName: eventName, mode: 'send' })
-      }).then(function(r){ return r.json(); });
-
-      alert("발송 완료\n성공: " + (result.sent || 0) + "\n실패: " + (result.failed || 0) + (result.errors && result.errors.length ? "\n\n에러 예시:\n" + result.errors.slice(0,3).map(function(e){return e.email+': '+(e.error?.error||e.error||'unknown');}).join("\n") : ""));
-    } catch (e) {
-      alert("발송 실패: " + (e.message || "알 수 없는 오류"));
-    } finally {
-      emailBtn.disabled = false; emailBtn.textContent = "이메일 발송";
+  // 체크박스 이벤트 (위임)
+  document.addEventListener('change', function(e){
+    if (e.target.classList.contains('row-check')) {
+      var uid = e.target.getAttribute('data-uid');
+      if (e.target.checked) window.__membersData.selected.add(uid);
+      else window.__membersData.selected.delete(uid);
+      updateSelectionBar();
+    }
+    if (e.target.id === 'selectAll') {
+      var checks = document.querySelectorAll('.row-check');
+      checks.forEach(function(c){
+        c.checked = e.target.checked;
+        var uid = c.getAttribute('data-uid');
+        if (c.checked) window.__membersData.selected.add(uid);
+        else window.__membersData.selected.delete(uid);
+      });
+      updateSelectionBar();
     }
   });
 
-  // 엑셀 다운로드 버튼 연결
-  var btn = document.getElementById("exportBtn");
-  if (!btn) return;
-  btn.addEventListener("click", function() {
-    if (!window.MergeCSV) { alert("CSV 모듈이 로드되지 않았습니다"); return; }
-    var d = window.__membersData || { profiles: [], subMap: {}, dlMap: {} };
-    if (!d.profiles.length) { alert("내보낼 회원 데이터가 없습니다"); return; }
-    var headers = ["이름", "이메일", "플랜", "상태", "가입일", "다운로드 수", "구독 만료일"];
-    var rows = d.profiles.map(function(p) {
+  // "보기" 버튼 (위임)
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.view-btn');
+    if (btn && btn.dataset.uid) openDetailModal(btn.dataset.uid);
+  });
+
+  // 선택 해제
+  var clearBtn = document.getElementById('clearSelection');
+  if (clearBtn) clearBtn.addEventListener('click', function(){
+    window.__membersData.selected.clear();
+    renderMembers();
+  });
+
+  // 모달 닫기
+  var modal = document.getElementById('memberDetailModal');
+  var closeBtn = document.getElementById('modalClose');
+  if (closeBtn) closeBtn.addEventListener('click', function(){ modal.classList.remove('open'); });
+  if (modal) modal.addEventListener('click', function(e){ if(e.target===modal) modal.classList.remove('open'); });
+
+  // 엑셀 다운로드 — 선택이 있으면 선택만, 없으면 필터 적용된 전체
+  var exportBtn = document.getElementById('exportBtn');
+  if (exportBtn) exportBtn.addEventListener('click', function(){
+    if (!window.MergeCSV) { alert('CSV 모듈이 로드되지 않았습니다'); return; }
+    var d = window.__membersData;
+    var target;
+    if (d.selected.size > 0) {
+      target = d.profiles.filter(function(p){ return d.selected.has(p.id); });
+    } else {
+      // 현재 필터 적용된 목록을 기준으로 내보냄
+      var q = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+      var planF = document.getElementById('planFilter')?.value || 'all';
+      var statusF = document.getElementById('statusFilter')?.value || 'all';
+      target = d.profiles.filter(function(p){
+        var sub = d.subMap[p.id] || {};
+        var plan = effectivePlan(p, sub);
+        var st = effectiveStatus(sub);
+        if (q && (((p.name||'')+' '+(p.email||'')).toLowerCase()).indexOf(q) === -1) return false;
+        if (planF !== 'all' && plan !== planF) return false;
+        if (statusF !== 'all' && st !== statusF) return false;
+        return true;
+      });
+    }
+    if (!target.length) { alert('내보낼 회원 데이터가 없습니다'); return; }
+    var headers = ['이름','이메일','플랜','상태','가입일','다운로드 수','구독 만료일'];
+    var rows = target.map(function(p){
       var sub = d.subMap[p.id] || {};
-      var plan = (sub.plan || p.plan || "free");
-      var status = sub.status || "active";
-      var dl = d.dlMap[p.id] || 0;
-      return [
-        p.name || "",
-        p.email || "",
-        plan,
-        status,
-        MergeCSV.formatDate(p.created_at),
-        dl,
-        MergeCSV.formatDate(sub.current_period_end)
-      ];
+      return [ p.name||'', p.email||'', effectivePlan(p, sub), effectiveStatus(sub),
+        MergeCSV.formatDate(p.created_at), d.dlMap[p.id]||0, MergeCSV.formatDate(sub.current_period_end) ];
     });
-    MergeCSV.export("mergeui_members_" + MergeCSV.timestamp() + ".csv", headers, rows);
+    var suffix = d.selected.size > 0 ? '_selected' : '_filtered';
+    MergeCSV.export('mergeui_members'+suffix+'_'+MergeCSV.timestamp()+'.csv', headers, rows);
+  });
+
+  // 이메일 발송 — 선택이 있으면 선택만, 없으면 plan 필터로
+  var emailBtn = document.getElementById('sendEmailBtn');
+  if (emailBtn) emailBtn.addEventListener('click', async function(){
+    var d = window.__membersData;
+    var eventName = prompt('Loops 이벤트 이름 (Loops 대시보드의 트리거 이벤트와 일치해야 함):', 'promo_announcement');
+    if (!eventName) return;
+
+    try {
+      if (typeof MergeDB === 'undefined' || !MergeDB.client) { alert('서비스 준비 중. 새로고침 후 시도.'); return; }
+      var { data: { session } } = await MergeDB.client.auth.getSession();
+      if (!session) { alert('로그인이 필요합니다.'); return; }
+
+      var filter = {};
+      var targetInfo;
+      if (d.selected.size > 0) {
+        filter.user_ids = Array.from(d.selected);
+        targetInfo = '선택된 '+d.selected.size+'명';
+      } else {
+        var planF = document.getElementById('planFilter').value;
+        if (planF !== 'all') filter.plan = planF;
+        targetInfo = '현재 필터 조건의 수신 동의자 전체 (플랜: '+planF+')';
+      }
+
+      emailBtn.disabled = true; emailBtn.textContent = '미리보기...';
+      var preview = await fetch('/api/v1/admin/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer '+session.access_token },
+        body: JSON.stringify({ filter: filter, eventName: eventName, mode: 'dryRun' })
+      }).then(function(r){ return r.json(); });
+
+      if (!preview.count) { alert('발송 대상이 없습니다 (수신 동의 한 회원 중 조건 일치자 0명).'); return; }
+
+      if (!confirm('발송 대상: '+preview.count+'명\n범위: '+targetInfo+'\n이벤트명: '+eventName+'\n\n발송하시겠습니까?')) return;
+
+      emailBtn.textContent = '발송 중...';
+      var result = await fetch('/api/v1/admin/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer '+session.access_token },
+        body: JSON.stringify({ filter: filter, eventName: eventName, mode: 'send' })
+      }).then(function(r){ return r.json(); });
+
+      alert('발송 완료\n성공: '+(result.sent||0)+'\n실패: '+(result.failed||0));
+    } catch (e) {
+      alert('발송 실패: '+(e.message||'알 수 없는 오류'));
+    } finally {
+      emailBtn.disabled = false; emailBtn.textContent = '이메일 발송';
+    }
   });
 });
 </script>

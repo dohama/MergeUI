@@ -65,10 +65,20 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     <div class="content">
 
       <div class="stats-grid">
-        <div class="stat-card"><div class="sc-val">0</div><div class="sc-label">페이지뷰</div><div class="sc-sub" style="color:var(--text-muted)">—</div></div>
-        <div class="stat-card"><div class="sc-val">0</div><div class="sc-label">방문자</div><div class="sc-sub" style="color:var(--text-muted)">—</div></div>
-        <div class="stat-card"><div class="sc-val">—</div><div class="sc-label">평균 체류</div><div class="sc-sub" style="color:var(--text-muted)">—</div></div>
-        <div class="stat-card"><div class="sc-val">—</div><div class="sc-label">이탈률</div><div class="sc-sub" style="color:var(--text-muted)">—</div></div>
+        <div class="stat-card"><div class="sc-val">—</div><div class="sc-label">페이지뷰</div><div class="sc-sub" style="color:var(--text-muted)">GA4 · 개발자 도구 필요</div></div>
+        <div class="stat-card"><div class="sc-val">0</div><div class="sc-label">가입 회원</div><div class="sc-sub" style="color:var(--text-muted)">Supabase DB 기준</div></div>
+        <div class="stat-card"><div class="sc-val">—</div><div class="sc-label">평균 체류</div><div class="sc-sub" style="color:var(--text-muted)">GA4 · 개발자 도구 필요</div></div>
+        <div class="stat-card"><div class="sc-val">—</div><div class="sc-label">이탈률</div><div class="sc-sub" style="color:var(--text-muted)">GA4 · 개발자 도구 필요</div></div>
+      </div>
+
+      <!-- GA4 연동 안내 (현재 상태) -->
+      <div class="card" style="margin-bottom:24px;padding:16px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:linear-gradient(135deg,rgba(108,92,231,0.08),rgba(34,211,238,0.04));border-color:rgba(108,92,231,0.3)">
+        <span style="font-size:24px">&#128202;</span>
+        <div style="flex:1;min-width:260px">
+          <div style="font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:4px">페이지뷰 · 체류시간 · 이탈률은 GA4에서 제공</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.5">이 지표들은 브라우저 행동 데이터라서 DB에는 기록되지 않습니다. 이미 모든 페이지에 GA4 측정 태그(<code>G-JFGRBL1JQG</code>)가 설치돼있어 자동 수집 중이며, 아래 "바로가기"로 실시간 확인 가능합니다. <br>런칭 후 Looker Studio로 이 관리자 페이지에 임베드 대시보드를 만들어 넣을 수도 있습니다(Phase 5).</div>
+        </div>
+        <a href="https://analytics.google.com/analytics/web/#/p/reports/intelligenthome" target="_blank" rel="noopener" style="padding:8px 16px;background:var(--brand);color:white;border-radius:6px;font-weight:700;font-size:12px;white-space:nowrap;text-decoration:none">GA4 열기 &rarr;</a>
       </div>
 
       <div class="two-col">
@@ -151,24 +161,10 @@ document.addEventListener("mergedb-ready", async function() {
     var orders = ordRes.data || [];
     var downloads = dlRes.data || [];
 
-    // KPI 카드 — 페이지뷰/방문자는 DB로 측정 불가 → GA4 대시보드 안내
+    // KPI 카드 — 가입 회원만 DB 직접 측정, 나머지는 GA4 브라우저 기반
     var cards = document.querySelectorAll(".stat-card");
-    if (cards[0]) {
-      cards[0].querySelector(".sc-val").textContent = "—";
-      cards[0].querySelector(".sc-sub").textContent = "GA4에서 확인";
-    }
     if (cards[1]) {
       cards[1].querySelector(".sc-val").textContent = profiles.length;
-      cards[1].querySelector(".sc-sub").textContent = "가입 회원(DB 기준)";
-    }
-    if (cards[2]) {
-      cards[2].querySelector(".sc-val").textContent = "—";
-      cards[2].querySelector(".sc-sub").textContent = "GA4에서 확인";
-    }
-    if (cards[3]) {
-      var churnCnt = 0; // 간이 지표 — 정확한 값은 dashboard.html 참조
-      cards[3].querySelector(".sc-val").textContent = "—";
-      cards[3].querySelector(".sc-sub").textContent = "GA4에서 확인";
     }
 
     // 전환 퍼널 — 실제 DB 값 (방문 대신 '가입' 기준으로 정규화)

@@ -72,10 +72,24 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
       <div class="filters">
         <div class="filter-search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="text" placeholder="컴포넌트 검색...">
+          <input type="text" id="searchInput" placeholder="컴포넌트 이름 · 슬러그 · 카테고리 검색...">
         </div>
-        <select class="filter-select"><option>전체 카테고리</option><option>Chart</option><option>Data</option><option>Widget</option><option>Form</option><option>Feedback</option><option>Overlay</option></select>
-        <select class="filter-select"><option>전체 상태</option><option>Published</option><option>Draft</option></select>
+        <select class="filter-select" id="categoryFilter">
+          <option value="all">전체 카테고리</option>
+          <option value="chart">Chart</option>
+          <option value="data">Data</option>
+          <option value="widget">Widget</option>
+          <option value="form">Form</option>
+          <option value="feedback">Feedback</option>
+          <option value="overlay">Overlay</option>
+          <option value="button">Button</option>
+          <option value="card">Card</option>
+        </select>
+        <select class="filter-select" id="badgeFilter">
+          <option value="all">전체 배지</option>
+          <option value="free">Free</option>
+          <option value="pro">Pro</option>
+        </select>
       </div>
 
       <div class="card">
@@ -103,85 +117,154 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
 <nav class="mobile-bottom-nav" aria-label="Mobile navigation"><div class="mobile-bottom-nav-inner"><a href="dashboard.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>홈</a><a href="subscribers.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>회원</a><a href="orders.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>주문</a><a href="settings.html" class="mobile-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2m-9-11h2m18 0h2m-3.3-6.7l-1.4 1.4M6.7 17.3l-1.4 1.4m0-13.4l1.4 1.4m10.6 10.6l1.4 1.4"/></svg>설정</a></div></nav>
 <script>
 function escapeHtml(str){if(!str)return '';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-document.addEventListener("mergedb-ready", async function() {
+function fmtDate(v){if(!v)return '--';var d=new Date(v);if(isNaN(d))return '--';return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+
+window.__componentsData = [];
+
+function renderComponents(){
+  var data = window.__componentsData;
+  var q = (document.getElementById('searchInput')?.value||'').trim().toLowerCase();
+  var catF = document.getElementById('categoryFilter')?.value||'all';
+  var badgeF = document.getElementById('badgeFilter')?.value||'all';
+
+  var filtered = data.filter(function(c){
+    if (q) {
+      var hay = ((c.name||'')+' '+(c.slug||'')+' '+(c.category||'')).toLowerCase();
+      if (hay.indexOf(q)===-1) return false;
+    }
+    if (catF !== 'all' && (c.category||'').toLowerCase() !== catF) return false;
+    var badge = (c.badge||'free').toLowerCase();
+    if (badgeF !== 'all' && badge !== badgeF) return false;
+    return true;
+  });
+
+  // Quick stats (전체 기준)
+  var cats = new Set();
+  var pub=0, draft=0;
+  data.forEach(function(c){
+    cats.add((c.category||'').toLowerCase());
+    if (c.is_public !== false) pub++; else draft++;
+  });
+  var qv=document.querySelectorAll('.qs-val');
+  if(qv[0]) qv[0].textContent = data.length;
+  if(qv[1]) qv[1].textContent = cats.size;
+  if(qv[2]) qv[2].textContent = pub;
+  if(qv[3]) qv[3].textContent = draft;
+
+  var emptyDiv = document.querySelector(".card > div[style*='text-align:center']");
+  var tbody = document.querySelector('.c-table tbody');
+
+  if (filtered.length>0) {
+    if (emptyDiv) emptyDiv.style.display = 'none';
+    tbody.innerHTML = filtered.map(function(c){
+      var catClass = (c.category||'widget').toLowerCase();
+      var status = (c.is_public !== false ? 'published' : 'draft');
+      return '<tr data-cid="'+c.id+'">'
+        + '<td><div class="comp-cell"><span class="comp-icon">&#129513;</span><div><span class="comp-name">'+escapeHtml(c.name||'--')+'</span><div style="font-size:11px;color:var(--text-muted);margin-top:2px;font-family:monospace">'+escapeHtml(c.slug||'')+'</div></div></div></td>'
+        + '<td><span class="cat-badge '+catClass+'">'+escapeHtml(c.category||'--')+'</span></td>'
+        + '<td>'+escapeHtml(c.version||'1.0')+'</td>'
+        + '<td><span class="status-badge '+status+'">'+status+'</span></td>'
+        + '<td>'+(c.theme_count||0)+'</td>'
+        + '<td>'+fmtDate(c.updated_at||c.created_at)+'</td>'
+        + '<td><div class="act-btns"><button type="button" class="act-btn edit" data-cid="'+c.id+'">편집</button><button type="button" class="act-btn danger delete" data-cid="'+c.id+'">삭제</button></div></td>'
+        + '</tr>';
+    }).join('');
+  } else {
+    tbody.innerHTML = '';
+    if (emptyDiv) {
+      emptyDiv.style.display = '';
+      var title = emptyDiv.querySelector('div:nth-child(2)');
+      var sub = emptyDiv.querySelector('div:nth-child(3)');
+      if (data.length === 0) {
+        if(title) title.textContent = '등록된 컴포넌트 없음';
+        if(sub) sub.textContent = '상단 "컴포넌트 추가" 버튼으로 시작하세요.';
+      } else {
+        if(title) title.textContent = '검색 결과 없음';
+        if(sub) sub.textContent = '필터 조건을 변경해 보세요.';
+      }
+    }
+  }
+}
+
+document.addEventListener('mergedb-ready', async function(){
   var sb = MergeDB.client;
   try {
-    var r = await sb.from("components").select("*");
-    var data=r.data||[];
-    var cats = new Set();
-    var pub=0, draft=0;
-    data.forEach(function(comp) { cats.add(comp.category); if(comp.status==="published")pub++;else draft++; });
-    var qv=document.querySelectorAll(".qs-val");
-    if(qv[0])qv[0].textContent=data.length;
-    if(qv[1])qv[1].textContent=cats.size;
-    if(qv[2])qv[2].textContent=pub;
-    if(qv[3])qv[3].textContent=draft;
+    var r = await sb.from('components').select('*').order('created_at', { ascending: false });
+    window.__componentsData = r.data || [];
+    renderComponents();
 
-    var emptyDiv=document.querySelector(".card > div[style*='text-align:center']");
-    var tbody=document.querySelector(".c-table tbody");
-
-    if(data.length>0){
-      if(emptyDiv)emptyDiv.style.display="none";
-      tbody.innerHTML=data.map(function(c){
-        var catClass=(c.category||"widget").toLowerCase();
-        var statusClass=(c.status||"draft").toLowerCase();
-        var d=new Date(c.updated_at||c.created_at);
-        var dateStr=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-        return '<tr><td><div class="comp-cell"><span class="comp-icon">&#129513;</span><span class="comp-name">'+escapeHtml(c.name||"--")+'</span></div></td><td><span class="cat-badge '+catClass+'">'+escapeHtml(c.category||"--")+'</span></td><td>'+escapeHtml(c.version||"1.0")+'</td><td><span class="status-badge '+statusClass+'">'+statusClass+'</span></td><td>'+(c.theme_count||0)+'</td><td>'+dateStr+'</td><td><div class="act-btns"><button type="button" class="act-btn">편집</button><button type="button" class="act-btn danger">삭제</button></div></td></tr>';
-      }).join('');
-    }
-    tbody.addEventListener('click', async function(e) {
+    var tbody = document.querySelector('.c-table tbody');
+    tbody.addEventListener('click', async function(e){
       var btn = e.target.closest('.act-btn');
       if (!btn) return;
-      var row = btn.closest('tr');
-      var idx = Array.from(tbody.children).indexOf(row);
-      var comp = data[idx];
+      var cid = btn.getAttribute('data-cid');
+      var comp = window.__componentsData.find(function(x){return x.id===cid;});
       if (!comp) return;
-      if (btn.classList.contains('danger')) {
-        if (!confirm('정말 "' + (comp.name||'') + '" 컴포넌트를 삭제하시겠습니까?\n\n※ 되돌릴 수 없습니다.')) return;
+
+      if (btn.classList.contains('delete')) {
+        if (!confirm('"' + (comp.name||'') + '" 컴포넌트를 삭제하시겠습니까?\n\n※ 되돌릴 수 없습니다.')) return;
         var { error } = await sb.from('components').delete().eq('id', comp.id);
         if (error) { alert('삭제 실패: ' + error.message); return; }
-        row.remove(); data.splice(idx, 1);
+        window.__componentsData = window.__componentsData.filter(function(x){return x.id!==cid;});
+        renderComponents();
         alert('삭제 완료');
-      } else {
+      } else if (btn.classList.contains('edit')) {
         var newName = prompt('이름:', comp.name || '');
         if (newName === null) return;
-        var newCategory = prompt('카테고리 (예: buttons / forms / cards):', comp.category || '');
+        var newSlug = prompt('슬러그:', comp.slug || '');
+        if (newSlug === null) return;
+        if (!/^[a-z0-9_-]+$/i.test(newSlug)) { alert('슬러그는 영문/숫자/언더스코어/하이픈만 가능'); return; }
+        var newCategory = prompt('카테고리 (chart / data / widget / form / feedback / overlay / button / card):', comp.category || 'widget');
         if (newCategory === null) return;
-        var newVersion = prompt('버전:', comp.version || '1.0');
+        var newVersion = prompt('버전:', comp.version || '1.0.0');
         if (newVersion === null) return;
-        var newStatus = prompt('상태 (published / draft / hidden):', comp.status || 'draft');
-        if (newStatus === null) return;
-        if (!['published','draft','hidden'].includes(newStatus)) { alert('잘못된 상태값'); return; }
+        var newBadge = prompt('배지 (free / pro):', comp.badge || 'free');
+        if (newBadge === null) return;
+        if (!['free','pro'].includes(newBadge)) { alert('배지는 free / pro 중 선택'); return; }
+        var isPublicInput = prompt('공개 여부 (yes / no):', comp.is_public !== false ? 'yes' : 'no');
+        if (isPublicInput === null) return;
+        var isPublic = isPublicInput.trim().toLowerCase() === 'yes';
 
         var { error } = await sb.from('components').update({
-          name: newName, category: newCategory, version: newVersion, status: newStatus,
+          name: newName, slug: newSlug, category: newCategory,
+          version: newVersion, badge: newBadge, is_public: isPublic,
           updated_at: new Date().toISOString()
         }).eq('id', comp.id);
         if (error) { alert('수정 실패: ' + error.message); return; }
-        alert('수정 완료. 새로고침됩니다.');
+        alert('수정 완료');
         location.reload();
       }
     });
   } catch(e) { console.error(e); }
 });
 
+// 검색/필터 이벤트 바인딩
+document.addEventListener('DOMContentLoaded', function(){
+  ['searchInput','categoryFilter','badgeFilter'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.addEventListener(id === 'searchInput' ? 'input' : 'change', renderComponents);
+  });
+});
+
+// 컴포넌트 추가 (DB 스키마 맞춤)
 document.querySelector('.add-btn').addEventListener('click', async function() {
   var name = prompt('컴포넌트 이름 (예: Primary Button):');
   if (!name) return;
-  var slug = prompt('URL 슬러그 (영문/숫자/하이픈. 예: primary-button):');
+  var slug = prompt('URL 슬러그 (영문/숫자/언더스코어/하이픈. 예: primary-button):');
   if (!slug) return;
-  if (!/^[a-z0-9-]+$/i.test(slug)) { alert('슬러그는 영문/숫자/하이픈만 가능'); return; }
-  var category = prompt('카테고리 (예: buttons, forms, cards, charts):', 'buttons');
+  if (!/^[a-z0-9_-]+$/i.test(slug)) { alert('슬러그는 영문/숫자/언더스코어/하이픈만 가능'); return; }
+  var category = prompt('카테고리 (chart / data / widget / form / feedback / overlay / button / card):', 'button');
   if (!category) return;
+  var badge = prompt('배지 (free / pro):', 'free');
+  if (!['free','pro'].includes(badge)) { alert('배지는 free / pro 중 선택'); return; }
 
   if (!MergeDB || !MergeDB.client) { alert('서비스 준비 중'); return; }
   var { error } = await MergeDB.client.from('components').insert({
     slug: slug.toLowerCase(),
     name: name,
     category: category,
-    version: '1.0',
-    status: 'draft',
+    badge: badge,
+    version: '1.0.0',
     is_public: false
   });
   if (error) { alert('추가 실패: ' + error.message); return; }

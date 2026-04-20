@@ -78,23 +78,24 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
 
       <div class="two-col">
         <div class="card">
-          <div class="card-head"><h2>매출 추이</h2></div>
+          <div class="card-head"><h2>매출 추이</h2><span style="font-size:11px;color:var(--text-muted)">최근 6개월 · 실결제 기반</span></div>
           <div class="card-body">
             <div class="chart-bars" style="justify-content:center;align-items:center">
               <div style="text-align:center;padding:24px;color:var(--text-muted);width:100%">
                 <div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#128202;</div>
-                <div style="font-size:13px">No revenue data yet</div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-secondary)">매출 데이터 없음</div>
+                <div style="font-size:12px;margin-top:4px">실제 결제가 발생하면 월별 막대 차트로 자동 갱신됩니다.</div>
               </div>
             </div>
           </div>
         </div>
         <div class="card">
-          <div class="card-head"><h2>최근 활동</h2></div>
+          <div class="card-head"><h2>최근 활동</h2><span style="font-size:11px;color:var(--text-muted)">결제 · 환불 · 가입 · 다운로드</span></div>
           <div class="card-body">
             <div style="text-align:center;padding:48px 24px;color:var(--text-muted)">
               <div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#128196;</div>
-              <div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">No activity yet</div>
-              <div style="font-size:13px">Recent events will appear here.</div>
+              <div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">활동 없음</div>
+              <div style="font-size:13px">회원의 가입·결제·환불·다운로드가 발생하면 자동으로 표시됩니다.</div>
             </div>
           </div>
         </div>
@@ -109,12 +110,12 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
           </div>
         </div>
         <div class="card">
-          <div class="card-head"><h2>인기 테마</h2></div>
+          <div class="card-head"><h2>인기 테마</h2><span style="font-size:11px;color:var(--text-muted)">다운로드 순 TOP 5</span></div>
           <div class="card-body">
             <div style="text-align:center;padding:48px 24px;color:var(--text-muted)">
               <div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#127912;</div>
-              <div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">No themes yet</div>
-              <div style="font-size:13px">Popular themes will appear here.</div>
+              <div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">집계 대기중</div>
+              <div style="font-size:13px">실제 다운로드가 쌓이면 <code>themes.downloads_count</code> 기반으로 순위가 자동 갱신됩니다.</div>
             </div>
           </div>
         </div>
@@ -208,31 +209,50 @@ document.addEventListener("mergedb-ready", async function() {
       }).join('');
     }
 
-    // 7. 최근 활동 — 주문 + 가입 + 다운로드 통합 (최근 10건)
+    // 7. 최근 활동 — 주문·가입·다운로드 통합 (환불된 주문은 "결제" + "환불" 두 이벤트로 분리)
     var actCard = document.querySelectorAll(".two-col .card")[1];
     if (actCard) {
       var profileById = {};
       profiles.forEach(function(p){ profileById[p.id] = p; });
       var events = [];
-      // 주문
+      // 주문 — status에 따라 1~2개 이벤트 생성
       orders.forEach(function(o){
         var user = profileById[o.user_id];
-        events.push({ ts: o.created_at, dot: o.status === "paid" ? "green" : o.status === "refunded" ? "red" : "yellow", text: (user?.name || user?.email || "회원") + "님 " + o.plan + " 결제 $" + (o.amount || 0) + " (" + o.status + ")" });
+        var who = (user && (user.name || user.email)) || "회원";
+        var planLabel = (o.plan || "Pro");
+        var amount = Number(o.amount || 0);
+        // 1) 결제 이벤트 (created_at) — 모든 주문에 공통
+        events.push({
+          ts: o.created_at,
+          dot: "green",
+          text: who + "님 " + planLabel + " 결제 — $" + amount.toLocaleString()
+        });
+        // 2) 환불 이벤트 (updated_at) — 환불된 주문에만 추가 표기
+        if (o.status === "refunded" && o.updated_at && o.updated_at !== o.created_at) {
+          events.push({
+            ts: o.updated_at,
+            dot: "red",
+            text: who + "님 " + planLabel + " 환불 — $" + amount.toLocaleString() + " 반환"
+          });
+        } else if (o.status === "pending") {
+          events.push({ ts: o.created_at, dot: "yellow", text: who + "님 " + planLabel + " 결제 대기중" });
+        }
       });
       // 가입 (최근 7일만)
       var weekAgo = new Date(Date.now() - 7*24*60*60*1000);
       profiles.forEach(function(p){
         if (new Date(p.created_at) > weekAgo) {
-          events.push({ ts: p.created_at, dot: "blue", text: (p.name || p.email) + "님 신규 가입" });
+          events.push({ ts: p.created_at, dot: "blue", text: ((p.name || p.email) || "신규 회원") + "님 신규 가입" });
         }
       });
       // 다운로드
       downloads.forEach(function(d){
         var user = profileById[d.user_id];
-        events.push({ ts: d.downloaded_at, dot: "blue", text: (user?.name || user?.email || "회원") + "님 테마 다운로드" });
+        var who = (user && (user.name || user.email)) || "회원";
+        events.push({ ts: d.downloaded_at, dot: "blue", text: who + "님 " + (d.theme_id || "테마") + " 다운로드" });
       });
       events.sort(function(a, b){ return new Date(b.ts) - new Date(a.ts); });
-      var top = events.slice(0, 6);
+      var top = events.slice(0, 8);
       if (top.length > 0) {
         actCard.querySelector(".card-body").innerHTML = top.map(function(e){
           return '<div class="activity-item"><span class="act-dot ' + e.dot + '"></span><div class="act-info"><div class="act-text">' + escapeHtml(e.text) + '</div><div class="act-time">' + fmtDate(e.ts) + '</div></div></div>';

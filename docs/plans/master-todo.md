@@ -27,15 +27,15 @@
 
 | 카테고리 | 🔴 Critical | 🟡 Major | 🟢 Minor | 합계 |
 |---------|------------|---------|---------|------|
-| 보안 (S) | 10 | 5 | 0 | 15 |
+| 보안 (S) | 9 | 5 | 0 | 14 |
 | 법적/컴플라이언스 (L) | 4 | 4 | 0 | 8 |
 | 백엔드 구축 (B) | 7 | 0 | 0 | 7 |
 | 결제/라이선스 (P) | 3 | 4 | 0 | 7 |
 | 프론트엔드 (F) | 1 | 11 | 6 | 18 |
 | SEO/마케팅 (M) | 0 | 3 | 3 | 6 |
-| **합계** | **25** | **27** | **9** | **61** |
+| **합계** | **24** | **27** | **9** | **60** |
 
-> 2026-04-21 추가 완료: P-03(결제 UI Lemonsqueezy 실연결), M-02(연간 가격 토글+가격 정책 확정본 반영) 2건 감산
+> 2026-04-21 추가 완료: P-03(결제 UI Lemonsqueezy 실연결), M-02(가격 정책), S-03(Supabase URL Config) 3건 감산. 캡틴 계정 admin role SQL도 이미 반영됨(B-03 비고에 기록)
 > 2026-04-19 완료: GA4 측정 태그, 핵심 전환 이벤트, Consent Mode v2, Search Console 인증 5건 감산
 
 ---
@@ -48,7 +48,7 @@
 |---|------|----------|--------------|------|------|
 | S-01 | JWT 만료 시간 미설정 | ❌ 미착수 | 탈취된 토큰 무기한 사용 → 계정 탈취 | D | Access 15분, Refresh 7일 권장 |
 | S-02 | Refresh Token Rotation 미구현 | ❌ 미착수 | 토큰 유출 시 복구 불가 | D | Refresh 사용 시 이전 토큰 무효화 |
-| S-03 | OAuth 콜백 URL 화이트리스트 미설정 | ⏳ 캡틴 대기 | 피싱·리다이렉트 공격 가능 | D+캡틴 | 2026-04-20 코드 측 redirectTo는 login.html로 통일 완료. Supabase 대시보드 Redirect URLs 등록은 캡틴이 수동 진행 필요 |
+| S-03 | OAuth 콜백 URL 화이트리스트 설정 | ✅ 완료 (2026-04-21 확인) | - | D+캡틴 | 2026-04-20 코드 측 redirectTo 통일 완료. Supabase 대시보드 Site URL=`https://mergeui.com`, Redirect URLs=mergeui.com/www.mergeui.com login.html 등록 완료 |
 | S-04 | localStorage 기반 세션 XSS 취약 | ⚠️ 부분 완료 | XSS 발생 시 세션 탈취 | C+D | Supabase Auth SDK 기본 세션 관리로 전환 중 |
 | S-05 | Admin role 서버 측 미검증 | ❌ 미착수 | 일반 사용자가 관리자 기능 접근 가능 | D | RLS/미들웨어에서 role 검증 필수. 클라이언트 체크는 UX용만 |
 | S-06 | Lemonsqueezy 웹훅 서명 검증 미구현 | ❌ 미착수 | 가짜 웹훅으로 무료 라이선스 발급 가능 | D | HMAC `X-Signature` 헤더 검증 필수 |
@@ -63,7 +63,7 @@
 |---|------|----------|--------------|------|------|
 | B-01 | 서버 기술 스택 결정 미완료 | ⏳ 분석 완료, 캡틴 결정 대기 | 개발 착수 자체가 불가 | A→캡틴 | 2026-04-19 A가 3안 비교 리포트 작성 → **1안 Supabase 추천**. `docs/analysis/backend-stack-comparison.md` 참조 |
 | B-02 | DB 스키마 설계 미완료 | ❌ 미착수 | 데이터 저장 불가 | D | users, subscriptions, license_keys, themes, downloads, payments |
-| B-03 | 인증 시스템 미구현 | ⚠️ 부분 완료 | 회원가입/로그인 불가 | D | 2026-04-20 OAuth 세션 유지 버그 수정 완료(persistSession/autoRefreshToken/PKCE 활성화, redirectTo 통일, auth.js 공식 세션 우선). 이메일 인증 API·admin role 설정은 미착수 |
+| B-03 | 인증 시스템 미구현 | ⚠️ 부분 완료 | 회원가입/로그인 불가 | D | 2026-04-20 OAuth 세션 버그 수정 + Supabase URL Config + admin role SQL 전부 완료(2026-04-21 확인). 이메일 인증 API는 미착수 (런칭 전 필수 여부 재검토 필요) |
 | B-04 | 결제 연동 미구현 | ❌ 미착수 | 수익화 불가 | D | Lemonsqueezy 웹훅 수신·처리 |
 | B-05 | 다운로드 시스템 미구현 | ❌ 미착수 | 구매 후 테마 제공 불가 | D | 권한 확인 + 서명된 URL 생성 + 다운로드 기록 |
 | B-06 | 관리자 백엔드 API 미구현 | ⏳ Phase 5 대기 | 사이트 운영 불가 | D | CRUD, 릴리즈 노트 발행, 정성 분석 |

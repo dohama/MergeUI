@@ -346,3 +346,20 @@
 2. 해당 상품 Status → `Unpublished`로 변경
 3. 캡틴이 Claude에게 "얼리버드 마감" 통보
 4. Claude가 `pricing.html`의 `currentLemonUrl()` 내 annual 분기를 `LEMON_URLS.earlybird` → `LEMON_URLS.annual` 로 교체 후 배포
+
+### Team 상품 Unpublish (2026-04-21 오후)
+- 캡틴이 Lemonsqueezy 대시보드에서 `MergeUI Team` ($49/mo) → Draft/Unpublish 처리 완료
+- Claude가 Lemon API로 대신 처리 시도했으나 `LEMON_API_KEY`가 401 Unauthenticated → 캡틴이 수동 처리
+- 후속 과제: `.env`의 `LEMON_API_KEY` 재발급(관리 API 권한 포함) 필요 — 런칭 블로커 아님
+
+### 캡틴 피드백 — 반복 질문에 강한 불만 표시
+- Claude가 Supabase URL Config 등록·admin role SQL 등 **이미 완료된 작업**을 문서(master-todo.md)만 보고 다시 시킴
+- 캡틴이 스크린샷으로 "이미 등록돼있다" 지적 → Claude가 즉시 문서 일괄 최신화 + 메모리에 **캡틴이 이미 완료한 작업 목록** 저장
+- 신규 메모리 2건:
+  - `project_captain_done_actions.md` — 반복 질문 방지용 단일 출처
+  - `feedback_verify_before_ask.md` — 블로커 보고 전 실제 상태 검증 필수
+
+### master-todo.md 항목 업데이트 (2건 추가 감산)
+- S-03 (OAuth 콜백 URL 화이트리스트) → ✅ 완료 (2026-04-21 확인)
+- B-03 비고 — admin role SQL 완료 명시
+- 현재 상태 요약: Critical 25→24, 합계 61→60

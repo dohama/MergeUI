@@ -1,0 +1,239 @@
+/* Gameboy DMG — 4-tone LCD Habit Tracker */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { image-rendering: pixelated; -webkit-font-smoothing: none; }
+html, body {
+  font-family: var(--gb-font-body);
+  background: var(--gb-lcd-3);
+  color: var(--gb-lcd-0);
+  min-height: 100vh;
+  font-size: 11px;
+  line-height: 1.6;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; font-size: inherit; cursor: pointer; border: none; background: transparent; }
+
+/* === 디바이스 프레임 (옵션: 화면을 게임보이 화면처럼 감쌈) === */
+.gb-device {
+  max-width: 880px; margin: 16px auto; padding: 24px;
+  background: var(--gb-case);
+  box-shadow: inset 4px 4px 0 rgba(255,255,255,0.15), inset -4px -4px 0 rgba(0,0,0,0.25);
+}
+.gb-device-top {
+  padding: 8px 12px; margin-bottom: 16px;
+  background: var(--gb-case-dark); color: var(--gb-lcd-3);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px; letter-spacing: 0.1em;
+}
+.gb-device-logo { font-weight: 700; }
+.gb-device-dots { display: flex; gap: 6px; }
+.gb-device-dot { width: 6px; height: 6px; background: var(--gb-case); }
+.gb-device-dot.on { background: var(--gb-lcd-2); box-shadow: 0 0 6px var(--gb-lcd-2); }
+
+/* === LCD 스크린 === */
+.gb-lcd {
+  background: var(--gb-lcd-3);
+  padding: 20px;
+  position: relative;
+  /* 픽셀 체커 느낌 */
+  box-shadow: inset 0 0 0 2px var(--gb-lcd-0);
+}
+
+/* === 헤더 === */
+.gb-header {
+  padding: 8px 12px;
+  background: var(--gb-lcd-0); color: var(--gb-lcd-3);
+  margin-bottom: 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+}
+.gb-header-nav { display: flex; gap: 12px; }
+.gb-header-nav a { color: var(--gb-lcd-3); opacity: 0.6; }
+.gb-header-nav a.active, .gb-header-nav a:hover { opacity: 1; color: var(--gb-lcd-3); }
+.gb-header-nav a.active::before { content: '▶ '; }
+
+/* === 타이틀 === */
+.gb-title {
+  font-size: 16px;
+  color: var(--gb-lcd-0);
+  margin-bottom: 4px;
+  letter-spacing: 0.05em;
+}
+.gb-subtitle {
+  font-size: 10px;
+  color: var(--gb-lcd-1);
+  margin-bottom: 20px;
+  letter-spacing: 0.08em;
+}
+
+/* === XP 바 (상단 게이지) === */
+.gb-xp {
+  margin-bottom: 24px;
+  padding: 10px;
+  background: var(--gb-lcd-2);
+  color: var(--gb-lcd-0);
+  box-shadow: inset 0 0 0 2px var(--gb-lcd-0);
+  display: flex; align-items: center; gap: 12px;
+  font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.gb-xp-bar {
+  flex: 1; height: 14px;
+  background: var(--gb-lcd-3);
+  box-shadow: inset 0 0 0 1px var(--gb-lcd-0);
+  position: relative;
+  padding: 2px;
+}
+.gb-xp-fill {
+  height: 100%; background: var(--gb-lcd-0);
+  background-image: repeating-linear-gradient(to right, var(--gb-lcd-0) 0, var(--gb-lcd-0) 4px, var(--gb-lcd-1) 4px, var(--gb-lcd-1) 5px);
+}
+
+/* === KPI 카드 (스테이터스 블록) === */
+.gb-kpi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  margin-bottom: 24px;
+}
+.gb-kpi {
+  padding: 10px 8px;
+  background: var(--gb-lcd-3);
+  box-shadow: inset 0 0 0 2px var(--gb-lcd-0);
+  text-align: center;
+}
+.gb-kpi-icon { font-size: 18px; margin-bottom: 4px; }
+.gb-kpi-label {
+  font-size: 8px;
+  color: var(--gb-lcd-1);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.gb-kpi-value {
+  font-size: 14px;
+  color: var(--gb-lcd-0);
+  letter-spacing: 0.05em;
+}
+
+/* === 섹션 === */
+.gb-section { margin-bottom: 24px; }
+.gb-section-title {
+  font-size: 11px;
+  color: var(--gb-lcd-0);
+  background: var(--gb-lcd-3);
+  border-bottom: 2px solid var(--gb-lcd-0);
+  padding: 4px 0;
+  margin-bottom: 12px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.gb-section-title::before { content: '── '; color: var(--gb-lcd-1); }
+.gb-section-title::after  { content: ' ──'; color: var(--gb-lcd-1); }
+
+/* === 퀘스트(습관) 리스트 === */
+.gb-quests { display: flex; flex-direction: column; gap: 6px; }
+.gb-quest {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px;
+  background: var(--gb-lcd-3);
+  box-shadow: inset 0 0 0 2px var(--gb-lcd-0);
+  font-size: 10px;
+}
+.gb-quest.done { background: var(--gb-lcd-2); text-decoration: line-through; opacity: 0.85; }
+.gb-quest-checkbox {
+  width: 14px; height: 14px; background: var(--gb-lcd-3);
+  border: 2px solid var(--gb-lcd-0);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; flex-shrink: 0;
+}
+.gb-quest.done .gb-quest-checkbox::before { content: '✕'; color: var(--gb-lcd-0); }
+.gb-quest-name { flex: 1; letter-spacing: 0.05em; }
+.gb-quest-xp {
+  font-size: 9px; padding: 2px 6px;
+  background: var(--gb-lcd-0); color: var(--gb-lcd-3);
+}
+
+/* === 히트맵 (30일 streak) === */
+.gb-heatmap {
+  display: grid; grid-template-columns: repeat(30, 1fr); gap: 2px;
+  padding: 8px;
+  background: var(--gb-lcd-3);
+  box-shadow: inset 0 0 0 2px var(--gb-lcd-0);
+}
+.gb-heatmap-cell {
+  aspect-ratio: 1;
+  background: var(--gb-lcd-3);
+  box-shadow: inset 0 0 0 1px var(--gb-lcd-1);
+}
+.gb-heatmap-cell.l1 { background: var(--gb-lcd-2); }
+.gb-heatmap-cell.l2 { background: var(--gb-lcd-1); }
+.gb-heatmap-cell.l3 { background: var(--gb-lcd-0); }
+
+/* === 2열 === */
+.gb-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* === Achievement 카드 === */
+.gb-ach { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.gb-ach-card {
+  padding: 10px 6px;
+  background: var(--gb-lcd-3);
+  box-shadow: inset 0 0 0 2px var(--gb-lcd-0);
+  text-align: center;
+  font-size: 9px; letter-spacing: 0.05em;
+}
+.gb-ach-card.locked { opacity: 0.4; }
+.gb-ach-card.locked .gb-ach-icon { filter: grayscale(1) contrast(0.5); }
+.gb-ach-icon { font-size: 22px; margin-bottom: 4px; }
+.gb-ach-name { font-size: 9px; text-transform: uppercase; }
+
+/* === D-pad 버튼 === */
+.gb-controls {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 0 0;
+  gap: 16px;
+}
+.gb-dpad {
+  display: grid; grid-template-columns: repeat(3, 24px); grid-template-rows: repeat(3, 24px);
+  gap: 2px;
+}
+.gb-dpad-btn {
+  background: var(--gb-case-dark);
+  color: var(--gb-lcd-3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+}
+.gb-dpad-btn.u { grid-column: 2; grid-row: 1; }
+.gb-dpad-btn.d { grid-column: 2; grid-row: 3; }
+.gb-dpad-btn.l { grid-column: 1; grid-row: 2; }
+.gb-dpad-btn.r { grid-column: 3; grid-row: 2; }
+.gb-dpad-btn.c { grid-column: 2; grid-row: 2; background: var(--gb-case-dark); }
+
+.gb-ab {
+  display: flex; gap: 8px;
+}
+.gb-btn-round {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--gb-case-purple);
+  color: var(--gb-lcd-3);
+  font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.3), inset 2px 2px 0 rgba(255,255,255,0.2);
+}
+
+/* === 일반 버튼 === */
+.gb-btn {
+  padding: 8px 14px;
+  background: var(--gb-lcd-0); color: var(--gb-lcd-3);
+  font-family: inherit; font-size: 9px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  transition: none;
+}
+.gb-btn:hover { background: var(--gb-lcd-1); }
+.gb-btn:active { transform: translate(1px, 1px); }
+.gb-btn.secondary { background: var(--gb-lcd-3); color: var(--gb-lcd-0); box-shadow: inset 0 0 0 2px var(--gb-lcd-0); }
+
+/* 반응형 */
+@media (max-width: 780px) {
+  .gb-device { padding: 12px; }
+  .gb-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .gb-two-col { grid-template-columns: 1fr; }
+  .gb-ach { grid-template-columns: repeat(2, 1fr); }
+  .gb-heatmap { grid-template-columns: repeat(15, 1fr); }
+}

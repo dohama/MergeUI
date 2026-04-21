@@ -1,0 +1,265 @@
+/* Workspace 95 — Windows 95/98 Theme */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-family: var(--w95-font); -webkit-font-smoothing: none; font-smoothing: none; image-rendering: pixelated; }
+body {
+  font-family: var(--w95-font);
+  font-size: 11px;
+  background: var(--w95-bg);
+  color: var(--w95-text);
+  min-height: 100vh;
+  padding: 8px;
+}
+a { color: var(--w95-link); text-decoration: underline; }
+a:visited { color: var(--w95-visited); }
+button { font-family: var(--w95-font); font-size: 11px; cursor: pointer; }
+
+/* === 베벨 유틸리티 (모든 것의 기초) === */
+.w95-bevel-out {
+  border-top: 2px solid var(--w95-bevel-light);
+  border-left: 2px solid var(--w95-bevel-light);
+  border-right: 2px solid var(--w95-bevel-shadow-deep);
+  border-bottom: 2px solid var(--w95-bevel-shadow-deep);
+  box-shadow: inset -1px -1px 0 var(--w95-bevel-shadow), inset 1px 1px 0 var(--w95-bevel-face);
+}
+.w95-bevel-in {
+  border-top: 2px solid var(--w95-bevel-shadow);
+  border-left: 2px solid var(--w95-bevel-shadow);
+  border-right: 2px solid var(--w95-bevel-light);
+  border-bottom: 2px solid var(--w95-bevel-light);
+  box-shadow: inset 1px 1px 0 var(--w95-bevel-shadow-deep);
+  background: #FFFFFF;
+}
+.w95-bevel-pressed {
+  border-top: 2px solid var(--w95-bevel-shadow-deep);
+  border-left: 2px solid var(--w95-bevel-shadow-deep);
+  border-right: 2px solid var(--w95-bevel-light);
+  border-bottom: 2px solid var(--w95-bevel-light);
+}
+
+/* === 윈도우 박스 === */
+.w95-window {
+  background: var(--w95-win-bg);
+  border-top: 2px solid var(--w95-bevel-light);
+  border-left: 2px solid var(--w95-bevel-light);
+  border-right: 2px solid var(--w95-bevel-shadow-deep);
+  border-bottom: 2px solid var(--w95-bevel-shadow-deep);
+  padding: 2px;
+  margin-bottom: 8px;
+}
+.w95-title {
+  background: linear-gradient(90deg, var(--w95-title-bar) 0%, #1084D0 100%);
+  color: var(--w95-title-text);
+  padding: 3px 4px;
+  font-weight: 700;
+  display: flex; justify-content: space-between; align-items: center;
+  user-select: none;
+}
+.w95-title-inactive { background: linear-gradient(90deg, var(--w95-title-bar-inactive) 0%, #B5B5B5 100%); }
+.w95-title-btns { display: flex; gap: 2px; }
+.w95-title-btn {
+  width: 16px; height: 14px;
+  background: var(--w95-win-bg);
+  border-top: 1px solid var(--w95-bevel-light);
+  border-left: 1px solid var(--w95-bevel-light);
+  border-right: 1px solid var(--w95-bevel-shadow-deep);
+  border-bottom: 1px solid var(--w95-bevel-shadow-deep);
+  font-size: 10px; line-height: 1; color: var(--w95-text);
+  display: flex; align-items: center; justify-content: center;
+}
+.w95-title-btn:active { border-top-color: var(--w95-bevel-shadow-deep); border-left-color: var(--w95-bevel-shadow-deep); border-right-color: var(--w95-bevel-light); border-bottom-color: var(--w95-bevel-light); }
+
+.w95-body { padding: 8px; background: var(--w95-win-bg); }
+
+/* === 메뉴 바 === */
+.w95-menubar {
+  background: var(--w95-win-bg);
+  padding: 2px 0;
+  border-bottom: 1px solid var(--w95-bevel-shadow);
+  display: flex; gap: 1px;
+}
+.w95-menubar-item {
+  padding: 2px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--w95-text);
+}
+.w95-menubar-item:hover { background: var(--w95-accent); color: white; }
+
+/* === 버튼 === */
+.w95-btn {
+  padding: 4px 14px;
+  background: var(--w95-win-bg);
+  font-family: var(--w95-font); font-size: 11px;
+  border-top: 2px solid var(--w95-bevel-light);
+  border-left: 2px solid var(--w95-bevel-light);
+  border-right: 2px solid var(--w95-bevel-shadow-deep);
+  border-bottom: 2px solid var(--w95-bevel-shadow-deep);
+  min-width: 75px;
+  cursor: pointer;
+  color: var(--w95-text);
+}
+.w95-btn:active, .w95-btn.active {
+  border-top-color: var(--w95-bevel-shadow-deep);
+  border-left-color: var(--w95-bevel-shadow-deep);
+  border-right-color: var(--w95-bevel-light);
+  border-bottom-color: var(--w95-bevel-light);
+  padding: 5px 13px 3px 15px;
+}
+.w95-btn:focus { outline: 1px dotted var(--w95-text); outline-offset: -4px; }
+
+/* === 레이아웃 === */
+.w95-desktop {
+  max-width: 1400px; margin: 0 auto;
+  display: grid; grid-template-columns: 240px 1fr; gap: 8px;
+}
+
+/* === 왼쪽 아이콘 그룹 (데스크톱 "My Computer" 스타일) === */
+.w95-nav { display: flex; flex-direction: column; gap: 4px; }
+.w95-nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 8px;
+  background: transparent;
+  color: white;
+  font-size: 11px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px dotted transparent;
+}
+.w95-nav-item:hover { border-color: rgba(255,255,255,0.5); }
+.w95-nav-item.active { background: var(--w95-accent); border: 1px dotted white; }
+.w95-nav-icon {
+  width: 32px; height: 32px;
+  background: var(--w95-win-bg);
+  border-top: 1px solid var(--w95-bevel-light);
+  border-left: 1px solid var(--w95-bevel-light);
+  border-right: 1px solid var(--w95-bevel-shadow-deep);
+  border-bottom: 1px solid var(--w95-bevel-shadow-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+
+/* === KPI 박스 (System Info Dialog 느낌) === */
+.w95-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px; }
+.w95-kpi {
+  background: var(--w95-win-bg);
+  border-top: 2px solid var(--w95-bevel-shadow);
+  border-left: 2px solid var(--w95-bevel-shadow);
+  border-right: 2px solid var(--w95-bevel-light);
+  border-bottom: 2px solid var(--w95-bevel-light);
+  padding: 12px;
+}
+.w95-kpi-label {
+  font-size: 10px; color: var(--w95-text-dim);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.w95-kpi-value {
+  font-size: 22px; font-weight: 700;
+  color: var(--w95-text); margin-bottom: 2px;
+}
+.w95-kpi-trend {
+  font-size: 10px; font-weight: 700;
+  color: var(--w95-success);
+}
+.w95-kpi-trend.down { color: var(--w95-error); }
+
+/* === 파일 리스트 스타일 테이블 === */
+.w95-table { width: 100%; border-collapse: collapse; background: white; font-size: 11px; }
+.w95-table thead tr {
+  background: var(--w95-win-bg);
+}
+.w95-table th {
+  text-align: left; padding: 4px 8px; font-weight: 700;
+  border-top: 2px solid var(--w95-bevel-light);
+  border-left: 2px solid var(--w95-bevel-light);
+  border-right: 2px solid var(--w95-bevel-shadow);
+  border-bottom: 2px solid var(--w95-bevel-shadow);
+  background: var(--w95-win-bg);
+  position: relative;
+}
+.w95-table th:not(:last-child)::after {
+  content: ''; position: absolute; right: 0; top: 4px; bottom: 4px;
+  width: 1px; background: var(--w95-bevel-shadow);
+}
+.w95-table td { padding: 4px 8px; border-bottom: 1px solid #E0E0E0; }
+.w95-table tr:nth-child(even) td { background: #F5F5F5; }
+.w95-table tr:hover td { background: var(--w95-accent); color: white; }
+
+/* === 상태 뱃지 === */
+.w95-badge {
+  display: inline-block; padding: 1px 6px;
+  font-size: 10px; font-weight: 700;
+  background: var(--w95-win-bg);
+  border-top: 1px solid var(--w95-bevel-light);
+  border-left: 1px solid var(--w95-bevel-light);
+  border-right: 1px solid var(--w95-bevel-shadow);
+  border-bottom: 1px solid var(--w95-bevel-shadow);
+}
+.w95-badge.active { color: var(--w95-success); }
+.w95-badge.pending { color: var(--w95-warning); }
+.w95-badge.blocked { color: var(--w95-error); }
+
+/* === 프로그레스 바 (Win95 스타일) === */
+.w95-progress {
+  height: 16px; padding: 2px;
+  background: white;
+  border-top: 2px solid var(--w95-bevel-shadow);
+  border-left: 2px solid var(--w95-bevel-shadow);
+  border-right: 2px solid var(--w95-bevel-light);
+  border-bottom: 2px solid var(--w95-bevel-light);
+  position: relative;
+  overflow: hidden;
+}
+.w95-progress-bar {
+  height: 100%;
+  background:
+    linear-gradient(to right,
+      var(--w95-accent) 0, var(--w95-accent) 6px,
+      transparent 6px, transparent 8px) repeat-x;
+  background-size: 8px 100%;
+}
+
+/* === 태스크바 하단 === */
+.w95-taskbar {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  height: 28px;
+  background: var(--w95-win-bg);
+  border-top: 2px solid var(--w95-bevel-light);
+  padding: 2px 4px;
+  display: flex; align-items: center; gap: 4px;
+  z-index: 100;
+}
+.w95-start-btn {
+  padding: 2px 8px;
+  background: var(--w95-win-bg);
+  border-top: 2px solid var(--w95-bevel-light);
+  border-left: 2px solid var(--w95-bevel-light);
+  border-right: 2px solid var(--w95-bevel-shadow-deep);
+  border-bottom: 2px solid var(--w95-bevel-shadow-deep);
+  font-weight: 700;
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px;
+}
+.w95-taskbar-clock {
+  margin-left: auto;
+  padding: 2px 8px;
+  font-size: 11px;
+  border-top: 1px solid var(--w95-bevel-shadow);
+  border-left: 1px solid var(--w95-bevel-shadow);
+  border-right: 1px solid var(--w95-bevel-light);
+  border-bottom: 1px solid var(--w95-bevel-light);
+  background: var(--w95-win-bg);
+}
+
+/* === Two-col grid === */
+.w95-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+body { padding-bottom: 40px; } /* 태스크바 공간 */
+
+/* 반응형 */
+@media (max-width: 900px) {
+  .w95-desktop { grid-template-columns: 1fr; }
+  .w95-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .w95-two-col { grid-template-columns: 1fr; }
+}

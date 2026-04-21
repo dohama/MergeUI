@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gameboy DMG — Habit Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/gb-tokens.css">
+<link rel="stylesheet" href="css/gb-theme.css">
+</head>
+<body>
+
+<div class="gb-device">
+  <!-- 디바이스 상단 (전원 LED) -->
+  <div class="gb-device-top">
+    <div class="gb-device-logo">QUEST-BOY</div>
+    <div class="gb-device-dots">
+      <div class="gb-device-dot on" title="Power LED"></div>
+      <div class="gb-device-dot" title="Battery"></div>
+    </div>
+  </div>
+
+  <!-- LCD 스크린 -->
+  <div class="gb-lcd">
+    <!-- 헤더 메뉴 -->
+    <div class="gb-header">
+      <span>QUEST LOG</span>
+      <nav class="gb-header-nav">
+        <a href="index.html" class="active">Daily</a>
+        <a href="#stats">Stats</a>
+        <a href="#items">Items</a>
+        <a href="#save">Save</a>
+      </nav>
+    </div>
+
+    <!-- 타이틀 -->
+    <div class="gb-title">GOOD MORNING, HERO!</div>
+    <div class="gb-subtitle">&gt; 8 quests await you today.</div>
+
+    <!-- XP 바 -->
+    <div class="gb-xp">
+      <span id="xpLabel">LV.14 · 420/600 XP</span>
+      <div class="gb-xp-bar"><div class="gb-xp-fill" id="xpFill"></div></div>
+    </div>
+
+    <!-- KPI -->
+    <section class="gb-kpi-grid" id="kpiGrid" aria-label="Stats"></section>
+
+    <!-- 오늘의 퀘스트 -->
+    <section class="gb-section">
+      <div class="gb-section-title">Today's Quests</div>
+      <div class="gb-quests" id="questsList"></div>
+    </section>
+
+    <!-- 2열: 히트맵 + 업적 -->
+    <section class="gb-two-col">
+      <div>
+        <div class="gb-section-title">30-Day Streak</div>
+        <div class="gb-heatmap" id="heatmap"></div>
+      </div>
+      <div>
+        <div class="gb-section-title">Achievements</div>
+        <div class="gb-ach" id="achievements"></div>
+      </div>
+    </section>
+
+    <!-- 액션 버튼 -->
+    <div style="margin-top:20px; display:flex; gap:8px; justify-content:center">
+      <button type="button" class="gb-btn">▶ Add Quest</button>
+      <button type="button" class="gb-btn secondary">⇱ Save Game</button>
+    </div>
+  </div>
+
+  <!-- D-Pad + A/B (장식용) -->
+  <div class="gb-controls">
+    <div class="gb-dpad">
+      <div class="gb-dpad-btn u">▲</div>
+      <div class="gb-dpad-btn l">◀</div>
+      <div class="gb-dpad-btn c"></div>
+      <div class="gb-dpad-btn r">▶</div>
+      <div class="gb-dpad-btn d">▼</div>
+    </div>
+    <div class="gb-ab">
+      <div class="gb-btn-round">B</div>
+      <div class="gb-btn-round">A</div>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/gb-theme.js"></script>
+</body>
+</html>

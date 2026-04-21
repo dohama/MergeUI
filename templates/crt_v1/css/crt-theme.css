@@ -1,0 +1,237 @@
+/* Cathode Ray Terminal — CRT Phosphor Dashboard */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--crt-font-mono);
+  font-size: 18px;
+  background: var(--crt-bg-deep);
+  color: var(--crt-phosphor);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  text-shadow: 0 0 4px var(--crt-phosphor-glow);
+}
+a { color: var(--crt-phosphor); text-decoration: underline; }
+button { font-family: inherit; font-size: inherit; cursor: pointer; border: 1px solid currentColor; background: transparent; color: inherit; padding: 6px 14px; }
+
+/* === CRT 스캔라인 오버레이 === */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.25) 3px
+  );
+  pointer-events: none;
+  z-index: 100;
+  mix-blend-mode: multiply;
+}
+
+/* === 배경 vignette + glow === */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+  z-index: 99;
+}
+
+/* === Flicker 애니메이션 === */
+@keyframes crt-flicker {
+  0%, 19.9%, 22%, 62.9%, 64%, 64.9%, 70%, 100% { opacity: 0.99; }
+  20%, 21.9%, 63%, 63.9%, 65%, 69.9% { opacity: 0.75; }
+}
+.crt-flicker { animation: crt-flicker 2.5s infinite; }
+
+/* === 헤더 / 터미널 상단바 === */
+.crt-header {
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--crt-phosphor);
+  display: flex; justify-content: space-between; align-items: center;
+  position: relative; z-index: 2;
+}
+.crt-header::after {
+  content: '';
+  position: absolute; left: 0; right: 0; bottom: -3px; height: 1px;
+  background: var(--crt-phosphor); opacity: 0.5;
+}
+.crt-logo {
+  font-size: 22px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.crt-logo .blink { animation: crt-blink 1.1s steps(1) infinite; }
+@keyframes crt-blink { 50% { opacity: 0; } }
+
+.crt-header-nav { display: flex; gap: 20px; font-size: 16px; }
+.crt-header-nav a {
+  text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--crt-phosphor-dim);
+}
+.crt-header-nav a:hover, .crt-header-nav a.active {
+  color: var(--crt-phosphor);
+  text-decoration: underline; text-underline-offset: 4px;
+}
+
+/* === 메인 컨테이너 === */
+.crt-main {
+  max-width: 1440px; margin: 0 auto;
+  padding: 32px; position: relative; z-index: 2;
+}
+
+/* === 상단 시스템 상태 바 === */
+.crt-sysbar {
+  font-size: 14px;
+  padding: 8px 12px;
+  border: 1px solid var(--crt-phosphor-dim);
+  margin-bottom: 32px;
+  display: flex; gap: 24px; flex-wrap: wrap;
+  color: var(--crt-phosphor-dim);
+}
+.crt-sysbar span strong { color: var(--crt-phosphor); }
+
+/* === KPI Terminal Block === */
+.crt-kpi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  margin-bottom: 32px;
+}
+.crt-kpi {
+  padding: 20px;
+  border: 1px solid var(--crt-phosphor);
+  background: var(--crt-bg-panel);
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+.crt-kpi:hover { box-shadow: 0 0 20px var(--crt-phosphor-glow); }
+.crt-kpi::before {
+  content: '[ ' attr(data-id) ' ]';
+  position: absolute; top: -10px; left: 12px;
+  padding: 0 6px; background: var(--crt-bg-deep);
+  font-size: 12px; color: var(--crt-phosphor-dim);
+  letter-spacing: 0.1em;
+}
+.crt-kpi-label {
+  font-size: 14px; color: var(--crt-phosphor-dim);
+  text-transform: uppercase; letter-spacing: 0.15em;
+  margin-bottom: 8px;
+}
+.crt-kpi-value {
+  font-size: 42px; line-height: 1.0;
+  text-shadow: 0 0 8px var(--crt-phosphor-glow);
+}
+.crt-kpi-value.warn { color: var(--crt-amber); text-shadow: 0 0 8px var(--crt-amber-glow); }
+.crt-kpi-value.crit { color: var(--crt-red); text-shadow: 0 0 8px var(--crt-red-glow); animation: crt-blink 0.8s steps(1) infinite; }
+.crt-kpi-trend {
+  margin-top: 8px;
+  font-size: 14px; color: var(--crt-phosphor-dim);
+}
+
+/* === 섹션 === */
+.crt-section { margin-bottom: 32px; }
+.crt-section-title {
+  font-size: 20px;
+  color: var(--crt-phosphor);
+  text-transform: uppercase; letter-spacing: 0.15em;
+  padding: 0 12px 0 0;
+  margin-bottom: 16px;
+  border-bottom: 1px dashed var(--crt-phosphor-dim);
+  padding-bottom: 8px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.crt-section-title::before { content: '> '; color: var(--crt-phosphor-dim); }
+.crt-section-title .meta { font-size: 12px; color: var(--crt-phosphor-low); letter-spacing: 0.1em; }
+
+/* === 카드 === */
+.crt-card {
+  padding: 20px;
+  border: 1px solid var(--crt-phosphor);
+  background: var(--crt-bg-panel);
+}
+
+.crt-two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+
+/* === 테이블 (로그 뷰) === */
+.crt-logs {
+  background: var(--crt-bg-deep);
+  border: 1px solid var(--crt-phosphor);
+  padding: 16px;
+  font-size: 14px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.crt-logs::-webkit-scrollbar { width: 8px; }
+.crt-logs::-webkit-scrollbar-track { background: var(--crt-bg-deep); }
+.crt-logs::-webkit-scrollbar-thumb { background: var(--crt-phosphor-dim); }
+
+.crt-log-row {
+  display: grid; grid-template-columns: 80px 60px 1fr auto; gap: 12px;
+  padding: 4px 0;
+  border-bottom: 1px dashed var(--crt-bg-elevated);
+  align-items: center;
+}
+.crt-log-row.err { color: var(--crt-red); text-shadow: 0 0 6px var(--crt-red-glow); }
+.crt-log-row.warn { color: var(--crt-amber); text-shadow: 0 0 6px var(--crt-amber-glow); }
+.crt-log-row.info { color: var(--crt-cyan); }
+.crt-log-time { color: var(--crt-phosphor-dim); }
+.crt-log-lvl {
+  font-size: 11px; font-weight: 700;
+  padding: 2px 4px; text-align: center;
+  border: 1px solid currentColor;
+}
+.crt-log-msg { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crt-log-src { color: var(--crt-phosphor-low); font-size: 12px; }
+
+/* === ASCII 바 차트 === */
+.crt-ascii-bar {
+  font-family: var(--crt-font-mono);
+  font-size: 14px; line-height: 1.4;
+  color: var(--crt-phosphor);
+  white-space: pre;
+  padding: 12px;
+}
+
+/* === 서비스 헬스 리스트 === */
+.crt-services { display: flex; flex-direction: column; gap: 4px; }
+.crt-service {
+  display: grid; grid-template-columns: 1fr auto auto; gap: 16px;
+  padding: 8px 12px;
+  border-left: 3px solid var(--crt-phosphor);
+  font-size: 15px;
+  background: var(--crt-bg-panel);
+}
+.crt-service.warn { border-left-color: var(--crt-amber); color: var(--crt-amber); }
+.crt-service.err { border-left-color: var(--crt-red); color: var(--crt-red); }
+.crt-service-name { font-weight: 700; }
+.crt-service-status { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; }
+.crt-service-latency { font-size: 13px; color: var(--crt-phosphor-dim); }
+
+/* === 버튼 === */
+.crt-btn {
+  padding: 8px 18px;
+  font-family: var(--crt-font-mono); font-size: 14px;
+  border: 1px solid var(--crt-phosphor);
+  background: transparent;
+  color: var(--crt-phosphor);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  transition: all 0.15s;
+  text-shadow: 0 0 4px var(--crt-phosphor-glow);
+}
+.crt-btn:hover { background: var(--crt-phosphor); color: var(--crt-bg-deep); text-shadow: none; box-shadow: 0 0 16px var(--crt-phosphor-glow); }
+.crt-btn:focus { outline: 1px dashed var(--crt-phosphor); outline-offset: 4px; }
+
+/* 반응형 */
+@media (max-width: 1024px) {
+  .crt-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .crt-two-col { grid-template-columns: 1fr; }
+  .crt-header { padding: 12px 20px; }
+  .crt-main { padding: 24px 20px; }
+}
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+  .crt-kpi-grid { grid-template-columns: 1fr; }
+  .crt-kpi-value { font-size: 32px; }
+  .crt-header-nav { display: none; }
+}

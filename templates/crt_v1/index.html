@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cathode Ray — System Monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/crt-tokens.css">
+<link rel="stylesheet" href="css/crt-theme.css">
+</head>
+<body class="crt-flicker">
+
+<!-- 헤더 (터미널 상단) -->
+<header class="crt-header">
+  <div class="crt-logo">CATHODE//SYSOP<span class="blink">_</span></div>
+  <nav class="crt-header-nav" aria-label="Primary">
+    <a href="index.html" class="active">[Overview]</a>
+    <a href="#services">[Services]</a>
+    <a href="#alerts">[Alerts]</a>
+    <a href="#deploys">[Deploys]</a>
+    <a href="#config">[Config]</a>
+  </nav>
+</header>
+
+<main class="crt-main">
+  <!-- 시스템 상태 바 -->
+  <div class="crt-sysbar" id="sysbar"></div>
+
+  <!-- KPI -->
+  <section class="crt-kpi-grid" id="kpiGrid" aria-label="Key metrics"></section>
+
+  <!-- 지연시간 차트 -->
+  <section class="crt-section">
+    <div class="crt-section-title">
+      <span>Latency p50 / p99 · Last 10 min</span>
+      <span class="meta">auto-refresh · 15s</span>
+    </div>
+    <div class="crt-card" style="height:280px">
+      <canvas id="latencyChart"></canvas>
+    </div>
+  </section>
+
+  <!-- 2열: Services + Logs -->
+  <section class="crt-two-col">
+    <!-- 로그 스트림 -->
+    <div>
+      <div class="crt-section-title">
+        <span>Log Stream · Live</span>
+        <span class="meta">10 most recent</span>
+      </div>
+      <div class="crt-logs" id="logs"></div>
+    </div>
+
+    <!-- 서비스 헬스 -->
+    <div>
+      <div class="crt-section-title">
+        <span>Services</span>
+        <span class="meta">8 total</span>
+      </div>
+      <div class="crt-services" id="servicesList"></div>
+    </div>
+  </section>
+
+  <!-- ASCII 바 차트 -->
+  <section class="crt-section">
+    <div class="crt-section-title">
+      <span>CPU Utilization · ASCII View</span>
+      <span class="meta">per-service</span>
+    </div>
+    <div class="crt-card">
+      <pre class="crt-ascii-bar" id="asciiCpu"></pre>
+    </div>
+  </section>
+
+  <div style="margin-top:24px; display:flex; gap:12px">
+    <button type="button" class="crt-btn">[ Acknowledge All ]</button>
+    <button type="button" class="crt-btn">[ Run Diagnostic ]</button>
+    <button type="button" class="crt-btn">[ Export Log ]</button>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/crt-theme.js"></script>
+</body>
+</html>

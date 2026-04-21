@@ -1,0 +1,65 @@
+/* ===== Cathode Ray Terminal (crt_v1) — Design Tokens =====
+   브라운관 CRT · 인광 그린 · DevOps/System Monitoring
+   ============================================================ */
+:root {
+  --crt-font-mono: 'VT323', 'IBM Plex Mono', 'Courier New', monospace;
+  --crt-font-ui: 'VT323', 'Courier New', monospace;
+
+  /* 배경 — 깊은 블랙 */
+  --crt-bg-deep: #000000;
+  --crt-bg-panel: #0A0A0A;
+  --crt-bg-card: #0F0F0F;
+  --crt-bg-elevated: #161616;
+
+  /* 인광 그린 (기본) */
+  --crt-phosphor: #33FF66;            /* 밝은 인광 그린 */
+  --crt-phosphor-dim: #22AA44;        /* 중간 */
+  --crt-phosphor-low: #116622;        /* 어두운 */
+  --crt-phosphor-glow: rgba(51, 255, 102, 0.55);
+  --crt-phosphor-fog: rgba(51, 255, 102, 0.08);
+
+  /* 상태 컬러 (CRT RGB 분리) */
+  --crt-red: #FF3344;                 /* 에러 / 크리티컬 */
+  --crt-red-glow: rgba(255, 51, 68, 0.6);
+  --crt-amber: #FFB000;               /* 경고 (호박색 인광) */
+  --crt-amber-glow: rgba(255, 176, 0, 0.6);
+  --crt-cyan: #33FFFF;                /* 정보 */
+  --crt-cyan-glow: rgba(51, 255, 255, 0.6);
+
+  /* 차트 팔레트 */
+  --crt-chart-1: #33FF66;
+  --crt-chart-2: #FFB000;
+  --crt-chart-3: #33FFFF;
+  --crt-chart-4: #FF3344;
+  --crt-chart-5: #FF66CC;
+  --crt-chart-6: #22AA44;
+  --crt-chart-7: #116622;
+  --crt-chart-8: #AAAAAA;
+
+  /* 간격 (모노스페이스 ch 기반 혼용) */
+  --crt-space-1: 4px; --crt-space-2: 8px; --crt-space-3: 12px; --crt-space-4: 16px;
+  --crt-space-5: 24px; --crt-space-6: 32px; --crt-space-7: 48px; --crt-space-8: 64px;
+
+  /* Radius — 0 (터미널은 모두 각) */
+  --crt-radius: 0;
+}
+
+/* 액센트 프리셋 (인광 색 전환) */
+/* === Amber Phosphor ===
+:root {
+  --crt-phosphor: #FFB000; --crt-phosphor-dim: #AA7700; --crt-phosphor-low: #664400;
+  --crt-phosphor-glow: rgba(255,176,0,0.55); --crt-phosphor-fog: rgba(255,176,0,0.08);
+}
+*/
+/* === Ice Blue ===
+:root {
+  --crt-phosphor: #33FFFF; --crt-phosphor-dim: #22AAAA; --crt-phosphor-low: #116666;
+  --crt-phosphor-glow: rgba(51,255,255,0.55); --crt-phosphor-fog: rgba(51,255,255,0.08);
+}
+*/
+/* === Hot Pink ===
+:root {
+  --crt-phosphor: #FF66CC; --crt-phosphor-dim: #AA4488; --crt-phosphor-low: #662255;
+  --crt-phosphor-glow: rgba(255,102,204,0.55); --crt-phosphor-fog: rgba(255,102,204,0.08);
+}
+*/

@@ -1,0 +1,51 @@
+/* ===== Gameboy DMG (gb_v1) — Design Tokens =====
+   Nintendo Gameboy 89 · 4톤 LCD 그린 · 픽셀 Habit Tracker
+   ===================================================== */
+:root {
+  --gb-font-display: 'Press Start 2P', 'VT323', monospace;
+  --gb-font-body: 'Press Start 2P', 'VT323', monospace;
+
+  /* 4톤 LCD 그린 팔레트 (게임보이 오리지널) */
+  --gb-lcd-0: #0F380F;              /* 가장 어두운 — 텍스트 */
+  --gb-lcd-1: #306230;              /* 어두운 — 버튼·강조 */
+  --gb-lcd-2: #8BAC0F;              /* 중간 — 활성 */
+  --gb-lcd-3: #9BBC0F;              /* 밝은 — LCD 배경 */
+
+  /* 디바이스 케이스 */
+  --gb-case: #B8B8A0;               /* 회색 케이스 */
+  --gb-case-dark: #5B5B4A;
+  --gb-case-purple: #5A3E8C;        /* 게임보이 컬러 (바이올렛) */
+
+  /* 상태 (LCD 톤만 사용) */
+  --gb-success: #306230;
+  --gb-warning: #8BAC0F;
+  --gb-error: #0F380F;
+
+  /* 차트 팔레트 (4톤만 — 제약의 미학) */
+  --gb-chart-1: #0F380F;
+  --gb-chart-2: #306230;
+  --gb-chart-3: #8BAC0F;
+  --gb-chart-4: #9BBC0F;
+
+  /* 간격 — 픽셀 단위 정확성 */
+  --gb-px: 4px;                     /* 1 픽셀 단위 */
+  --gb-space-1: 4px; --gb-space-2: 8px; --gb-space-3: 12px; --gb-space-4: 16px;
+  --gb-space-5: 24px; --gb-space-6: 32px; --gb-space-7: 48px; --gb-space-8: 64px;
+
+  /* Radius — 전부 0 (픽셀) */
+  --gb-radius: 0;
+}
+
+/* 액센트 프리셋 — Gameboy 시리즈 변형 */
+/* === Pocket (실버) ===
+:root { --gb-lcd-0: #000000; --gb-lcd-1: #555555; --gb-lcd-2: #AAAAAA; --gb-lcd-3: #FFFFFF; --gb-case: #E0E0E0; }
+*/
+/* === Color (붉은 계열) ===
+:root { --gb-lcd-0: #2E0404; --gb-lcd-1: #782828; --gb-lcd-2: #D06060; --gb-lcd-3: #FFB8B8; --gb-case: #C82828; }
+*/
+/* === Advance (블루) ===
+:root { --gb-lcd-0: #0D2B4A; --gb-lcd-1: #2A5A8C; --gb-lcd-2: #5AA8D4; --gb-lcd-3: #B8E0F0; --gb-case: #2D5AA8; }
+*/
+/* === Virtual Boy (레드) ===
+:root { --gb-lcd-0: #1A0000; --gb-lcd-1: #660000; --gb-lcd-2: #CC0000; --gb-lcd-3: #FF6666; --gb-case: #000000; }
+*/

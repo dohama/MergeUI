@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workspace 95 — Project Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/w95-tokens.css">
+<link rel="stylesheet" href="css/w95-theme.css">
+</head>
+<body>
+
+<div class="w95-desktop">
+  <!-- 왼쪽 아이콘 그룹 (데스크톱 네비) -->
+  <aside class="w95-nav" aria-label="Primary navigation">
+    <a href="index.html" class="w95-nav-item active">
+      <div class="w95-nav-icon">&#128187;</div>
+      <span>My Workspace</span>
+    </a>
+    <a href="#projects" class="w95-nav-item">
+      <div class="w95-nav-icon">&#128193;</div>
+      <span>Projects</span>
+    </a>
+    <a href="#tasks" class="w95-nav-item">
+      <div class="w95-nav-icon">&#128203;</div>
+      <span>Tasks</span>
+    </a>
+    <a href="#team" class="w95-nav-item">
+      <div class="w95-nav-icon">&#128101;</div>
+      <span>Team</span>
+    </a>
+    <a href="#settings" class="w95-nav-item">
+      <div class="w95-nav-icon">&#9881;</div>
+      <span>Settings</span>
+    </a>
+  </aside>
+
+  <!-- 메인 콘텐츠 — 윈도우 박스들 -->
+  <main>
+    <!-- 메인 윈도우: Overview -->
+    <div class="w95-window">
+      <div class="w95-title">
+        <span>&#128200; Workspace 95 — Project Overview</span>
+        <div class="w95-title-btns">
+          <button type="button" class="w95-title-btn" aria-label="Minimize">_</button>
+          <button type="button" class="w95-title-btn" aria-label="Maximize">&#9633;</button>
+          <button type="button" class="w95-title-btn" aria-label="Close">&times;</button>
+        </div>
+      </div>
+      <div class="w95-menubar">
+        <div class="w95-menubar-item"><u>F</u>ile</div>
+        <div class="w95-menubar-item"><u>E</u>dit</div>
+        <div class="w95-menubar-item"><u>V</u>iew</div>
+        <div class="w95-menubar-item"><u>H</u>elp</div>
+      </div>
+      <div class="w95-body">
+        <!-- KPI -->
+        <section class="w95-kpi-grid" id="kpiGrid" aria-label="Key metrics"></section>
+      </div>
+    </div>
+
+    <!-- Projects 윈도우 -->
+    <div class="w95-window">
+      <div class="w95-title">
+        <span>&#128193; All Projects</span>
+        <div class="w95-title-btns">
+          <button type="button" class="w95-title-btn">_</button>
+          <button type="button" class="w95-title-btn">&#9633;</button>
+          <button type="button" class="w95-title-btn">&times;</button>
+        </div>
+      </div>
+      <div class="w95-body">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <strong>&nbsp;Projects ordered by urgency</strong>
+          <button type="button" class="w95-btn">+ New Project</button>
+        </div>
+        <table class="w95-table">
+          <thead><tr><th>Name</th><th>Owner</th><th>Progress</th><th>Due</th><th>Status</th></tr></thead>
+          <tbody id="projectsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 2열: Tasks + Team -->
+    <div class="w95-two-col">
+      <div class="w95-window">
+        <div class="w95-title">
+          <span>&#128203; My Tasks</span>
+          <div class="w95-title-btns"><button type="button" class="w95-title-btn">&times;</button></div>
+        </div>
+        <div class="w95-body">
+          <table class="w95-table">
+            <thead><tr><th>Task</th><th>Project</th><th>Due</th><th>Priority</th></tr></thead>
+            <tbody id="tasksBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="w95-window">
+        <div class="w95-title">
+          <span>&#128101; Team Load</span>
+          <div class="w95-title-btns"><button type="button" class="w95-title-btn">&times;</button></div>
+        </div>
+        <div class="w95-body">
+          <table class="w95-table">
+            <thead><tr><th>Member</th><th>Role</th><th>Utilization</th></tr></thead>
+            <tbody id="teamBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Burndown Chart -->
+    <div class="w95-window">
+      <div class="w95-title">
+        <span>&#128200; Sprint Burndown</span>
+        <div class="w95-title-btns"><button type="button" class="w95-title-btn">&times;</button></div>
+      </div>
+      <div class="w95-body">
+        <div style="height:240px; background:white; padding:4px;" class="w95-bevel-in">
+          <canvas id="burndownChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- 하단 태스크바 -->
+<div class="w95-taskbar">
+  <button type="button" class="w95-start-btn">&#127942; Start</button>
+  <div class="w95-btn" style="min-width:auto; padding:2px 10px;">&#128187; My Workspace</div>
+  <div class="w95-taskbar-clock" id="clock">--:-- --</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/w95-theme.js"></script>
+</body>
+</html>

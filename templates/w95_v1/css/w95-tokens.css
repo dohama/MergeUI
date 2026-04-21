@@ -1,0 +1,70 @@
+/* ===== Workspace 95 (w95_v1) — Design Tokens =====
+   Windows 95/98 시스템 UI · Project Management 어드민
+   ================================================== */
+:root {
+  --w95-font: "MS Sans Serif", "Pixelated MS Sans Serif", Geneva, Tahoma, sans-serif;
+
+  /* 시스템 팔레트 (Win95) */
+  --w95-bg: #008080;                      /* 데스크톱 청록 */
+  --w95-bg-alt: #3A6EA5;                  /* 파란 그라디 */
+  --w95-win-bg: #C0C0C0;                  /* 윈도우 배경 (시스템 그레이) */
+  --w95-win-face: #C0C0C0;
+  --w95-title-bar: #000080;               /* 네이비 타이틀바 */
+  --w95-title-bar-inactive: #808080;
+  --w95-title-text: #FFFFFF;
+
+  /* 베벨 (3D 엣지) */
+  --w95-bevel-light: #FFFFFF;             /* 위·왼쪽 하이라이트 */
+  --w95-bevel-shadow: #808080;            /* 아래·오른 섀도 */
+  --w95-bevel-shadow-deep: #000000;       /* 외곽 검정 */
+  --w95-bevel-face: #C0C0C0;
+
+  /* 텍스트 */
+  --w95-text: #000000;
+  --w95-text-dim: #606060;
+  --w95-text-disabled: #A0A0A0;
+
+  /* 액센트 */
+  --w95-accent: #000080;                  /* 네이비 (선택 배경) */
+  --w95-accent-alt: #008080;              /* 시스템 청록 */
+  --w95-link: #0000FF;                    /* 고전 파랑 링크 */
+  --w95-visited: #800080;                 /* 보라 (방문한 링크) */
+
+  /* 상태 */
+  --w95-success: #008000;                 /* 다크 그린 */
+  --w95-warning: #808000;                 /* 올리브 */
+  --w95-error: #800000;                   /* 다크 레드 */
+  --w95-info: #000080;
+
+  /* 차트 팔레트 (16색 VGA) */
+  --w95-chart-1: #000080;
+  --w95-chart-2: #800000;
+  --w95-chart-3: #008000;
+  --w95-chart-4: #808000;
+  --w95-chart-5: #800080;
+  --w95-chart-6: #008080;
+  --w95-chart-7: #C0C0C0;
+  --w95-chart-8: #404040;
+
+  /* 간격 (픽셀 정확성 중시) */
+  --w95-space-1: 2px; --w95-space-2: 4px; --w95-space-3: 6px; --w95-space-4: 8px;
+  --w95-space-5: 12px; --w95-space-6: 16px; --w95-space-7: 24px; --w95-space-8: 32px;
+
+  /* Radius — 전부 0 (Win95는 샤프함) */
+  --w95-radius: 0;
+}
+
+/* 액센트 프리셋 */
+/* === Classic Mac OS (흑백 시스템 7) ===
+:root {
+  --w95-bg: #888888; --w95-win-bg: #FFFFFF;
+  --w95-title-bar: #000000; --w95-accent: #000000;
+  --w95-bevel-light: #FFFFFF; --w95-bevel-shadow: #000000;
+}
+*/
+/* === Hot Pink 98 ===
+:root { --w95-title-bar: #C71585; --w95-accent: #C71585; --w95-bg: #FFB6D9; }
+*/
+/* === Plum ===
+:root { --w95-title-bar: #662255; --w95-accent: #662255; --w95-bg: #A47E8E; }
+*/

@@ -79,7 +79,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     .btn-fav:hover{border-color:var(--brand);background:var(--glow-brand)}
 
     /* Preview area with device switcher */
-    .preview-area{max-width:1600px;margin:0 auto;padding:0 32px}
+    .preview-area{max-width:none;margin:0 auto;padding:0 32px}
     .preview-controls{display:flex;align-items:center;gap:8px;margin-bottom:0;padding:12px 16px;background:var(--bg-raised);border:1px solid var(--border);border-radius:12px 12px 0 0}
     .pc-dots{display:flex;gap:6px;margin-right:auto}
     .pc-dot{width:10px;height:10px;border-radius:50%}
@@ -348,7 +348,13 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   </div>
 
 <script>
-var devices={desktop:{w:1280,h:720},tablet:{w:768,h:600},mobile:{w:375,h:667}};
+// Desktop은 container 폭 100% 사용 (동적으로 계산, 최소 1280), tablet/mobile은 고정
+function currentDesktopWidth(){
+  var area = document.querySelector('.preview-area');
+  var w = area ? (area.offsetWidth - 64) : 1280;
+  return Math.max(1280, w);
+}
+var devices={desktop:{w:1280,h:860},tablet:{w:768,h:600},mobile:{w:375,h:667}};
 var themePreviewUrls={
   'sd_v1':  '../../templates/sd_v1/index.html',
   'pa_v1':  '../../templates/pa_v1/index.html',
@@ -363,6 +369,8 @@ var themePreviewUrls={
   'w95_v1': '../../templates/w95_v1/index.html',
   'crt_v1': '../../templates/crt_v1/index.html',
   'gb_v1':  '../../templates/gb_v1/index.html',
+  'td_v1':  '../../templates/td_v1/index.html',
+  'bi_v1':  '../../templates/bi_v1/index.html',
   'softdesk':    '../../templates/sd_v1/index.html',
   'pulse-admin': '../../templates/pa_v1/index.html'
 };
@@ -377,28 +385,44 @@ if(themePreviewUrls[previewSlug]){
 }
 
 // 디바이스 전환
+function applyDevice(d){
+  var s=devices[d];
+  var container=document.querySelector('.preview-area').offsetWidth-64;
+  var targetW, scale;
+  if (d === 'desktop') {
+    // 데스크톱: 컨테이너 100% — scale 없이 실제 폭으로 로드
+    targetW = Math.max(1280, container);
+    scale = 1;
+  } else {
+    targetW = s.w;
+    scale = Math.min(1, container / s.w);
+  }
+  iframe.style.width = targetW + 'px';
+  iframe.style.height = s.h + 'px';
+  iframe.style.transform = 'scale(' + scale + ')';
+  document.getElementById('previewFrame').style.height = Math.round(s.h * scale) + 'px';
+  var label = document.getElementById('sizeLabel');
+  if (label) label.textContent = Math.round(targetW) + ' × ' + s.h;
+}
+
 document.querySelectorAll('.device-btn').forEach(function(btn){
   btn.addEventListener('click',function(){
     document.querySelectorAll('.device-btn').forEach(function(b){b.classList.remove('active')});
     this.classList.add('active');
-    var d=this.getAttribute('data-device');
-    var s=devices[d];
-    var container=document.querySelector('.preview-area').offsetWidth-64;
-    var scale=Math.min(1,container/s.w);
-    iframe.style.width=s.w+'px';
-    iframe.style.height=s.h+'px';
-    iframe.style.transform='scale('+scale+')';
-    document.getElementById('previewFrame').style.height=Math.round(s.h*scale)+'px';
-    document.getElementById('sizeLabel').textContent=s.w+' × '+s.h;
+    applyDevice(this.getAttribute('data-device'));
   });
 });
 
-// Init scale
+// 창 리사이즈 시 데스크톱 모드면 다시 계산
+window.addEventListener('resize', function(){
+  var activeBtn = document.querySelector('.device-btn.active');
+  var d = activeBtn ? activeBtn.getAttribute('data-device') : 'desktop';
+  applyDevice(d);
+});
+
+// Init
 window.addEventListener('load',function(){
-  var container=document.querySelector('.preview-area').offsetWidth-64;
-  var scale=Math.min(1,container/1280);
-  iframe.style.transform='scale('+scale+')';
-  document.getElementById('previewFrame').style.height=Math.round(720*scale)+'px';
+  applyDevice('desktop');
 });
 </script>
 
@@ -661,6 +685,18 @@ window.addEventListener('load',function(){
       features: ['4-tone LCD green palette only','Press Start 2P pixel font','Device frame (D-Pad + A/B buttons)','XP bar + level + streak heatmap','Quest toggle interaction','5 accent presets (DMG/Pocket/Color/Advance/Virtual Boy)'],
       previewUrl: '../../templates/gb_v1/index.html', font: 'Press Start 2P', cssPrefix: '--gb-*',
       pageList: ['Habit Tracker (Quest log + XP bar + 30-day streak + achievements)']
+    },
+    'td_v1': {
+      name: 'Trading Terminal', desc: 'Bloomberg · TradingView style pro quant desk. 7 chart types in one view: candlestick+volume, depth chart, volume profile, sparklines, orderbook with fill bars, news sentiment, real-time ticker.', category: 'Analytics', tags: ['Trading','Finance','7 Charts'], badge: 'new', components: 16, pages: 1, version: '1.0.0', updated: '2026-04-21',
+      features: ['Candlestick + volume (SVG direct)','Market depth chart (bids/asks)','Volume profile (horizontal bars)','10 watchlist sparklines','Order book with fill visualization','News sentiment badges','Scrolling ticker stream (CSS keyframes)','4 accent presets (Orange/Forest/Violet/Mono)'],
+      previewUrl: '../../templates/td_v1/index.html', font: 'Inter + JetBrains Mono', cssPrefix: '--td-*',
+      pageList: ['Market Overview (Watchlist + Candlestick + Depth + Volume Profile + Orderbook + Positions + News)']
+    },
+    'bi_v1': {
+      name: 'BI Dashboard', desc: 'Looker Studio · Metabase · Tableau style analytics dashboard. 10 chart types in one view — line, stacked bar, horizontal stacked bar, donut, pie, area stacked, scatter, heatmap, gauge, funnel.', category: 'Analytics', tags: ['Analytics','BI','10 Charts'], badge: 'new', components: 18, pages: 1, version: '1.0.0', updated: '2026-04-21',
+      features: ['Line chart (revenue trend with YoY compare)','Stacked bar (channel breakdown)','Horizontal stacked bar (cohort retention M1-M6)','Donut (device share)','Pie (plan mix)','Area stacked (MAU/WAU/DAU)','Scatter plot (LTV vs CAC with bubble size)','Heatmap 7×24 (SVG, 5-step colors)','Gauge (SVG arc, NPS)','Funnel (HTML/CSS)','4 accent presets'],
+      previewUrl: '../../templates/bi_v1/index.html', font: 'Inter + JetBrains Mono', cssPrefix: '--bi-*',
+      pageList: ['Analytics Overview (4 KPI + 10 charts + countries table)']
     }
   };
 

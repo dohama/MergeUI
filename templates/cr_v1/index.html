@@ -98,6 +98,17 @@
           </div>
         </div>
       </section>
+
+      <!-- Chart Gallery +4 -->
+      <section style="margin-top:24px">
+        <h2 style="font-size:16px;font-weight:700;margin-bottom:16px;color:var(--crm-text-primary)">Deal Analytics</h2>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px">
+          <div style="background:var(--crm-surface);border:1px solid var(--crm-border);border-radius:12px;padding:20px"><div style="font-size:12px;font-weight:700;color:var(--crm-text-primary);margin-bottom:10px">Win Rate by Rep</div><div style="height:220px"><canvas id="crBar"></canvas></div></div>
+          <div style="background:var(--crm-surface);border:1px solid var(--crm-border);border-radius:12px;padding:20px"><div style="font-size:12px;font-weight:700;color:var(--crm-text-primary);margin-bottom:10px">Deal Source Mix</div><div style="height:220px"><canvas id="crDonut"></canvas></div></div>
+          <div style="background:var(--crm-surface);border:1px solid var(--crm-border);border-radius:12px;padding:20px"><div style="font-size:12px;font-weight:700;color:var(--crm-text-primary);margin-bottom:10px">Monthly Trend</div><div style="height:220px"><canvas id="crTrend"></canvas></div></div>
+          <div style="background:var(--crm-surface);border:1px solid var(--crm-border);border-radius:12px;padding:20px"><div style="font-size:12px;font-weight:700;color:var(--crm-text-primary);margin-bottom:10px">Conversion Funnel</div><div id="crFunnel" style="padding-top:12px"></div></div>
+        </div>
+      </section>
     </div>
   </main>
 
@@ -116,6 +127,30 @@
     var D = CRM_DATA;
     bindKpi(D.kpi);
     renderPipeline(D.pipeline);
+
+    // +4 CRM Charts
+    document.addEventListener('DOMContentLoaded', function(){
+      if (!window.Chart) return;
+      var css = getComputedStyle(document.documentElement);
+      var primary = css.getPropertyValue('--crm-primary').trim() || '#0984E3';
+      var palette = [primary, '#00B894', '#FDCB6E', '#E17055', '#6C5CE7'];
+      if (document.getElementById('crBar')) {
+        new Chart(document.getElementById('crBar'), { type:'bar', data:{ labels:['Sarah','Mike','Emma','Alex','Lisa'], datasets:[{ data:[42,38,51,29,47], backgroundColor:primary, borderRadius:6 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ display:false }, ticks:{ color:'#636E72' } }, y:{ grid:{ color:'rgba(45,52,54,0.04)' }, ticks:{ color:'#636E72', callback:function(v){return v+'%';} } } } } });
+      }
+      if (document.getElementById('crDonut')) {
+        new Chart(document.getElementById('crDonut'), { type:'doughnut', data:{ labels:['Inbound','Outbound','Referral','Events','Partner'], datasets:[{ data:[38,24,18,12,8], backgroundColor:palette, borderWidth:2, borderColor:'#fff' }] }, options:{ responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{ position:'right', labels:{ color:'#636E72', font:{ size:11 }, usePointStyle:true, boxWidth:8 } } } } });
+      }
+      if (document.getElementById('crTrend')) {
+        var tctx = document.getElementById('crTrend').getContext('2d');
+        var tg = tctx.createLinearGradient(0,0,0,220); tg.addColorStop(0, primary + '55'); tg.addColorStop(1, primary + '00');
+        new Chart(document.getElementById('crTrend'), { type:'line', data:{ labels:['Jan','Feb','Mar','Apr','May','Jun'], datasets:[{ label:'Deals Won', data:[18,22,26,32,38,42], borderColor:primary, backgroundColor:tg, borderWidth:2.5, tension:0.4, fill:true, pointBackgroundColor:'#fff', pointBorderColor:primary, pointBorderWidth:2, pointRadius:4 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ display:false }, ticks:{ color:'#636E72' } }, y:{ grid:{ color:'rgba(45,52,54,0.04)' }, ticks:{ color:'#636E72' } } } } });
+      }
+      var f = document.getElementById('crFunnel');
+      if (f) {
+        var steps=[{l:'Leads',n:420,pct:100},{l:'Qualified',n:248,pct:59},{l:'Proposal',n:142,pct:34},{l:'Closed Won',n:68,pct:16}];
+        f.innerHTML = steps.map(function(s){return '<div style="display:grid;grid-template-columns:90px 1fr 50px;gap:10px;align-items:center;margin-bottom:8px;font-size:12px"><div style="font-weight:600;color:#2D3436">'+s.l+'</div><div style="height:20px;background:#F0F3F7;border-radius:10px;overflow:hidden"><div style="width:'+s.pct+'%;height:100%;background:'+primary+';border-radius:10px"></div></div><div style="text-align:right;font-weight:700;color:'+primary+';font-family:monospace">'+s.pct+'%</div></div>';}).join('');
+      }
+    });
   </script>
 </body>
 </html>

@@ -110,11 +110,67 @@
     </section>
 
     <div class="lx-divider">· · ·</div>
+
+    <!-- Chart Gallery — +4 elegant charts -->
+    <section class="lx-section">
+      <div class="lx-section-head">
+        <div class="lx-section-sub">Deeper Analysis</div>
+        <h2 class="lx-section-title">Wealth Breakdown</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:48px">
+        <div class="lx-card">
+          <div style="font-family:var(--lx-font-display);font-style:italic;font-size:16px;margin-bottom:10px">Sector Allocation</div>
+          <div style="height:240px"><canvas id="lxDonut"></canvas></div>
+        </div>
+        <div class="lx-card">
+          <div style="font-family:var(--lx-font-display);font-style:italic;font-size:16px;margin-bottom:10px">Monthly Returns · 12M</div>
+          <div style="height:240px"><canvas id="lxBar"></canvas></div>
+        </div>
+        <div class="lx-card">
+          <div style="font-family:var(--lx-font-display);font-style:italic;font-size:16px;margin-bottom:10px">Risk Exposure Gauge</div>
+          <div id="lxGauge" style="text-align:center;padding:12px"></div>
+        </div>
+        <div class="lx-card">
+          <div style="font-family:var(--lx-font-display);font-style:italic;font-size:16px;margin-bottom:10px">Top Holdings</div>
+          <div style="height:240px"><canvas id="lxHBar"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="lx-divider">· · ·</div>
   </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script src="js/data.js"></script>
 <script src="js/lx-theme.js"></script>
+<script>
+// lx_v1 +4 luxury charts (gold palette only)
+document.addEventListener('DOMContentLoaded', function(){
+  if (!window.Chart) return;
+  var goldPalette = ['#C9A961','#A68948','#CFA793','#6B2032','#5A8A5E','#5A748A'];
+  // Donut
+  var d = document.getElementById('lxDonut');
+  if (d) new Chart(d, { type:'doughnut', data:{ labels:['Technology','Healthcare','Finance','Energy','Consumer'], datasets:[{ data:[32,22,18,16,12], backgroundColor:goldPalette.slice(0,5), borderWidth:2, borderColor:'#1A1815' }] }, options:{ responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{ position:'right', labels:{ color:'#C9C1AE', font:{ family:'Montserrat', size:11 }, usePointStyle:true, boxWidth:6 } } } } });
+  // Bar (alternating up/down gold)
+  var b = document.getElementById('lxBar');
+  if (b) {
+    var monthData = [2.4,1.8,-0.8,3.2,1.4,2.8,-1.2,4.1,2.6,1.8,3.4,2.2];
+    var colors = monthData.map(function(v){return v>=0?'#C9A961':'#6B2032';});
+    new Chart(b, { type:'bar', data:{ labels:['J','F','M','A','M','J','J','A','S','O','N','D'], datasets:[{ data:monthData, backgroundColor:colors, borderRadius:0 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ display:false }, ticks:{ color:'#8F8775', font:{ family:'Montserrat', size:10 } } }, y:{ grid:{ color:'rgba(201,169,97,0.05)' }, ticks:{ color:'#8F8775', font:{ family:'Montserrat', size:10 }, callback:function(v){return v+'%';} } } } } });
+  }
+  // Gauge (SVG arc)
+  var g = document.getElementById('lxGauge');
+  if (g) {
+    var val = 62, max = 100;
+    var a = (val/max)*180, R = 70, CX = 90, CY = 85;
+    function pt(ang){ var r=(ang-180)*Math.PI/180; return (CX+R*Math.cos(r))+' '+(CY+R*Math.sin(r)); }
+    g.innerHTML = '<svg viewBox="0 0 180 110" style="width:100%;max-width:220px"><path d="M '+pt(0)+' A '+R+' '+R+' 0 0 1 '+pt(180)+'" fill="none" stroke="rgba(201,169,97,0.15)" stroke-width="12"/><path d="M '+pt(0)+' A '+R+' '+R+' 0 '+(a>180?1:0)+' 1 '+pt(a)+'" fill="none" stroke="#C9A961" stroke-width="12" stroke-linecap="round"/><circle cx="'+pt(a).split(" ")[0]+'" cy="'+pt(a).split(" ")[1]+'" r="6" fill="#F5F0E8" stroke="#C9A961" stroke-width="2"/></svg><div style="font-family:var(--lx-font-display);font-style:italic;font-size:36px;color:#F5F0E8;margin-top:4px">'+val+'/100</div><div style="font-family:Montserrat;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#C9A961;margin-top:4px">Moderate</div>';
+  }
+  // Horizontal Bar
+  var hb = document.getElementById('lxHBar');
+  if (hb) new Chart(hb, { type:'bar', data:{ labels:['AAPL','MSFT','NVDA','TSLA','GOOGL','AMZN'], datasets:[{ data:[14.2,12.4,9.8,6.4,5.2,4.1], backgroundColor:'#C9A961', borderColor:'#A68948', borderWidth:1 }] }, options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ color:'rgba(201,169,97,0.05)' }, ticks:{ color:'#8F8775', font:{ family:'Montserrat', size:10 }, callback:function(v){return v+'%';} } }, y:{ grid:{ display:false }, ticks:{ color:'#C9C1AE', font:{ family:'Montserrat', size:10, weight:'600' } } } } } });
+});
+</script>
 </body>
 </html>

@@ -120,6 +120,14 @@
           <button aria-label="Previous page">Prev</button><button class="active" aria-current="page">1</button><button>2</button><button>3</button><button aria-label="Next page">Next</button>
         </div>
     </div>
+
+    <!-- Chart Gallery — +4 neumorphic charts -->
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:24px">
+      <div class="card"><div class="card-header"><h3 class="card-title">Plan Distribution</h3></div><div class="card-body"><div style="height:240px"><canvas id="sdDonut"></canvas></div></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Top Features Used</h3></div><div class="card-body"><div style="height:240px"><canvas id="sdHBar"></canvas></div></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Weekly Activity · Area</h3></div><div class="card-body"><div style="height:240px"><canvas id="sdArea"></canvas></div></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Health Scorecard · Radar</h3></div><div class="card-body"><div style="height:240px"><canvas id="sdRadar"></canvas></div></div></div>
+    </div>
     </div><!-- /content -->
   </main>
 
@@ -196,6 +204,25 @@
         }).join('');
       }
     } catch(e) { console.warn('Orders bind failed:', e); }
+
+    // +4 Neumorphic Charts
+    try {
+      var SDP = ['#1ACEFF','#6C5CE7','#44EEEF','#FDCB6E','#FF6B6B'];
+      if (document.getElementById('sdDonut')) {
+        new Chart(document.getElementById('sdDonut'), { type:'doughnut', data:{ labels:['Free','Pro','Team','Enterprise'], datasets:[{ data:[62,24,10,4], backgroundColor:SDP, borderWidth:3, borderColor:'#DFE4EA' }] }, options:{ responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{ position:'right', labels:{ color:'#636E72', font:{ size:11 }, usePointStyle:true, boxWidth:8 } } } } });
+      }
+      if (document.getElementById('sdHBar')) {
+        new Chart(document.getElementById('sdHBar'), { type:'bar', data:{ labels:['Dashboard','Reports','Export','Integrations','Collaboration'], datasets:[{ data:[842,618,482,312,248], backgroundColor:'#1ACEFF', borderRadius:8 }] }, options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ color:'rgba(45,52,54,0.06)' }, ticks:{ color:'#636E72' } }, y:{ grid:{ display:false }, ticks:{ color:'#2D3436', font:{ weight:'600' } } } } } });
+      }
+      if (document.getElementById('sdArea')) {
+        var actx = document.getElementById('sdArea').getContext('2d');
+        var ag = actx.createLinearGradient(0,0,0,240); ag.addColorStop(0,'rgba(26,206,255,0.4)'); ag.addColorStop(1,'rgba(26,206,255,0)');
+        new Chart(document.getElementById('sdArea'), { type:'line', data:{ labels:['M','T','W','T','F','S','S'], datasets:[{ label:'Sessions', data:[124,148,132,168,184,96,68], borderColor:'#1ACEFF', backgroundColor:ag, borderWidth:3, tension:0.4, fill:true, pointBackgroundColor:'#1ACEFF', pointRadius:4 },{ label:'Pageviews', data:[280,340,310,410,460,240,180], borderColor:'#6C5CE7', backgroundColor:'transparent', borderWidth:2, tension:0.4, borderDash:[4,3], pointRadius:3 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'top', align:'end', labels:{ color:'#636E72', font:{ size:11 }, usePointStyle:true, boxWidth:6 } } }, scales:{ x:{ grid:{ display:false }, ticks:{ color:'#636E72' } }, y:{ grid:{ color:'rgba(45,52,54,0.06)' }, ticks:{ color:'#636E72' } } } } });
+      }
+      if (document.getElementById('sdRadar')) {
+        new Chart(document.getElementById('sdRadar'), { type:'radar', data:{ labels:['Performance','Uptime','Support','Security','UX','Features'], datasets:[{ label:'Current', data:[88,98,82,94,90,86], borderColor:'#1ACEFF', backgroundColor:'rgba(26,206,255,0.2)', borderWidth:2, pointBackgroundColor:'#1ACEFF', pointRadius:3 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ r:{ min:0, max:100, grid:{ color:'rgba(45,52,54,0.08)' }, angleLines:{ color:'rgba(45,52,54,0.08)' }, ticks:{ display:false }, pointLabels:{ color:'#636E72', font:{ size:11 } } } } } });
+      }
+    } catch(e) { console.warn('sd extra charts failed:', e); }
   </script>
 </body>
 </html>

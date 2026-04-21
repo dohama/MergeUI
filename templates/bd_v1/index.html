@@ -61,11 +61,56 @@
         <tbody id="ordersBody"></tbody>
       </table>
     </div>
+
+    <!-- +4 Neon Charts -->
+    <div class="bd-card r-lg span-2x3 glow-yellow"><h2>Top Products · Bar</h2><div style="height:260px"><canvas id="bdBar"></canvas></div></div>
+    <div class="bd-card r-sm span-2 glow-mint"><h2>Category Mix</h2><div style="height:140px"><canvas id="bdDonut"></canvas></div></div>
+    <div class="bd-card r-pill span-2 glow-pink"><h2>Weekday Heatmap</h2><div id="bdHeat" style="display:grid;grid-template-columns:repeat(24,1fr);gap:2px;margin-top:6px"></div></div>
+    <div class="bd-card r-sm span-4 grad-border glow-pink"><h2>Conversion Funnel</h2><div id="bdFunnel" style="padding-top:8px"></div></div>
   </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script src="js/data.js"></script>
 <script src="js/bd-theme.js"></script>
+<script>
+// bd_v1 +4 neon charts
+document.addEventListener('DOMContentLoaded', function(){
+  if (!window.Chart) return;
+  // Bar — neon gradient
+  var bar = document.getElementById('bdBar');
+  if (bar) {
+    var bctx = bar.getContext('2d');
+    var bg = bctx.createLinearGradient(0, 0, 0, 260);
+    bg.addColorStop(0, '#FF2D87');
+    bg.addColorStop(1, '#B43CFF');
+    new Chart(bar, { type:'bar', data:{ labels:['Glow Hoodie','Neon Tee','Sunset Cap','Electric Tote','Holo Jacket','Volt Sneaker'], datasets:[{ data:[84,52,36,28,124,88], backgroundColor:bg, borderRadius:6 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ display:false }, ticks:{ color:'#8A8A8A', font:{ family:'Archivo' } } }, y:{ grid:{ color:'rgba(255,255,255,0.05)' }, ticks:{ color:'#8A8A8A' } } } } });
+  }
+  // Donut — category
+  var d = document.getElementById('bdDonut');
+  if (d) new Chart(d, { type:'doughnut', data:{ labels:['Apparel','Accessory','Lifestyle','Tech'], datasets:[{ data:[48,26,18,8], backgroundColor:['#FF2D87','#39F2AE','#F3FF4A','#B43CFF'], borderWidth:2, borderColor:'#0A0A0A' }] }, options:{ responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{ position:'right', labels:{ color:'#D4D4D4', font:{ size:10 }, usePointStyle:true, boxWidth:6 } } } } });
+  // Heatmap
+  var h = document.getElementById('bdHeat');
+  if (h) {
+    var colors=['#141414','#FF2D87','#39F2AE','#F3FF4A'];
+    var html='';
+    for(var d2=0;d2<7;d2++){
+      for(var hh=0;hh<24;hh++){
+        var idx = Math.floor(Math.random()*4);
+        if(hh>=12 && hh<=14) idx = Math.min(3,idx+1);
+        if(hh>=19 && hh<=22) idx = Math.min(3,idx+2);
+        html += '<div style="aspect-ratio:1;background:'+colors[idx]+';opacity:'+(0.3+idx*0.24)+';border-radius:1px"></div>';
+      }
+    }
+    h.innerHTML = html;
+  }
+  // Funnel
+  var f = document.getElementById('bdFunnel');
+  if (f) {
+    var steps=[{l:'Visit',n:12400,pct:100,c:'#B43CFF'},{l:'View',n:4820,pct:38.9,c:'#FF2D87'},{l:'Cart',n:1540,pct:12.4,c:'#39F2AE'},{l:'Buy',n:412,pct:3.3,c:'#F3FF4A'}];
+    f.innerHTML = steps.map(function(s){return '<div style="display:grid;grid-template-columns:70px 1fr 60px;gap:10px;align-items:center;margin-bottom:6px;font-family:Archivo;font-size:11px;color:#D4D4D4"><div style="font-weight:700">'+s.l+'</div><div style="height:18px;background:#141414;border-radius:9px;overflow:hidden"><div style="width:'+s.pct+'%;height:100%;background:'+s.c+';box-shadow:0 0 12px '+s.c+'80;border-radius:9px"></div></div><div style="text-align:right;font-family:Unbounded;font-weight:700;color:'+s.c+'">'+s.pct+'%</div></div>';}).join('');
+  }
+});
+</script>
 </body>
 </html>

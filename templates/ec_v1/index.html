@@ -130,6 +130,26 @@
         </div>
       </article>
     </section>
+
+    <!-- Chart Gallery +4 -->
+    <section class="grid-2" style="margin-top:24px">
+      <article class="glass-card">
+        <h2 class="card-title">Revenue by Region</h2>
+        <div class="chart-wrap" style="height:240px"><canvas id="ecHBar"></canvas></div>
+      </article>
+      <article class="glass-card">
+        <h2 class="card-title">Order Status</h2>
+        <div class="chart-wrap" style="height:240px"><canvas id="ecDonut"></canvas></div>
+      </article>
+      <article class="glass-card">
+        <h2 class="card-title">Traffic vs Conversion</h2>
+        <div class="chart-wrap" style="height:240px"><canvas id="ecMix"></canvas></div>
+      </article>
+      <article class="glass-card">
+        <h2 class="card-title">Top Customers (LTV)</h2>
+        <div class="chart-wrap" style="height:240px"><canvas id="ecScatter"></canvas></div>
+      </article>
+    </section>
   </main>
 
   <!-- ============ Mobile Bottom Nav ============ -->
@@ -269,6 +289,24 @@
           }
         }
       });
+    })();
+
+    // +4 Glass E-Commerce Charts
+    (function(){
+      if (!window.Chart) return;
+      var coral = '#FF6B6B', mint = '#4DD4B0', gold = '#FFB88C', purple='#A78BFA', cyan='#60E3F0';
+      if (document.getElementById('ecHBar')) {
+        new Chart(document.getElementById('ecHBar'), { type:'bar', data:{ labels:['North America','Europe','Asia','South America','Oceania','Africa'], datasets:[{ data:[48200,34100,28500,8400,6200,2400], backgroundColor:coral, borderRadius:8 }] }, options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ color:'rgba(255,255,255,0.08)' }, ticks:{ color:'rgba(255,255,255,0.6)' } }, y:{ grid:{ display:false }, ticks:{ color:'rgba(255,255,255,0.9)', font:{ weight:'600' } } } } } });
+      }
+      if (document.getElementById('ecDonut')) {
+        new Chart(document.getElementById('ecDonut'), { type:'doughnut', data:{ labels:['Paid','Processing','Shipped','Delivered','Refunded'], datasets:[{ data:[42,18,24,12,4], backgroundColor:[mint, gold, cyan, purple, coral], borderWidth:2, borderColor:'rgba(26,22,37,0.8)' }] }, options:{ responsive:true, maintainAspectRatio:false, cutout:'62%', plugins:{ legend:{ position:'right', labels:{ color:'rgba(255,255,255,0.8)', font:{ size:11 }, usePointStyle:true, boxWidth:8 } } } } });
+      }
+      if (document.getElementById('ecMix')) {
+        new Chart(document.getElementById('ecMix'), { type:'bar', data:{ labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], datasets:[{ type:'bar', label:'Visitors (K)', data:[12,14,13,16,18,22,20], backgroundColor:'rgba(255,107,107,0.6)', borderRadius:4, yAxisID:'y' },{ type:'line', label:'Conversion %', data:[4.2,4.6,4.4,5.1,5.8,6.2,5.4], borderColor:mint, backgroundColor:'transparent', borderWidth:2.5, tension:0.4, pointRadius:4, pointBackgroundColor:mint, yAxisID:'y2' }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ color:'rgba(255,255,255,0.8)', font:{ size:11 }, usePointStyle:true, boxWidth:6 } } }, scales:{ x:{ grid:{ display:false }, ticks:{ color:'rgba(255,255,255,0.6)' } }, y:{ position:'left', grid:{ color:'rgba(255,255,255,0.06)' }, ticks:{ color:'rgba(255,255,255,0.6)' } }, y2:{ position:'right', grid:{ display:false }, ticks:{ color:'rgba(255,255,255,0.6)', callback:function(v){return v+'%';} } } } } });
+      }
+      if (document.getElementById('ecScatter')) {
+        new Chart(document.getElementById('ecScatter'), { type:'scatter', data:{ datasets:[{ label:'Customers', data:[{x:12,y:140,r:8},{x:18,y:210,r:10},{x:24,y:280,r:12},{x:32,y:360,r:14},{x:42,y:480,r:16},{x:22,y:180,r:9},{x:28,y:240,r:11},{x:8,y:90,r:6},{x:14,y:120,r:7}], backgroundColor:'rgba(255,107,107,0.6)', borderColor:coral }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ title:{ display:true, text:'Orders', color:'rgba(255,255,255,0.6)', font:{ size:10 } }, grid:{ color:'rgba(255,255,255,0.06)' }, ticks:{ color:'rgba(255,255,255,0.6)' } }, y:{ title:{ display:true, text:'LTV ($)', color:'rgba(255,255,255,0.6)', font:{ size:10 } }, grid:{ color:'rgba(255,255,255,0.06)' }, ticks:{ color:'rgba(255,255,255,0.6)' } } } } });
+      }
     })();
   </script>
 </body>

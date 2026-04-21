@@ -83,6 +83,22 @@
         <div class="ln-timeline" id="timeline"></div>
       </div>
     </section>
+
+    <!-- Chart Gallery — +4 -->
+    <section class="ln-section">
+      <div class="ln-section-head">
+        <div>
+          <div class="ln-section-sub">Additional Analytics</div>
+          <h2 class="ln-section-title">Deal Metrics</h2>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:32px">
+        <div><div style="font-size:10px;font-weight:600;color:var(--ln-text-muted);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:12px">Win rate by stage</div><div style="height:200px;border:1px solid var(--ln-line);padding:12px"><canvas id="lnBar"></canvas></div></div>
+        <div><div style="font-size:10px;font-weight:600;color:var(--ln-text-muted);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:12px">Deal source split</div><div style="height:200px;border:1px solid var(--ln-line);padding:12px"><canvas id="lnDonut"></canvas></div></div>
+        <div><div style="font-size:10px;font-weight:600;color:var(--ln-text-muted);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:12px">Activity · Last 4 Weeks</div><div style="height:200px;border:1px solid var(--ln-line);padding:12px"><canvas id="lnHoriz"></canvas></div></div>
+        <div><div style="font-size:10px;font-weight:600;color:var(--ln-text-muted);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:12px">6 mini metrics</div><div style="border:1px solid var(--ln-line);padding:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px" id="lnSparks"></div></div>
+      </div>
+    </section>
   </div>
 </main>
 
@@ -90,6 +106,34 @@
 <script src="js/data.js"></script>
 <script src="js/ln-theme.js"></script>
 <script>
+  // ln_v1 추가 차트 4종 (전부 1px 헤어라인 모노 정체성 유지)
+  document.addEventListener('DOMContentLoaded', function(){
+    if (!window.Chart) return;
+    // Bar
+    var b = document.getElementById('lnBar');
+    if (b) new Chart(b, { type:'bar', data:{ labels:['Lead','Qualified','Proposal','Won'], datasets:[{ data:[12,24,18,42], backgroundColor:'transparent', borderColor:'#111', borderWidth:1, borderRadius:0, barPercentage:0.7 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ display:false }, ticks:{ color:'#5A5750', font:{ family:'Inter', size:10 } } }, y:{ grid:{ color:'rgba(17,17,17,0.04)' }, ticks:{ color:'#8F8A7F', font:{ family:'Inter', size:10 } } } } } });
+    // Donut (monochrome outline)
+    var d = document.getElementById('lnDonut');
+    if (d) new Chart(d, { type:'doughnut', data:{ labels:['Inbound','Outbound','Referral','Partner'], datasets:[{ data:[42,28,18,12], backgroundColor:['#111','#5A5750','#8F8A7F','#D8D3C5'], borderWidth:2, borderColor:'#FBFAF6' }] }, options:{ responsive:true, maintainAspectRatio:false, cutout:'58%', plugins:{ legend:{ position:'right', labels:{ color:'#2E2C27', font:{ family:'Inter', size:10 }, usePointStyle:true, boxWidth:6 } } } } });
+    // Horizontal
+    var h = document.getElementById('lnHoriz');
+    if (h) new Chart(h, { type:'bar', data:{ labels:['Emails Sent','Calls Made','Meetings','Notes','Tasks'], datasets:[{ data:[124,48,22,68,84], backgroundColor:'#111' }] }, options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ color:'rgba(17,17,17,0.04)' }, ticks:{ color:'#8F8A7F', font:{ family:'Inter', size:10 } } }, y:{ grid:{ display:false }, ticks:{ color:'#2E2C27', font:{ family:'Inter', size:10, weight:'600' } } } } } });
+    // Sparkline grid × 6
+    var sp = document.getElementById('lnSparks');
+    if (sp) {
+      var metrics = [
+        {label:'MRR',pts:[40,42,46,48,52,56]},{label:'New Deals',pts:[8,12,14,10,16,18]},{label:'Churn',pts:[6,5,5,4,4,3]},
+        {label:'NPS',pts:[62,64,66,68,70,72]},{label:'CAC',pts:[42,40,42,38,36,34]},{label:'LTV',pts:[180,184,192,198,208,218]}
+      ];
+      sp.innerHTML = metrics.map(function(m){
+        var min=Math.min.apply(null,m.pts),max=Math.max.apply(null,m.pts);
+        var W=80,H=28;
+        var pts = m.pts.map(function(v,i){return (i/(m.pts.length-1))*W+','+(H-((v-min)/(max-min||1))*(H-4)-2);}).join(' ');
+        return '<div><div style="font-size:9px;color:#8F8A7F;letter-spacing:0.15em;text-transform:uppercase;font-family:Inter;margin-bottom:2px">'+m.label+'</div><div style="font-family:\"Fraunces\",serif;font-style:italic;font-size:16px;color:#111;margin-bottom:4px">'+m.pts[m.pts.length-1]+'</div><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:24px"><polyline fill="none" stroke="#111" stroke-width="1" points="'+pts+'"/></svg></div>';
+      }).join('');
+    }
+  });
+
   // 라인 차트 — 헤어라인 1.5px
   var el = document.getElementById('trendChart');
   if (el && window.Chart) {

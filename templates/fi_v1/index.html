@@ -41,6 +41,14 @@
         <div class="card"><div class="card-header"><span class="card-title">Recent Transactions</span></div><div class="card-body" id="recentTxnList" style="padding-top:var(--fin-space-3)"></div></div>
       </div>
       <div class="card"><div class="card-header"><span class="card-title">Budget Progress</span><a href="budget.html" class="clay-btn clay-btn-outline clay-btn-sm">View All</a></div><div class="card-body" id="budgetOverviewList"></div></div>
+
+      <!-- Chart Gallery +4 -->
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:24px">
+        <div class="card"><div class="card-header"><span class="card-title">Portfolio Allocation</span></div><div class="card-body"><div style="height:240px"><canvas id="fiDonut"></canvas></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Top Holdings</span></div><div class="card-body"><div style="height:240px"><canvas id="fiHBar"></canvas></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Growth Score</span></div><div class="card-body"><div id="fiGauge" style="text-align:center;padding:10px"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Monthly Returns</span></div><div class="card-body"><div style="height:240px"><canvas id="fiBar"></canvas></div></div></div>
+      </div>
     </div>
   </main>
   <nav class="mobile-nav" aria-label="Mobile navigation"><div class="mobile-nav-inner">
@@ -62,6 +70,28 @@
     if(txnEl&&D.recentTransactions){txnEl.innerHTML=D.recentTransactions.map(function(t){var c=t.type==='income'?'var(--fin-success)':'var(--fin-error)';var bg=t.type==='income'?'rgba(0,184,148,0.08)':'rgba(225,112,85,0.08)';return '<div style="display:flex;align-items:center;justify-content:space-between;padding:var(--fin-space-3) 0;border-bottom:1px solid var(--fin-border-default)"><div class="txn-row"><div class="txn-icon" style="background:'+bg+'">'+t.icon+'</div><div><div style="font-weight:600;font-size:13px">'+t.desc+'</div><div style="font-size:12px;color:var(--fin-text-muted)">'+t.cat+' \u00b7 '+t.date+'</div></div></div><div style="font-weight:600;font-size:14px;color:'+c+'">'+t.amount+'</div></div>';}).join('');}
     var bEl=document.getElementById('budgetOverviewList');
     if(bEl&&D.budgetOverview){bEl.innerHTML=D.budgetOverview.map(function(b){var p=Math.round(b.spent/b.budget*100);return '<div class="budget-item"><div class="budget-header"><span class="budget-cat">'+b.cat+'</span><span class="budget-amounts"><strong>$'+b.spent.toLocaleString()+'</strong> / $'+b.budget.toLocaleString()+'</span></div><div class="progress-bar"><div class="progress-fill" style="width:'+p+'%;background:'+b.color+'"></div></div></div>';}).join('');}
+
+    // +4 Clay Finance Charts
+    try {
+      var palette = ['#00B894','#FDCB6E','#74B9FF','#FF7675','#A29BFE','#55EFC4'];
+      if (document.getElementById('fiDonut')) {
+        new Chart(document.getElementById('fiDonut'), { type:'doughnut', data:{ labels:['Stocks','Bonds','Real Estate','Crypto','Cash'], datasets:[{ data:[42,28,18,8,4], backgroundColor:palette, borderWidth:3, borderColor:'#F2EDE5' }] }, options:{ responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{ position:'right', labels:{ color:'#5A4A3B', font:{ size:11 }, usePointStyle:true, boxWidth:8 } } } } });
+      }
+      if (document.getElementById('fiHBar')) {
+        new Chart(document.getElementById('fiHBar'), { type:'bar', data:{ labels:['VTI','AAPL','MSFT','BND','GOOGL','AMZN'], datasets:[{ data:[24.2,18.4,14.2,12.8,8.4,6.2], backgroundColor:'#00B894', borderRadius:10, borderSkipped:false }] }, options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ color:'rgba(45,52,54,0.04)' }, ticks:{ color:'#5A4A3B', callback:function(v){return v+'%';} } }, y:{ grid:{ display:false }, ticks:{ color:'#2D3436', font:{ weight:'600' } } } } } });
+      }
+      if (document.getElementById('fiGauge')) {
+        var val=82,max=100,R=60,CX=80,CY=70;
+        function P(ang){var r=(ang-180)*Math.PI/180;return (CX+R*Math.cos(r))+' '+(CY+R*Math.sin(r));}
+        var a=(val/max)*180;
+        document.getElementById('fiGauge').innerHTML = '<svg viewBox="0 0 160 95" style="width:100%;max-width:200px"><path d="M '+P(0)+' A '+R+' '+R+' 0 0 1 '+P(180)+'" fill="none" stroke="rgba(0,184,148,0.15)" stroke-width="16" stroke-linecap="round"/><path d="M '+P(0)+' A '+R+' '+R+' 0 '+(a>180?1:0)+' 1 '+P(a)+'" fill="none" stroke="#00B894" stroke-width="16" stroke-linecap="round"/></svg><div style="font-family:monospace;font-size:32px;font-weight:800;color:#2D3436;margin-top:4px">'+val+'/100</div><div style="font-size:11px;color:#8B7E6C;letter-spacing:0.15em;text-transform:uppercase;margin-top:4px">Excellent</div>';
+      }
+      if (document.getElementById('fiBar')) {
+        var md = [3.2,1.8,-0.8,4.1,2.4,3.8,-0.6,5.2,3.4,2.6,4.8,3.1];
+        var mc = md.map(function(v){return v>=0?'#00B894':'#E17055';});
+        new Chart(document.getElementById('fiBar'), { type:'bar', data:{ labels:['J','F','M','A','M','J','J','A','S','O','N','D'], datasets:[{ data:md, backgroundColor:mc, borderRadius:8 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ grid:{ display:false }, ticks:{ color:'#5A4A3B' } }, y:{ grid:{ color:'rgba(45,52,54,0.04)' }, ticks:{ color:'#5A4A3B', callback:function(v){return v+'%';} } } } } });
+      }
+    } catch(e){ console.warn('fi extra charts failed:', e); }
   </script>
 </body>
 </html>

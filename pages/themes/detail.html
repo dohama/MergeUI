@@ -350,8 +350,21 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
 <script>
 var devices={desktop:{w:1280,h:720},tablet:{w:768,h:600},mobile:{w:375,h:667}};
 var themePreviewUrls={
-  'softdesk':'../../templates/sd_v1/index.html',
-  'pulse-admin':'../../templates/pa_v1/index.html'
+  'sd_v1':  '../../templates/sd_v1/index.html',
+  'pa_v1':  '../../templates/pa_v1/index.html',
+  'cr_v1':  '../../templates/cr_v1/index.html',
+  'ec_v1':  '../../templates/ec_v1/index.html',
+  'fi_v1':  '../../templates/fi_v1/index.html',
+  'bw_v1':  '../../templates/bw_v1/index.html',
+  'gl_v1':  '../../templates/gl_v1/index.html',
+  'ln_v1':  '../../templates/ln_v1/index.html',
+  'bd_v1':  '../../templates/bd_v1/index.html',
+  'lx_v1':  '../../templates/lx_v1/index.html',
+  'w95_v1': '../../templates/w95_v1/index.html',
+  'crt_v1': '../../templates/crt_v1/index.html',
+  'gb_v1':  '../../templates/gb_v1/index.html',
+  'softdesk':    '../../templates/sd_v1/index.html',
+  'pulse-admin': '../../templates/pa_v1/index.html'
 };
 
 // iframe에 실제 테마 로드
@@ -567,7 +580,87 @@ window.addEventListener('load',function(){
       previewUrl: '../../templates/pa_v1/index.html',
       font: 'Inter',
       cssPrefix: '--pulse-*',
-      pageList: ['📊 Overview — KPIs, revenue chart, orders table','📈 Analytics — Traffic, bar chart, donut, devices','👥 Users — Data table, slide panel, filters','⚙ Settings — General, notifications, security, billing']
+      pageList: ['Overview — KPIs, revenue chart, orders table','Analytics — Traffic, bar chart, donut, devices','Users — Data table, slide panel, filters','Settings — General, notifications, security, billing']
+    },
+
+    'sd_v1': {
+      name: 'SoftDesk', desc: 'Neumorphic SaaS admin with soft shadows and warm cream background. Includes Chart.js widgets and accent color presets.', category: 'SaaS', tags: ['SaaS','Neumorphism','Cream','Admin'], badge: 'free', components: 18, pages: 5, version: '1.0.0', updated: '2026-04-18',
+      features: ['Neumorphic design system','Chart.js integration','4 accent color presets','Data-separated architecture','Utility classes','Plus Jakarta Sans'],
+      previewUrl: '../../templates/sd_v1/index.html', font: 'Plus Jakarta Sans', cssPrefix: '--sd-*',
+      pageList: ['Overview','Analytics','Users','Projects','Settings']
+    },
+    'pa_v1': {
+      name: 'Pulse Admin', desc: 'Minimal dark SaaS admin. Data-dense tables, revenue charts, user management with slide-over panels.', category: 'SaaS', tags: ['SaaS','Dark','Minimal','Admin'], badge: 'pro', components: 20, pages: 4, version: '1.0.0', updated: '2026-04-17',
+      features: ['Dark theme optimized','Revenue trend charts','User management table','Slide-over settings','SVG line charts','Inter typography'],
+      previewUrl: '../../templates/pa_v1/index.html', font: 'Inter', cssPrefix: '--pulse-*',
+      pageList: ['Overview','Analytics','Users','Settings']
+    },
+    'cr_v1': {
+      name: 'CRM Pipeline', desc: 'Flat clean CRM with deal tracker, contact management, and activity timeline. Blue accent, white surfaces.', category: 'CRM', tags: ['CRM','Flat','Pipeline','Sales'], badge: 'pro', components: 22, pages: 5, version: '1.0.0', updated: '2026-04-19',
+      features: ['Deal pipeline (Kanban)','Contact directory','Activity timeline','Reports charts','Filters & search','Manrope typography'],
+      previewUrl: '../../templates/cr_v1/index.html', font: 'Manrope', cssPrefix: '--crm-*',
+      pageList: ['Pipeline','Contacts','Deals','Activities','Reports']
+    },
+    'ec_v1': {
+      name: 'E-Commerce Glass', desc: 'Glassmorphism e-commerce admin. Coral accent with dark glass cards, order management, and product grid.', category: 'E-Commerce', tags: ['E-Commerce','Glass','Coral','Admin'], badge: 'pro', components: 24, pages: 5, version: '1.0.0', updated: '2026-04-19',
+      features: ['Glass panels (backdrop-filter)','Order table','Product grid','Customer segments','Coral gradient CTAs','DM Sans typography'],
+      previewUrl: '../../templates/ec_v1/index.html', font: 'DM Sans', cssPrefix: '--ec-*',
+      pageList: ['Overview','Products','Orders','Customers','Analytics']
+    },
+    'fi_v1': {
+      name: 'Finance Clay', desc: 'Claymorphism finance dashboard. Emerald accent, wealth management KPIs, portfolio allocation charts.', category: 'Finance', tags: ['Finance','Clay','Wealth','Admin'], badge: 'pro', components: 26, pages: 6, version: '1.0.0', updated: '2026-04-20',
+      features: ['Clay puffy cards','Portfolio pie','Trend line chart','Holdings table','Transaction feed','Outfit typography'],
+      previewUrl: '../../templates/fi_v1/index.html', font: 'Outfit', cssPrefix: '--fin-*',
+      pageList: ['Overview','Portfolio','Transactions','Budget','Reports','Settings']
+    },
+
+    'bw_v1': {
+      name: 'Monochrome Analytics', desc: 'Editorial monochrome — H0 72px mega title strip, 1px hard black lines, NYT-style editorial tone. Zero shadow, zero color.', category: 'Analytics', tags: ['Analytics','Monochrome','Editorial'], badge: 'new', components: 14, pages: 1, version: '1.0.0', updated: '2026-04-21',
+      features: ['Mega Title Strip (H0 72px)','1px hard black lines only','No shadows, no color','Space Grotesk + JetBrains Mono','ASCII-friendly numerics','4 accent presets (Mono/Warm Gray/Cool Steel/Sepia)'],
+      previewUrl: '../../templates/bw_v1/index.html', font: 'Space Grotesk + JetBrains Mono', cssPrefix: '--bw-*',
+      pageList: ['Overview (Mega Title + KPI grid + traffic chart)']
+    },
+    'gl_v1': {
+      name: 'Aurora SaaS', desc: 'White glassmorphism with pastel gradient mesh background. Floating sidebar, frost glass cards, gradient CTAs.', category: 'SaaS', tags: ['SaaS','Glassmorphism','Pastel'], badge: 'new', components: 16, pages: 1, version: '1.0.0', updated: '2026-04-21',
+      features: ['Pastel gradient mesh background','Floating glass sidebar (radius 20px)','Frost cards (backdrop-filter 24px)','Gradient CTA (Purple→Pink)','Plus Jakarta Sans','4 accent presets'],
+      previewUrl: '../../templates/gl_v1/index.html', font: 'Plus Jakarta Sans', cssPrefix: '--gl-*',
+      pageList: ['Overview (KPI + API chart + workspace table)']
+    },
+    'ln_v1': {
+      name: 'Linea CRM', desc: 'Warm ivory CRM with 1px hairlines only. Inter + Fraunces italic serif points. Mini sidebar + sub-top nav.', category: 'CRM', tags: ['CRM','Minimal','Serif'], badge: 'new', components: 14, pages: 1, version: '1.0.0', updated: '2026-04-21',
+      features: ['1px hairlines only, zero shadow','Inter body + Fraunces italic headings','Mini 72px sidebar + sub-top nav','Outline buttons → hover fill','Pipeline Kanban','4 accent presets'],
+      previewUrl: '../../templates/ln_v1/index.html', font: 'Inter + Fraunces', cssPrefix: '--ln-*',
+      pageList: ['Overview (Pipeline Kanban + timeline + trend chart)']
+    },
+    'bd_v1': {
+      name: 'Neon Market', desc: 'Y2K neon pop e-commerce — Display 96px Unbounded, masonry grid, gradient borders, neon glow hover.', category: 'E-Commerce', tags: ['E-Commerce','Neon','Y2K','Bold'], badge: 'new', components: 18, pages: 1, version: '1.0.0', updated: '2026-04-21',
+      features: ['Display Hero 96px Unbounded','Masonry grid with mixed radii','Gradient borders (Purple→Pink→Mint)','Neon glow hover','Pill CTAs with scale 1.03','4 neon accent presets'],
+      previewUrl: '../../templates/bd_v1/index.html', font: 'Unbounded + Archivo', cssPrefix: '--bd-*',
+      pageList: ['Overview (Hero + KPI + products + orders)']
+    },
+    'lx_v1': {
+      name: 'Maison Finance', desc: 'European luxury wealth management — dual cream+charcoal background, antique gold L-shape corners, Playfair italic.', category: 'Finance', tags: ['Finance','Luxury','Serif'], badge: 'new', components: 18, pages: 1, version: '1.0.0', updated: '2026-04-21',
+      features: ['Dual background (cream sidebar + charcoal main)','Playfair + Cormorant + Montserrat 3 fonts','Antique gold L-shape corners','··· dot dividers','Center symmetric topbar','4 accent presets (Gold/Rose/Platinum/Burgundy)'],
+      previewUrl: '../../templates/lx_v1/index.html', font: 'Playfair + Cormorant + Montserrat', cssPrefix: '--lx-*',
+      pageList: ['Overview (Wealth summary + allocation + transactions)']
+    },
+    'w95_v1': {
+      name: 'Workspace 95', desc: 'Windows 95/98 system UI for Project Management. Beveled windows, title bar, Start taskbar with live clock.', category: 'Project', tags: ['Retro','Windows 95','Project'], badge: 'new', components: 12, pages: 1, version: '1.0.0', updated: '2026-04-21',
+      features: ['Classic bevel UI (system gray)','Navy gradient title bar','File Explorer-style tables','Bottom Start taskbar with live clock','Progress bars (Win95 dotted)','4 accent presets (Classic/Mac OS/Hot Pink 98/Plum)'],
+      previewUrl: '../../templates/w95_v1/index.html', font: 'MS Sans Serif / Pixelify Sans', cssPrefix: '--w95-*',
+      pageList: ['Project Overview (Windows with projects, tasks, team load)']
+    },
+    'crt_v1': {
+      name: 'Cathode Ray Terminal', desc: 'CRT brown tube phosphor green + scanlines + flicker. DevOps and system monitoring dashboard (Grafana alternative).', category: 'DevOps', tags: ['Retro','CRT','DevOps','Monitoring'], badge: 'new', components: 10, pages: 1, version: '1.0.0', updated: '2026-04-21',
+      features: ['Scanline overlay + flicker animation','Phosphor green with text-shadow glow','Log stream (ERR red blink, WARN amber, INFO cyan)','ASCII bar charts','Service health list','4 phosphor presets (Green/Amber/Ice Blue/Hot Pink)'],
+      previewUrl: '../../templates/crt_v1/index.html', font: 'VT323', cssPrefix: '--crt-*',
+      pageList: ['System Monitor (KPI + log stream + latency chart + ASCII CPU)']
+    },
+    'gb_v1': {
+      name: 'Gameboy DMG', desc: '1989 Gameboy LCD 4-tone green — habit tracker with XP bar, quests, streak heatmap, achievements.', category: 'Personal', tags: ['Retro','Pixel','Habit Tracker','Gamification'], badge: 'new', components: 10, pages: 1, version: '1.0.0', updated: '2026-04-21',
+      features: ['4-tone LCD green palette only','Press Start 2P pixel font','Device frame (D-Pad + A/B buttons)','XP bar + level + streak heatmap','Quest toggle interaction','5 accent presets (DMG/Pocket/Color/Advance/Virtual Boy)'],
+      previewUrl: '../../templates/gb_v1/index.html', font: 'Press Start 2P', cssPrefix: '--gb-*',
+      pageList: ['Habit Tracker (Quest log + XP bar + 30-day streak + achievements)']
     }
   };
 

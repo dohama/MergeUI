@@ -89,9 +89,22 @@ SELECT 'components', COUNT(*) FROM components;
 
 INSERT INTO themes (slug, name, description, category, tags, version, badge, components_count, pages_count, is_public, file_size)
 VALUES
+  -- 기존 5종
   ('sd_v1', 'SoftDesk', 'Neumorphic SaaS admin dashboard with soft shadows and warm cream background', 'SaaS', ARRAY['SaaS','Neumorphism','Admin'], '1.0.0', 'free', 18, 5, true, '2.4 MB'),
   ('pa_v1', 'Pulse Admin', 'Minimal dark-themed SaaS admin dashboard with clean data tables and revenue charts', 'SaaS', ARRAY['SaaS','Dark','Admin','Minimal'], '1.0.0', 'pro', 20, 4, true, '2.1 MB'),
   ('cr_v1', 'CRM Pipeline', 'Clean flat CRM pipeline dashboard with deal tracker and contact management', 'CRM', ARRAY['CRM','Flat','Pipeline','Sales'], '1.0.0', 'pro', 22, 5, true, '2.6 MB'),
-  ('ec_v1', 'E-Commerce Admin', 'Glassmorphism e-commerce admin with coral accents and order management', 'E-Commerce', ARRAY['E-Commerce','Glass','Admin'], '1.0.0', 'pro', 24, 5, true, '2.8 MB'),
-  ('fi_v1', 'Finance Dashboard', 'Claymorphism finance & wealth management dashboard with emerald accents', 'Finance', ARRAY['Finance','Clay','Wealth'], '1.0.0', 'pro', 26, 6, true, '3.1 MB')
+  ('ec_v1', 'E-Commerce Glass', 'Glassmorphism e-commerce admin with coral accents and order management', 'E-Commerce', ARRAY['E-Commerce','Glass','Admin'], '1.0.0', 'pro', 24, 5, true, '2.8 MB'),
+  ('fi_v1', 'Finance Clay', 'Claymorphism finance & wealth management dashboard with emerald accents', 'Finance', ARRAY['Finance','Clay','Wealth'], '1.0.0', 'pro', 26, 6, true, '3.1 MB'),
+
+  -- 모던 신규 5종 (2026-04-21)
+  ('bw_v1', 'Monochrome Analytics', 'Editorial monochrome with H0 72px mega title, 1px hard black lines, NYT-style editorial tone', 'Analytics', ARRAY['Analytics','Monochrome','Editorial'], '1.0.0', 'new', 14, 1, true, '1.8 MB'),
+  ('gl_v1', 'Aurora SaaS', 'White glassmorphism with pastel gradient mesh and floating sidebar', 'SaaS', ARRAY['SaaS','Glass','Pastel'], '1.0.0', 'new', 16, 1, true, '2.2 MB'),
+  ('ln_v1', 'Linea CRM', 'Warm ivory CRM with 1px hairlines, Inter + Fraunces italic serif points', 'CRM', ARRAY['CRM','Minimal','Serif'], '1.0.0', 'new', 14, 1, true, '1.9 MB'),
+  ('bd_v1', 'Neon Market', 'Y2K neon pop e-commerce with Display 96px, masonry grid, gradient borders', 'E-Commerce', ARRAY['E-Commerce','Neon','Y2K'], '1.0.0', 'new', 18, 1, true, '2.4 MB'),
+  ('lx_v1', 'Maison Finance', 'European luxury with dual cream+charcoal background, antique gold accents', 'Finance', ARRAY['Finance','Luxury','Serif'], '1.0.0', 'new', 18, 1, true, '2.5 MB'),
+
+  -- 레트로 3종 (2026-04-21)
+  ('w95_v1', 'Workspace 95', 'Windows 95/98 system UI for Project Management with beveled windows and Start taskbar', 'Project', ARRAY['Retro','Windows 95','Project'], '1.0.0', 'new', 12, 1, true, '1.6 MB'),
+  ('crt_v1', 'Cathode Ray Terminal', 'CRT phosphor green monitor with scanlines and flicker, DevOps monitoring dashboard', 'DevOps', ARRAY['Retro','CRT','DevOps','Monitoring'], '1.0.0', 'new', 10, 1, true, '1.5 MB'),
+  ('gb_v1', 'Gameboy DMG', '1989 Gameboy LCD 4-tone green habit tracker with XP, quests, and achievements', 'Personal', ARRAY['Retro','Pixel','Habit Tracker'], '1.0.0', 'new', 10, 1, true, '1.4 MB')
 ON CONFLICT (slug) DO NOTHING;

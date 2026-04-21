@@ -1,0 +1,67 @@
+/* ===== Trading Terminal (td_v1) — Design Tokens =====
+   Bloomberg·TradingView 스타일 · 차트 7종 데스크
+   ==================================================== */
+:root {
+  --td-font: 'Inter', -apple-system, sans-serif;
+  --td-font-mono: 'JetBrains Mono', 'IBM Plex Mono', Consolas, monospace;
+
+  /* 배경 — 딥 네이비 트레이딩 데스크 */
+  --td-bg-base: #0A0E14;
+  --td-bg-panel: #0F1620;
+  --td-bg-card: #151D2B;
+  --td-bg-elevated: #1D2535;
+  --td-bg-inset: #070B11;
+  --td-border: #1E2736;
+  --td-border-strong: #2B3548;
+
+  /* 텍스트 */
+  --td-text: #E5E9EF;
+  --td-text-dim: #9AA5B7;
+  --td-text-muted: #5F6B80;
+
+  /* 트레이딩 컬러 — 필수 */
+  --td-up: #22C55E;          /* Bull 그린 */
+  --td-up-bg: rgba(34, 197, 94, 0.12);
+  --td-down: #EF4444;        /* Bear 레드 */
+  --td-down-bg: rgba(239, 68, 68, 0.12);
+  --td-neutral: #6B7280;
+
+  /* 액센트 (Bloomberg orange) */
+  --td-accent: #FF7A00;
+  --td-accent-2: #06B6D4;    /* Cyan */
+
+  /* 상태 */
+  --td-success: var(--td-up);
+  --td-warning: #F59E0B;
+  --td-error: var(--td-down);
+  --td-info: var(--td-accent-2);
+
+  /* 간격 */
+  --td-space-1: 4px; --td-space-2: 6px; --td-space-3: 8px; --td-space-4: 12px;
+  --td-space-5: 16px; --td-space-6: 20px; --td-space-7: 24px; --td-space-8: 32px;
+
+  /* Radius — 작고 샤프함 (프로 툴 감성) */
+  --td-radius: 4px;
+  --td-radius-lg: 8px;
+
+  /* 차트 8색 */
+  --td-chart-1: #FF7A00;
+  --td-chart-2: #06B6D4;
+  --td-chart-3: #22C55E;
+  --td-chart-4: #EF4444;
+  --td-chart-5: #A78BFA;
+  --td-chart-6: #FBBF24;
+  --td-chart-7: #EC4899;
+  --td-chart-8: #64748B;
+}
+
+/* 액센트 프리셋 */
+/* === Forest (녹색 톤) ===
+:root { --td-accent: #10B981; --td-accent-2: #34D399; }
+*/
+/* === Midnight Violet ===
+:root { --td-accent: #A78BFA; --td-accent-2: #EC4899; }
+*/
+/* === Pure Mono ===
+:root { --td-accent: #E5E9EF; --td-accent-2: #9AA5B7; --td-up: #FFFFFF; --td-down: #9AA5B7; }
+*/

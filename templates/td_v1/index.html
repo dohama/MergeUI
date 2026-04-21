@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trading Terminal — BTC/USD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/td-tokens.css">
+<link rel="stylesheet" href="css/td-theme.css">
+</head>
+<body>
+
+<!-- 실시간 티커 스트림 -->
+<div class="td-ticker">
+  <div class="td-ticker-logo">TD-DESK</div>
+  <div class="td-ticker-stream" id="tickerStream"></div>
+</div>
+
+<!-- 헤더 -->
+<header class="td-header">
+  <div class="td-brand">
+    <span class="td-brand-mark">T</span>
+    <span>TRADING TERMINAL</span>
+  </div>
+  <nav class="td-header-nav">
+    <a href="index.html" class="active">Market</a>
+    <a href="#chart">Chart</a>
+    <a href="#orders">Orders</a>
+    <a href="#positions">Positions</a>
+    <a href="#news">News</a>
+    <a href="#settings">Settings</a>
+  </nav>
+  <div style="display:flex;gap:10px;align-items:center;font-family:var(--td-font-mono);font-size:12px">
+    <span style="color:var(--td-up)">●</span>
+    <span>LIVE</span>
+    <span style="color:var(--td-text-muted)">|</span>
+    <span id="clock">14:22:18</span>
+  </div>
+</header>
+
+<!-- 3열 레이아웃: 워치리스트 | 메인(캔들+차트) | 오더북 -->
+<main class="td-layout">
+
+  <!-- 왼쪽 워치리스트 (10개 sparkline) -->
+  <aside class="td-watchlist">
+    <h3>Watchlist · 10</h3>
+    <div id="watchlist"></div>
+  </aside>
+
+  <!-- 중앙 메인 -->
+  <div class="td-main">
+    <!-- 심볼 헤더 -->
+    <section class="td-symbol-head">
+      <div class="td-sym-left">
+        <span class="td-sym-name" id="symName">BTC/USD</span>
+        <span class="td-sym-exchange" id="symEx">COINBASE</span>
+      </div>
+      <div class="td-sym-stats td-mono" id="symStats"></div>
+      <div class="td-sym-price">
+        <div id="symBig" class="td-sym-big td-mono up">43,187.20</div>
+        <div id="symChg" class="td-sym-chg td-mono up">▲ 482.60 (1.13%)</div>
+      </div>
+    </section>
+
+    <!-- [1] 캔들스틱 + 볼륨 차트 -->
+    <section class="td-chart-panel">
+      <div class="td-chart-head">
+        <div style="display:flex;align-items:baseline;gap:10px">
+          <span style="font-size:11px;font-weight:700;color:var(--td-text-muted);letter-spacing:0.12em;text-transform:uppercase">Price · Volume</span>
+          <span class="td-mono" style="font-size:11px;color:var(--td-text-dim)">50 candles · 1m</span>
+        </div>
+        <div class="td-tf-btns">
+          <button type="button" class="td-tf">1m</button>
+          <button type="button" class="td-tf active">5m</button>
+          <button type="button" class="td-tf">15m</button>
+          <button type="button" class="td-tf">1h</button>
+          <button type="button" class="td-tf">4h</button>
+          <button type="button" class="td-tf">1d</button>
+        </div>
+      </div>
+      <div class="td-candle-wrap" id="candleChart" style="min-height:320px"></div>
+    </section>
+
+    <!-- [2][3] Depth + Volume Profile -->
+    <section class="td-bottom-row">
+      <div class="td-mini-panel">
+        <div class="td-mini-head"><span>Market Depth</span><span class="td-mono" style="color:var(--td-text-dim)">±50 bps</span></div>
+        <div class="td-mini-chart" id="depthChart"></div>
+      </div>
+      <div class="td-mini-panel">
+        <div class="td-mini-head"><span>Volume Profile</span><span class="td-mono" style="color:var(--td-text-dim)">24h</span></div>
+        <div class="td-mini-chart" id="volProfile"></div>
+      </div>
+    </section>
+
+    <!-- [5][6] Positions + News -->
+    <section class="td-info-row">
+      <div class="td-positions">
+        <div class="td-mini-head" style="margin-bottom:8px"><span>Open Positions · 5</span><span class="td-mono" style="color:var(--td-text-dim)">Total P&amp;L: <span style="color:var(--td-up)">+$1,345.60</span></span></div>
+        <table class="td-pos-table">
+          <thead><tr><th>Symbol</th><th>Side</th><th style="text-align:right">Qty</th><th style="text-align:right">Entry</th><th style="text-align:right">Mark</th><th style="text-align:right">P&amp;L ($)</th><th style="text-align:right">P&amp;L (%)</th></tr></thead>
+          <tbody id="positionsBody"></tbody>
+        </table>
+      </div>
+      <div class="td-news">
+        <div class="td-mini-head" style="margin-bottom:6px"><span>News Feed</span><span class="td-mono" style="color:var(--td-text-dim)">Latest</span></div>
+        <div id="newsFeed"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 오른쪽 오더북 -->
+  <aside class="td-right">
+    <div class="td-side-title"><span>Order Book</span><span class="td-mono" style="font-size:11px;color:var(--td-text-dim);letter-spacing:normal">BTC/USD</span></div>
+    <div class="td-orderbook" id="orderbook"></div>
+  </aside>
+
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/td-theme.js"></script>
+<script>
+  // 간단한 시계
+  function tdClock() {
+    var d = new Date();
+    var t = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0') + ':' + String(d.getSeconds()).padStart(2,'0');
+    var el = document.getElementById('clock');
+    if (el) el.textContent = t;
+  }
+  tdClock(); setInterval(tdClock, 1000);
+</script>
+</body>
+</html>

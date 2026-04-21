@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MergeUi — Twitter Profile (400x400)
+  Option 3: Premium Gradient Mark (Linear / Resend / Vercel tier)
+  Author: B (Design Director)
+  Concept: Soft mesh gradient background + minimal geometric "M" mark
+  Brand tokens: src/styles/tokens.css
+  Safe zone: center 320x320
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="MergeUi premium gradient mark">
+  <defs>
+    <!-- Deep base -->
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1330"/>
+      <stop offset="100%" stop-color="#06060A"/>
+    </linearGradient>
+
+    <!-- Mesh gradient layer 1 — brand purple -->
+    <radialGradient id="mesh3A" cx="22%" cy="18%" r="70%">
+      <stop offset="0%" stop-color="#8B7CF0" stop-opacity="0.95"/>
+      <stop offset="45%" stop-color="#6C5CE7" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#6C5CE7" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Mesh gradient layer 2 — accent cyan -->
+    <radialGradient id="mesh3B" cx="82%" cy="88%" r="60%">
+      <stop offset="0%" stop-color="#22D3EE" stop-opacity="0.75"/>
+      <stop offset="50%" stop-color="#22D3EE" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Mesh gradient layer 3 — lavender highlight -->
+    <radialGradient id="mesh3C" cx="78%" cy="22%" r="40%">
+      <stop offset="0%" stop-color="#A78BFA" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Grain texture — extremely subtle, high-end finish -->
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4"/>
+      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+
+    <!-- Mark gradient — sharp, confident -->
+    <linearGradient id="markGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E4DFFC"/>
+    </linearGradient>
+
+    <!-- Subtle glow behind the mark -->
+    <radialGradient id="markGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.18"/>
+      <stop offset="70%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Base -->
+  <rect width="400" height="400" fill="url(#bg3)"/>
+
+  <!-- Mesh gradient stack -->
+  <rect width="400" height="400" fill="url(#mesh3A)"/>
+  <rect width="400" height="400" fill="url(#mesh3B)"/>
+  <rect width="400" height="400" fill="url(#mesh3C)"/>
+
+  <!-- Very faint grain overlay -->
+  <rect width="400" height="400" fill="rgba(255,255,255,0.015)" filter="url(#grain)"/>
+
+  <!-- Subtle inner ring (appears after circle crop) -->
+  <circle cx="200" cy="200" r="184" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <circle cx="200" cy="200" r="176" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+
+  <!-- Mark centered -->
+  <g transform="translate(200, 200)">
+    <!-- Soft glow behind mark -->
+    <circle cx="0" cy="0" r="120" fill="url(#markGlow)"/>
+
+    <!-- Minimalist "M" — geometric, confident, single weight -->
+    <!-- Drawn as filled shape for premium feel at any size -->
+    <path
+      d="
+        M -80 -72
+        L -54 -72
+        L -54 72
+        L -72 72
+        L -72 -40
+        L -32 28
+        L 32 28
+        L 72 -40
+        L 72 72
+        L 54 72
+        L 54 -72
+        L 80 -72
+        L 0 64
+        Z
+      "
+      fill="url(#markGrad3)"
+      opacity="0.98"/>
+
+    <!-- Accent cyan pip (the 'merge' point) -->
+    <circle cx="0" cy="64" r="8" fill="#22D3EE"/>
+    <circle cx="0" cy="64" r="14" fill="none" stroke="#22D3EE" stroke-width="1" opacity="0.4"/>
+  </g>
+</svg>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MergeUi — Open Graph Image (1200x630)
+  Author: B (Design Director)
+  Brand tokens reference: src/styles/tokens.css
+  - Brand:   #6C5CE7 (merge-brand)
+  - Accent:  #22D3EE (merge-accent)
+  - BG base: #06060A (merge-bg-base)
+  - Surface: #16161E (merge-bg-surface)
+  Safe zone: 80px all sides (platform auto-crop protection)
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="MergeUi — Dashboard templates that ship fast">
+  <defs>
+    <!-- Background mesh gradient -->
+    <radialGradient id="meshA" cx="18%" cy="22%" r="60%">
+      <stop offset="0%" stop-color="#6C5CE7" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#6C5CE7" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="meshB" cx="88%" cy="85%" r="55%">
+      <stop offset="0%" stop-color="#22D3EE" stop-opacity="0.35"/>
+      <stop offset="65%" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="meshC" cx="78%" cy="18%" r="40%">
+      <stop offset="0%" stop-color="#A78BFA" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Logo mark gradient -->
+    <linearGradient id="markGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6C5CE7"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+
+    <!-- Headline accent gradient (for "ship fast.") -->
+    <linearGradient id="accentText" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#A78BFA"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+
+    <!-- Dashboard card surface -->
+    <linearGradient id="cardSurface" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1C1C26"/>
+      <stop offset="100%" stop-color="#12121A"/>
+    </linearGradient>
+
+    <!-- Chart area gradient -->
+    <linearGradient id="chartFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6C5CE7" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#6C5CE7" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Subtle grid pattern -->
+    <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Base background -->
+  <rect width="1200" height="630" fill="#06060A"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#meshA)"/>
+  <rect width="1200" height="630" fill="url(#meshB)"/>
+  <rect width="1200" height="630" fill="url(#meshC)"/>
+
+  <!-- ============ LEFT: Brand + Headline ============ -->
+
+  <!-- Logo row -->
+  <g transform="translate(80, 92)">
+    <!-- Logo mark -->
+    <rect x="0" y="0" width="52" height="52" rx="12" fill="url(#markGrad)"/>
+    <text x="26" y="36" font-family="Inter, -apple-system, sans-serif" font-size="28" font-weight="900" fill="#FFFFFF" text-anchor="middle">M</text>
+    <!-- Wordmark -->
+    <text x="70" y="36" font-family="Inter, -apple-system, sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5" fill="#F4F4F5">MergeUi</text>
+  </g>
+
+  <!-- Eyebrow badge -->
+  <g transform="translate(80, 188)">
+    <rect x="0" y="0" width="236" height="34" rx="17" fill="rgba(108,92,231,0.12)" stroke="rgba(108,92,231,0.35)" stroke-width="1"/>
+    <circle cx="18" cy="17" r="4" fill="#22D3EE"/>
+    <text x="32" y="23" font-family="Inter, -apple-system, sans-serif" font-size="13" font-weight="600" letter-spacing="0.8" fill="#A78BFA">DASHBOARD TEMPLATES</text>
+  </g>
+
+  <!-- Headline -->
+  <g transform="translate(80, 262)">
+    <text font-family="Inter, -apple-system, sans-serif" font-size="72" font-weight="800" letter-spacing="-2.4" fill="#F4F4F5">
+      <tspan x="0" y="0">Dashboard templates</tspan>
+      <tspan x="0" y="86">that </tspan>
+      <tspan font-family="Inter, -apple-system, sans-serif" fill="url(#accentText)" font-weight="800">ship fast.</tspan>
+    </text>
+  </g>
+
+  <!-- Subtitle -->
+  <text x="80" y="460" font-family="Inter, -apple-system, sans-serif" font-size="22" font-weight="400" fill="#A1A1AA">
+    <tspan x="80" dy="0">Production-ready HTML/CSS for developers</tspan>
+    <tspan x="80" dy="32">who'd rather build product than push pixels.</tspan>
+  </text>
+
+  <!-- Footer tags row -->
+  <g transform="translate(80, 552)" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#71717A">
+    <!-- Tag 1 -->
+    <g>
+      <circle cx="6" cy="8" r="4" fill="#22C55E"/>
+      <text x="20" y="13">Responsive</text>
+    </g>
+    <g transform="translate(140,0)">
+      <circle cx="6" cy="8" r="4" fill="#6C5CE7"/>
+      <text x="20" y="13">Dark mode</text>
+    </g>
+    <g transform="translate(270,0)">
+      <circle cx="6" cy="8" r="4" fill="#22D3EE"/>
+      <text x="20" y="13">Fully customizable</text>
+    </g>
+    <g transform="translate(450,0)">
+      <circle cx="6" cy="8" r="4" fill="#FBBF24"/>
+      <text x="20" y="13">Accessible</text>
+    </g>
+  </g>
+
+  <!-- ============ RIGHT: Dashboard UI miniature ============ -->
+  <g transform="translate(680, 110)">
+    <!-- Outer card shadow -->
+    <rect x="4" y="10" width="460" height="420" rx="20" fill="#000000" opacity="0.35" filter="blur(4)"/>
+
+    <!-- Main card -->
+    <rect x="0" y="0" width="460" height="420" rx="18" fill="url(#cardSurface)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+    <!-- Window chrome dots -->
+    <g transform="translate(20, 20)">
+      <circle cx="0" cy="0" r="5" fill="#EF4444" opacity="0.9"/>
+      <circle cx="16" cy="0" r="5" fill="#FBBF24" opacity="0.9"/>
+      <circle cx="32" cy="0" r="5" fill="#22C55E" opacity="0.9"/>
+    </g>
+    <!-- URL pill -->
+    <rect x="80" y="12" width="200" height="18" rx="9" fill="rgba(255,255,255,0.04)"/>
+    <text x="180" y="25" font-family="Inter, sans-serif" font-size="10" fill="#71717A" text-anchor="middle">mergeui.com/demo</text>
+
+    <!-- Divider -->
+    <line x1="0" y1="52" x2="460" y2="52" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+    <!-- Sidebar -->
+    <rect x="0" y="52" width="110" height="368" fill="rgba(255,255,255,0.015)"/>
+    <line x1="110" y1="52" x2="110" y2="420" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+    <!-- Sidebar items -->
+    <g font-family="Inter, sans-serif" font-size="10" font-weight="500">
+      <!-- Active item -->
+      <rect x="12" y="70" width="86" height="26" rx="6" fill="rgba(108,92,231,0.18)"/>
+      <circle cx="24" cy="83" r="3" fill="#A78BFA"/>
+      <text x="34" y="86" fill="#F4F4F5">Overview</text>
+
+      <g fill="#71717A">
+        <circle cx="24" cy="113" r="3" fill="#52525B"/>
+        <text x="34" y="116">Analytics</text>
+        <circle cx="24" cy="137" r="3" fill="#52525B"/>
+        <text x="34" y="140">Customers</text>
+        <circle cx="24" cy="161" r="3" fill="#52525B"/>
+        <text x="34" y="164">Orders</text>
+        <circle cx="24" cy="185" r="3" fill="#52525B"/>
+        <text x="34" y="188">Products</text>
+        <circle cx="24" cy="209" r="3" fill="#52525B"/>
+        <text x="34" y="212">Reports</text>
+        <circle cx="24" cy="233" r="3" fill="#52525B"/>
+        <text x="34" y="236">Settings</text>
+      </g>
+    </g>
+
+    <!-- Main content area -->
+    <g transform="translate(110, 52)">
+      <!-- Title -->
+      <text x="20" y="32" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#F4F4F5">Overview</text>
+      <text x="20" y="48" font-family="Inter, sans-serif" font-size="9" fill="#71717A">Last 30 days</text>
+
+      <!-- KPI cards row -->
+      <g transform="translate(20, 62)">
+        <!-- KPI 1 -->
+        <rect x="0" y="0" width="98" height="58" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)"/>
+        <text x="10" y="18" font-family="Inter, sans-serif" font-size="8" fill="#71717A">Revenue</text>
+        <text x="10" y="36" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#F4F4F5">$84.2K</text>
+        <text x="10" y="50" font-family="Inter, sans-serif" font-size="8" font-weight="600" fill="#22C55E">+12.4%</text>
+
+        <!-- KPI 2 -->
+        <rect x="106" y="0" width="98" height="58" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)"/>
+        <text x="116" y="18" font-family="Inter, sans-serif" font-size="8" fill="#71717A">Users</text>
+        <text x="116" y="36" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#F4F4F5">12,480</text>
+        <text x="116" y="50" font-family="Inter, sans-serif" font-size="8" font-weight="600" fill="#22C55E">+8.1%</text>
+
+        <!-- KPI 3 -->
+        <rect x="212" y="0" width="98" height="58" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)"/>
+        <text x="222" y="18" font-family="Inter, sans-serif" font-size="8" fill="#71717A">Conversion</text>
+        <text x="222" y="36" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#F4F4F5">3.8%</text>
+        <text x="222" y="50" font-family="Inter, sans-serif" font-size="8" font-weight="600" fill="#EF4444">-0.4%</text>
+      </g>
+
+      <!-- Chart card -->
+      <g transform="translate(20, 138)">
+        <rect x="0" y="0" width="310" height="180" rx="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)"/>
+        <text x="14" y="22" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#F4F4F5">Monthly revenue</text>
+        <text x="14" y="36" font-family="Inter, sans-serif" font-size="8" fill="#71717A">Jan - Dec</text>
+
+        <!-- Chart gridlines -->
+        <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+          <line x1="14" y1="80"  x2="296" y2="80"/>
+          <line x1="14" y1="110" x2="296" y2="110"/>
+          <line x1="14" y1="140" x2="296" y2="140"/>
+        </g>
+
+        <!-- Chart area (filled) -->
+        <path d="M 14 140 L 40 122 L 66 128 L 92 108 L 118 115 L 144 90 L 170 95 L 196 72 L 222 80 L 248 60 L 274 68 L 296 52 L 296 160 L 14 160 Z" fill="url(#chartFill)"/>
+        <!-- Chart line -->
+        <path d="M 14 140 L 40 122 L 66 128 L 92 108 L 118 115 L 144 90 L 170 95 L 196 72 L 222 80 L 248 60 L 274 68 L 296 52" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Data points -->
+        <g fill="#22D3EE">
+          <circle cx="144" cy="90" r="2.5"/>
+          <circle cx="196" cy="72" r="2.5"/>
+          <circle cx="248" cy="60" r="2.5"/>
+          <circle cx="296" cy="52" r="3"/>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- ============ Bottom right: URL ============ -->
+  <text x="1120" y="588" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#71717A" text-anchor="end">mergeui.com</text>
+</svg>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MergeUi — Twitter Profile (400x400)
+  Option 2: Merge Grid Symbol
+  Author: B (Design Director)
+  Concept: Two squares merging → dashboard grid metaphor
+  Brand tokens: src/styles/tokens.css
+  Safe zone: center 320x320
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="MergeUi merge grid symbol">
+  <defs>
+    <!-- Off-white background (airy, product-forward) -->
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F6F5FC"/>
+    </linearGradient>
+
+    <!-- Primary brand gradient for left tile -->
+    <linearGradient id="tileA" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B7CF0"/>
+      <stop offset="100%" stop-color="#6C5CE7"/>
+    </linearGradient>
+
+    <!-- Accent gradient for right tile -->
+    <linearGradient id="tileB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#67E3F2"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+
+    <!-- Merge/overlap zone — mix of both -->
+    <linearGradient id="mergeZone" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A78BFA"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+
+    <!-- Soft shadow for depth -->
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.18"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Clip for the intersection -->
+    <clipPath id="intersectClip">
+      <rect x="152" y="152" width="104" height="104" rx="20"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#bg2)"/>
+
+  <!-- Very subtle dot grid -->
+  <g fill="#E4E1F3" opacity="0.55">
+    <circle cx="80"  cy="80"  r="1.5"/>
+    <circle cx="160" cy="80"  r="1.5"/>
+    <circle cx="240" cy="80"  r="1.5"/>
+    <circle cx="320" cy="80"  r="1.5"/>
+    <circle cx="80"  cy="160" r="1.5"/>
+    <circle cx="320" cy="160" r="1.5"/>
+    <circle cx="80"  cy="240" r="1.5"/>
+    <circle cx="320" cy="240" r="1.5"/>
+    <circle cx="80"  cy="320" r="1.5"/>
+    <circle cx="160" cy="320" r="1.5"/>
+    <circle cx="240" cy="320" r="1.5"/>
+    <circle cx="320" cy="320" r="1.5"/>
+  </g>
+
+  <!-- Merge mark centered (safe zone aware) -->
+  <g transform="translate(200, 200)" filter="url(#softShadow)">
+    <!-- Tile A (left, purple) — square with merge corner radius asymmetric -->
+    <rect x="-96" y="-96" width="144" height="144" rx="28" fill="url(#tileA)"/>
+
+    <!-- Tile B (right, cyan) — offset and overlapping -->
+    <rect x="-48" y="-48" width="144" height="144" rx="28" fill="url(#tileB)" opacity="0.94"/>
+
+    <!-- Intersection highlight — where they merge -->
+    <g clip-path="url(#intersectClip)" transform="translate(-200,-200)">
+      <rect x="152" y="152" width="104" height="104" rx="20" fill="url(#mergeZone)" opacity="0.9"/>
+    </g>
+    <!-- Intersection border to emphasize merge -->
+    <rect x="-48" y="-48" width="96" height="96" rx="20" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+
+    <!-- Inner grid lines inside tile A (dashboard hint) -->
+    <g stroke="rgba(255,255,255,0.22)" stroke-width="1.5" stroke-linecap="round">
+      <line x1="-96" y1="-48" x2="-48" y2="-48"/>
+      <line x1="-48" y1="-96" x2="-48" y2="-48"/>
+    </g>
+
+    <!-- Inner grid lines inside tile B -->
+    <g stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round">
+      <line x1="48" y1="48" x2="96" y2="48"/>
+      <line x1="48" y1="48" x2="48" y2="96"/>
+    </g>
+  </g>
+
+  <!-- Subtle inner ring for cohesion after circle crop -->
+  <circle cx="200" cy="200" r="184" fill="none" stroke="rgba(108,92,231,0.08)" stroke-width="1"/>
+</svg>

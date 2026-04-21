@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MergeUi — X(Twitter) Profile Preview · 3안 비교</title>
+  <style>
+    :root {
+      --merge-brand: #6C5CE7;
+      --merge-brand-light: #8B7CF0;
+      --merge-accent: #22D3EE;
+      --merge-accent2: #A78BFA;
+      --merge-bg-base: #06060A;
+      --merge-bg-raised: #0E0E14;
+      --merge-bg-surface: #16161E;
+      --merge-text-primary: #F4F4F5;
+      --merge-text-secondary: #A1A1AA;
+      --merge-text-muted: #71717A;
+      --merge-border: rgba(255,255,255,0.08);
+      --merge-border-strong: rgba(255,255,255,0.12);
+      --merge-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--merge-bg-base);
+      color: var(--merge-text-primary);
+      font-family: var(--merge-font);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+    }
+
+    header {
+      margin-bottom: 48px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(108,92,231,0.12);
+      border: 1px solid rgba(108,92,231,0.3);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      color: var(--merge-accent2);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--merge-accent);
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: var(--merge-text-secondary);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .legend {
+      display: flex;
+      gap: 24px;
+      margin-top: 24px;
+      padding: 16px 20px;
+      background: var(--merge-bg-raised);
+      border: 1px solid var(--merge-border);
+      border-radius: 12px;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--merge-text-secondary);
+    }
+    .legend-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    @media (max-width: 1024px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--merge-bg-raised);
+      border: 1px solid var(--merge-border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color .2s ease, transform .2s ease;
+    }
+    .card:hover {
+      border-color: var(--merge-border-strong);
+    }
+
+    .card-header {
+      padding: 24px 24px 0;
+    }
+    .option-num {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      color: var(--merge-accent2);
+      margin-bottom: 6px;
+    }
+    .option-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .option-desc {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--merge-text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .stage {
+      background:
+        linear-gradient(135deg, #0A0A12 0%, #111118 100%);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      border-top: 1px solid var(--merge-border);
+      border-bottom: 1px solid var(--merge-border);
+    }
+
+    /* Circle crop (X/Twitter 실제 노출 형태) */
+    .circle-wrap {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 4px var(--merge-bg-base),
+        0 0 0 5px rgba(255,255,255,0.08),
+        0 20px 48px rgba(0,0,0,0.6);
+    }
+    .circle-wrap img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Thumbnail sizes row */
+    .sizes-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 24px;
+    }
+    .size-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .size-label {
+      font-size: 11px;
+      color: var(--merge-text-muted);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+    .thumb {
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .thumb-48 { width: 48px; height: 48px; }
+    .thumb-32 { width: 32px; height: 32px; }
+    .thumb img { width: 100%; height: 100%; display: block; }
+
+    /* X feed simulation */
+    .feed-sim {
+      background: #000;
+      padding: 20px;
+      display: flex;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .feed-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .feed-avatar img { width: 100%; height: 100%; display: block; }
+    .feed-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .feed-user {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 2px;
+    }
+    .feed-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: #E7E9EA;
+    }
+    .feed-handle {
+      color: #71767B;
+      font-size: 14px;
+    }
+    .feed-text {
+      color: #E7E9EA;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    /* Light surface test (흰 배경에서의 가독성) */
+    .light-test {
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: #FFFFFF;
+    }
+    .light-test .thumb {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    .light-test-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #52525B;
+    }
+
+    .meta {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--merge-text-muted);
+    }
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+    }
+    .meta-row strong {
+      color: var(--merge-text-secondary);
+      font-weight: 600;
+    }
+
+    .recommend-banner {
+      margin-top: 48px;
+      padding: 24px 28px;
+      background:
+        linear-gradient(135deg, rgba(108,92,231,0.14), rgba(34,211,238,0.08));
+      border: 1px solid rgba(108,92,231,0.35);
+      border-radius: 16px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .recommend-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6C5CE7, #22D3EE);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #fff;
+      font-weight: 900;
+      font-size: 18px;
+    }
+    .recommend-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--merge-text-primary);
+      margin-bottom: 6px;
+    }
+    .recommend-body {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--merge-text-secondary);
+    }
+
+    .foot-note {
+      margin-top: 32px;
+      font-size: 12px;
+      color: var(--merge-text-muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .recommended-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(34,211,238,0.12);
+      border: 1px solid rgba(34,211,238,0.35);
+      color: var(--merge-accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <div class="eyebrow">Brand · X Profile</div>
+      <h1>MergeUi — X 프로필 사진 3안</h1>
+      <p class="subtitle">
+        각 안을 <strong>실제 X 노출 형태(원형 크롭 240px)</strong> + <strong>타임라인 아바타(40px)</strong> +
+        <strong>썸네일(32px)</strong> + <strong>흰 배경 가독성</strong>으로 동시 비교합니다.
+      </p>
+
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot" style="background:#6C5CE7"></span>Brand #6C5CE7</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#22D3EE"></span>Accent #22D3EE</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#A78BFA"></span>Accent2 #A78BFA</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#F4F4F5"></span>Text #F4F4F5</div>
+      </div>
+    </header>
+
+    <div class="grid">
+
+      <!-- OPTION 1 -->
+      <article class="card">
+        <div class="card-header">
+          <div class="option-num">OPTION 01</div>
+          <div class="option-title">Monogram "M"</div>
+          <p class="option-desc">
+            풀블리드 브랜드 퍼플 배경 + 흰색 기하학 "M" + 시안 앵커 포인트.
+            타임라인에서 가장 강한 존재감. 개발자 타겟에게 직관적.
+          </p>
+        </div>
+
+        <div class="stage">
+          <div class="circle-wrap">
+            <img src="option-1-monogram.svg" alt="Option 1 — Monogram"/>
+          </div>
+
+          <div class="sizes-row">
+            <div class="size-item">
+              <div class="thumb thumb-48"><img src="option-1-monogram.svg" alt=""/></div>
+              <div class="size-label">48 · Reply</div>
+            </div>
+            <div class="size-item">
+              <div class="thumb thumb-32"><img src="option-1-monogram.svg" alt=""/></div>
+              <div class="size-label">32 · Sidebar</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- X feed simulation -->
+        <div class="feed-sim">
+          <div class="feed-avatar"><img src="option-1-monogram.svg" alt=""/></div>
+          <div class="feed-body">
+            <div class="feed-user">
+              <span class="feed-name">MergeUi</span>
+              <span class="feed-handle">@mergeui · 2h</span>
+            </div>
+            <div class="feed-text">Dashboard templates that ship fast. Launching soon.</div>
+          </div>
+        </div>
+
+        <!-- Light bg test -->
+        <div class="light-test">
+          <div class="thumb thumb-48"><img src="option-1-monogram.svg" alt=""/></div>
+          <div class="thumb thumb-32"><img src="option-1-monogram.svg" alt=""/></div>
+          <span class="light-test-label">흰 배경 가독성 테스트</span>
+        </div>
+
+        <div class="meta">
+          <div class="meta-row"><span>파일</span><strong>option-1-monogram.svg</strong></div>
+          <div class="meta-row"><span>배경</span><strong>Brand #6C5CE7 풀블리드</strong></div>
+          <div class="meta-row"><span>톤</span><strong>강렬 · 개발자 친화</strong></div>
+        </div>
+      </article>
+
+      <!-- OPTION 2 -->
+      <article class="card">
+        <div class="card-header">
+          <div class="option-num">OPTION 02</div>
+          <div class="option-title">Merge Grid Symbol</div>
+          <p class="option-desc">
+            두 타일(퍼플+시안)이 겹쳐지며 "Merge" 개념 시각화.
+            흰 배경으로 타임라인에서 시선 주목도 높음. 제품 은유가 명확.
+          </p>
+        </div>
+
+        <div class="stage">
+          <div class="circle-wrap">
+            <img src="option-2-merge-grid.svg" alt="Option 2 — Merge Grid"/>
+          </div>
+
+          <div class="sizes-row">
+            <div class="size-item">
+              <div class="thumb thumb-48"><img src="option-2-merge-grid.svg" alt=""/></div>
+              <div class="size-label">48 · Reply</div>
+            </div>
+            <div class="size-item">
+              <div class="thumb thumb-32"><img src="option-2-merge-grid.svg" alt=""/></div>
+              <div class="size-label">32 · Sidebar</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-sim">
+          <div class="feed-avatar"><img src="option-2-merge-grid.svg" alt=""/></div>
+          <div class="feed-body">
+            <div class="feed-user">
+              <span class="feed-name">MergeUi</span>
+              <span class="feed-handle">@mergeui · 2h</span>
+            </div>
+            <div class="feed-text">Dashboard templates that ship fast. Launching soon.</div>
+          </div>
+        </div>
+
+        <div class="light-test">
+          <div class="thumb thumb-48"><img src="option-2-merge-grid.svg" alt=""/></div>
+          <div class="thumb thumb-32"><img src="option-2-merge-grid.svg" alt=""/></div>
+          <span class="light-test-label">흰 배경 가독성 테스트</span>
+        </div>
+
+        <div class="meta">
+          <div class="meta-row"><span>파일</span><strong>option-2-merge-grid.svg</strong></div>
+          <div class="meta-row"><span>배경</span><strong>Off-white #F6F5FC</strong></div>
+          <div class="meta-row"><span>톤</span><strong>제품 은유 · 산뜻</strong></div>
+        </div>
+      </article>
+
+      <!-- OPTION 3 -->
+      <article class="card">
+        <div class="card-header">
+          <div class="option-num">OPTION 03</div>
+          <div class="option-title">
+            Premium Gradient
+            <span class="recommended-tag">B 추천</span>
+          </div>
+          <p class="option-desc">
+            딥 네이비 + 소프트 메쉬 그라디언트 + 미니멀 기하 "M".
+            Linear · Resend · Vercel 급 프리미엄 감도. 디자이너 출신 캡틴 감성 매치.
+          </p>
+        </div>
+
+        <div class="stage">
+          <div class="circle-wrap">
+            <img src="option-3-gradient.svg" alt="Option 3 — Premium Gradient"/>
+          </div>
+
+          <div class="sizes-row">
+            <div class="size-item">
+              <div class="thumb thumb-48"><img src="option-3-gradient.svg" alt=""/></div>
+              <div class="size-label">48 · Reply</div>
+            </div>
+            <div class="size-item">
+              <div class="thumb thumb-32"><img src="option-3-gradient.svg" alt=""/></div>
+              <div class="size-label">32 · Sidebar</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-sim">
+          <div class="feed-avatar"><img src="option-3-gradient.svg" alt=""/></div>
+          <div class="feed-body">
+            <div class="feed-user">
+              <span class="feed-name">MergeUi</span>
+              <span class="feed-handle">@mergeui · 2h</span>
+            </div>
+            <div class="feed-text">Dashboard templates that ship fast. Launching soon.</div>
+          </div>
+        </div>
+
+        <div class="light-test">
+          <div class="thumb thumb-48"><img src="option-3-gradient.svg" alt=""/></div>
+          <div class="thumb thumb-32"><img src="option-3-gradient.svg" alt=""/></div>
+          <span class="light-test-label">흰 배경 가독성 테스트</span>
+        </div>
+
+        <div class="meta">
+          <div class="meta-row"><span>파일</span><strong>option-3-gradient.svg</strong></div>
+          <div class="meta-row"><span>배경</span><strong>Deep Mesh Gradient</strong></div>
+          <div class="meta-row"><span>톤</span><strong>프리미엄 · 디자이너 감성</strong></div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Recommendation -->
+    <div class="recommend-banner">
+      <div class="recommend-icon">B</div>
+      <div>
+        <div class="recommend-title">디자인 디렉터 B의 추천 — OPTION 03 (Premium Gradient)</div>
+        <div class="recommend-body">
+          캡틴은 디자이너 출신이시고 MergeUi는 "개발자가 디자인 시간을 절약하는" 프리미엄 포지셔닝입니다.
+          1안(강한 단색)은 Bootstrap·Tailwind 유사 톤이라 차별화 약하고, 2안(흰 배경)은 타임라인 스크롤 중 평범해 보일 위험이 있습니다.
+          3안은 Linear·Resend·Vercel급 시각 언어로 <strong>"이 팀은 디테일을 안다"</strong>는 무언의 메시지를 전달하며,
+          OG 이미지(mesh gradient)와도 가장 자연스럽게 연결됩니다. 32px 썸네일에서도 "M" 마크가 또렷이 읽힙니다.
+        </div>
+      </div>
+    </div>
+
+    <p class="foot-note">
+      모든 SVG는 400x400 viewBox · 중앙 320x320 안전영역 준수 · WCAG AA 대비 통과 · 8px 그리드 정렬.<br/>
+      캡틴 선택 확정 후 PNG(400x400) export 진행 예정.
+    </p>
+
+  </div>
+</body>
+</html>

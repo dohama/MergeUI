@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MergeUi — Twitter Profile (400x400)
+  Option 1: Custom Monogram "M"
+  Author: B (Design Director)
+  Brand tokens: src/styles/tokens.css
+  - Brand:   #6C5CE7
+  - Accent:  #22D3EE
+  - Accent2: #A78BFA
+  Safe zone: center 320x320 (circle crop for X/Twitter)
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="MergeUi monogram">
+  <defs>
+    <!-- Primary background gradient — brand-forward -->
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7B6BF0"/>
+      <stop offset="55%" stop-color="#6C5CE7"/>
+      <stop offset="100%" stop-color="#5A4BD1"/>
+    </linearGradient>
+
+    <!-- Soft inner glow hotspot -->
+    <radialGradient id="hotspot1" cx="28%" cy="22%" r="55%">
+      <stop offset="0%" stop-color="#A78BFA" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#A78BFA" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="hotspot2" cx="82%" cy="82%" r="48%">
+      <stop offset="0%" stop-color="#22D3EE" stop-opacity="0.28"/>
+      <stop offset="70%" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Subtle grid pattern (dashboard hint) -->
+    <pattern id="grid1" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    </pattern>
+
+    <!-- M stroke gradient (subtle vertical shine) -->
+    <linearGradient id="mStroke" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E8E4FB"/>
+    </linearGradient>
+
+    <!-- Accent dot glow -->
+    <radialGradient id="dotGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22D3EE" stop-opacity="1"/>
+      <stop offset="60%" stop-color="#22D3EE" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background square (circle crop will hide corners, but we still fill it) -->
+  <rect width="400" height="400" fill="url(#bg1)"/>
+  <rect width="400" height="400" fill="url(#grid1)"/>
+  <rect width="400" height="400" fill="url(#hotspot1)"/>
+  <rect width="400" height="400" fill="url(#hotspot2)"/>
+
+  <!-- Inner ring (visible after circle crop, adds depth) -->
+  <circle cx="200" cy="200" r="184" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Custom geometric "M" (safe zone: 200x200 centered) -->
+  <!-- Stroke width 28, 8px grid aligned, optical centering -->
+  <g transform="translate(200, 200)">
+    <!-- Accent dot glow behind peak -->
+    <circle cx="0" cy="-80" r="36" fill="url(#dotGlow)"/>
+
+    <!-- M mark — single path, stroke-based for crispness at small sizes -->
+    <path
+      d="M -96 84 L -96 -84 L 0 40 L 96 -84 L 96 84"
+      fill="none"
+      stroke="url(#mStroke)"
+      stroke-width="28"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+
+    <!-- Accent cyan dot (peak highlight — 'merge' anchor point) -->
+    <circle cx="0" cy="40" r="10" fill="#22D3EE"/>
+    <circle cx="0" cy="40" r="4" fill="#FFFFFF"/>
+  </g>
+</svg>

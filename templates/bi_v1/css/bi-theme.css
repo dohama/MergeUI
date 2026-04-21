@@ -1,0 +1,264 @@
+/* BI Dashboard — Business Intelligence · 10 chart types */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--bi-font);
+  background: var(--bi-bg);
+  color: var(--bi-text);
+  min-height: 100vh;
+  font-size: 13px;
+  line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+.bi-mono { font-family: var(--bi-font-mono); font-variant-numeric: tabular-nums; }
+
+/* === 헤더 === */
+.bi-header {
+  background: var(--bi-bg-white);
+  border-bottom: 1px solid var(--bi-border);
+  padding: 14px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.bi-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 15px; }
+.bi-brand-mark {
+  width: 28px; height: 28px; border-radius: var(--bi-radius-sm);
+  background: linear-gradient(135deg, var(--bi-primary), var(--bi-chart-5));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 900;
+}
+.bi-nav { display: flex; gap: 24px; font-size: 13px; font-weight: 500; }
+.bi-nav a { color: var(--bi-text-muted); padding: 4px 0; border-bottom: 2px solid transparent; }
+.bi-nav a:hover { color: var(--bi-text); }
+.bi-nav a.active { color: var(--bi-primary); border-bottom-color: var(--bi-primary); font-weight: 600; }
+
+/* === 필터 바 === */
+.bi-filters {
+  background: var(--bi-bg-white);
+  border-bottom: 1px solid var(--bi-border);
+  padding: 14px 32px;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.bi-filter {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 12px;
+  background: var(--bi-bg-white);
+  border: 1px solid var(--bi-border-strong);
+  border-radius: var(--bi-radius);
+  font-size: 12px; font-weight: 500;
+  color: var(--bi-text-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.bi-filter:hover { border-color: var(--bi-primary); color: var(--bi-primary); }
+.bi-filter.primary {
+  background: var(--bi-primary);
+  color: white;
+  border-color: var(--bi-primary);
+}
+.bi-filter-chevron { font-size: 10px; opacity: 0.6; }
+
+/* === 메인 === */
+.bi-main { padding: 24px 32px; }
+.bi-title {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 20px;
+}
+.bi-title h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 4px; }
+.bi-title p { font-size: 12px; color: var(--bi-text-muted); }
+.bi-title-actions { display: flex; gap: 8px; }
+
+/* === KPI 상단 행 (4개 + sparkline) === */
+.bi-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px; margin-bottom: 20px;
+}
+.bi-kpi {
+  background: var(--bi-bg-white);
+  border: 1px solid var(--bi-border);
+  border-radius: var(--bi-radius);
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+.bi-kpi-label {
+  font-size: 11px; color: var(--bi-text-muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.bi-kpi-val { font-size: 26px; font-weight: 800; line-height: 1; letter-spacing: -0.01em; }
+.bi-kpi-trend {
+  margin-top: 6px;
+  font-size: 12px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.bi-kpi-trend.up { color: var(--bi-success); }
+.bi-kpi-trend.down { color: var(--bi-error); }
+.bi-kpi-spark { width: 100px; height: 48px; align-self: center; grid-column: 2; grid-row: 1 / span 3; }
+
+/* === 차트 그리드 === */
+.bi-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(260px, auto);
+  gap: 16px;
+}
+.bi-card {
+  background: var(--bi-bg-white);
+  border: 1px solid var(--bi-border);
+  border-radius: var(--bi-radius);
+  padding: 16px 18px;
+  display: flex; flex-direction: column;
+  min-width: 0;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.bi-card:hover { box-shadow: var(--bi-shadow-md); border-color: var(--bi-border-strong); }
+.bi-card-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 12px;
+}
+.bi-card-title {
+  font-size: 13px; font-weight: 700; color: var(--bi-text);
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+.bi-card-sub {
+  font-size: 11px; color: var(--bi-text-muted);
+}
+.bi-card-body {
+  flex: 1; min-height: 0; position: relative;
+}
+.bi-card-menu {
+  padding: 2px 6px;
+  font-size: 14px; color: var(--bi-text-muted);
+  border-radius: 4px; line-height: 1;
+}
+.bi-card-menu:hover { background: var(--bi-bg-subtle); }
+
+/* Card span variations */
+.bi-span-3 { grid-column: span 3; }
+.bi-span-4 { grid-column: span 4; }
+.bi-span-5 { grid-column: span 5; }
+.bi-span-6 { grid-column: span 6; }
+.bi-span-7 { grid-column: span 7; }
+.bi-span-8 { grid-column: span 8; }
+.bi-span-12 { grid-column: span 12; }
+.bi-row-2 { grid-row: span 2; }
+
+/* === 배지 === */
+.bi-badge {
+  display: inline-block; padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.bi-badge.green { background: var(--bi-success-bg); color: var(--bi-success); }
+.bi-badge.orange { background: var(--bi-warning-bg); color: var(--bi-warning); }
+.bi-badge.red { background: var(--bi-error-bg); color: var(--bi-error); }
+.bi-badge.blue { background: var(--bi-primary-soft); color: var(--bi-primary); }
+
+/* === 테이블 (Top 리스트) === */
+.bi-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.bi-table th {
+  text-align: left; padding: 8px 10px;
+  font-size: 10px; font-weight: 700;
+  color: var(--bi-text-muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--bi-border);
+}
+.bi-table td {
+  padding: 10px 10px; border-bottom: 1px solid var(--bi-border);
+  color: var(--bi-text-2);
+}
+.bi-table td.num { text-align: right; font-family: var(--bi-font-mono); color: var(--bi-text); }
+.bi-table tr:last-child td { border: none; }
+.bi-table tr:hover td { background: var(--bi-bg-subtle); }
+.bi-rank {
+  display: inline-block;
+  width: 20px; height: 20px; line-height: 20px;
+  text-align: center;
+  background: var(--bi-bg-subtle);
+  border-radius: 4px;
+  font-size: 10px; font-weight: 700;
+  color: var(--bi-text-muted);
+}
+.bi-rank.gold { background: #FEF3C7; color: #B45309; }
+.bi-rank.silver { background: #F1F5F9; color: #475569; }
+.bi-rank.bronze { background: #FED7AA; color: #9A3412; }
+
+/* === 게이지 === */
+.bi-gauge { position: relative; display: flex; align-items: center; justify-content: center; height: 100%; }
+.bi-gauge-svg { width: 180px; max-width: 100%; }
+.bi-gauge-value {
+  position: absolute; top: 52%; left: 0; right: 0;
+  text-align: center;
+  font-size: 28px; font-weight: 800; letter-spacing: -0.02em;
+  font-family: var(--bi-font-mono);
+}
+.bi-gauge-label {
+  position: absolute; top: 80%; left: 0; right: 0;
+  text-align: center;
+  font-size: 10px; color: var(--bi-text-muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* === 히트맵 === */
+.bi-heatmap {
+  display: grid; grid-template-columns: 40px repeat(24, 1fr); gap: 2px;
+  font-family: var(--bi-font-mono); font-size: 9px;
+}
+.bi-heat-row-label { color: var(--bi-text-muted); text-align: right; padding-right: 6px; align-self: center; }
+.bi-heat-cell {
+  aspect-ratio: 1; border-radius: 2px;
+  background: var(--bi-heat-0);
+  transition: transform 0.12s;
+}
+.bi-heat-cell:hover { transform: scale(1.3); z-index: 1; box-shadow: var(--bi-shadow-md); }
+.bi-heat-1 { background: var(--bi-heat-1); }
+.bi-heat-2 { background: var(--bi-heat-2); }
+.bi-heat-3 { background: var(--bi-heat-3); }
+.bi-heat-4 { background: var(--bi-heat-4); }
+
+/* === 펀넬 === */
+.bi-funnel { display: flex; flex-direction: column; gap: 6px; padding: 12px 0; }
+.bi-funnel-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 80px;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+}
+.bi-funnel-lbl { font-weight: 600; color: var(--bi-text-2); }
+.bi-funnel-bar-wrap { height: 28px; background: var(--bi-bg-subtle); border-radius: var(--bi-radius-sm); overflow: hidden; position: relative; }
+.bi-funnel-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--bi-primary) 0%, var(--bi-chart-5) 100%);
+  color: white;
+  padding: 0 10px;
+  display: flex; align-items: center;
+  font-size: 11px; font-weight: 700;
+  font-family: var(--bi-font-mono);
+  white-space: nowrap;
+}
+.bi-funnel-rate { font-family: var(--bi-font-mono); font-size: 11px; color: var(--bi-text-muted); text-align: right; }
+
+/* 반응형 */
+@media (max-width: 1280px) {
+  .bi-kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .bi-grid { grid-template-columns: repeat(6, 1fr); }
+  .bi-span-3, .bi-span-4, .bi-span-5, .bi-span-6, .bi-span-7, .bi-span-8, .bi-span-12 { grid-column: span 6; }
+}
+@media (max-width: 768px) {
+  .bi-kpi-row { grid-template-columns: 1fr; }
+  .bi-grid { grid-template-columns: 1fr; }
+  .bi-span-3, .bi-span-4, .bi-span-5, .bi-span-6, .bi-span-7, .bi-span-8, .bi-span-12 { grid-column: span 1; }
+  .bi-header { padding: 12px 16px; }
+  .bi-filters { padding: 12px 16px; overflow-x: auto; flex-wrap: nowrap; }
+  .bi-main { padding: 16px; }
+  .bi-nav { display: none; }
+}
+
+:focus-visible { outline: 2px solid var(--bi-primary); outline-offset: 2px; }

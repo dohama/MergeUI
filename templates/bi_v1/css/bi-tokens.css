@@ -1,0 +1,69 @@
+/* ===== BI Dashboard (bi_v1) — Design Tokens =====
+   Looker Studio · Metabase · Tableau 스타일 · 차트 10종
+   ======================================================= */
+:root {
+  --bi-font: 'Inter', -apple-system, sans-serif;
+  --bi-font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+  /* 배경 — Light BI */
+  --bi-bg: #F6F8FB;
+  --bi-bg-white: #FFFFFF;
+  --bi-bg-subtle: #F0F3F7;
+  --bi-border: #E4E9F0;
+  --bi-border-strong: #CDD4DE;
+
+  /* 텍스트 */
+  --bi-text: #1A202C;
+  --bi-text-2: #4A5568;
+  --bi-text-muted: #718096;
+
+  /* 브랜드 */
+  --bi-primary: #4C6EF5;          /* Indigo 5 */
+  --bi-primary-soft: #EEF1FE;
+  --bi-primary-strong: #3A55D9;
+
+  /* 상태 */
+  --bi-success: #12B76A;
+  --bi-success-bg: #ECFDF3;
+  --bi-warning: #F79009;
+  --bi-warning-bg: #FFFAEB;
+  --bi-error: #F04438;
+  --bi-error-bg: #FEF3F2;
+  --bi-info: #0EA5E9;
+  --bi-info-bg: #F0F9FF;
+
+  /* 차트 8색 (Tableau 10 파생 — 범용 BI 팔레트) */
+  --bi-chart-1: #4C6EF5;
+  --bi-chart-2: #12B76A;
+  --bi-chart-3: #F79009;
+  --bi-chart-4: #F04438;
+  --bi-chart-5: #A855F7;
+  --bi-chart-6: #06B6D4;
+  --bi-chart-7: #EC4899;
+  --bi-chart-8: #64748B;
+
+  /* 히트맵 단계 (5단계 blue) */
+  --bi-heat-0: #F6F8FB;
+  --bi-heat-1: #C7D2FE;
+  --bi-heat-2: #8A9DF5;
+  --bi-heat-3: #5867EB;
+  --bi-heat-4: #4338CA;
+
+  /* 간격 */
+  --bi-space-1: 4px; --bi-space-2: 8px; --bi-space-3: 12px; --bi-space-4: 16px;
+  --bi-space-5: 20px; --bi-space-6: 24px; --bi-space-7: 32px; --bi-space-8: 48px;
+
+  /* Radius */
+  --bi-radius: 8px;
+  --bi-radius-lg: 12px;
+  --bi-radius-sm: 6px;
+
+  /* Shadow (절제된 BI 느낌) */
+  --bi-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --bi-shadow-md: 0 2px 8px rgba(16, 24, 40, 0.06);
+}
+
+/* 액센트 프리셋 */
+/* === Emerald === :root { --bi-primary: #059669; --bi-primary-soft: #D1FAE5; --bi-primary-strong: #047857; } */
+/* === Rose === :root { --bi-primary: #E11D48; --bi-primary-soft: #FFE4E6; --bi-primary-strong: #BE123C; } */
+/* === Charcoal === :root { --bi-primary: #1F2937; --bi-primary-soft: #F3F4F6; --bi-primary-strong: #0F172A; } */

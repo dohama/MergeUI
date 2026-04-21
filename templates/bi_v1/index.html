@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BI Dashboard — Analytics Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bi-tokens.css">
+<link rel="stylesheet" href="css/bi-theme.css">
+</head>
+<body>
+
+<!-- 헤더 -->
+<header class="bi-header">
+  <div class="bi-brand">
+    <span class="bi-brand-mark">B</span>
+    <span>BI·Dashboard</span>
+  </div>
+  <nav class="bi-nav">
+    <a href="index.html" class="active">Overview</a>
+    <a href="#acquisition">Acquisition</a>
+    <a href="#retention">Retention</a>
+    <a href="#revenue">Revenue</a>
+    <a href="#experiments">Experiments</a>
+  </nav>
+  <button type="button" class="bi-filter primary" style="padding:7px 14px">+ New Report</button>
+</header>
+
+<!-- 필터 바 -->
+<div class="bi-filters">
+  <button type="button" class="bi-filter"><span>📅</span> <span>Last 12 months</span> <span class="bi-filter-chevron">▾</span></button>
+  <button type="button" class="bi-filter"><span>🌐</span> <span>All Regions</span> <span class="bi-filter-chevron">▾</span></button>
+  <button type="button" class="bi-filter"><span>👥</span> <span>All Users</span> <span class="bi-filter-chevron">▾</span></button>
+  <button type="button" class="bi-filter"><span>💼</span> <span>All Plans</span> <span class="bi-filter-chevron">▾</span></button>
+  <button type="button" class="bi-filter"><span>⚙</span> <span>Compare</span></button>
+  <div style="margin-left:auto;display:flex;gap:8px">
+    <button type="button" class="bi-filter">⟳ Refresh</button>
+    <button type="button" class="bi-filter">↓ Export</button>
+  </div>
+</div>
+
+<!-- 메인 -->
+<main class="bi-main">
+  <div class="bi-title">
+    <div>
+      <h1>Analytics Overview</h1>
+      <p>Updated 2 minutes ago · Auto-refresh every 5m</p>
+    </div>
+    <div class="bi-title-actions">
+      <button type="button" class="bi-filter">Save View</button>
+      <button type="button" class="bi-filter">Share</button>
+    </div>
+  </div>
+
+  <!-- KPI + sparkline -->
+  <section class="bi-kpi-row" id="kpiRow"></section>
+
+  <!-- 차트 그리드 (10종 동시) -->
+  <section class="bi-grid">
+    <!-- [1] Line chart — Revenue 12M -->
+    <div class="bi-card bi-span-8 bi-row-2">
+      <div class="bi-card-head">
+        <div>
+          <div class="bi-card-title">Revenue Trend · 12 months</div>
+          <div class="bi-card-sub">MRR vs same period last year</div>
+        </div>
+        <button class="bi-card-menu">⋯</button>
+      </div>
+      <div class="bi-card-body"><canvas id="revenueChart"></canvas></div>
+    </div>
+
+    <!-- [9] Gauge — NPS -->
+    <div class="bi-card bi-span-4">
+      <div class="bi-card-head">
+        <div>
+          <div class="bi-card-title">NPS Score</div>
+          <div class="bi-card-sub">Promoters − Detractors</div>
+        </div>
+        <button class="bi-card-menu">⋯</button>
+      </div>
+      <div class="bi-card-body" id="gauge"></div>
+    </div>
+
+    <!-- [4] Donut — Device -->
+    <div class="bi-card bi-span-4">
+      <div class="bi-card-head">
+        <div>
+          <div class="bi-card-title">Device Share</div>
+          <div class="bi-card-sub">All sessions · last 30d</div>
+        </div>
+        <button class="bi-card-menu">⋯</button>
+      </div>
+      <div class="bi-card-body"><canvas id="deviceChart"></canvas></div>
+    </div>
+
+    <!-- [2] Stacked bar — Channels -->
+    <div class="bi-card bi-span-6">
+      <div class="bi-card-head">
+        <div>
+          <div class="bi-card-title">Traffic Channels</div>
+          <div class="bi-card-sub">Monthly breakdown (K sessions)</div>
+        </div>
+        <button class="bi-card-menu">⋯</button>
+      </div>
+      <div class="bi-card-body"><canvas id="channelChart"></canvas></div>
+    </div>
+
+    <!-- [5] Pie — Plan -->
+    <div class="bi-card bi-span-3">
+      <div class="bi-card-head">
+        <div>
+          <div class="bi-card-title">Plan Mix</div>
+          <div class="bi-card-sub">Active subscribers</div>
+        </div>
+      </div>
+      <div class="bi-card-body"><canvas id="planChart"></canvas></div>
+    </div>
+
+    <!-- [3] Horizontal stacked — Cohort -->
+    <div class="bi-card bi-span-6">
+      <div class="bi-card-head">
+        <div>
+          <div class="bi-card-title">Cohort Retention</div>
+          <div class="bi-card-sub">M1–M6 by signup month</div>
+        </div>
+        <button class="bi-card-menu">⋯</button>
+      </div>
+      <div class="bi-card-body"><canvas id="cohortChart"></canvas></div>
+    </div>
+
+    <!-- [6] Area — MAU/WAU/DAU -->
+    <div class="bi-card bi-span-6">
+      <div class="bi-card-head">
+        <div>
+          <div class="bi-card-title">Active Users (M/W/D)</div>
+          <div class="bi-card-sub">Rolling 12 weeks</div>
+        </div>
+        <button class="bi-card-menu">⋯</button>
+      </div>
+      <div class="bi-card-body"><canvas id="activityChart"></canvas></div>
+    </div>
+
+    <!-- [8] Heatmap — 7 × 24 -->
+    <div class="bi-card bi-span-8">
+      <div class="bi-card-head">
+        <div>
+          <div class="bi-card-title">Activity Heatmap</div>
+          <div class="bi-card-sub">Traffic density · Day × Hour</div>
+        </div>
+        <button class="bi-card-menu">⋯</button>
+      </div>
+      <div class="bi-card-body" style="display:flex;align-items:center">
+        <div class="bi-heatmap" id="heatmap" style="width:100%"></div>
+      </div>
+    </div>
+
+    <!-- [7] Scatter — LTV vs CAC -->
+    <div class="bi-card bi-span-4">
+      <div class="bi-card-head">
+        <div>
+          <div class="bi-card-title">LTV vs CAC</div>
+          <div class="bi-card-sub">Per channel · bubble = volume</div>
+        </div>
+        <button class="bi-card-menu">⋯</button>
+      </div>
+      <div class="bi-card-body"><canvas id="scatterChart"></canvas></div>
+    </div>
+
+    <!-- [10] Funnel -->
+    <div class="bi-card bi-span-5">
+      <div class="bi-card-head">
+        <div>
+          <div class="bi-card-title">Conversion Funnel</div>
+          <div class="bi-card-sub">Visitor → Paid → Retained</div>
+        </div>
+        <button class="bi-card-menu">⋯</button>
+      </div>
+      <div class="bi-card-body" id="funnel"></div>
+    </div>
+
+    <!-- Top Countries table -->
+    <div class="bi-card bi-span-7">
+      <div class="bi-card-head">
+        <div>
+          <div class="bi-card-title">Top Countries</div>
+          <div class="bi-card-sub">Users · Revenue · MoM growth</div>
+        </div>
+        <button class="bi-card-menu">⋯</button>
+      </div>
+      <div class="bi-card-body">
+        <table class="bi-table">
+          <thead><tr><th>#</th><th>Country</th><th style="text-align:right">Users</th><th style="text-align:right">Revenue</th><th>Growth</th></tr></thead>
+          <tbody id="topCountries"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/bi-theme.js"></script>
+</body>
+</html>

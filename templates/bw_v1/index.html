@@ -73,6 +73,34 @@
       </table>
     </div>
   </section>
+
+  <!-- 차트 그리드 (4종) -->
+  <section class="bw-section">
+    <div class="bw-section-head">
+      <div>
+        <div class="bw-section-sub">Multi-Chart Analysis</div>
+        <h2 class="bw-section-title">Data Breakdown</h2>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--bw-line);border-left:1px solid var(--bw-line)">
+      <div style="border-right:1px solid var(--bw-line);border-bottom:1px solid var(--bw-line);padding:24px">
+        <div style="font-size:11px;font-weight:500;color:var(--bw-text-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:12px">Sessions by Channel · Bar</div>
+        <div style="height:200px"><canvas id="bwBar"></canvas></div>
+      </div>
+      <div style="border-right:1px solid var(--bw-line);border-bottom:1px solid var(--bw-line);padding:24px">
+        <div style="font-size:11px;font-weight:500;color:var(--bw-text-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:12px">Device Share · Donut</div>
+        <div style="height:200px"><canvas id="bwDonut"></canvas></div>
+      </div>
+      <div style="border-right:1px solid var(--bw-line);border-bottom:1px solid var(--bw-line);padding:24px">
+        <div style="font-size:11px;font-weight:500;color:var(--bw-text-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:12px">Hourly Distribution · Histogram</div>
+        <div style="height:200px"><canvas id="bwHist"></canvas></div>
+      </div>
+      <div style="border-right:1px solid var(--bw-line);border-bottom:1px solid var(--bw-line);padding:24px">
+        <div style="font-size:11px;font-weight:500;color:var(--bw-text-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:12px">8 Metrics · Sparklines</div>
+        <div id="bwSparks" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px"></div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>

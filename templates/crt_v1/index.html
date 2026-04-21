@@ -74,6 +74,46 @@
     </div>
   </section>
 
+  <!-- Additional 4 charts: Gauge + Donut + Req/s + Sparklines -->
+  <section class="crt-section">
+    <div class="crt-section-title">
+      <span>Metrics Grid</span>
+      <span class="meta">4 extra charts</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+
+      <!-- [A] SVG Gauge — CPU Average -->
+      <div class="crt-card" style="text-align:center">
+        <div style="font-size:11px;color:var(--crt-phosphor-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">[CPU-AVG]</div>
+        <div id="crtGauge1"></div>
+      </div>
+
+      <!-- [B] SVG Gauge — Memory -->
+      <div class="crt-card" style="text-align:center">
+        <div style="font-size:11px;color:var(--crt-phosphor-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">[MEMORY]</div>
+        <div id="crtGauge2"></div>
+      </div>
+
+      <!-- [C] Chart.js bar — Req/s last 12min -->
+      <div class="crt-card" style="grid-column:span 2">
+        <div style="font-size:11px;color:var(--crt-phosphor-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">[REQ/S · LAST 12 MIN]</div>
+        <div style="height:160px"><canvas id="crtReqBar"></canvas></div>
+      </div>
+
+      <!-- [D] Error rate donut -->
+      <div class="crt-card" style="text-align:center">
+        <div style="font-size:11px;color:var(--crt-phosphor-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">[ERROR BREAKDOWN]</div>
+        <div style="height:160px"><canvas id="crtDonut"></canvas></div>
+      </div>
+
+      <!-- [E] Sparklines × 3 -->
+      <div class="crt-card" style="grid-column:span 3">
+        <div style="font-size:11px;color:var(--crt-phosphor-dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px">[SPARKLINES · 3 TIMESERIES]</div>
+        <div id="crtSparks" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px"></div>
+      </div>
+    </div>
+  </section>
+
   <div style="margin-top:24px; display:flex; gap:12px">
     <button type="button" class="crt-btn">[ Acknowledge All ]</button>
     <button type="button" class="crt-btn">[ Run Diagnostic ]</button>
@@ -84,5 +124,93 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script src="js/data.js"></script>
 <script src="js/crt-theme.js"></script>
+<script>
+  // === 추가 차트 4종 ===
+  document.addEventListener('DOMContentLoaded', function () {
+    // Gauge SVG (반원형)
+    function renderCrtGauge(selector, value, max, unit, state) {
+      var el = document.getElementById(selector);
+      if (!el) return;
+      var color = state === 'err' ? '#FF3344' : state === 'warn' ? '#FFB000' : '#33FF66';
+      var glow = state === 'err' ? 'rgba(255,51,68,0.6)' : state === 'warn' ? 'rgba(255,176,0,0.6)' : 'rgba(51,255,102,0.6)';
+      var angle = (value / max) * 180;
+      var R = 60, CX = 75, CY = 70;
+      function p(a) { var r = (a - 180) * Math.PI / 180; return (CX + R * Math.cos(r)) + ' ' + (CY + R * Math.sin(r)); }
+      el.innerHTML = '<svg viewBox="0 0 150 90" style="width:100%;max-width:180px">'
+        + '<path d="M ' + p(0) + ' A ' + R + ' ' + R + ' 0 0 1 ' + p(180) + '" fill="none" stroke="rgba(51,255,102,0.12)" stroke-width="10"/>'
+        + '<path d="M ' + p(0) + ' A ' + R + ' ' + R + ' 0 ' + (angle > 180 ? 1 : 0) + ' 1 ' + p(angle) + '" fill="none" stroke="' + color + '" stroke-width="10" stroke-linecap="round" filter="drop-shadow(0 0 6px ' + glow + ')"/>'
+        + '</svg>'
+        + '<div style="font-family:VT323,monospace;font-size:32px;color:' + color + ';text-shadow:0 0 8px ' + glow + ';margin-top:4px">' + value + unit + '</div>';
+    }
+    renderCrtGauge('crtGauge1', 68, 100, '%', '');
+    renderCrtGauge('crtGauge2', 84, 100, '%', 'warn');
+
+    // Bar — Req/s
+    var barEl = document.getElementById('crtReqBar');
+    if (barEl && window.Chart) {
+      var labels = [];
+      for (var i = 11; i >= 0; i--) labels.push('-' + i + 'm');
+      new Chart(barEl.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{ data: [1840,1920,2010,2180,2240,2300,2420,2380,2460,2410,2448,2418], backgroundColor: '#33FF66', borderWidth: 0, borderRadius: 0 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: '#22AA44', font: { family: 'VT323', size: 12 } } },
+            y: { grid: { color: 'rgba(51,255,102,0.08)' }, ticks: { color: '#22AA44', font: { family: 'VT323', size: 12 } } }
+          }
+        }
+      });
+    }
+
+    // Donut — Error breakdown
+    var dEl = document.getElementById('crtDonut');
+    if (dEl && window.Chart) {
+      new Chart(dEl.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          labels: ['5xx Internal', '4xx Client', 'Timeout', 'DB Conn'],
+          datasets: [{ data: [48, 28, 14, 10], backgroundColor: ['#FF3344', '#FFB000', '#FF66CC', '#33FFFF'], borderWidth: 2, borderColor: '#000' }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          cutout: '62%',
+          plugins: { legend: { position: 'bottom', labels: { color: '#33FF66', font: { family: 'VT323', size: 12 }, usePointStyle: true, boxWidth: 8 } } }
+        }
+      });
+    }
+
+    // Sparklines × 3
+    var sparkEl = document.getElementById('crtSparks');
+    if (sparkEl) {
+      var series = [
+        { name: 'NET IN',  unit: 'MB/s', pts: [42,48,54,52,58,62,60,66,72,78,76,82], color: '#33FF66' },
+        { name: 'NET OUT', unit: 'MB/s', pts: [28,32,34,36,40,44,42,46,48,52,50,56], color: '#33FFFF' },
+        { name: 'DISK IO', unit: 'op/s', pts: [120,138,142,158,162,180,196,204,218,226,240,252], color: '#FFB000' }
+      ];
+      sparkEl.innerHTML = series.map(function(s){
+        var min = Math.min.apply(null, s.pts), max = Math.max.apply(null, s.pts);
+        var W = 200, H = 60;
+        var pts = s.pts.map(function(v, idx){
+          var x = (idx / (s.pts.length - 1)) * W;
+          var y = H - ((v - min) / (max - min || 1)) * (H - 8) - 4;
+          return x + ',' + y;
+        }).join(' ');
+        var latest = s.pts[s.pts.length - 1];
+        return '<div style="padding:8px;border:1px solid ' + s.color + '">'
+          + '<div style="font-family:VT323,monospace;font-size:11px;color:' + s.color + ';letter-spacing:0.15em">' + s.name + '</div>'
+          + '<div style="font-family:VT323,monospace;font-size:22px;color:' + s.color + ';text-shadow:0 0 6px ' + s.color + '80;margin-bottom:4px">' + latest + ' ' + s.unit + '</div>'
+          + '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;height:40px;display:block">'
+          +   '<polyline fill="none" stroke="' + s.color + '" stroke-width="1.5" points="' + pts + '"/>'
+          + '</svg>'
+          + '</div>';
+      }).join('');
+    }
+  });
+</script>
 </body>
 </html>

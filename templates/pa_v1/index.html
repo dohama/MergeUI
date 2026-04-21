@@ -96,6 +96,27 @@
         </div>
       </div>
 
+      <!-- 4-Chart Grid -->
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-bottom:24px">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Plan Distribution</span><span style="font-size:11px;color:var(--pulse-text-muted);text-transform:uppercase;letter-spacing:0.1em">DONUT</span></div>
+          <div class="card-body"><div style="height:240px"><canvas id="paDonut"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Top Countries</span><span style="font-size:11px;color:var(--pulse-text-muted);text-transform:uppercase;letter-spacing:0.1em">HORIZONTAL BAR</span></div>
+          <div class="card-body"><div style="height:240px"><canvas id="paHBar"></canvas></div>
+        </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Traffic Sources</span><span style="font-size:11px;color:var(--pulse-text-muted);text-transform:uppercase;letter-spacing:0.1em">STACKED AREA</span></div>
+          <div class="card-body"><div style="height:240px"><canvas id="paArea"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Performance Metrics</span><span style="font-size:11px;color:var(--pulse-text-muted);text-transform:uppercase;letter-spacing:0.1em">RADAR</span></div>
+          <div class="card-body"><div style="height:240px"><canvas id="paRadar"></canvas></div></div>
+        </div>
+      </div>
+
       <!-- Data Table -->
       <div class="card">
         <div class="card-header"><span class="card-title">Recent Orders</span><button class="btn btn-outline btn-sm">View All</button></div>
@@ -179,6 +200,81 @@
           animation: { duration: 800, easing: 'easeOutQuart' }
         }
       });
+
+      // Pulse dark palette
+      var palette = [primary, '#22D3EE', '#A78BFA', '#F59E0B', '#F87171'];
+
+      // [Donut] Plan Distribution
+      var donutEl = document.getElementById('paDonut');
+      if (donutEl) {
+        new Chart(donutEl, {
+          type: 'doughnut',
+          data: { labels: ['Free', 'Pro', 'Team', 'Enterprise'], datasets: [{ data: [62, 24, 10, 4], backgroundColor: ['#475569', primary, '#A78BFA', '#F59E0B'], borderWidth: 0 }] },
+          options: { responsive: true, maintainAspectRatio: false, cutout: '64%',
+            plugins: { legend: { position: 'right', labels: { color: textMuted, font: { size: 11 }, usePointStyle: true, boxWidth: 8, padding: 10 } } }
+          }
+        });
+      }
+
+      // [Horizontal Bar] Top Countries
+      var hbarEl = document.getElementById('paHBar');
+      if (hbarEl) {
+        new Chart(hbarEl, {
+          type: 'bar',
+          data: { labels: ['US', 'UK', 'DE', 'JP', 'FR', 'CA', 'AU'], datasets: [{ data: [18480, 6240, 4920, 3810, 3420, 3108, 2420], backgroundColor: primary, borderRadius: 4 }] },
+          options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { grid: { color: border }, ticks: { color: textMuted, font: { size: 10 } } },
+              y: { grid: { display: false }, ticks: { color: textMuted, font: { size: 10, weight: 'bold' } } }
+            }
+          }
+        });
+      }
+
+      // [Stacked Area] Traffic Sources
+      var areaEl = document.getElementById('paArea');
+      if (areaEl) {
+        var actx = areaEl.getContext('2d');
+        function agrad(color) { var g = actx.createLinearGradient(0,0,0,240); g.addColorStop(0, color + '66'); g.addColorStop(1, color + '00'); return g; }
+        new Chart(areaEl, {
+          type: 'line',
+          data: {
+            labels: ['W1','W2','W3','W4','W5','W6','W7','W8','W9','W10','W11','W12'],
+            datasets: [
+              { label: 'Organic', data: [42,48,52,58,54,60,64,68,72,76,78,82], borderColor: primary, backgroundColor: agrad(primary), borderWidth: 2, tension: 0.3, fill: true, pointRadius: 0 },
+              { label: 'Paid',    data: [30,32,34,36,38,40,42,44,46,48,50,52], borderColor: '#A78BFA', backgroundColor: agrad('#A78BFA'), borderWidth: 2, tension: 0.3, fill: true, pointRadius: 0 },
+              { label: 'Social',  data: [18,22,24,26,28,30,32,34,36,38,40,42], borderColor: '#22D3EE', backgroundColor: agrad('#22D3EE'), borderWidth: 2, tension: 0.3, fill: true, pointRadius: 0 }
+            ]
+          },
+          options: { responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position: 'top', align: 'end', labels: { color: textMuted, font: { size: 10 }, usePointStyle: true, boxWidth: 6 } } },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: textMuted, font: { size: 9 } } },
+              y: { grid: { color: border }, ticks: { color: textMuted, font: { size: 10 } } }
+            }
+          }
+        });
+      }
+
+      // [Radar] Performance Metrics
+      var radarEl = document.getElementById('paRadar');
+      if (radarEl) {
+        new Chart(radarEl, {
+          type: 'radar',
+          data: {
+            labels: ['Speed', 'Uptime', 'Support', 'Features', 'Security', 'UX'],
+            datasets: [
+              { label: 'Current', data: [92, 98, 84, 88, 96, 90], borderColor: primary, backgroundColor: primary + '33', borderWidth: 2, pointBackgroundColor: primary, pointRadius: 3 },
+              { label: 'Target',  data: [95, 99, 92, 92, 98, 95], borderColor: '#A78BFA', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [4,3], pointRadius: 2 }
+            ]
+          },
+          options: { responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { color: textMuted, font: { size: 10 }, usePointStyle: true, boxWidth: 6 } } },
+            scales: { r: { min: 0, max: 100, grid: { color: border }, angleLines: { color: border }, ticks: { display: false, stepSize: 25 }, pointLabels: { color: textMuted, font: { size: 10 } } } }
+          }
+        });
+      }
     })();
   </script>
 </body>

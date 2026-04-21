@@ -34,5 +34,29 @@ var BW_DATA = {
     { name: 'Desktop', pct: 58 },
     { name: 'Mobile',  pct: 34 },
     { name: 'Tablet',  pct: 8 }
+  ],
+  hourly: (function(){
+    // 24시간 분포 — 오전·오후 피크
+    var arr = [];
+    for (var h = 0; h < 24; h++) {
+      var base = 2;
+      if (h >= 9 && h <= 11) base = 9;
+      else if (h >= 14 && h <= 17) base = 8;
+      else if (h >= 20 && h <= 22) base = 7;
+      else if (h >= 7 && h <= 19) base = 5;
+      else if (h >= 0 && h <= 5) base = 1;
+      arr.push(base + Math.floor(Math.random() * 2));
+    }
+    return arr;
+  })(),
+  miniMetrics: [
+    { label: 'Page Views',      points: [62,68,72,70,76,82,84,88,86,90,94,98] },
+    { label: 'Unique Visitors', points: [48,52,56,54,58,62,66,64,68,72,74,78] },
+    { label: 'Avg Session',     points: [32,34,36,34,38,40,42,38,42,44,46,48] },
+    { label: 'Bounce Rate',     points: [42,40,38,40,38,36,34,36,34,32,30,28] },
+    { label: 'Conversion',      points: [28,30,32,30,32,34,36,38,38,40,42,44] },
+    { label: 'Revenue',         points: [22,24,28,30,32,36,38,42,46,48,52,56] },
+    { label: 'New Signups',     points: [16,18,20,22,24,26,28,30,32,32,36,40] },
+    { label: 'Active Users',    points: [42,44,48,50,54,56,58,60,64,66,68,72] }
   ]
 };

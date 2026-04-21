@@ -1,0 +1,236 @@
+/* Linea CRM — Minimal Line Theme */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--ln-font-body);
+  background: var(--ln-bg-base);
+  color: var(--ln-text-primary);
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: var(--ln-font-body); cursor: pointer; border: none; background: none; }
+.ln-serif { font-family: var(--ln-font-serif); }
+
+/* === 미니 사이드바 (72px) === */
+.ln-sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: 72px;
+  border-right: 1px solid var(--ln-line);
+  background: var(--ln-bg-base);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 24px 0;
+  z-index: 10;
+}
+.ln-sb-logo {
+  width: 40px; height: 40px;
+  border: 1px solid var(--ln-line);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ln-font-serif); font-size: 18px; font-weight: 400;
+  margin-bottom: 32px;
+}
+.ln-sb-item {
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ln-text-muted);
+  opacity: 0.5; transition: all 0.15s ease;
+  position: relative;
+}
+.ln-sb-item:hover { opacity: 1; color: var(--ln-text-primary); }
+.ln-sb-item.active { opacity: 1; color: var(--ln-text-primary); }
+.ln-sb-item.active::before {
+  content: ''; position: absolute; left: -1px; top: 12px; bottom: 12px;
+  width: 2px; background: var(--ln-line);
+}
+.ln-sb-item svg { width: 22px; height: 22px; stroke-width: 1.25; }
+
+/* === 메인 영역 === */
+.ln-main { margin-left: 72px; min-height: 100vh; }
+
+/* === 이중 네비 — Primary Top + Sub Top === */
+.ln-primary-top {
+  padding: 14px 48px;
+  border-bottom: 1px solid var(--ln-line);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.ln-primary-top h1 {
+  font-family: var(--ln-font-serif);
+  font-size: 32px; font-weight: 400; font-style: italic;
+  letter-spacing: -0.01em;
+}
+.ln-top-nav { display: flex; gap: 24px; }
+.ln-top-nav a {
+  font-size: 13px; font-weight: 500; color: var(--ln-text-tertiary);
+  padding: 6px 0; position: relative;
+}
+.ln-top-nav a:hover { color: var(--ln-text-primary); }
+.ln-top-nav a.active {
+  color: var(--ln-text-primary); font-weight: 600;
+}
+.ln-top-nav a.active::after {
+  content: ''; position: absolute; bottom: -14px; left: 0; right: 0;
+  height: 1px; background: var(--ln-line);
+}
+
+.ln-sub-top {
+  padding: 10px 48px;
+  border-bottom: 1px solid var(--ln-line-soft);
+  display: flex; gap: 8px; align-items: center;
+}
+.ln-chip {
+  padding: 5px 14px;
+  border: 1px solid var(--ln-line);
+  border-radius: var(--ln-radius-sm);
+  font-size: 11px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--ln-text-primary);
+  background: transparent;
+  transition: all 0.15s ease;
+}
+.ln-chip:hover { background: var(--ln-bg-elevated); }
+.ln-chip.active { background: var(--ln-primary); color: var(--ln-bg-base); }
+
+/* === 콘텐츠 === */
+.ln-content { max-width: 1400px; margin: 0 auto; padding: 48px; }
+
+/* === KPI 카드 === */
+.ln-kpi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  border: 1px solid var(--ln-line);
+  margin-bottom: 48px;
+}
+.ln-kpi {
+  padding: 32px;
+  border-right: 1px solid var(--ln-line-soft);
+  background: var(--ln-bg-base);
+  transition: background 0.15s ease;
+}
+.ln-kpi:last-child { border-right: none; }
+.ln-kpi:hover { background: var(--ln-bg-elevated); }
+.ln-kpi-label {
+  font-size: 10px; font-weight: 500; color: var(--ln-text-muted);
+  text-transform: uppercase; letter-spacing: 0.15em;
+  margin-bottom: 16px;
+}
+.ln-kpi-value {
+  font-family: var(--ln-font-serif);
+  font-size: 36px; font-weight: 400; font-style: italic;
+  line-height: 1.1; letter-spacing: -0.01em;
+  color: var(--ln-text-primary);
+}
+.ln-kpi-trend {
+  margin-top: 12px;
+  font-size: 12px; font-weight: 500;
+}
+
+/* === 섹션 === */
+.ln-section { margin-bottom: 48px; }
+.ln-section-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 24px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--ln-line);
+}
+.ln-section-title {
+  font-family: var(--ln-font-serif);
+  font-size: 24px; font-weight: 400; font-style: italic;
+  letter-spacing: -0.01em;
+}
+.ln-section-sub {
+  font-size: 11px; color: var(--ln-text-muted);
+  text-transform: uppercase; letter-spacing: 0.15em;
+}
+
+.ln-two-col { display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; }
+.ln-two-col > div { min-width: 0; }
+
+/* === 파이프라인 (칸반 스타일) === */
+.ln-pipeline {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.ln-pipe-col {
+  border: 1px solid var(--ln-line);
+  padding: 16px;
+  min-height: 300px;
+}
+.ln-pipe-head {
+  font-size: 10px; font-weight: 600; color: var(--ln-text-muted);
+  text-transform: uppercase; letter-spacing: 0.15em;
+  padding-bottom: 12px; margin-bottom: 12px;
+  border-bottom: 1px solid var(--ln-line-soft);
+  display: flex; justify-content: space-between;
+}
+.ln-deal {
+  padding: 12px;
+  border: 1px solid var(--ln-line-soft);
+  margin-bottom: 8px;
+  background: var(--ln-bg-base);
+  transition: all 0.15s ease;
+}
+.ln-deal:hover { border-color: var(--ln-line); }
+.ln-deal-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.ln-deal-company { font-size: 11px; color: var(--ln-text-muted); }
+.ln-deal-value { font-family: var(--ln-font-serif); font-size: 15px; font-weight: 500; font-style: italic; margin-top: 8px; }
+
+/* === 활동 타임라인 === */
+.ln-timeline { position: relative; padding-left: 20px; }
+.ln-timeline::before {
+  content: ''; position: absolute; top: 8px; bottom: 8px; left: 4px;
+  width: 1px; background: var(--ln-line);
+}
+.ln-tl-item { position: relative; padding-bottom: 20px; }
+.ln-tl-item::before {
+  content: ''; position: absolute; left: -20px; top: 6px;
+  width: 9px; height: 9px;
+  border: 1px solid var(--ln-line); background: var(--ln-bg-base);
+}
+.ln-tl-type { font-size: 10px; font-weight: 600; color: var(--ln-text-muted); text-transform: uppercase; letter-spacing: 0.15em; }
+.ln-tl-text { font-size: 14px; margin-top: 4px; }
+.ln-tl-time { font-size: 11px; color: var(--ln-text-muted); margin-top: 4px; }
+
+/* === 버튼 — 아웃라인 → 호버 채움 === */
+.ln-btn {
+  padding: 10px 24px;
+  font-size: 12px; font-weight: 500;
+  background: transparent; color: var(--ln-text-primary);
+  border: 1px solid var(--ln-line);
+  border-radius: var(--ln-radius);
+  transition: all 0.15s ease;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.ln-btn:hover { background: var(--ln-primary); color: var(--ln-bg-base); }
+.ln-btn.primary { background: var(--ln-primary); color: var(--ln-bg-base); }
+.ln-btn.primary:hover { background: var(--ln-text-secondary); }
+
+/* 뱃지 — 배경 채우기 없이 아웃라인만 */
+.ln-badge {
+  padding: 3px 10px;
+  border: 1px solid currentColor;
+  border-radius: var(--ln-radius-sm);
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  display: inline-block;
+}
+.ln-badge.success { color: var(--ln-success); }
+.ln-badge.warning { color: var(--ln-warning); }
+.ln-badge.error { color: var(--ln-error); }
+.ln-badge.info { color: var(--ln-info); }
+
+/* 반응형 */
+@media (max-width: 1024px) {
+  .ln-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .ln-kpi:nth-child(2) { border-right: none; }
+  .ln-kpi:nth-child(1), .ln-kpi:nth-child(2) { border-bottom: 1px solid var(--ln-line-soft); }
+  .ln-two-col { grid-template-columns: 1fr; gap: 32px; }
+  .ln-pipeline { grid-template-columns: repeat(2, 1fr); }
+  .ln-content { padding: 32px 24px; }
+}
+@media (max-width: 640px) {
+  .ln-sidebar { width: 56px; }
+  .ln-main { margin-left: 56px; }
+  .ln-kpi-grid { grid-template-columns: 1fr; }
+  .ln-kpi { border-right: none; border-bottom: 1px solid var(--ln-line-soft); }
+  .ln-pipeline { grid-template-columns: 1fr; }
+  .ln-primary-top { padding: 14px 20px; flex-wrap: wrap; gap: 8px; }
+  .ln-sub-top { padding: 10px 20px; overflow-x: auto; }
+}
+
+:focus-visible { outline: 1px solid var(--ln-primary); outline-offset: 3px; }

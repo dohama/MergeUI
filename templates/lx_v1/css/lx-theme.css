@@ -1,0 +1,276 @@
+/* Maison Finance — European Luxury Theme */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--lx-font-sans);
+  background: var(--lx-bg-main);
+  color: var(--lx-text-on-dark);
+  min-height: 100vh;
+  display: flex;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: var(--lx-font-sans); cursor: pointer; border: none; background: none; color: inherit; }
+
+.lx-serif { font-family: var(--lx-font-display); }
+.lx-italic { font-style: italic; }
+
+/* === 크림 사이드바 (260px) === */
+.lx-sidebar {
+  width: 260px;
+  background: var(--lx-bg-sidebar);
+  color: var(--lx-text-on-light);
+  padding: 32px 0;
+  position: fixed; top: 0; left: 0; bottom: 0;
+  display: flex; flex-direction: column;
+  border-right: 1px solid rgba(201, 169, 97, 0.2);
+  z-index: 10;
+}
+.lx-sb-logo {
+  padding: 0 32px 32px;
+  border-bottom: 1px solid rgba(201, 169, 97, 0.2);
+  margin-bottom: 32px;
+  text-align: center;
+}
+.lx-sb-logo .mark {
+  font-family: var(--lx-font-display);
+  font-size: 42px; font-weight: 400;
+  letter-spacing: 0.05em;
+  background: linear-gradient(135deg, var(--lx-primary), var(--lx-primary-deep));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.lx-sb-logo .name {
+  font-family: var(--lx-font-serif); font-style: italic;
+  font-size: 13px; color: var(--lx-text-on-light-2);
+  letter-spacing: 0.2em;
+  margin-top: 4px;
+}
+.lx-sb-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 32px;
+  color: var(--lx-text-on-light-2);
+  font-size: 12px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  position: relative;
+  transition: all 0.25s ease;
+}
+.lx-sb-item:hover { color: var(--lx-text-on-light); letter-spacing: 0.2em; }
+.lx-sb-item.active {
+  color: var(--lx-text-on-light); font-weight: 600;
+}
+.lx-sb-item.active::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: var(--lx-primary);
+}
+.lx-sb-item svg { width: 18px; height: 18px; stroke-width: 1.25; flex-shrink: 0; opacity: 0.7; }
+.lx-sb-item.active svg { opacity: 1; color: var(--lx-primary); }
+
+/* === 메인 차콜 영역 === */
+.lx-main { margin-left: 260px; flex: 1; min-height: 100vh; background: var(--lx-bg-main); }
+
+/* === 센터 심메트릭 탑바 === */
+.lx-topbar {
+  padding: 28px 48px;
+  text-align: center;
+  border-bottom: 1px solid rgba(201, 169, 97, 0.2);
+  position: relative;
+}
+.lx-topbar h1 {
+  font-family: var(--lx-font-display);
+  font-size: 28px; font-weight: 400; letter-spacing: 0.3em;
+  color: var(--lx-text-on-dark);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.lx-topbar-nav { display: flex; justify-content: center; gap: 48px; }
+.lx-topbar-nav a {
+  font-size: 10px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.25em;
+  color: var(--lx-text-on-dark-2);
+  padding: 4px 0; position: relative;
+}
+.lx-topbar-nav a:hover { color: var(--lx-primary); letter-spacing: 0.3em; transition: all 0.3s; }
+.lx-topbar-nav a.active { color: var(--lx-primary); }
+.lx-topbar-nav a.active::after {
+  content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+  width: 20px; height: 1px; background: var(--lx-primary);
+}
+
+/* === 콘텐츠 === */
+.lx-content { padding: 64px 48px; max-width: 1400px; margin: 0 auto; }
+
+/* === Hero Summary === */
+.lx-hero {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.lx-hero-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--lx-primary);
+  margin-bottom: 16px;
+}
+.lx-hero-value {
+  font-family: var(--lx-font-display);
+  font-size: 72px; font-weight: 400; font-style: italic;
+  line-height: 1.0; letter-spacing: -0.02em;
+  color: var(--lx-text-on-dark);
+  margin-bottom: 20px;
+}
+.lx-hero-sub {
+  font-family: var(--lx-font-serif); font-style: italic;
+  font-size: 18px; color: var(--lx-text-on-dark-2);
+  line-height: 1.5; max-width: 600px; margin: 0 auto;
+}
+
+/* === 점 3개 디바이더 === */
+.lx-divider {
+  color: var(--lx-primary);
+  letter-spacing: 0.6em;
+  text-align: center;
+  padding: 40px 0;
+  font-size: 20px;
+}
+
+/* === KPI 카드 (L-shape 코너) === */
+.lx-kpi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 48px;
+}
+.lx-kpi {
+  padding: 32px;
+  background: var(--lx-bg-surface);
+  border-radius: var(--lx-radius-md);
+  position: relative;
+  transition: background 0.25s ease;
+}
+.lx-kpi:hover { background: var(--lx-bg-elevated); }
+/* L-shape 골드 코너 장식 */
+.lx-kpi::before, .lx-kpi::after {
+  content: ''; position: absolute;
+  width: 18px; height: 18px;
+  border: 1px solid var(--lx-primary);
+  transition: border-width 0.25s ease;
+}
+.lx-kpi::before { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.lx-kpi::after { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+.lx-kpi:hover::before, .lx-kpi:hover::after { width: 22px; height: 22px; }
+
+.lx-kpi-label {
+  font-size: 10px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.2em;
+  color: var(--lx-primary);
+  margin-bottom: 16px;
+}
+.lx-kpi-value {
+  font-family: var(--lx-font-display);
+  font-size: 36px; font-weight: 400; font-style: italic;
+  line-height: 1.1; letter-spacing: -0.01em;
+  color: var(--lx-text-on-dark);
+}
+.lx-kpi-trend {
+  margin-top: 12px;
+  font-size: 11px; font-weight: 500;
+  color: var(--lx-text-on-dark-muted);
+  letter-spacing: 0.08em;
+}
+
+/* === 섹션 === */
+.lx-section { margin-bottom: 64px; }
+.lx-section-head {
+  text-align: center; margin-bottom: 48px;
+}
+.lx-section-sub {
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--lx-primary); margin-bottom: 12px;
+}
+.lx-section-title {
+  font-family: var(--lx-font-display);
+  font-size: 32px; font-weight: 400; font-style: italic;
+  letter-spacing: -0.01em;
+  color: var(--lx-text-on-dark);
+}
+
+.lx-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+
+/* 카드 */
+.lx-card {
+  background: var(--lx-bg-surface);
+  border: 1px solid rgba(201, 169, 97, 0.15);
+  padding: 32px;
+  border-radius: var(--lx-radius-md);
+  position: relative;
+}
+
+/* === 테이블 === */
+.lx-table { width: 100%; border-collapse: collapse; }
+.lx-table th {
+  text-align: left; padding: 14px 16px;
+  font-size: 10px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.25em;
+  color: var(--lx-primary);
+  border-bottom: 1px solid var(--lx-primary);
+}
+.lx-table td {
+  padding: 18px 16px; font-size: 13px;
+  border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+  color: var(--lx-text-on-dark);
+}
+.lx-table td.num {
+  font-family: var(--lx-font-display); font-style: italic;
+  text-align: right; font-size: 15px;
+}
+.lx-table tr:last-child td { border: none; }
+.lx-table tr:hover td { background: var(--lx-bg-elevated); }
+.lx-table tr:hover td:first-child { box-shadow: inset 2px 0 0 var(--lx-primary); }
+
+/* === 버튼 (아웃라인 → 골드 채움) === */
+.lx-btn {
+  padding: 14px 36px;
+  background: transparent;
+  color: var(--lx-primary);
+  border: 1px solid var(--lx-primary);
+  border-radius: var(--lx-radius);
+  font-size: 11px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.25em;
+  transition: all 0.3s ease;
+}
+.lx-btn:hover { background: var(--lx-primary); color: var(--lx-bg-main); }
+
+/* 작은 pill 뱃지 */
+.lx-badge {
+  display: inline-block; padding: 3px 12px;
+  border: 1px solid currentColor;
+  border-radius: var(--lx-radius);
+  font-size: 9px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.2em;
+}
+.lx-badge.gold { color: var(--lx-primary); }
+.lx-badge.success { color: var(--lx-success); }
+.lx-badge.burgundy { color: var(--lx-accent-sub); }
+
+/* === 반응형 === */
+@media (max-width: 1024px) {
+  .lx-sidebar { width: 72px; padding: 24px 0; }
+  .lx-sb-logo { padding: 0 8px 20px; }
+  .lx-sb-logo .name { display: none; }
+  .lx-sb-item { padding: 14px 0; justify-content: center; }
+  .lx-sb-item span { display: none; }
+  .lx-main { margin-left: 72px; }
+  .lx-hero-value { font-size: 56px; }
+  .lx-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .lx-two-col { grid-template-columns: 1fr; }
+  .lx-content { padding: 40px 24px; }
+}
+@media (max-width: 640px) {
+  .lx-sidebar { display: none; }
+  .lx-main { margin-left: 0; }
+  .lx-hero-value { font-size: 40px; }
+  .lx-kpi-grid { grid-template-columns: 1fr; }
+  .lx-topbar { padding: 20px 16px; }
+  .lx-topbar h1 { font-size: 20px; letter-spacing: 0.2em; }
+  .lx-topbar-nav { gap: 20px; overflow-x: auto; }
+}
+
+:focus-visible { outline: 1px solid var(--lx-primary); outline-offset: 4px; }

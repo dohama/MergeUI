@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linea CRM — Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/ln-tokens.css">
+<link rel="stylesheet" href="css/ln-theme.css">
+</head>
+<body>
+
+<!-- 미니 사이드바 -->
+<aside class="ln-sidebar" aria-label="Primary navigation">
+  <div class="ln-sb-logo">L</div>
+  <a href="index.html" class="ln-sb-item active" title="Overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg></a>
+  <a href="deals.html" class="ln-sb-item" title="Deals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg></a>
+  <a href="contacts.html" class="ln-sb-item" title="Contacts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg></a>
+  <a href="activities.html" class="ln-sb-item" title="Activities"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></a>
+  <a href="reports.html" class="ln-sb-item" title="Reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg></a>
+</aside>
+
+<main class="ln-main">
+  <!-- Primary Top -->
+  <div class="ln-primary-top">
+    <h1>Overview</h1>
+    <nav class="ln-top-nav">
+      <a href="index.html" class="active">Dashboard</a>
+      <a href="deals.html">Deals</a>
+      <a href="contacts.html">Contacts</a>
+      <a href="reports.html">Reports</a>
+    </nav>
+    <button type="button" class="ln-btn primary">+ New Deal</button>
+  </div>
+
+  <!-- Sub Top (카테고리 필터) -->
+  <div class="ln-sub-top">
+    <button type="button" class="ln-chip active">All</button>
+    <button type="button" class="ln-chip">Active</button>
+    <button type="button" class="ln-chip">Won</button>
+    <button type="button" class="ln-chip">Lost</button>
+    <button type="button" class="ln-chip">Favorites</button>
+  </div>
+
+  <div class="ln-content">
+    <!-- KPI -->
+    <section class="ln-kpi-grid" id="kpiGrid" aria-label="Key metrics"></section>
+
+    <!-- 파이프라인 -->
+    <section class="ln-section">
+      <div class="ln-section-head">
+        <div>
+          <div class="ln-section-sub">Active Pipeline</div>
+          <h2 class="ln-section-title">Deals by Stage</h2>
+        </div>
+        <button type="button" class="ln-btn">Export</button>
+      </div>
+      <div class="ln-pipeline" id="pipelineWrap"></div>
+    </section>
+
+    <!-- 2열: 차트 + 활동 -->
+    <section class="ln-two-col">
+      <div>
+        <div class="ln-section-head">
+          <div>
+            <div class="ln-section-sub">Quarterly Trend</div>
+            <h2 class="ln-section-title">Won Revenue</h2>
+          </div>
+        </div>
+        <div style="height:280px; border:1px solid var(--ln-line); padding:16px;">
+          <canvas id="trendChart"></canvas>
+        </div>
+      </div>
+      <div>
+        <div class="ln-section-head">
+          <div>
+            <div class="ln-section-sub">Recent Activity</div>
+            <h2 class="ln-section-title">Timeline</h2>
+          </div>
+        </div>
+        <div class="ln-timeline" id="timeline"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/ln-theme.js"></script>
+<script>
+  // 라인 차트 — 헤어라인 1.5px
+  var el = document.getElementById('trendChart');
+  if (el && window.Chart) {
+    new Chart(el.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: ['Apr W1','Apr W2','Apr W3','Apr W4','May W1','May W2','May W3'],
+        datasets: [
+          { label: 'Won Deals ($k)', data: [84, 96, 112, 128, 140, 162, 184], borderColor: '#111111', borderWidth: 1.5, backgroundColor: 'transparent', tension: 0.15, pointBackgroundColor: '#FBFAF6', pointBorderColor: '#111', pointBorderWidth: 1, pointRadius: 3 },
+          { label: 'Pipeline ($k)', data: [220, 248, 262, 284, 310, 342, 368], borderColor: '#8F8A7F', borderWidth: 1.25, borderDash: [4, 3], backgroundColor: 'transparent', tension: 0.15, pointRadius: 2 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { color: '#5A5750', font: { family: 'Inter', size: 11, weight: '500' } } } },
+        scales: {
+          x: { grid: { color: 'rgba(17,17,17,0.03)' }, ticks: { color: '#8F8A7F', font: { family: 'Inter', size: 10 } } },
+          y: { grid: { color: 'rgba(17,17,17,0.03)' }, ticks: { color: '#8F8A7F', font: { family: 'Inter', size: 10 } } }
+        }
+      }
+    });
+  }
+</script>
+</body>
+</html>

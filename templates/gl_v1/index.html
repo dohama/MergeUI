@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aurora SaaS — Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/gl-tokens.css">
+<link rel="stylesheet" href="css/gl-theme.css">
+</head>
+<body>
+
+<!-- ============================================
+     Sidebar (플로팅 글래스)
+     - 데이터 변경: 메뉴는 HTML 직접 수정
+     ============================================ -->
+<aside class="gl-sidebar" aria-label="Main navigation">
+  <div class="gl-sb-logo">
+    <span class="gl-sb-mark">A</span>
+    <span>Aurora</span>
+  </div>
+  <nav>
+    <a href="index.html" class="gl-sb-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+      <span>Overview</span>
+    </a>
+    <a href="workspaces.html" class="gl-sb-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+      <span>Workspaces</span>
+    </a>
+    <a href="team.html" class="gl-sb-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      <span>Team</span>
+    </a>
+    <a href="integrations.html" class="gl-sb-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      <span>Integrations</span>
+    </a>
+    <a href="settings.html" class="gl-sb-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>Settings</span>
+    </a>
+  </nav>
+</aside>
+
+<main class="gl-main">
+  <!-- ============================================
+       Topbar (유리)
+       ============================================ -->
+  <header class="gl-topbar">
+    <h1>Overview</h1>
+    <div class="gl-top-actions">
+      <button type="button" class="gl-btn-glass">+ New Workspace</button>
+      <div class="gl-avatar">SC</div>
+    </div>
+  </header>
+
+  <!-- ============================================
+       KPI Grid — data.js의 GL_DATA.kpi
+       ============================================ -->
+  <section class="gl-kpi-grid" id="kpiGrid" aria-label="Key metrics"></section>
+
+  <!-- ============================================
+       2열 그리드 — 차트 + 최근 활동
+       ============================================ -->
+  <section class="gl-two-col">
+    <div class="gl-card">
+      <h2>API & User Activity (Last 7 Days)</h2>
+      <div style="height:280px"><canvas id="activityChart"></canvas></div>
+    </div>
+    <div class="gl-card">
+      <h2>Recent Activity</h2>
+      <div class="gl-activity" id="activityList"></div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       워크스페이스 테이블 — GL_DATA.workspaces
+       ============================================ -->
+  <section class="gl-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h2 style="margin:0">Workspaces</h2>
+      <button type="button" class="gl-btn-primary">+ Create Workspace</button>
+    </div>
+    <table class="gl-table">
+      <thead><tr><th>Name</th><th>Members</th><th>Plan</th><th>Status</th><th>Activity</th></tr></thead>
+      <tbody id="workspacesBody"></tbody>
+    </table>
+  </section>
+</main>
+
+<!-- 모바일 하단 네비 -->
+<nav class="gl-mobile-nav" aria-label="Mobile navigation">
+  <a href="index.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/></svg><span>Home</span></a>
+  <a href="workspaces.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/></svg><span>Workspaces</span></a>
+  <a href="team.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/></svg><span>Team</span></a>
+  <a href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg><span>Settings</span></a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/gl-theme.js"></script>
+</body>
+</html>

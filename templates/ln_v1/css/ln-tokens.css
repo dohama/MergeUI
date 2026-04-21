@@ -1,0 +1,54 @@
+/* ===== Linea CRM (ln_v1) — Design Tokens =====
+   웜 아이보리 + 1px 헤어라인 · 그림자 금지 · Inter+Fraunces
+   ================================================ */
+:root {
+  --ln-font-body: 'Inter', -apple-system, sans-serif;
+  --ln-font-serif: 'Fraunces', 'Playfair Display', Georgia, serif;
+
+  /* 배경 — 웜 아이보리 */
+  --ln-bg-base: #FBFAF6;
+  --ln-bg-surface: #FBFAF6;
+  --ln-bg-elevated: #F5F2EA;
+  --ln-bg-inset: #F2EFE6;
+
+  /* 텍스트 */
+  --ln-text-primary: #111111;
+  --ln-text-secondary: #2E2C27;
+  --ln-text-tertiary: #5A5750;
+  --ln-text-muted: #8F8A7F;
+
+  /* 브랜드 — Ink Black */
+  --ln-primary: #111111;
+  --ln-accent: #111111;
+  --ln-line: #111111;
+  --ln-line-soft: #D8D3C5;
+
+  /* 상태 (아웃라인만, 배경 채우기 금지) */
+  --ln-success: #1E4D3A;
+  --ln-warning: #8B6F1E;
+  --ln-error: #8B2E1E;
+  --ln-info: #1B3A5B;
+
+  /* 차트 팔레트 (웜 뉴트럴 8색) */
+  --ln-chart-1: #111111;
+  --ln-chart-2: #5A5750;
+  --ln-chart-3: #8F8A7F;
+  --ln-chart-4: #B5553A;
+  --ln-chart-5: #1E4D3A;
+  --ln-chart-6: #8B6F1E;
+  --ln-chart-7: #1B3A5B;
+  --ln-chart-8: #5B1B52;
+
+  /* 간격 */
+  --ln-space-1: 4px; --ln-space-2: 8px; --ln-space-3: 12px; --ln-space-4: 16px;
+  --ln-space-5: 24px; --ln-space-6: 32px; --ln-space-7: 48px; --ln-space-8: 64px;
+
+  /* Radius — 거의 0 또는 4px */
+  --ln-radius: 4px;
+  --ln-radius-sm: 2px;
+}
+
+/* 액센트 프리셋 */
+/* === Deep Navy === :root { --ln-primary: #1B2942; --ln-line: #1B2942; } */
+/* === Forest === :root { --ln-primary: #1E4D3A; --ln-line: #1E4D3A; } */
+/* === Terracotta === :root { --ln-primary: #B5553A; --ln-line: #B5553A; } */

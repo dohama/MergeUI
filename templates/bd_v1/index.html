@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neon Market — Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;800;900&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bd-tokens.css">
+<link rel="stylesheet" href="css/bd-theme.css">
+</head>
+<body>
+
+<!-- Topbar -->
+<header class="bd-topbar">
+  <div class="bd-topbar-logo">NEON//MARKET</div>
+  <nav class="bd-topbar-nav">
+    <a href="index.html" class="active">Overview</a>
+    <a href="products.html">Products</a>
+    <a href="orders.html">Orders</a>
+    <a href="customers.html">Customers</a>
+    <a href="marketing.html">Marketing</a>
+  </nav>
+  <button type="button" class="bd-btn-primary">+ New Drop</button>
+</header>
+
+<!-- Display Hero -->
+<section class="bd-hero" id="hero">
+  <div class="bd-hero-label"></div>
+  <h1 class="bd-hero-title"></h1>
+  <p class="bd-hero-sub"></p>
+</section>
+
+<main class="bd-main">
+  <!-- 마사이너리 그리드 -->
+  <div class="bd-masonry">
+    <!-- KPI 4개 (작은 카드) -->
+    <div class="bd-card r-sm span-1 glow-pink bd-kpi-slot grad-border"></div>
+    <div class="bd-card r-sm span-1 glow-mint bd-kpi-slot"></div>
+    <div class="bd-card r-sm span-1 glow-yellow bd-kpi-slot"></div>
+    <div class="bd-card r-sm span-1 glow-pink bd-kpi-slot"></div>
+
+    <!-- 큰 차트 카드 -->
+    <div class="bd-card r-lg span-2x3 glow-pink">
+      <h2>Revenue · Last 7 Days</h2>
+      <div style="height:260px"><canvas id="revenueChart"></canvas></div>
+    </div>
+
+    <!-- 인기 상품 4개 -->
+    <div class="bd-card r-sm span-1 bd-product-slot glow-mint"></div>
+    <div class="bd-card r-sm span-1 bd-product-slot glow-yellow"></div>
+    <div class="bd-card r-sm span-1 bd-product-slot glow-pink"></div>
+    <div class="bd-card r-sm span-1 bd-product-slot glow-mint"></div>
+
+    <!-- 주문 테이블 (넓은 카드) -->
+    <div class="bd-card r-sharp span-4 glow-mint grad-border">
+      <h2>Latest Orders</h2>
+      <table class="bd-table">
+        <thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+        <tbody id="ordersBody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/bd-theme.js"></script>
+</body>
+</html>

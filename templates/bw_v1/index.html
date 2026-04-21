@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monochrome Analytics — Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bw-tokens.css">
+<link rel="stylesheet" href="css/bw-theme.css">
+</head>
+<body>
+
+<!-- Topbar (사이드바 없음) -->
+<header class="bw-topbar">
+  <div class="bw-topbar-logo">M·O·N·O / ANALYTICS</div>
+  <nav class="bw-topbar-nav" aria-label="Primary">
+    <a href="index.html" class="active">Overview</a>
+    <a href="analytics.html">Analytics</a>
+    <a href="reports.html">Reports</a>
+    <a href="data.html">Data</a>
+    <a href="settings.html">Settings</a>
+  </nav>
+</header>
+
+<!-- Mega Title Strip — 페이지 대표 숫자 -->
+<section class="bw-mega-strip" id="megaMetric">
+  <div class="bw-mega-label"></div>
+  <div class="bw-mega-title"></div>
+  <div class="bw-mega-sub"></div>
+</section>
+
+<main class="bw-main">
+  <!-- KPI Grid -->
+  <section class="bw-kpi-grid" id="kpiGrid" aria-label="Key metrics"></section>
+
+  <!-- 차트 섹션 -->
+  <section class="bw-section">
+    <div class="bw-section-head">
+      <div>
+        <div class="bw-section-sub">Traffic Trend · 7 Weeks</div>
+        <h2 class="bw-section-title">Sessions &amp; Conversions</h2>
+      </div>
+      <button type="button" class="bw-btn">Export</button>
+    </div>
+    <div class="bw-chart-wrap" style="height:320px">
+      <canvas id="trafficChart"></canvas>
+    </div>
+  </section>
+
+  <!-- 2열 — Top Pages + Traffic Sources -->
+  <section class="bw-two-col">
+    <div>
+      <div class="bw-section-head">
+        <div>
+          <div class="bw-section-sub">Top Pages</div>
+          <h2 class="bw-section-title">Most Viewed</h2>
+        </div>
+      </div>
+      <div class="bw-list" id="topPagesList"></div>
+    </div>
+    <div>
+      <div class="bw-section-head">
+        <div>
+          <div class="bw-section-sub">Traffic Sources</div>
+          <h2 class="bw-section-title">Channels</h2>
+        </div>
+      </div>
+      <table class="bw-table">
+        <thead><tr><th>Channel</th><th style="text-align:right">Sessions</th><th style="text-align:right">Share</th></tr></thead>
+        <tbody id="sourcesBody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/bw-theme.js"></script>
+</body>
+</html>

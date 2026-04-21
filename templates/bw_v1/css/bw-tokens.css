@@ -1,0 +1,47 @@
+/* ===== Monochrome Analytics (bw_v1) — Design Tokens =====
+   이 파일만 수정하면 전체 테마가 바뀝니다.
+   ========================================================= */
+:root {
+  --bw-font-display: 'Space Grotesk', -apple-system, sans-serif;
+  --bw-font-mono: 'JetBrains Mono', 'Consolas', monospace;
+
+  /* 배경 — 순백 고정, 다크모드 없음 */
+  --bw-bg-base: #FFFFFF;
+  --bw-bg-surface: #FFFFFF;
+  --bw-bg-elevated: #F5F5F5;
+  --bw-bg-inset: #FAFAFA;
+
+  /* 텍스트 */
+  --bw-text-primary: #000000;
+  --bw-text-secondary: #1A1A1A;
+  --bw-text-tertiary: #4A4A4A;
+  --bw-text-muted: #8A8A8A;
+
+  /* 브랜드 — 단색 순흑 (컬러 금지 원칙) */
+  --bw-accent: #000000;
+  --bw-line: #000000;
+  --bw-line-soft: #E5E5E5;
+
+  /* 차트 팔레트 (흑백 그라디언트 8단계) */
+  --bw-chart-1: #000000;
+  --bw-chart-2: #2C2C2C;
+  --bw-chart-3: #4A4A4A;
+  --bw-chart-4: #6B6B6B;
+  --bw-chart-5: #8A8A8A;
+  --bw-chart-6: #A8A8A8;
+  --bw-chart-7: #C8C8C8;
+  --bw-chart-8: #E5E5E5;
+
+  /* 간격 */
+  --bw-space-1: 4px; --bw-space-2: 8px; --bw-space-3: 16px; --bw-space-4: 24px;
+  --bw-space-5: 32px; --bw-space-6: 48px; --bw-space-7: 72px; --bw-space-8: 120px;
+
+  /* Radius — 0px 또는 2px만 */
+  --bw-radius: 0px;
+  --bw-radius-sm: 2px;
+}
+
+/* 액센트 프리셋 — 주석 해제로 전환 */
+/* === Warm Gray === :root { --bw-accent: #4A4240; --bw-line: #4A4240; } */
+/* === Cool Steel === :root { --bw-accent: #3B4754; --bw-line: #3B4754; } */
+/* === Archive Sepia === :root { --bw-accent: #6B5D48; --bw-line: #6B5D48; } */

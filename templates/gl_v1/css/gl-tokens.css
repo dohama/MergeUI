@@ -1,0 +1,88 @@
+/* ===== Aurora SaaS (gl_v1) — Design Tokens =====
+   이 파일만 수정하면 전체 테마가 바뀝니다.
+   1. 컬러 변경: --gl-primary, --gl-sub, --gl-third
+   2. 폰트 변경: --gl-font
+   3. 간격 변경: --gl-space-*
+   4. 라운드 변경: --gl-radius-*
+   ================================================= */
+:root {
+  /* 폰트 */
+  --gl-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* 배경 — 파스텔 그라디언트 메쉬 */
+  --gl-bg-base: #F4F0FF;
+  --gl-bg-mesh-1: #FFD9EC;
+  --gl-bg-mesh-2: #D5F4E6;
+  --gl-bg-mesh-3: #E0DBFF;
+  --gl-bg-glass: rgba(255, 255, 255, 0.6);
+  --gl-bg-glass-strong: rgba(255, 255, 255, 0.75);
+
+  /* 텍스트 */
+  --gl-text-primary: #1E1B3A;
+  --gl-text-secondary: #4A4566;
+  --gl-text-muted: #8A85A8;
+
+  /* 브랜드 — Aurora Purple + Cherry Blossom + Mint Breeze */
+  --gl-primary: #8B7CF0;
+  --gl-primary-dark: #6F5FDB;
+  --gl-sub: #FF9BC0;
+  --gl-third: #8EDCD5;
+
+  /* 상태 */
+  --gl-success: #5CC689;
+  --gl-warning: #F5B84E;
+  --gl-error: #F06B7E;
+  --gl-info: #6FB8F2;
+
+  /* 간격 (8px 그리드) */
+  --gl-space-1: 4px;
+  --gl-space-2: 8px;
+  --gl-space-3: 12px;
+  --gl-space-4: 16px;
+  --gl-space-5: 20px;
+  --gl-space-6: 24px;
+  --gl-space-7: 32px;
+  --gl-space-8: 48px;
+
+  /* Border radius (부드러운 18~24px) */
+  --gl-radius-sm: 10px;
+  --gl-radius-md: 14px;
+  --gl-radius-lg: 20px;
+  --gl-radius-xl: 24px;
+
+  /* 글래스 효과 */
+  --gl-glass-blur: blur(24px) saturate(1.4);
+  --gl-glass-blur-strong: blur(40px) saturate(1.6);
+  --gl-glass-border: 1px solid rgba(255, 255, 255, 0.7);
+  --gl-glass-shadow: 0 8px 32px rgba(139, 124, 240, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  /* 차트 팔레트 */
+  --gl-chart-1: #8B7CF0;
+  --gl-chart-2: #FF9BC0;
+  --gl-chart-3: #8EDCD5;
+  --gl-chart-4: #F5B84E;
+  --gl-chart-5: #6FB8F2;
+  --gl-chart-6: #C9E8A4;
+  --gl-chart-7: #FFB8A3;
+  --gl-chart-8: #B8A9F7;
+}
+
+/* 액센트 프리셋 — 주석 해제해서 전환 */
+/* === Cherry Blossom ===
+:root {
+  --gl-primary: #FF9BC0; --gl-primary-dark: #E87BA3;
+  --gl-sub: #FFB8A3; --gl-third: #F5B84E;
+}
+*/
+/* === Mint Breeze ===
+:root {
+  --gl-primary: #8EDCD5; --gl-primary-dark: #6DC5BD;
+  --gl-sub: #C9E8A4; --gl-third: #6FB8F2;
+}
+*/
+/* === Honeydew ===
+:root {
+  --gl-primary: #C9E8A4; --gl-primary-dark: #A7CE7D;
+  --gl-sub: #8EDCD5; --gl-third: #F5B84E;
+}
+*/

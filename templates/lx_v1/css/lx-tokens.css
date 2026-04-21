@@ -1,0 +1,61 @@
+/* ===== Maison Finance (lx_v1) — Design Tokens =====
+   이중 배경(크림+차콜) · 앤틱 골드 · 세리프 3종 혼용
+   ==================================================== */
+:root {
+  --lx-font-display: 'Playfair Display', Georgia, serif;
+  --lx-font-serif: 'Cormorant Garamond', Georgia, serif;
+  --lx-font-sans: 'Montserrat', -apple-system, sans-serif;
+
+  /* 이중 배경 */
+  --lx-bg-main: #1A1815;
+  --lx-bg-sidebar: #F5F0E8;
+  --lx-bg-surface: #242017;
+  --lx-bg-elevated: #2E2A20;
+  --lx-bg-inset: #100E0B;
+
+  /* 텍스트 - 차콜 위 */
+  --lx-text-on-dark: #F5F0E8;
+  --lx-text-on-dark-2: #C9C1AE;
+  --lx-text-on-dark-muted: #8F8775;
+
+  /* 텍스트 - 크림 위 */
+  --lx-text-on-light: #1A1815;
+  --lx-text-on-light-2: #4A4238;
+  --lx-text-on-light-muted: #8F8775;
+
+  /* 브랜드 - 앤틱 골드 */
+  --lx-primary: #C9A961;
+  --lx-primary-light: #DAB97A;
+  --lx-primary-deep: #A68948;
+  --lx-accent-sub: #6B2032;
+
+  /* 상태 */
+  --lx-success: #5A8A5E;
+  --lx-warning: #C9A961;
+  --lx-error: #8B3A3A;
+  --lx-info: #5A748A;
+
+  /* 차트 팔레트 */
+  --lx-chart-1: #C9A961;
+  --lx-chart-2: #6B2032;
+  --lx-chart-3: #5A8A5E;
+  --lx-chart-4: #5A748A;
+  --lx-chart-5: #A68948;
+  --lx-chart-6: #CFA793;
+  --lx-chart-7: #A4A5A3;
+  --lx-chart-8: #8B3A3A;
+
+  /* 간격 */
+  --lx-space-1: 4px; --lx-space-2: 8px; --lx-space-3: 16px; --lx-space-4: 24px;
+  --lx-space-5: 32px; --lx-space-6: 48px; --lx-space-7: 64px; --lx-space-8: 96px;
+
+  /* Radius — 0 또는 2/4px */
+  --lx-radius-sharp: 0;
+  --lx-radius: 2px;
+  --lx-radius-md: 4px;
+}
+
+/* 액센트 프리셋 */
+/* === Rose Gold === :root { --lx-primary: #CFA793; --lx-primary-light: #E4BBA8; --lx-primary-deep: #B08970; --lx-accent-sub: #8B5A4A; } */
+/* === Platinum === :root { --lx-primary: #A4A5A3; --lx-primary-light: #BFC0BE; --lx-primary-deep: #858783; --lx-accent-sub: #6B6A68; } */
+/* === Burgundy Velvet === :root { --lx-primary: #6B2032; --lx-primary-light: #8C2F45; --lx-primary-deep: #4D1723; --lx-accent-sub: #C9A961; } */

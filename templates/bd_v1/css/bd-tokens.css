@@ -1,0 +1,61 @@
+/* ===== Neon Market (bd_v1) — Design Tokens =====
+   네온 차콜 + Electric Pink/Mint/Yellow 3색 · Y2K 팝
+   ==================================================== */
+:root {
+  --bd-font-display: 'Unbounded', -apple-system, sans-serif;
+  --bd-font-body: 'Archivo', -apple-system, sans-serif;
+
+  /* 배경 — 네온 차콜 */
+  --bd-bg-base: #0A0A0A;
+  --bd-bg-surface: #141414;
+  --bd-bg-elevated: #1F1F1F;
+  --bd-bg-inset: #050505;
+
+  /* 텍스트 */
+  --bd-text-primary: #FFFFFF;
+  --bd-text-secondary: #D4D4D4;
+  --bd-text-muted: #8A8A8A;
+
+  /* 네온 3색 */
+  --bd-primary: #FF2D87;
+  --bd-sub: #39F2AE;
+  --bd-third: #F3FF4A;
+  --bd-purple: #B43CFF;
+  --bd-cyan: #4AD4FF;
+
+  /* 네온 글로우 */
+  --bd-glow-pink: rgba(255, 45, 135, 0.5);
+  --bd-glow-mint: rgba(57, 242, 174, 0.5);
+  --bd-glow-yellow: rgba(243, 255, 74, 0.5);
+
+  /* 상태 */
+  --bd-success: #39F2AE;
+  --bd-warning: #F3FF4A;
+  --bd-error: #FF3D3D;
+  --bd-info: #4AD4FF;
+
+  /* 차트 팔레트 */
+  --bd-chart-1: #FF2D87;
+  --bd-chart-2: #39F2AE;
+  --bd-chart-3: #F3FF4A;
+  --bd-chart-4: #B43CFF;
+  --bd-chart-5: #4AD4FF;
+  --bd-chart-6: #FF6B1A;
+  --bd-chart-7: #FFFF00;
+  --bd-chart-8: #B4FF39;
+
+  /* 간격 */
+  --bd-space-1: 4px; --bd-space-2: 8px; --bd-space-3: 12px; --bd-space-4: 16px;
+  --bd-space-5: 24px; --bd-space-6: 32px; --bd-space-7: 48px; --bd-space-8: 72px;
+
+  /* Radius — 다양 혼용 */
+  --bd-radius-sharp: 0;
+  --bd-radius-sm: 6px;
+  --bd-radius-lg: 24px;
+  --bd-radius-pill: 9999px;
+}
+
+/* 액센트 프리셋 */
+/* === Cyber Yellow === :root { --bd-primary: #F3FF4A; --bd-sub: #FF2D87; --bd-third: #39F2AE; } */
+/* === Toxic Green === :root { --bd-primary: #B4FF39; --bd-sub: #FF2D87; --bd-third: #4AD4FF; } */
+/* === Ultraviolet === :root { --bd-primary: #B43CFF; --bd-sub: #FF2D87; --bd-third: #39F2AE; } */

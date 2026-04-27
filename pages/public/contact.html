@@ -196,6 +196,12 @@ document.getElementById('submitBtn').addEventListener('click', async function(){
     if(typeof MergeDB !== 'undefined') {
       await MergeDB.submitInquiry(name, email, category, '', message);
       gtag('event', 'generate_lead', { event_category: 'contact', contact_type: category });
+      // 관리자 알림 메일 (best-effort, 실패해도 사용자 흐름 막지 않음)
+      fetch('/api/v1/inquiry/sync-loops', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, email: email, category: category, message: message })
+      }).catch(function(){});
       this.style.display='none';
       document.getElementById('formSuccess').style.display='block';
     } else {

@@ -48,6 +48,25 @@ module.exports = async function handler(req, res) {
       });
       return res.status(502).json({ synced: false, error: result.error });
     }
+
+    // 가입 직후(5분 이내) 'signup' 이벤트 1회 트리거 — Loops welcome 메일
+    // 멱등성은 Loops 대시보드 "사용자당 1회" 옵션으로 보장
+    var createdAt = profile.created_at ? new Date(profile.created_at).getTime() : 0;
+    var isFreshSignup = createdAt && (Date.now() - createdAt) < 5 * 60 * 1000;
+    if (isFreshSignup) {
+      var ev = await loops.sendEvent(profile.email, 'signup', {
+        firstName: (profile.name || '').split(' ')[0] || '',
+        plan: profile.plan || 'free'
+      });
+      if (ev && ev.ok === false) {
+        sentry.captureMessage('sync-contact: Loops signup event failed', 'warning', {
+          tags: { route: 'sync_contact', op: 'loops_event_signup' },
+          extra: { loops_error: ev.error },
+          user: { id: user.id, email: profile.email }
+        });
+      }
+    }
+
     return res.json({ synced: true });
   } catch (e) {
     console.error('sync-contact error:', e);

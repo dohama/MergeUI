@@ -44,7 +44,8 @@
     { "source": "/api/v1/account/billing-portal", "destination": "/api/v1/account/billing-portal" },
     { "source": "/api/v1/account/sync-contact", "destination": "/api/v1/account/sync-contact" },
     { "source": "/api/v1/admin/send-email", "destination": "/api/v1/admin/send-email" },
-    { "source": "/api/v1/webhooks/lemonsqueezy", "destination": "/api/v1/webhooks/lemonsqueezy" }
+    { "source": "/api/v1/webhooks/lemonsqueezy", "destination": "/api/v1/webhooks/lemonsqueezy" },
+    { "source": "/api/v1/inquiry/sync-loops", "destination": "/api/v1/inquiry/sync-loops" }
   ],
   "headers": [
     {

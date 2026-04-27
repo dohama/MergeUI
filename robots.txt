@@ -56,6 +56,26 @@ Disallow: /_mission-control.html
 Disallow: /landing/assets/og-image.html
 Disallow: /pages/public/og-image.html
 
+# ====== AI Search Crawlers (allowed for content discovery) ======
+# 5/6 런칭 — AI 검색(ChatGPT, Claude, Perplexity 등) 노출 위해 명시 허용
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
 # ====== 봇별 별도 설정 (선택) ======
 # 악성 봇 차단 예시 — 필요 시 활성화
 # User-agent: AhrefsBot

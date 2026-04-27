@@ -1,11 +1,13 @@
 // POST /api/v1/admin/send-email
-// 관리자 전용 — 필터된 회원에게 Loops 이벤트 트리거 (배치 발송)
+// Admin-only batch email trigger via Loops events.
 // Body: { filter: { plan?, role? }, eventName, eventProperties, mode: 'dryRun'|'send' }
 const cors = require('../_lib/cors');
 const { supabaseAdmin, getUser } = require('../_lib/supabase');
 const loops = require('../_lib/loops');
+const sentry = require('../_lib/sentry');
 
 module.exports = async function handler(req, res) {
+  sentry.init();
   if (cors(req, res)) return;
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -21,7 +23,6 @@ module.exports = async function handler(req, res) {
 
   if (!eventName) return res.status(400).json({ error: 'eventName is required' });
 
-  // 대상 조회 — marketing_consent=true인 회원만
   var query = supabaseAdmin
     .from('profiles')
     .select('id, email, name, plan, role, marketing_consent')
@@ -31,12 +32,18 @@ module.exports = async function handler(req, res) {
   if (filter.role) query = query.eq('role', filter.role);
 
   var { data: recipients, error } = await query;
-  if (error) return res.status(500).json({ error: error.message });
+  if (error) {
+    sentry.captureMessage('admin/send-email: recipients query failed', 'error', {
+      tags: { route: 'admin_send_email', op: 'query_recipients' },
+      extra: { supabase_error: error.message, filter: filter },
+      user: { id: user.id, email: user.email }
+    });
+    return res.status(500).json({ error: error.message });
+  }
   if (!recipients || recipients.length === 0) {
     return res.json({ count: 0, mode: mode, sent: 0, failed: 0, targets: [] });
   }
 
-  // dryRun — 대상자 미리보기만
   if (mode === 'dryRun') {
     return res.json({
       count: recipients.length,
@@ -47,7 +54,6 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  // 실제 발송 — Loops 이벤트 트리거 (Loops 쪽 루프가 이메일 발송)
   var sent = 0;
   var failed = 0;
   var errors = [];
@@ -64,7 +70,21 @@ module.exports = async function handler(req, res) {
     } catch (e) {
       failed++;
       errors.push({ email: r.email, error: e.message });
+      sentry.captureException(e, {
+        tags: { route: 'admin_send_email', op: 'loops_send_event' },
+        extra: { event_name: eventName, recipient_email: r.email },
+        level: 'warning'
+      });
     }
+  }
+
+  // Report systemic failure (e.g. >50% failed) so the operator sees it in Sentry too.
+  if (failed > 0 && failed >= Math.ceil(recipients.length / 2)) {
+    sentry.captureMessage('admin/send-email: high failure rate', 'error', {
+      tags: { route: 'admin_send_email', op: 'batch_complete' },
+      extra: { event_name: eventName, total: recipients.length, sent: sent, failed: failed, sample_errors: errors.slice(0, 5) },
+      user: { id: user.id, email: user.email }
+    });
   }
 
   return res.json({
@@ -72,6 +92,6 @@ module.exports = async function handler(req, res) {
     mode: 'send',
     sent: sent,
     failed: failed,
-    errors: errors.slice(0, 10) // 최대 10건만 반환
+    errors: errors.slice(0, 10)
   });
 };

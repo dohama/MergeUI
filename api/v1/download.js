@@ -1,7 +1,9 @@
 const cors = require('./_lib/cors');
 const { supabaseAdmin, getUser, hasActiveSubscription } = require('./_lib/supabase');
+const sentry = require('./_lib/sentry');
 
 module.exports = async function handler(req, res) {
+  sentry.init();
   if (cors(req, res)) return;
 
   if (req.method !== 'POST') {
@@ -23,7 +25,15 @@ module.exports = async function handler(req, res) {
     await supabaseAdmin.from('downloads').insert({
       user_id: user.id, theme_id: slug, version: 'v1', downloaded_at: new Date().toISOString()
     });
-  } catch (_) {}
+  } catch (e) {
+    // 다운로드 이력 기록 실패는 본 응답을 막지 않음(파일 제공은 진행) — 단, 묵살 금지
+    console.error('[download] insert downloads failed:', e && e.message);
+    sentry.captureException(e, {
+      tags: { route: 'download', op: 'insert_downloads' },
+      extra: { theme_slug: slug },
+      user: { id: user.id, email: user.email }
+    });
+  }
 
   res.json({ download_url: '/templates/' + slug + '-v1/' + slug + '-v1.zip' });
 };

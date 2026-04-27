@@ -1,5 +1,6 @@
 const cors = require('./_lib/cors.js');
 const { getUser } = require('./_lib/supabase.js');
+const sentry = require('./_lib/sentry.js');
 
 const LEMON_API_URL = 'https://api.lemonsqueezy.com/v1';
 
@@ -12,6 +13,7 @@ async function lemonFetch(endpoint, options) {
 }
 
 module.exports = async function(req, res) {
+  sentry.init();
   if (cors(req, res)) return;
 
   // GET — 상품 목록
@@ -22,7 +24,11 @@ module.exports = async function(req, res) {
         return { id: p.id, name: p.attributes.name, description: p.attributes.description, price: p.attributes.price, buy_now_url: p.attributes.buy_now_url };
       });
       return res.json({ products: products });
-    } catch (e) { return res.status(500).json({ error: e.message }); }
+    } catch (e) {
+      console.error('[checkout][GET] products fetch failed:', e && e.message);
+      sentry.captureException(e, { tags: { route: 'checkout', op: 'list_products' } });
+      return res.status(500).json({ error: 'Failed to load products' });
+    }
   }
 
   // POST — checkout 세션 생성
@@ -56,8 +62,22 @@ module.exports = async function(req, res) {
         })
       });
       if (data.data?.attributes?.url) return res.json({ checkout_url: data.data.attributes.url });
-      return res.status(400).json({ error: 'Failed to create checkout', details: data });
-    } catch (e) { return res.status(500).json({ error: e.message }); }
+      // Lemonsqueezy가 200을 주고도 실패 응답을 본문에 담는 경우 — 결제 직격이라 캡처
+      sentry.captureMessage('Checkout creation returned no url', 'error', {
+        tags: { route: 'checkout', op: 'create_checkout' },
+        extra: { variant_id: String(variant_id), response: data },
+        user: { id: user.id, email: user.email }
+      });
+      return res.status(400).json({ error: 'Failed to create checkout' });
+    } catch (e) {
+      console.error('[checkout][POST] create failed:', e && e.message);
+      sentry.captureException(e, {
+        tags: { route: 'checkout', op: 'create_checkout' },
+        extra: { variant_id: String(variant_id) },
+        user: { id: user.id, email: user.email }
+      });
+      return res.status(500).json({ error: 'Failed to create checkout' });
+    }
   }
 
   res.status(405).json({ error: 'Method not allowed' });

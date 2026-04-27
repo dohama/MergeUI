@@ -86,7 +86,8 @@ function escapeHtml(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').rep
 document.addEventListener("mergedb-ready", async function() {
   var sb = MergeDB.client;
   try {
-    var r = await sb.from("releases").select("*").order("published_at", { ascending: false });
+    var r = await sb.from("releases").select("*").order("published_at", { ascending: false, nullsFirst: false }).order("created_at", { ascending: false });
+    if (r.error) throw r.error;
     var data=r.data||[];
     var list=document.querySelector(".releases-list");
     if(data.length>0){
@@ -137,7 +138,11 @@ document.addEventListener("mergedb-ready", async function() {
         location.reload();
       }
     });
-  } catch(e) { console.error(e); }
+  } catch(e) {
+    console.error(e);
+    var list=document.querySelector(".releases-list");
+    if(list) list.innerHTML='<div style="text-align:center;padding:48px 24px;color:var(--text-muted)"><div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#9888;&#65039;</div><div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">데이터 로드 실패</div><div style="font-size:13px">잠시 후 다시 시도해 주세요.</div></div>';
+  }
 });
 
 // 새 릴리즈 추가

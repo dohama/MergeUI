@@ -505,6 +505,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
       grid-template-columns: repeat(3, 1fr);
       gap: 24px; max-width: 1080px; margin: 64px auto 0;
     }
+    .pricing-grid-2col { grid-template-columns: repeat(2, 1fr); max-width: 760px; }
     .price-card {
       padding: 40px;
       background: var(--bg-raised);
@@ -649,6 +650,51 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
       .cta-section { padding: 100px 20px; }
       .swiper-slide { width: 300px; }
     }
+
+    /* ==================== LAUNCH BANNER ==================== */
+    .launch-banner {
+      position: relative; z-index: 99;
+      background: linear-gradient(90deg, rgba(108,92,231,0.18), rgba(34,211,238,0.18));
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      font-size: 14px; color: var(--text-primary);
+    }
+    .launch-banner-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;
+    }
+    .launch-banner-pulse {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--brand-light);
+      box-shadow: 0 0 12px var(--brand-light);
+      animation: launchPulse 1.6s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes launchPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
+    .launch-banner-text { font-weight: 500; }
+    .launch-banner-text strong { color: var(--brand-light); font-weight: 800; }
+    .launch-banner-cta {
+      padding: 6px 16px;
+      background: var(--brand); color: white;
+      border-radius: 999px; font-size: 13px; font-weight: 700;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .launch-banner-cta:hover { background: var(--brand-light); transform: translateY(-1px); }
+    .launch-banner-close {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); font-size: 22px; line-height: 1;
+      padding: 0 4px; transition: color 0.15s;
+    }
+    .launch-banner-close:hover { color: var(--text-primary); }
+    .launch-banner.hidden { display: none; }
+    @media (max-width: 768px) {
+      .launch-banner { padding: 10px 12px; font-size: 12px; }
+      .launch-banner-inner { gap: 10px; }
+      .launch-banner-cta { padding: 5px 12px; font-size: 12px; }
+    }
   </style>
   <script src="../src/js/analytics.js" defer></script>
   <script src="../src/js/supabase-client.js" defer></script>
@@ -683,6 +729,18 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     <a href="../pages/public/docs.html" class="mobile-link">Docs</a>
     <a href="../pages/auth/login.html" class="mobile-link">Sign In</a>
     <a href="../pages/auth/signup.html" class="btn-glow" style="margin-top:16px">Get Started</a>
+  </div>
+
+  <!-- LAUNCH WEEK BANNER (Above the fold) -->
+  <div class="launch-banner" id="launchBanner" role="region" aria-label="Launch week promotion">
+    <div class="launch-banner-inner">
+      <span class="launch-banner-pulse" aria-hidden="true"></span>
+      <span class="launch-banner-text">
+        <strong>Launch Week</strong> — Pro Annual at <strong>$99</strong> for the first <strong>50 buyers</strong>. Saves $50 vs. regular pricing.
+      </span>
+      <a href="../pages/public/pricing.html#early-bird" class="launch-banner-cta" data-track="cta" data-label="banner-early-bird">Claim it →</a>
+      <button type="button" class="launch-banner-close" id="launchBannerClose" aria-label="Dismiss banner">×</button>
+    </div>
   </div>
 
   <!-- HERO -->
@@ -881,7 +939,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
       <h2 class="title reveal reveal-delay-1">Start free, <span class="gradient-text">scale as you grow.</span></h2>
       <p class="subtitle mx-auto reveal reveal-delay-2">No credit card required. Upgrade when your project needs more.</p>
 
-      <div class="pricing-grid">
+      <div class="pricing-grid pricing-grid-2col">
         <div class="price-card reveal">
           <div class="price-name">Free</div>
           <div class="price-desc">Try before you commit</div>
@@ -907,46 +965,40 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
             <li>Priority support</li>
           </ul>
           <a href="https://mergeui.lemonsqueezy.com/checkout/buy/b9d4acab-7b2d-42c7-9bbd-ed4f745769ca" class="price-btn" data-track="cta" data-label="pricing-pro">Start Pro — $19/mo</a>
-        </div>
-        <div class="price-card reveal reveal-delay-2">
-          <div class="price-name">Team</div>
-          <div class="price-desc">For teams of 5+</div>
-          <div class="price-amount"><span class="price-dollar">$</span><span class="price-val">49</span><span class="price-mo">/ month</span></div>
-          <ul class="price-list">
-            <li>Everything in Pro</li>
-            <li>Up to 10 team seats</li>
-            <li>Team license</li>
-            <li>Shared component library</li>
-            <li>Dedicated support</li>
-          </ul>
-          <a href="../pages/public/contact.html" class="price-btn" data-track="cta" data-label="pricing-team">Contact Us</a>
+          <div style="margin-top:12px;font-size:12px;color:var(--text-muted)">or $149/yr — save $79</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
+  <!-- EARLY ACCESS / FOUNDING USERS (replaces fake testimonials) -->
   <section class="section">
     <div class="section-wide text-center">
-      <div class="label reveal">Early Access</div>
-      <h2 class="title reveal reveal-delay-1">Built for <span class="gradient-text">developers.</span></h2>
+      <div class="label reveal">Launch Week</div>
+      <h2 class="title reveal reveal-delay-1">Be one of our <span class="gradient-text">first 50 users.</span></h2>
+      <p class="subtitle mx-auto reveal reveal-delay-2" style="text-align:center;max-width:640px;margin:16px auto 0">MergeUi is launching publicly on May 6. We are taking the honest path — no fake reviews, no inflated numbers. Just a fair Early Bird price for the developers who back us first.</p>
 
       <div class="test-grid">
         <div class="test-card reveal">
-          <div class="test-stars">⚡</div>
-          <p class="test-text">"Copy, paste, customize. Ship your admin panel in hours, not weeks. Every component is production-ready out of the box."</p>
-          <div class="test-author"><div class="test-avatar">🎯</div><div><div class="test-name">Zero Config</div><div class="test-role">No build tools required</div></div></div>
+          <div class="test-stars" aria-hidden="true">$99</div>
+          <p class="test-text"><strong style="color:var(--text-primary)">Early Bird — first 50 buyers.</strong> One year of Pro for $99 (regular $149). Locks in for renewal. Founding-user badge on your account.</p>
+          <div class="test-author"><div class="test-avatar">01</div><div><div class="test-name">Limited to 50</div><div class="test-role">Counter resets at zero on May 6</div></div></div>
         </div>
         <div class="test-card reveal reveal-delay-1">
-          <div class="test-stars">🎨</div>
-          <p class="test-text">"Change one CSS file and the entire theme transforms. Brand colors, spacing, typography — all controlled by simple variables."</p>
-          <div class="test-author"><div class="test-avatar">💎</div><div><div class="test-name">Full Customization</div><div class="test-role">CSS variables for everything</div></div></div>
+          <div class="test-stars" aria-hidden="true">14d</div>
+          <p class="test-text"><strong style="color:var(--text-primary)">14-day refund, no questions.</strong> Try every theme and component. If it does not save you a week of work, we send the money back.</p>
+          <div class="test-author"><div class="test-avatar">02</div><div><div class="test-name">Risk-free trial</div><div class="test-role">Cancel anytime, keep what you downloaded</div></div></div>
         </div>
         <div class="test-card reveal reveal-delay-2">
-          <div class="test-stars">📦</div>
-          <p class="test-text">"Works with React, Vue, Angular, Svelte, or plain HTML. No framework lock-in. Just clean, semantic markup you can drop anywhere."</p>
-          <div class="test-author"><div class="test-avatar">🔧</div><div><div class="test-name">Any Stack</div><div class="test-role">Framework independent</div></div></div>
+          <div class="test-stars" aria-hidden="true">→</div>
+          <p class="test-text"><strong style="color:var(--text-primary)">Shape what comes next.</strong> Founding users vote on the next themes and components. Your roadmap, not ours.</p>
+          <div class="test-author"><div class="test-avatar">03</div><div><div class="test-name">Direct line to the maker</div><div class="test-role">One designer-developer building MergeUi</div></div></div>
         </div>
+      </div>
+
+      <div class="hero-actions reveal reveal-delay-3" style="margin-top:48px;justify-content:center">
+        <a href="../pages/public/pricing.html" class="btn-glow" data-track="cta" data-label="early-bird-claim">Claim Early Bird — $99</a>
+        <a href="../pages/auth/signup.html" class="btn-ghost" data-track="cta" data-label="early-bird-free">Start Free First →</a>
       </div>
     </div>
   </section>
@@ -1000,6 +1052,11 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     <div class="footer-inner">
       <div class="footer-copy">© 2026 MergeUi. All rights reserved.</div>
       <ul class="footer-links">
+        <li><a href="../pages/public/pricing.html">Pricing</a></li>
+        <li><a href="../pages/public/changelog.html">Changelog</a></li>
+        <li><a href="../pages/public/contact.html">Contact</a></li>
+        <li><a href="../pages/legal/terms.html#refund">Refund</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
         <li><a href="../pages/legal/terms.html">Terms</a></li>
         <li><a href="../pages/legal/privacy.html">Privacy</a></li>
       </ul>
@@ -1019,6 +1076,21 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
     document.querySelectorAll('.reveal, .reveal-scale').forEach(function(el) { observer.observe(el); });
+
+    /* Launch banner dismiss (24h sessionStorage) */
+    (function(){
+      var banner = document.getElementById('launchBanner');
+      var closeBtn = document.getElementById('launchBannerClose');
+      if (!banner || !closeBtn) return;
+      try {
+        var dismissed = sessionStorage.getItem('mergeui_launch_banner_dismissed');
+        if (dismissed === '1') { banner.classList.add('hidden'); }
+      } catch(e) {}
+      closeBtn.addEventListener('click', function(){
+        banner.classList.add('hidden');
+        try { sessionStorage.setItem('mergeui_launch_banner_dismissed', '1'); } catch(e) {}
+      });
+    })();
 
     /* FAQ with ARIA */
     document.querySelectorAll('.faq-q').forEach(function(btn) {

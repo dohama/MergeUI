@@ -40,9 +40,11 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   .docs-content p{font-size:15px;color:var(--text-secondary);line-height:1.75;margin-bottom:12px}
   .dtag{padding:4px 12px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;color:var(--text-muted)}.dtag.pro{background:rgba(108,92,231,0.1);color:var(--brand-light);border-color:rgba(108,92,231,0.15)}.dtag.free{background:rgba(34,197,94,0.1);color:var(--success);border-color:rgba(34,197,94,0.15)}
   .component-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
-  .preview-area{background:var(--bg-surface);border:1px solid var(--border);border-radius:14px;height:300px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;position:relative;overflow:hidden}
+  .preview-area{background:var(--bg-surface);border:1px solid var(--border);border-radius:14px;height:300px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;position:relative;overflow:hidden;transition:background 0.2s}
+  .preview-area.is-light{background:#F4F4F5;border-color:rgba(0,0,0,0.08)}
   .preview-toggle{position:absolute;top:12px;right:12px;padding:6px 14px;background:var(--bg-raised);border:1px solid var(--border-strong);border-radius:8px;font-size:11px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.12s;font-family:var(--font)}
-  .preview-toggle:hover{background:var(--glow-brand);color:var(--brand-light);border-color:var(--brand)}
+  .preview-toggle:hover,.preview-toggle:focus-visible{background:var(--glow-brand);color:var(--brand-light);border-color:var(--brand);outline:none}
+  .preview-area.is-light .preview-toggle{background:#FFFFFF;color:#52525B;border-color:rgba(0,0,0,0.12)}
   .code-tabs{display:flex;gap:4px;margin-bottom:0}
   .code-tab{padding:8px 16px;background:var(--bg-raised);border:1px solid var(--border);border-bottom:none;border-radius:8px 8px 0 0;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all 0.12s;font-family:var(--font)}
   .code-tab.active{background:var(--bg-surface);color:var(--brand-light);border-color:var(--border-strong)}
@@ -166,6 +168,49 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li></ul></div></footer>
   
 <script>
+// Preview 라이트/다크 토글 — 컴포넌트 미리보기 영역 배경 + SVG 색 전환
+(function(){
+  var btn = document.getElementById('previewToggle');
+  var area = document.getElementById('previewArea');
+  if (!btn || !area) return;
+
+  // 다크(기본) <-> 라이트 색 매핑. 라이트 모드 진입 시 SVG 색을 동적으로 교체.
+  var DARK = { bg: '#16161E', stroke: 'rgba(255,255,255,0.1)', label: '#71717A', value: '#F4F4F5', success: '#22C55E', muted: '#71717A' };
+  var LIGHT = { bg: '#FFFFFF', stroke: 'rgba(0,0,0,0.08)', label: '#71717A', value: '#0A0A0F', success: '#16A34A', muted: '#71717A' };
+
+  function applyTheme(mode) {
+    var isLight = mode === 'light';
+    area.classList.toggle('is-light', isLight);
+    btn.textContent = isLight ? 'Dark' : 'Light';
+    btn.setAttribute('aria-pressed', String(isLight));
+
+    var svg = document.getElementById('previewSvg');
+    if (!svg) return;
+    var palette = isLight ? LIGHT : DARK;
+    var rect = svg.querySelector('rect');
+    if (rect) { rect.setAttribute('fill', palette.bg); rect.setAttribute('stroke', palette.stroke); }
+    var texts = svg.querySelectorAll('text');
+    if (texts.length >= 4) {
+      texts[0].setAttribute('fill', palette.label);
+      texts[1].setAttribute('fill', palette.value);
+      texts[2].setAttribute('fill', palette.success);
+      texts[3].setAttribute('fill', palette.muted);
+    }
+  }
+
+  function toggle() {
+    var next = area.classList.contains('is-light') ? 'dark' : 'light';
+    applyTheme(next);
+  }
+
+  btn.addEventListener('click', toggle);
+  btn.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+  });
+  // 초기 상태 = dark
+  btn.setAttribute('aria-pressed', 'false');
+})();
+
 // 코드 탭 전환
 document.querySelectorAll('.code-tab').forEach(function(tab) {
   tab.addEventListener('click', function() {

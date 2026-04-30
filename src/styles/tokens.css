@@ -20,7 +20,8 @@
   /* Text */
   --merge-text-primary: #F4F4F5;
   --merge-text-secondary: #A1A1AA;
-  --merge-text-muted: #71717A;
+  /* WCAG AA 통과: #80808A on #06060A = 4.95:1 (이전 #71717A는 4.07:1로 Fail) */
+  --merge-text-muted: #80808A;
 
   /* Border */
   --merge-border: rgba(255,255,255,0.06);
@@ -44,15 +45,18 @@
   /* Typography */
   --merge-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* Spacing (8px grid) */
+  /* Spacing (8px grid) — 4의 배수 엄격 준수 */
   --merge-space-1: 4px;
   --merge-space-2: 8px;
   --merge-space-3: 12px;
   --merge-space-4: 16px;
-  --merge-space-5: 20px;
+  /* @deprecated --merge-space-5: 20px — 8px 그리드 정합성 위해 24px(--merge-space-6)로 통일.
+     기존 코드 호환을 위해 24px로 매핑. 신규 코드는 --merge-space-6 사용 권장. */
+  --merge-space-5: 24px;
   --merge-space-6: 24px;
   --merge-space-7: 32px;
   --merge-space-8: 48px;
+  --merge-space-9: 64px;
 
   /* Radius */
   --merge-radius-sm: 6px;
@@ -64,25 +68,45 @@
   --merge-shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
   --merge-shadow-card-hover: 0 2px 4px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.08);
 
-  /* Backward compatibility aliases — 기존 코드 호환용 */
-  --brand: var(--merge-brand);
-  --brand-light: var(--merge-brand-light);
-  --brand-dark: var(--merge-brand-dark);
-  --accent: var(--merge-accent);
-  --accent2: var(--merge-accent2);
-  --bg-base: var(--merge-bg-base);
-  --bg-raised: var(--merge-bg-raised);
-  --bg-surface: var(--merge-bg-surface);
-  --bg-glass: var(--merge-bg-glass);
-  --text-primary: var(--merge-text-primary);
-  --text-secondary: var(--merge-text-secondary);
-  --text-muted: var(--merge-text-muted);
-  --border: var(--merge-border);
-  --border-strong: var(--merge-border-strong);
-  --success: var(--merge-success);
-  --warning: var(--merge-warning);
-  --glow-brand: var(--merge-glow-brand);
-  --font: var(--merge-font);
+  /* ============================================
+     Chart Palette — Deuteranopia-Safe 8색
+     명세: design/chart-palette.md (2026-04-16)
+     인접 색상 간 명도 차이 15%+, 적/녹 직접 인접 배치 금지
+     기본값은 다크 모드(:root) 기준 — 채도 +10%, 명도 +5% 보정값
+     ============================================ */
+  --merge-chart-1: #818CF8; /* Indigo  — Primary data series */
+  --merge-chart-2: #22D3EE; /* Cyan    — Secondary data */
+  --merge-chart-3: #FBBF24; /* Amber   — Comparison / highlight */
+  --merge-chart-4: #FB7185; /* Rose    — Alert / negative */
+  --merge-chart-5: #34D399; /* Emerald — Positive / growth */
+  --merge-chart-6: #A78BFA; /* Violet  — Tertiary data */
+  --merge-chart-7: #FB923C; /* Orange  — Supplementary */
+  --merge-chart-8: #94A3B8; /* Slate   — Neutral / baseline */
+
+  /* ============================================
+     Backward compatibility aliases — 기존 코드 호환용
+     @deprecated 신규 코드는 --merge-* 토큰을 직접 사용할 것.
+     별칭은 기존 페이지/컴포넌트 후방 호환 목적으로만 유지되며,
+     향후 메이저 버전에서 제거 예정. 새 별칭 추가 금지.
+     ============================================ */
+  --brand: var(--merge-brand);             /* @deprecated → --merge-brand */
+  --brand-light: var(--merge-brand-light); /* @deprecated → --merge-brand-light */
+  --brand-dark: var(--merge-brand-dark);   /* @deprecated → --merge-brand-dark */
+  --accent: var(--merge-accent);           /* @deprecated → --merge-accent */
+  --accent2: var(--merge-accent2);         /* @deprecated → --merge-accent2 */
+  --bg-base: var(--merge-bg-base);         /* @deprecated → --merge-bg-base */
+  --bg-raised: var(--merge-bg-raised);     /* @deprecated → --merge-bg-raised */
+  --bg-surface: var(--merge-bg-surface);   /* @deprecated → --merge-bg-surface */
+  --bg-glass: var(--merge-bg-glass);       /* @deprecated → --merge-bg-glass */
+  --text-primary: var(--merge-text-primary);     /* @deprecated → --merge-text-primary */
+  --text-secondary: var(--merge-text-secondary); /* @deprecated → --merge-text-secondary */
+  --text-muted: var(--merge-text-muted);         /* @deprecated → --merge-text-muted */
+  --border: var(--merge-border);                 /* @deprecated → --merge-border */
+  --border-strong: var(--merge-border-strong);   /* @deprecated → --merge-border-strong */
+  --success: var(--merge-success);   /* @deprecated → --merge-success */
+  --warning: var(--merge-warning);   /* @deprecated → --merge-warning */
+  --glow-brand: var(--merge-glow-brand); /* @deprecated → --merge-glow-brand */
+  --font: var(--merge-font);             /* @deprecated → --merge-font */
 }
 
 /* Light Mode */
@@ -93,7 +117,8 @@
   --merge-bg-glass: rgba(255, 255, 255, 0.8);
   --merge-text-primary: #18181B;
   --merge-text-secondary: #52525B;
-  --merge-text-muted: #737380;
+  /* WCAG AA 통과: #5B5B66 on #FAFAFA = 5.92:1 (이전 #737380은 4.0:1로 Fail) */
+  --merge-text-muted: #5B5B66;
   --merge-border: rgba(0,0,0,0.06);
   --merge-border-strong: rgba(0,0,0,0.12);
   --merge-glow-brand: rgba(108,92,231,0.08);
@@ -101,4 +126,14 @@
   --merge-admin-active-text: #DC2626;
   --merge-shadow-card: 0 1px 2px rgba(15,23,42,0.04), 0 1px 3px rgba(15,23,42,0.06);
   --merge-shadow-card-hover: 0 2px 4px rgba(15,23,42,0.06), 0 6px 16px rgba(15,23,42,0.08);
+
+  /* Chart Palette — Light Mode (원본 채도/명도) */
+  --merge-chart-1: #6366F1; /* Indigo */
+  --merge-chart-2: #06B6D4; /* Cyan */
+  --merge-chart-3: #F59E0B; /* Amber */
+  --merge-chart-4: #F43F5E; /* Rose */
+  --merge-chart-5: #10B981; /* Emerald */
+  --merge-chart-6: #8B5CF6; /* Violet */
+  --merge-chart-7: #F97316; /* Orange */
+  --merge-chart-8: #64748B; /* Slate */
 }

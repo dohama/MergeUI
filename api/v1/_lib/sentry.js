@@ -7,7 +7,23 @@
 // 사용법:
 //   const sentry = require('./_lib/sentry');
 //   sentry.init();                         // 핸들러 진입 시 1회 호출 (이미 초기화돼 있으면 noop)
-//   sentry.captureException(err, { tags: { route: 'download' }, user: { id, email } });
+//   sentry.captureException(err, { tags: { area: 'payment', route: 'webhook' }, user: { id, email } });
+//
+// === 알림 라우팅용 태그 규칙 (E-15, 2026-05-01) ===
+// 모든 captureException/captureMessage 호출은 반드시 `tags.area` 를 포함해야 함.
+// Sentry 대시보드 Alert Rule 은 이 태그 기준으로 라우팅:
+//
+//   area=payment   → 결제/구독/라이선스/웹훅 (Lemonsqueezy, orders, license_keys)
+//                    임계치: 1건 즉시 알림 (매출 직결, 한 건도 놓치면 안 됨)
+//   area=auth      → 로그인/회원가입/세션/이메일 인증 (Supabase Auth, OAuth 콜백)
+//                    임계치: 5분에 5건 이상 (무차별 시도 또는 시스템 장애 신호)
+//   area=api       → 그 외 일반 API (테마/컴포넌트/문의/검색/계정 설정)
+//                    임계치: 30분에 10건 이상 (정상 운영 노이즈 임계치)
+//
+// 추가 권장 태그 (선택):
+//   - route: 'checkout' | 'download' | 'webhook' | 'sync-loops' | ... (라우트별 구분)
+//   - level: 'fatal' | 'error' | 'warning' | 'info'
+//   - user: { id, email } — PII 최소화. sendDefaultPii=false 설정으로 자동 마스킹
 
 var initialized = false;
 var Sentry = null;

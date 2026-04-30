@@ -27,7 +27,8 @@
 
 | P | 항목 | 마감 | 소요 | 상태 |
 |---|------|------|------|------|
-| P1 | Supabase SQL Editor에서 `server/db/launch-prep-migration.sql` 실행 (D-2/D-3/D-18 효력 발생) | 5/1 | 2분 | [ ] |
+| P1 | Supabase SQL Editor에서 `server/db/launch-prep-migration.sql` 실행 (D-2/D-3/D-18 효력 발생) | 5/1 | 2분 | [x] 2026-05-01 완료 |
+| P1 | Supabase SQL Editor에서 `server/db/email-sends-migration.sql` 실행 (send-email 멱등성) | 5/1 | 1분 | [x] 2026-05-01 완료 |
 | P1 | Lemonsqueezy 결제 실전 1회 (Pro Monthly 본인 결제 → 환불 → 라이선스 해제 확인) | 5/2 | 15분 | [ ] |
 | P2 | OAuth marketing_consent 정책 결정 (동의 화면 추가 / 그대로) | 5/2 | 5분 | [ ] |
 | P2 | PH Hunter 결정 (셀프 권고) | 5/3 | - | [ ] |

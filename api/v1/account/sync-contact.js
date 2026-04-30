@@ -6,9 +6,13 @@
 //   response: { success: true, marketing_consent: boolean }
 const cors = require('../_lib/cors');
 const csrf = require('../_lib/csrf');
+const rateLimit = require('../_lib/rate-limit');
 const { supabaseAdmin, getUser } = require('../_lib/supabase');
 const loops = require('../_lib/loops');
 const sentry = require('../_lib/sentry');
+
+// D-8: 연락처 동기화 — 10 req/min/IP
+var limiter = rateLimit({ windowMs: 60_000, max: 10, keyPrefix: 'sync_contact' });
 
 module.exports = async function handler(req, res) {
   sentry.init();
@@ -18,6 +22,8 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST' && req.method !== 'PATCH') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
+  // D-8: Rate Limit
+  if (await limiter.reject(req, res)) return;
 
   var user = await getUser(req);
   if (!user) return res.status(401).json({ error: 'Unauthorized' });

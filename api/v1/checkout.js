@@ -1,7 +1,11 @@
 const cors = require('./_lib/cors.js');
 const csrf = require('./_lib/csrf.js');
+const rateLimit = require('./_lib/rate-limit.js');
 const { getUser } = require('./_lib/supabase.js');
 const sentry = require('./_lib/sentry.js');
+
+// D-8: 체크아웃 — 10 req/min/IP (결제 스팸/봇 방지)
+var limiter = rateLimit({ windowMs: 60_000, max: 10, keyPrefix: 'checkout' });
 
 const LEMON_API_URL = 'https://api.lemonsqueezy.com/v1';
 
@@ -28,6 +32,8 @@ module.exports = async function(req, res) {
   if (cors(req, res)) return;
   // D-17/CSRF: 상태 변경(POST)에만 CSRF 검증 적용 (GET 통과)
   if (csrf.reject(req, res)) return;
+  // D-8: Rate Limit (GET/POST 공통)
+  if (await limiter.reject(req, res)) return;
 
   // GET — 상품 목록
   if (req.method === 'GET') {

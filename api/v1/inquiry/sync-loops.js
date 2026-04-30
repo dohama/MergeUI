@@ -2,13 +2,22 @@
 // 새 문의가 도착하면 ADMIN_EMAIL 수신자에게 Loops 트랜잭셔널 알림 발송.
 // contact.html submitInquiry 직후 best-effort fetch로 호출.
 const cors = require('../_lib/cors');
+const csrf = require('../_lib/csrf');
+const rateLimit = require('../_lib/rate-limit');
 const loops = require('../_lib/loops');
 const sentry = require('../_lib/sentry');
+
+// D-8: 문의 알림 발송 — 5 req/min/IP (스팸/남용 방지)
+var limiter = rateLimit({ windowMs: 60_000, max: 5, keyPrefix: 'inq_sync' });
 
 module.exports = async function handler(req, res) {
   sentry.init();
   if (cors(req, res)) return;
+  // E-6: CSRF — Origin/Referer 화이트리스트 검증
+  if (csrf.reject(req, res)) return;
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  // D-8: Rate Limit
+  if (await limiter.reject(req, res)) return;
 
   var body = req.body || {};
   var name = (body.name || '').toString().slice(0, 100);

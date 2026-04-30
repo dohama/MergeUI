@@ -1,13 +1,19 @@
 const cors = require('./_lib/cors');
 const csrf = require('./_lib/csrf');
+const rateLimit = require('./_lib/rate-limit');
 const { supabaseAdmin, getUser } = require('./_lib/supabase');
 const sentry = require('./_lib/sentry');
+
+// D-8: 계정 GET/DELETE — 10 req/min/IP (GDPR 데이터 추출/삭제 남용 방지)
+var limiter = rateLimit({ windowMs: 60_000, max: 10, keyPrefix: 'account' });
 
 module.exports = async function handler(req, res) {
   sentry.init();
   if (cors(req, res)) return;
   // CSRF — DELETE/PATCH 등 상태 변경 메서드에 적용 (GET은 csrf.js에서 자동 통과)
   if (csrf.reject(req, res)) return;
+  // D-8: Rate Limit
+  if (await limiter.reject(req, res)) return;
 
   var user = await getUser(req);
   if (!user) return res.status(401).json({ error: 'Unauthorized' });

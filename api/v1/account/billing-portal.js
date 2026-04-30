@@ -1,24 +1,34 @@
 // GET /api/v1/account/billing-portal
 // Returns Lemonsqueezy Customer Portal URL for the active subscription.
 const cors = require('../_lib/cors');
+const csrf = require('../_lib/csrf');
+const rateLimit = require('../_lib/rate-limit');
 const { supabaseAdmin, getUser } = require('../_lib/supabase');
 const sentry = require('../_lib/sentry');
 
 const LEMON_API_URL = 'https://api.lemonsqueezy.com/v1';
 
+// D-8: Billing portal — 10 req/min/IP (Lemonsqueezy API 비용/쿼터 보호)
+var limiter = rateLimit({ windowMs: 60_000, max: 10, keyPrefix: 'billing_portal' });
+
 module.exports = async function handler(req, res) {
   sentry.init();
   if (cors(req, res)) return;
+  // E-6: CSRF — 안전 메서드(GET) 는 자동 통과, 향후 메서드 확장 대비
+  if (csrf.reject(req, res)) return;
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+  // D-8: Rate Limit
+  if (await limiter.reject(req, res)) return;
 
   var user = await getUser(req);
   if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
+  // D-10: cancelled 구독은 더 이상 결제 포털 접근 허용하지 않음 — active/past_due 만
   var { data: sub, error: subErr } = await supabaseAdmin
     .from('subscriptions')
     .select('lemon_subscription_id, status')
     .eq('user_id', user.id)
-    .in('status', ['active', 'past_due', 'cancelled'])
+    .in('status', ['active', 'past_due'])
     .order('created_at', { ascending: false })
     .limit(1)
     .single();

@@ -1,10 +1,13 @@
 const cors = require('./_lib/cors');
+const csrf = require('./_lib/csrf');
 const { supabaseAdmin, getUser } = require('./_lib/supabase');
 const sentry = require('./_lib/sentry');
 
 module.exports = async function handler(req, res) {
   sentry.init();
   if (cors(req, res)) return;
+  // CSRF — DELETE/PATCH 등 상태 변경 메서드에 적용 (GET은 csrf.js에서 자동 통과)
+  if (csrf.reject(req, res)) return;
 
   var user = await getUser(req);
   if (!user) return res.status(401).json({ error: 'Unauthorized' });

@@ -1,8 +1,19 @@
 const cors = require('./_lib/cors.js');
+const csrf = require('./_lib/csrf.js');
 const { getUser } = require('./_lib/supabase.js');
 const sentry = require('./_lib/sentry.js');
 
 const LEMON_API_URL = 'https://api.lemonsqueezy.com/v1';
+
+// D-17: 결제 variant 화이트리스트 — ENV에 등록된 3개 variant만 허용
+function getAllowedVariants() {
+  var ids = [
+    process.env.LEMON_VARIANT_PRO_MONTHLY,
+    process.env.LEMON_VARIANT_PRO_ANNUAL,
+    process.env.LEMON_VARIANT_EARLYBIRD
+  ];
+  return ids.map(function(v) { return v ? String(v).trim() : ''; }).filter(Boolean);
+}
 
 async function lemonFetch(endpoint, options) {
   var res = await fetch(LEMON_API_URL + endpoint, {
@@ -15,6 +26,8 @@ async function lemonFetch(endpoint, options) {
 module.exports = async function(req, res) {
   sentry.init();
   if (cors(req, res)) return;
+  // D-17/CSRF: 상태 변경(POST)에만 CSRF 검증 적용 (GET 통과)
+  if (csrf.reject(req, res)) return;
 
   // GET — 상품 목록
   if (req.method === 'GET') {
@@ -38,6 +51,23 @@ module.exports = async function(req, res) {
 
     var variant_id = req.body?.variant_id;
     if (!variant_id) return res.status(400).json({ error: 'variant_id is required' });
+
+    // D-17: variant_id 화이트리스트 검증 — ENV에 등록된 3개 외 차단
+    var allowedVariants = getAllowedVariants();
+    if (allowedVariants.length === 0) {
+      sentry.captureMessage('Checkout variant whitelist not configured', 'error', {
+        tags: { route: 'checkout', op: 'variant_whitelist', severity: 'payment' }
+      });
+      return res.status(500).json({ error: 'Checkout variants not configured' });
+    }
+    if (allowedVariants.indexOf(String(variant_id)) === -1) {
+      sentry.captureMessage('Checkout variant rejected (not in whitelist)', 'warning', {
+        tags: { route: 'checkout', op: 'variant_whitelist', severity: 'payment' },
+        extra: { variant_id: String(variant_id) },
+        user: { id: user.id, email: user.email }
+      });
+      return res.status(400).json({ error: 'Invalid variant_id' });
+    }
 
     try {
       var origin = process.env.CORS_ORIGIN || 'https://mergeui.com';

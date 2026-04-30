@@ -22,6 +22,14 @@ function readRawBody(req) {
   });
 }
 
+// D-14: 결제 금액 안전 파싱 — Lemonsqueezy total은 cents 정수 문자열, NaN/음수/비정상값 차단
+function safeParseAmount(raw) {
+  if (raw === null || raw === undefined || raw === '') return null;
+  var n = parseFloat(raw);
+  if (!Number.isFinite(n) || n < 0) return null;
+  return n / 100;
+}
+
 function reportSupabaseError(opName, result, ctx) {
   if (result && result.error) {
     console.error('[webhook][' + opName + '] supabase error:', result.error.message);
@@ -30,6 +38,16 @@ function reportSupabaseError(opName, result, ctx) {
       extra: Object.assign({ supabase_error: result.error.message }, ctx || {})
     });
   }
+}
+
+// Lemonsqueezy event_id 추출 — meta.webhook_id 우선, 없으면 X-Event-Id 헤더, 최종 fallback은 payload digest
+function extractEventId(req, event, rawBody) {
+  var metaId = event && event.meta && (event.meta.webhook_id || event.meta.event_id);
+  if (metaId) return String(metaId);
+  var headerId = req.headers && (req.headers['x-event-id'] || req.headers['x-lemon-event-id']);
+  if (headerId) return String(headerId);
+  // 최종 fallback: 요청 본문 SHA-256 — 동일 페이로드 재전송 차단
+  return 'digest:' + crypto.createHash('sha256').update(rawBody).digest('hex');
 }
 
 module.exports = async function(req, res) {
@@ -64,6 +82,35 @@ module.exports = async function(req, res) {
 
   var maskedEmail = userEmail ? userEmail.replace(/^(.)(.*)(@.*)$/, '$1***$3') : 'unknown';
   console.log('Webhook:', eventName, maskedEmail);
+
+  // ─────────────────────────────────────────────
+  // D-3: 멱등성 가드 — webhook_events 에 event_id INSERT (ON CONFLICT DO NOTHING)
+  // 0 rows 반환 = 이미 처리된 이벤트 → 즉시 200 OK
+  // ─────────────────────────────────────────────
+  var eventId = extractEventId(req, event, rawBody);
+  var idemIns = await supabaseAdmin
+    .from('webhook_events')
+    .insert({
+      event_id: eventId,
+      event_name: eventName || 'unknown',
+      source: 'lemonsqueezy',
+      payload_digest: crypto.createHash('sha256').update(rawBody).digest('hex')
+    }, { count: 'exact' })
+    .select('event_id');
+
+  if (idemIns && idemIns.error) {
+    // unique_violation(23505) = 중복 → 이미 처리됨, 200 반환
+    if (idemIns.error.code === '23505' || /duplicate key/i.test(idemIns.error.message || '')) {
+      console.log('[webhook] duplicate event skipped:', eventId);
+      return res.json({ received: true, duplicate: true });
+    }
+    // 그 외 DB 오류는 보고 후 진행 (멱등성 실패가 결제 처리를 막지 않도록)
+    reportSupabaseError('idempotency.insert', idemIns, { event_id: eventId, event_name: eventName });
+  } else if (idemIns && Array.isArray(idemIns.data) && idemIns.data.length === 0) {
+    // ON CONFLICT DO NOTHING 으로 0 rows — 중복
+    console.log('[webhook] duplicate event (0 rows):', eventId);
+    return res.json({ received: true, duplicate: true });
+  }
 
   var profileQuery = await supabaseAdmin.from('profiles').select('id, name, marketing_consent').eq('email', userEmail).single();
   var profile = profileQuery.data;
@@ -105,13 +152,15 @@ module.exports = async function(req, res) {
     switch (eventName) {
       case 'subscription_created': {
         var plan = data.variant_name && data.variant_name.toLowerCase().includes('team') ? 'team' : 'pro';
-        var subIns = await supabaseAdmin.from('subscriptions').insert({
+        // D-4: INSERT → upsert(onConflict: lemon_subscription_id)
+        // 동일 구독 ID 재수신/재전송 시 중복 row 방지
+        var subIns = await supabaseAdmin.from('subscriptions').upsert({
           user_id: profile.id, plan: plan, status: 'active',
           lemon_subscription_id: String(event.data.id),
           lemon_customer_id: String(data.customer_id),
           current_period_start: data.created_at, current_period_end: data.renews_at
-        });
-        reportSupabaseError('subscription_created.insert', subIns, { user_id: profile.id, lemon_id: String(event.data.id) });
+        }, { onConflict: 'lemon_subscription_id' });
+        reportSupabaseError('subscription_created.upsert', subIns, { user_id: profile.id, lemon_id: String(event.data.id) });
         var profUpd = await supabaseAdmin.from('profiles').update({ plan: plan }).eq('id', profile.id);
         reportSupabaseError('subscription_created.profile_update', profUpd, { user_id: profile.id });
         var key = 'MERGE-' + plan.toUpperCase() + '-' + crypto.randomBytes(4).toString('hex').toUpperCase();
@@ -129,6 +178,41 @@ module.exports = async function(req, res) {
         await syncLoopsAndEvent(plan2, 'subscription_updated');
         break;
       }
+      // ─────────────────────────────────────────────
+      // D-5: resumed / paused / unpaused 이벤트 핸들러 추가
+      // resumed → active, paused → paused, unpaused → active
+      // ─────────────────────────────────────────────
+      case 'subscription_resumed': {
+        var subRes = await supabaseAdmin.from('subscriptions').update({
+          status: 'active',
+          current_period_end: data.renews_at || null
+        }).eq('lemon_subscription_id', String(event.data.id));
+        reportSupabaseError('subscription_resumed.update', subRes, { user_id: profile.id, lemon_id: String(event.data.id) });
+        var planResumed = data.variant_name && data.variant_name.toLowerCase().includes('team') ? 'team' : 'pro';
+        var profRes = await supabaseAdmin.from('profiles').update({ plan: planResumed }).eq('id', profile.id);
+        reportSupabaseError('subscription_resumed.profile_update', profRes, { user_id: profile.id });
+        await syncLoopsAndEvent(planResumed, 'subscription_resumed');
+        break;
+      }
+      case 'subscription_paused': {
+        var subPaused = await supabaseAdmin.from('subscriptions').update({
+          status: 'paused'
+        }).eq('lemon_subscription_id', String(event.data.id));
+        reportSupabaseError('subscription_paused.update', subPaused, { user_id: profile.id, lemon_id: String(event.data.id) });
+        await syncLoopsAndEvent('free', 'subscription_paused');
+        break;
+      }
+      case 'subscription_unpaused': {
+        var subUnp = await supabaseAdmin.from('subscriptions').update({
+          status: 'active'
+        }).eq('lemon_subscription_id', String(event.data.id));
+        reportSupabaseError('subscription_unpaused.update', subUnp, { user_id: profile.id, lemon_id: String(event.data.id) });
+        var planUnp = data.variant_name && data.variant_name.toLowerCase().includes('team') ? 'team' : 'pro';
+        var profUnp = await supabaseAdmin.from('profiles').update({ plan: planUnp }).eq('id', profile.id);
+        reportSupabaseError('subscription_unpaused.profile_update', profUnp, { user_id: profile.id });
+        await syncLoopsAndEvent(planUnp, 'subscription_unpaused');
+        break;
+      }
       case 'subscription_cancelled': {
         var subCanc = await supabaseAdmin.from('subscriptions').update({ status: 'cancelled' }).eq('lemon_subscription_id', String(event.data.id));
         reportSupabaseError('subscription_cancelled.update', subCanc, { user_id: profile.id, lemon_id: String(event.data.id) });
@@ -144,10 +228,19 @@ module.exports = async function(req, res) {
         break;
       }
       case 'subscription_payment_success': {
+        // D-14: parseFloat NaN 가드 — 비정상 total 수신 시 0으로 기록 + 경고 보고
+        var amountSafe = safeParseAmount(data.total);
+        if (amountSafe === null) {
+          sentry.captureMessage('Webhook payment_success: invalid total value', 'warning', {
+            tags: { route: 'webhook_lemonsqueezy', op: 'parse_amount', severity: 'payment' },
+            extra: { raw_total: String(data.total), event_name: eventName, user_id: profile.id }
+          });
+          amountSafe = 0;
+        }
         var ordIns = await supabaseAdmin.from('orders').insert({
           user_id: profile.id, lemon_order_id: String(data.order_id || event.data.id),
           plan: data.variant_name && data.variant_name.toLowerCase().includes('team') ? 'team' : 'pro',
-          amount: parseFloat(data.total) / 100, currency: data.currency || 'USD', status: 'paid'
+          amount: amountSafe, currency: data.currency || 'USD', status: 'paid'
         });
         reportSupabaseError('subscription_payment_success.insert', ordIns, { user_id: profile.id, lemon_order_id: String(data.order_id || event.data.id) });
         break;

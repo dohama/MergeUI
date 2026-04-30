@@ -34,10 +34,38 @@
 | P2 | 갤러리 이미지 5장 최종 선정 (bi_v1 메인 권고) | 5/3 | 30분 | [ ] |
 | P3 | PH Maker comment 톤 확정 (F 초안 검토) | 5/4 | 10분 | [ ] |
 | P3 | 5/6 KST 4pm~10pm 응대 일정 확보 | 5/5 | - | [ ] |
+| P3 | Sentry 알림 룰 3개 등록 (E-15, 아래 단계 참고) | 5/4 | 10분 | [ ] |
 | P4 | 사업자등록 + 통신판매업 신고 | 런칭 후 30일 내 | 1시간 | [ ] |
 | P5 | 약관/개인정보처리방침 법무 검토 의뢰 (선택) | 런칭 후 | - | [ ] |
 
 > 캡틴이 "내가 할 거 알려줘" 라고 물으면 이 표가 단일 출처.
+
+### Sentry 알림 룰 등록 단계 (E-15, 2026-05-01 추가)
+
+**경로**: Sentry 대시보드 → 좌측 사이드바 `Alerts` → 우측 상단 `Create Alert Rule` → `Issues` 선택
+
+**룰 1 — 결제 (Critical, 즉시 알림)**
+- Name: `Payment errors — immediate`
+- When: `A new issue is created` OR `The issue changes state from resolved to unresolved`
+- If (Filter): `The event's tags match` → tag key `area`, value `payment`
+- Then (Action): `Send a notification to email` → 캡틴 이메일 (rnchf4116) + Slack 연동 시 `#alerts` 채널
+- Frequency: `1 minute` (가장 빠른 옵션)
+
+**룰 2 — 인증 (Major, 5분 5건)**
+- Name: `Auth errors — burst`
+- When: `The issue is seen more than 5 times in 5 minutes`
+- If: tag `area` = `auth`
+- Then: 이메일 알림
+- Frequency: `5 minutes`
+
+**룰 3 — 일반 API (Minor, 30분 10건)**
+- Name: `API errors — sustained`
+- When: `The issue is seen more than 10 times in 30 minutes`
+- If: tag `area` = `api`
+- Then: 이메일 알림
+- Frequency: `30 minutes`
+
+**검증**: 등록 후 각 룰의 `Test Rule` 버튼 클릭 → 테스트 알림 메일 수신 확인.
 
 ---
 

@@ -35,6 +35,8 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <meta name="twitter:image:alt" content="MergeUi — Dashboard templates that ship fast.">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"MergeUi","url":"https://mergeui.com","description":"Production-ready dashboard templates and components for developers.","sameAs":[]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"MergeUi","url":"https://mergeui.com"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"MergeUi","applicationCategory":"DeveloperApplication","applicationSubCategory":"UI Templates","operatingSystem":"Web","description":"Production-ready dashboard templates in pure HTML, CSS, and Tailwind. Framework-agnostic. Dark mode and full responsive support included.","url":"https://mergeui.com/","image":"https://mergeui.com/landing/assets/og-image.png","author":{"@type":"Organization","name":"MergeUi","url":"https://mergeui.com/"},"offers":{"@type":"Offer","price":"19.00","priceCurrency":"USD","priceValidUntil":"2027-05-06","availability":"https://schema.org/InStock","url":"https://mergeui.com/pages/public/pricing.html"},"softwareVersion":"1.0","datePublished":"2026-05-06"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"MergeUi Pro","description":"All dashboard themes, 50+ components, all accent color presets, monthly new themes, and priority support. Commercial license included.","brand":{"@type":"Brand","name":"MergeUi"},"image":"https://mergeui.com/landing/assets/og-image.png","offers":[{"@type":"Offer","name":"Pro Monthly","price":"19.00","priceCurrency":"USD","url":"https://mergeui.lemonsqueezy.com/checkout/buy/b9d4acab-7b2d-42c7-9bbd-ed4f745769ca","availability":"https://schema.org/InStock","priceSpecification":{"@type":"UnitPriceSpecification","price":"19.00","priceCurrency":"USD","billingDuration":"P1M","billingIncrement":1}},{"@type":"Offer","name":"Pro Annual","price":"149.00","priceCurrency":"USD","url":"https://mergeui.com/pages/public/pricing.html","availability":"https://schema.org/InStock","priceSpecification":{"@type":"UnitPriceSpecification","price":"149.00","priceCurrency":"USD","billingDuration":"P1Y","billingIncrement":1}}]}</script>
   <link rel="canonical" href="https://mergeui.com">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -736,7 +738,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     <div class="launch-banner-inner">
       <span class="launch-banner-pulse" aria-hidden="true"></span>
       <span class="launch-banner-text">
-        <strong>Launch Week</strong> — Pro Annual at <strong>$99</strong> for the first <strong>50 buyers</strong>. Saves $50 vs. regular pricing.
+        <strong>Launch Week</strong> — Pro Annual at <strong>$99</strong> for the first <strong>50 buyers</strong>. <span data-eb-banner>Saves $50 vs. regular pricing.</span>
       </span>
       <a href="../pages/public/pricing.html#early-bird" class="launch-banner-cta" data-track="cta" data-label="banner-early-bird">Claim it →</a>
       <button type="button" class="launch-banner-close" id="launchBannerClose" aria-label="Dismiss banner">×</button>
@@ -759,6 +761,12 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
       <div class="hero-actions reveal reveal-delay-3">
         <a href="../pages/auth/signup.html" class="btn-glow" data-track="cta" data-label="hero-get-started">Get Started — Free</a>
         <a href="../pages/themes/index.html" class="btn-ghost" data-track="cta" data-label="hero-browse-themes">Browse Themes →</a>
+      </div>
+      <div class="hero-usp reveal reveal-delay-4" aria-label="Product highlights" style="margin-top:24px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;font-size:13px;color:var(--text-muted);font-weight:500">
+        <span style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true" style="color:var(--accent)">●</span> 14-day refund</span>
+        <span style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true" style="color:var(--accent)">●</span> No framework lock-in</span>
+        <span style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true" style="color:var(--accent)">●</span> HTML/CSS first — copy &amp; paste</span>
+        <span style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true" style="color:var(--accent)">●</span> Commercial license included</span>
       </div>
     </div>
 
@@ -982,7 +990,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
         <div class="test-card reveal">
           <div class="test-stars" aria-hidden="true">$99</div>
           <p class="test-text"><strong style="color:var(--text-primary)">Early Bird — first 50 buyers.</strong> One year of Pro for $99 (regular $149). Locks in for renewal. Founding-user badge on your account.</p>
-          <div class="test-author"><div class="test-avatar">01</div><div><div class="test-name">Limited to 50</div><div class="test-role">Counter resets at zero on May 6</div></div></div>
+          <div class="test-author"><div class="test-avatar">01</div><div><div class="test-name" data-eb-card-title>Limited to 50</div><div class="test-role" data-eb-card-sub>Counter resets at zero on May 6</div></div></div>
         </div>
         <div class="test-card reveal reveal-delay-1">
           <div class="test-stars" aria-hidden="true">14d</div>
@@ -1090,6 +1098,35 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
         banner.classList.add('hidden');
         try { sessionStorage.setItem('mergeui_launch_banner_dismissed', '1'); } catch(e) {}
       });
+    })();
+
+    /* Early Bird live counter — fetches public status, falls back silently on error */
+    (function(){
+      var bannerEl = document.querySelector('[data-eb-banner]');
+      var cardTitleEl = document.querySelector('[data-eb-card-title]');
+      var cardSubEl = document.querySelector('[data-eb-card-sub]');
+      if (!bannerEl && !cardTitleEl) return;
+      try {
+        fetch('/api/v1/public/early-bird-status', { method: 'GET', headers: { 'Accept': 'application/json' } })
+          .then(function(res){ if (!res.ok) throw new Error('status ' + res.status); return res.json(); })
+          .then(function(data){
+            if (!data || typeof data !== 'object') return;
+            var total = (typeof data.total_slots === 'number') ? data.total_slots : 50;
+            var remaining = (typeof data.remaining === 'number') ? data.remaining : null;
+            var soldOut = data.is_sold_out === true || remaining === 0;
+            if (soldOut) {
+              if (bannerEl) bannerEl.textContent = 'Sold out — join Pro at $149/yr regular price.';
+              if (cardTitleEl) cardTitleEl.textContent = 'Sold out';
+              if (cardSubEl) cardSubEl.textContent = 'Join Pro at regular price';
+              return;
+            }
+            if (remaining === null) return; /* unknown — keep static copy */
+            if (bannerEl) bannerEl.textContent = 'Only ' + remaining + ' Early Bird seats left.';
+            if (cardTitleEl) cardTitleEl.textContent = remaining + ' of ' + total + ' left';
+            if (cardSubEl) cardSubEl.textContent = 'Founding seats — first come, first served';
+          })
+          .catch(function(){ /* network/API failure — keep static copy */ });
+      } catch(e) { /* fetch unsupported — keep static copy */ }
     })();
 
     /* FAQ with ARIA */

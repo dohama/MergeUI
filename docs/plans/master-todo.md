@@ -258,7 +258,7 @@
 
 | # | 항목 | 현재 상태 | 리스크 발생 시 | 담당 | 비고 |
 |---|------|----------|--------------|------|------|
-| M-01 | og:image 파일 없음 | ⏳ SVG 완료, PNG 변환 필요 | 소셜 공유 시 깨진 이미지 | B(완료)→C | 2026-04-19 B가 1200x630 SVG + HTML 목업 작성, landing/index.html 메타태그 교체 완료. 카카오톡/일부 메일 클라이언트 대응 위해 C가 Playwright로 PNG export 필요 |
+| M-01 | og:image 파일 | ✅ 완료 (2026-05-03) | - | B→C | 2026-04-19 B가 1200x630 SVG + HTML 목업 작성, sharp 변환 PNG 1차 적용. 2026-05-03 헤드라인이 대시보드 목업과 겹치는 품질 이슈 발견 → 폰트 60px·3줄 레이아웃(`Dashboard / templates that / ship fast.`)으로 og-image.html 수정 후 Playwright MCP로 1200x630 PNG 재export. landing/index.html, pages/public/about.html, pages/public/pricing.html 모두 적용됨 |
 | M-02 | 연간 가격 토글 + 가격 정책 반영 | ✅ 완료 (2026-04-21) | - | C | Team 카드·FAQ·비교 테이블 제거, Monthly($19)/Annual($99 얼리버드 50명 한정, 정가 $149) 토글 구현, 얼리버드 배너 추가. Lemonsqueezy 상품은 캡틴이 연간 2개(정가/얼리버드) 생성 후 URL 교체 필요 |
 | M-03 | JSON-LD 구조화 데이터 미추가 | ❌ 미착수 | 구글 리치 스니펫 미확보 | C | Product + FAQ 스키마 |
 | M-04 | robots.txt AI 크롤러 미설정 | ❌ 미착수 | AI 검색(ChatGPT, Perplexity) 노출 불가 | C+D | GPTBot/ClaudeBot/PerplexityBot 허용 |

@@ -16,7 +16,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <meta name="google-site-verification" content="FI3WZCPFHDkL0FRTAwgkgYrv287bU_wRNBRDiCbttek">
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stat Card — MergeUi Component</title>
-  <meta name="description" content="Dashboard component details, live preview, and code examples.">
+  <meta name="description" content="Live preview, source code, and usage notes for a MergeUi dashboard component. Copy-paste ready HTML and CSS, no build step.">
   <meta property="og:title" content="Stat Card — MergeUi Component">
   <meta property="og:description" content="Dashboard component details, live preview, and code examples.">
   <meta property="og:type" content="website">
@@ -256,34 +256,73 @@ function updateSidebarActive(activeCat){
   }
 }
 
-// DB에서 컴포넌트 상세 로드
-document.addEventListener('mergedb-ready', async function() {
+// BC-2/BC-3: 컴포넌트 상세 로드 — Pro 마스킹 + Component not found 처리
+function showNotFound(slug) {
+  var title = document.getElementById('compName');
+  var desc = document.getElementById('compDesc');
+  if (title) title.textContent = 'Component not found';
+  if (desc) desc.innerHTML = 'No component matches <code>' + (slug || '?') + '</code>. <a href="components.html" style="color:var(--brand-light);text-decoration:underline">Browse all components</a>.';
+  document.title = 'Component not found — MergeUi';
+  var htmlPre = document.getElementById('codeHtmlPre');
+  var cssPre = document.getElementById('codeCssPre');
+  if (htmlPre) htmlPre.textContent = '';
+  if (cssPre) cssPre.textContent = '';
+}
+
+function showProGate(comp) {
+  var htmlPre = document.getElementById('codeHtmlPre');
+  var cssPre = document.getElementById('codeCssPre');
+  var gateMsg = '🔒 Pro plan required to view this component\'s code.\n\nUpgrade to unlock all 19 Pro components, growing weekly.\n→ ' + window.location.origin + '/pages/public/pricing.html';
+  if (htmlPre) htmlPre.textContent = gateMsg;
+  if (cssPre) cssPre.textContent = gateMsg;
+  // copy 버튼 비활성화
+  document.querySelectorAll('.copy-btn').forEach(function(b) {
+    b.disabled = true;
+    b.textContent = 'Upgrade to copy';
+    b.style.opacity = '0.6';
+    b.style.cursor = 'not-allowed';
+  });
+}
+
+function applyComponentDetail(result, slug, qsCategory) {
+  if (!result || !result.meta) { showNotFound(slug); return; }
+  var comp = result.meta;
+  var title = document.getElementById('compName');
+  if (title) title.textContent = comp.name;
+  document.title = comp.name + ' — MergeUi Component';
+  var desc = document.getElementById('compDesc');
+  if (desc) desc.textContent = comp.description || '';
+  if (comp.category && !qsCategory) updateSidebarActive(comp.category);
+
+  if (result.code && result.code.locked) {
+    showProGate(comp);
+    return;
+  }
+  if (result.code && result.code.code_html) {
+    var htmlPre = document.getElementById('codeHtmlPre');
+    if (htmlPre) htmlPre.textContent = result.code.code_html;
+  }
+  if (result.code && result.code.code_css) {
+    var cssPre = document.getElementById('codeCssPre');
+    if (cssPre) cssPre.textContent = result.code.code_css;
+  }
+}
+
+document.addEventListener('mergedb-ready', function() {
   var params = new URLSearchParams(window.location.search);
   var slug = params.get('slug') || params.get('component');
-  // 1) URL ?category= 가 직접 지정된 경우 즉시 반영
   var qsCategory = params.get('category');
   if (qsCategory) updateSidebarActive(qsCategory);
   if (!slug) return;
-  try {
-    var comp = await MergeDB.getComponent(slug);
-    if (!comp) return;
-    var title = document.getElementById('compName');
-    if (title) title.textContent = comp.name;
-    document.title = comp.name + ' — MergeUi Component';
-    var desc = document.getElementById('compDesc');
-    if (desc) desc.textContent = comp.description || '';
-    // 2) 컴포넌트 카테고리에 맞춰 사이드바 active 갱신
-    if (comp.category && !qsCategory) updateSidebarActive(comp.category);
-    // 코드 업데이트
-    if (comp.code_html) {
-      var htmlPre = document.getElementById('codeHtmlPre');
-      if (htmlPre) htmlPre.textContent = comp.code_html;
-    }
-    if (comp.code_css) {
-      var cssPre = document.getElementById('codeCssPre');
-      if (cssPre) cssPre.textContent = comp.code_css;
-    }
-  } catch(e) { /* fallback 사용 */ }
+  if (!window.MergeComponentsLoader) {
+    showNotFound(slug);
+    return;
+  }
+  window.MergeComponentsLoader.loadBySlug(slug).then(function(result) {
+    applyComponentDetail(result, slug, qsCategory);
+  }).catch(function() {
+    showNotFound(slug);
+  });
 });
 
 // popstate 대응 (뒤/앞 이동 시)
@@ -293,6 +332,8 @@ window.addEventListener('popstate', function(){
   if (c) updateSidebarActive(c);
 });
 </script>
+<script src="../../src/js/components-data.js"></script>
+<script src="../../src/js/components-loader.js"></script>
 <script src="../../src/js/auth.js"></script>
 <script src="../../src/js/cookie-consent.js"></script>
 </body>

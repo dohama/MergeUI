@@ -17,7 +17,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Components — MergeUi</title>
-  <meta name="description" content="Browse MergeUi's dashboard component library. Cards, charts, tables, and more.">
+  <meta name="description" content="20+ dashboard components in pure HTML and Tailwind. Cards, charts, tables, forms, modals. Copy-paste ready and fully responsive.">
   <meta property="og:title" content="Dashboard Components — MergeUi">
   <meta property="og:description" content="Browse MergeUi's dashboard component library. Cards, charts, tables, and more.">
   <meta property="og:type" content="website">
@@ -88,6 +88,8 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   </style>
   <script src="../../src/js/analytics.js" defer></script>
   <script src="../../src/js/supabase-client.js" defer></script>
+  <script src="../../src/js/components-data.js" defer></script>
+  <script src="../../src/js/components-loader.js" defer></script>
 </head>
 <body>
   <nav class="nav"><div class="nav-inner">
@@ -129,17 +131,25 @@ function escapeHtml(str) {
 
 var components = [];
 
-// Load from DB
-document.addEventListener('mergedb-ready', async function() {
-  try {
-    var dbComps = await MergeDB.getComponents();
-    if (dbComps && dbComps.length > 0) {
-      components = dbComps;
-    }
-  } catch (e) {
-    console.warn('Failed to load components from DB:', e);
-  }
+// BC-1: DB 우선 + 정적 fallback (24종 보장). MergeComponentsLoader 사용.
+function applyComponents(items, source) {
+  components = (items && items.length) ? items : [];
   renderAll();
+  if (source === 'fallback') {
+    console.info('[components] using static fallback (' + components.length + ' items)');
+  }
+}
+
+// 페이지 로드 직후 fallback 으로 즉시 렌더 → DB 응답 도착 시 갱신
+if (window.MergeComponentsLoader) {
+  applyComponents(window.MergeComponentsLoader.getFallback(), 'fallback');
+}
+
+document.addEventListener('mergedb-ready', function() {
+  if (!window.MergeComponentsLoader) return;
+  window.MergeComponentsLoader.loadAll().then(function(items) {
+    applyComponents(items, items === window.MergeComponentsLoader.getFallback() ? 'fallback' : 'db');
+  });
 });
 
 function getCategories() {

@@ -1,5 +1,5 @@
 # MergeUi robots.txt
-# Last updated: 2026-04-20
+# Last updated: 2026-05-02
 # Docs: https://developers.google.com/search/docs/crawling-indexing/robots/intro
 
 User-agent: *
@@ -9,6 +9,7 @@ Allow: /
 Allow: /themes
 Allow: /components
 Allow: /pricing
+Allow: /about
 Allow: /docs
 Allow: /changelog
 Allow: /contact

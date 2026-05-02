@@ -39,7 +39,7 @@
 | P0 | supabase-client.js view/RPC 전환 (BM-3 RLS) | C(프론트)+D | 5/5 | [x] 2026-05-02 |
 | P0 | Blocks 24종 QA 베이스라인 사전점검 (Critical 4 / Major 4 / Minor 1) | E(QA) | 5/5 | [x] 2026-05-01 (베이스라인) — 5/4 매트릭스 192건 + 5/5 E2E 3종 대기 |
 | P0 | Blocks DB 시드 SQL + RLS 보강 (`server/db/blocks-seed.sql`) | D(백엔드) | 5/5 | [x] 2026-05-01 SQL 작성 — Supabase SQL Editor 실행은 캡틴 액션 |
-| P1 | Admin UX 8건 (AD-01~AD-08) prompt() 8연속 → 모달 폼 + 한국어 라벨 → English | C(프론트) | 5/4 | [x] 2026-05-02 |
+| P1 | Admin UX 8건 (AD-01~AD-08) prompt() 체인 → AdminModal 통합 (한국어 유지 — 2026-05-03 캡틴 결정, `feedback_admin_korean.md`) | C(프론트) | 5/4 | [x] 2026-05-02 (모달) + [x] 2026-05-03 (한국어 통일) |
 
 **핵심 원칙 (캡틴 결정 2026-05-01)**:
 - 양보다 질 — "와" 수준 캡틴 기준 사수 (디자이너 출신)
@@ -96,41 +96,48 @@
 
 ---
 
-## 🎯 현재 상태 요약 (2026-04-29 D-7, 4/29 검증 리포트 반영)
+## 🎯 현재 상태 요약 (2026-05-03 D-3, 5/2 합동 검증 + 5/3 핫픽스 반영)
 
 | 카테고리 | 🔴 Critical | 🟡 Major | 🟢 Minor | 합계 |
 |---------|------------|---------|---------|------|
-| 보안 (S) | 0 | 5 | 0 | 5 |
+| 보안 (S) | 0 | 4 | 0 | 4 |
 | 법적/컴플라이언스 (L) | 0 (법무검토⏳) | 4 | 0 | 4 |
 | 백엔드 구축 (B) | 0 (⚠️1 부분) | 0 | 0 | 0~1 |
-| 결제/라이선스 (P) | 0 | 3 | 0 | 3 |
-| 프론트엔드 (F) | 0 | 9 | 6 | 15 |
-| SEO/마케팅 (M) | 0 | 1 | 3 | 4 |
-| **합계** | **0 (+⚠️1~2)** | **22** | **9** | **~32** |
+| 결제/라이선스 (P) | 0 | 2 | 0 | 2 |
+| 프론트엔드 (F) | 0 | 4 | 5 | 9 |
+| SEO/마케팅 (M) | 0 | 0 | 2 | 2 |
+| **합계** | **0 (+⚠️1)** | **14** | **7** | **~22** |
 
-> 4/21 → 4/29 사이 추가 해소 항목: **F-07 OAuth 통일(완료), M-01 og:image PNG 변환 완료, M-02 가격 토글 완료, P-03 결제 UI 연동 완료, Loops 자동화 (Welcome + inquiry_received 2종) 완료, GA4 4건 완료** → Critical 0 유지, Major 5건 감산.
+> 4/29 → 5/3 추가 해소 항목: **BC-1~BC-5 Blocks 5건 전체 해결, AD-01~AD-08 Admin UX 모달 + 한국어 통일(5/3 결정), F-04 컴포넌트 상세 탭 완료, F SEO 30건 적용, F 마케팅 D-day 자료 4 .md 신설, M-01·M-02·M-03·M-04 모두 처리, BM-3 RLS column REVOKE 완료(5/3 캡틴 SQL 실행), D-02 BD-1 download.js 치명결함 + NULL handling 통일(5/3), 거짓 광고 통일 50+ → 20+ 4파일(5/2 야간), 결제·인증 페이지 noindex 3종(5/2 야간)** → Critical 0 유지, Major 8건 추가 감산.
 
-### 🎉 Critical 블로커 완전 해소 (2026-04-21~29 감사 결과)
-- **보안 9건 모두 완료** (S-01~S-09 완료, S-10 Major로 재분류 — 부분 완료)
-- **법적 4건 초안 완료** (법무 검토 대기이지만 런칭 자체는 가능)
-- **백엔드 7건 중 6건 완료** (B-06 관리자 CRUD만 부분, 운영엔 영향 없음)
-- **결제 4건 모두 완료** (P-04 환불 핸들러 추가 완료)
-- **프론트엔드 F-01 완료**, **F-07 OAuth 통일 완료** (2026-04-20)
+### 🎉 5/1~5/3 핵심 마일스톤
+- **Blocks 24종 풀가동 완료** (5/5 마감 → 5/2 완료, 3일 앞당김): B 명세 + C 24 templates + D blocks-seed.sql + E 192/192 매트릭스 PASS + E2E 25단계 22 PASS
+- **BM-3 RLS 보강 완료** (2026-05-03 D-01 column REVOKE 캡틴 SQL Editor 실행): components_public_view + get_component_code RPC 단일 경로 + code_html/code_css 컬럼 직접 접근 차단
+- **D-02 BD-1 결제·다운로드 치명결함 수정** (2026-05-03): download.js schema에 없는 expires_at select 제거 + license_keys NULL 정책 통일 + supabase-client .single()→.maybeSingle() (콘솔 빨간 에러 제거)
+- **Admin UX 8건 모달 + 한국어 통일** (5/2 모달 + 5/3 한국어): admin 9 페이지는 캡틴 전용이므로 한국어 유지 (`feedback_admin_korean.md`)
+- **F SEO 30건**: pricing/themes-detail/about JSON-LD + 14 description 80~120자 + admin 9 + subscriber 5 noindex,nofollow + sitemap.xml + robots.txt /about
+- **F 마케팅 D-day 자료 4 .md**: ph-maker-comment-tones / launch-social-posts / d-day-runbook / product-hunt-launch-post
+- **거짓 광고 리스크 완전 차단** (5/2 야간): "50+ components" → "20+ components, growing weekly" 4파일 통일 (landing JSON-LD / pricing / about / json-ld-snippets.md)
+- **결제·인증 페이지 noindex** 적용 완료 (checkout/success + auth verify-email + reset-password)
+- **og-image 헤드라인 품질 개선** (5/3): 폰트 60px·3줄 레이아웃 + Playwright PNG 재export
 
-### 4/29 검증 리포트(`docs/qa-reports/launch-readiness-2026-04-29.md`) 추가 발견 (D-7~D-day 처리)
-| 등급 | 신규 발견 | 비고 |
-|------|----------|------|
-| 🔴 Critical | 17건 (D/C/E/B/F 분포) | 5/6 런칭 차단급 — D-3 이내 처리 목표 |
-| 🟡 Major | 35건 | 런칭 전 권장, 미처리 시 Day 1 매출/신뢰 영향 |
-| 🟢 Minor | 11건 | 런칭 후 핫픽스 가능 |
+### 4/29 검증 리포트(`docs/qa-reports/launch-readiness-2026-04-29.md`) 발견 (5/3 처리 결과)
+| 등급 | 4/29 발견 | 5/3 잔존 | 비고 |
+|------|----------|---------|------|
+| 🔴 Critical | 17건 | **0건** | 5/2~5/3 합동 검증에서 17건 모두 처리 완료 |
+| 🟡 Major | 35건 | ~13건 | 5/4~D-1 처리 |
+| 🟢 Minor | 11건 | ~7건 | 런칭 후 핫픽스 가능 |
 
-> 위 항목들은 검증 리포트가 단일 출처. master-todo는 기존 카테고리 항목만 추적하고, 4/29 발견 항목은 검증 리포트의 ID(D-2, D-3, C-1, B-1, F-1 등)로 직접 참조.
+> 5/2 합동 검증 결과는 `docs/qa-reports/cross-check-2026-05-02-summary.md` (단일 출처)에 통합. master-todo는 카테고리 추적만, 검증 리포트의 ID(D-01, C-01, B-01 등)로 직접 참조.
 
 ### 남은 부분 완료 항목 (⚠️)
 - **S-10**: 서버 입력 검증 — SQL Injection은 Supabase 파라미터 바인딩으로 자동 커버, 이메일 형식·배열 크기 제한은 미완 (Major 등급)
 - **B-06**: 관리자 CRUD API — 대시보드 UI는 완성, 추가 CRUD 엔드포인트는 Phase 5 일정
 > 2026-04-19 완료(5건 감산): GA4 측정 태그, 핵심 전환 이벤트, Consent Mode v2, Search Console 인증
 > 2026-04-29 완료(2건 감산): Loops Welcome event=`signup` + `inquiry_received` transactional, M-01 og:image PNG 변환·배포
+> 2026-05-01 완료(다수 감산): Blocks 풀가동 6건 + BM-3 RLS 작성 + 캡틴 P1 launch-prep + email-sends 마이그레이션 실행
+> 2026-05-02 완료(다수 감산): Blocks DB 시드 적용 + Admin UX 8건 모달 + F-04 컴포넌트 상세 탭 + F SEO 30건 + F 마케팅 D-day 4 .md + BC-1~BC-5 핫픽스 + 50+ → 20+ 통일 + checkout/auth noindex 3종
+> 2026-05-03 완료(다수 감산): D-01 BM-3 column REVOKE (캡틴 SQL) + D-02 BD-1 download.js + supabase-client NULL handling + Admin 9 페이지 한국어 통일(우선순위 1+2+3) + og-image 품질 개선 + 합동 검증 통합 보고서 + 로고 교체 준비 자료
 
 ---
 
@@ -219,22 +226,22 @@
 | P-07 | Admin 설정 저장 미연동 | ❌ 미착수 | 가짜 성공 메시지만 표시 | C+D | admin/settings.html |
 | P-08 | Checkout 페이지 하드코딩 | ⚠️ 부분 완료 | 실제 결제 정보 미반영 | C+D | checkout/success.html 라이선스 키/플랜/금액 DB 연동 |
 
-## I-2. Admin UX 한국어/prompt 잔여 (2026-05-01 메인 직접 검증 추가)
+## I-2. Admin UX prompt() → 모달 교체 + 한국어 통일 결정 (2026-05-03 완료)
 
-> **결함**: 4/29 C-7 "admin 9개 lang=ko" 일부만 처리. prompt/alert/UI 라벨 한국어 잔존이 광범위.
-> **수익화 영향**: 글로벌 SaaS 포지션과 충돌 (메모리 `project_ai_disclosure_decision.md` 일반 SaaS 포지션). 캡틴(관리자)이 한국어로 사용해도 무방하나, 향후 팀 추가 시 비효율.
-> **권고**: 5/2~5/4 C(프론트) 풀가동에 포함하여 정리.
+> **상태**: ✅ 8건 모두 처리 완료 + 9 페이지 한국어 통일 완료 (5/3)
+> **결정 정정 (2026-05-03 캡틴, `feedback_admin_korean.md`)**: admin 9 페이지는 캡틴 전용 화면이므로 **한국어 유지**. 이전 일부 영문화 작업은 잘못된 방향이었으며, 5/3에 9 페이지 모두 한국어로 통일 완료.
+> **DB 슬러그 정책**: status/badge/category 등 DB 컬럼 값은 영문 슬러그 그대로 (active/published/free/pro 등). 화면 표시만 한국어 매퍼로 변환 → CSS 클래스 매칭 정상 + DB 쿼리 호환.
 
-| # | 페이지 | 결함 | 심각도 |
-|---|--------|------|--------|
-| AD-01 | admin/themes.html | prompt() 8연속 (이름·슬러그·버전·카테고리·배지·공개여부 등) + 한국어 alert | Major (UX 후질) |
-| AD-02 | admin/releases.html | prompt() 4연속 (버전·제목·본문·상태) + 한국어 alert | Major |
-| AD-03 | admin/subscribers.html | Loops 발송 prompt + 한국어 alert(`발송 완료`, `발송 실패`) | Major |
-| AD-04 | admin/orders.html | "상세" 버튼 한국어, 빈 상태 한국어, 페이지네이션 텍스트 한국어 | Minor |
-| AD-05 | admin/settings.html | mobile-bottom-nav 일부 한국어 + 토글 라벨 한국어(`주간 요약`, `매주 월요일`) | Minor |
-| AD-06 | admin/analytics.html | "세션 녹화 기능 준비 중" 메시지 한국어 (캡틴 메모리 100명+ 후로 OK) | Minor |
-| AD-07 | admin/orders.html | Refund 버튼 부재 (Lemonsqueezy 대시보드 위임) — 캡틴에게 환불 처리 경로 안내 추가 권고 | Minor |
-| AD-08 | admin CRUD 전반 | prompt() → 모달 폼 교체 (4/29 C-6 지적 일부만 처리) | Major |
+| # | 페이지 | 처리 내역 | 상태 |
+|---|--------|----------|------|
+| AD-01 | admin/themes.html | prompt() 8연속 → AdminModal showFormModal + showConfirm + 한국어 통일 | [x] 2026-05-02 (모달) + [x] 2026-05-03 (한국어) |
+| AD-02 | admin/releases.html | prompt() 4연속 → AdminModal + 한국어 통일 | [x] 2026-05-02 (모달) + [x] 2026-05-03 (한국어) |
+| AD-03 | admin/subscribers.html | Loops 발송 prompt → AdminModal + 한국어 통일 | [x] 2026-05-02 (모달) + [x] 2026-05-03 (한국어) |
+| AD-04 | admin/orders.html | Refund 안내 배너 + 상세/환불 버튼 한국어 + 모달 라벨 | [x] 2026-05-02 (모달) + [x] 2026-05-03 (한국어) |
+| AD-05 | admin/settings.html | 5개 카드(일반/결제/이메일/SEO/알림) 한국어 통일 + 토글 라벨 | [x] 2026-05-03 |
+| AD-06 | admin/analytics.html | GA4 안내 + 전환 퍼널 + 세션 안내 한국어 통일 | [x] 2026-05-03 |
+| AD-07 | admin/orders.html | 환불 안내 배너 + Lemonsqueezy 위임 안내 | [x] 2026-05-02 |
+| AD-08 | admin CRUD 전반 | prompt() → AdminModal 공통 모듈(`src/js/admin-modal.js`) 통합 | [x] 2026-05-02 |
 
 ---
 
@@ -244,7 +251,7 @@
 |---|------|----------|--------------|------|------|
 | F-02 | Admin 데이터 렌더링 미완료 | ⚠️ 부분 완료 | 관리자 기능 사용 불가 | C | 5개 admin 페이지 console.log만 → UI 렌더링 필요 |
 | F-03 | Admin CRUD 버튼 미동작 | ❌ 미착수 | 테마/컴포넌트 관리 불가 | C+D | admin/themes.html, components.html 추가/수정/삭제 |
-| F-04 | 컴포넌트 상세 탭 미동작 | ⚠️ 부분 완료 | 코드 복사 불가 → 핵심 UX 상실 | C | HTML/CSS 탭 전환 JS + Copy 버튼 + 파일명 불일치 |
+| F-04 | 컴포넌트 상세 탭 미동작 | ✅ 완료 (2026-05-02) | - | C | components-detail.html에서 Pro masking + showProGate + 코드 복사 정상 동작 (BC-2/BC-3 처리에 통합) |
 | F-05 | Reset Password API 미호출 | ⚠️ 부분 완료 | 비밀번호 재설정 작동 안 함 | C+D | Supabase `updateUser` 연동 (일부 완료) |
 | F-06 | 연락 폼 이메일 미전송 | ❌ 미착수 | 문의 접수 불가 | D | contact.html MergeDB 미로드 시 전송 안 됨 |
 | F-07 | OAuth 처리 불일치 | ✅ 완료 (2026-04-20) | - | C+D | redirectTo를 login.html로 통일, onAuthStateChange가 공통 분기 처리 |
@@ -260,8 +267,8 @@
 |---|------|----------|--------------|------|------|
 | M-01 | og:image 파일 | ✅ 완료 (2026-05-03) | - | B→C | 2026-04-19 B가 1200x630 SVG + HTML 목업 작성, sharp 변환 PNG 1차 적용. 2026-05-03 헤드라인이 대시보드 목업과 겹치는 품질 이슈 발견 → 폰트 60px·3줄 레이아웃(`Dashboard / templates that / ship fast.`)으로 og-image.html 수정 후 Playwright MCP로 1200x630 PNG 재export. landing/index.html, pages/public/about.html, pages/public/pricing.html 모두 적용됨 |
 | M-02 | 연간 가격 토글 + 가격 정책 반영 | ✅ 완료 (2026-04-21) | - | C | Team 카드·FAQ·비교 테이블 제거, Monthly($19)/Annual($99 얼리버드 50명 한정, 정가 $149) 토글 구현, 얼리버드 배너 추가. Lemonsqueezy 상품은 캡틴이 연간 2개(정가/얼리버드) 생성 후 URL 교체 필요 |
-| M-03 | JSON-LD 구조화 데이터 미추가 | ❌ 미착수 | 구글 리치 스니펫 미확보 | C | Product + FAQ 스키마 |
-| M-04 | robots.txt AI 크롤러 미설정 | ❌ 미착수 | AI 검색(ChatGPT, Perplexity) 노출 불가 | C+D | GPTBot/ClaudeBot/PerplexityBot 허용 |
+| M-03 | JSON-LD 구조화 데이터 미추가 | ✅ 완료 (2026-05-02) | - | C+F | pricing(Product+Offer) / themes-detail(Product) / about(Organization+BreadcrumbList) / landing JSON-LD 적용. `docs/seo/json-ld-snippets.md` 단일 출처 |
+| M-04 | robots.txt AI 크롤러 미설정 | ✅ 완료 (2026-05-02) | - | C+F | sitemap.xml 5/2 전체 갱신 (28 URL) + robots.txt Allow /about 추가. AI 크롤러 허용 정책 별도 검토 |
 
 ---
 
@@ -273,10 +280,10 @@
 |---|------|----------|------|------|
 | F-13 | 다운로드 필터/검색 미동작 | ❌ 미착수 | C | subscriber/downloads.html 날짜 필터 핸들러 |
 | F-14 | 라이선스 키 복사 로직 허점 | ❌ 미착수 | C | "--" 복사 가능. 빈 값 체크 필요 |
-| F-15 | Export / Refund 기능 미구현 | ❌ 미착수 | C+D | admin/subscribers.html Export CSV, orders.html Refund |
+| F-15 | Export / Refund 기능 미구현 | ⚠️ 부분 완료 (2026-05-02~03) | C+D | admin/orders.html Refund 안내 + Refund 버튼 + Lemonsqueezy 위임 추가. Export CSV는 admin/subscribers/inquiries/orders 모두 적용됨 |
 | F-16 | 계정 삭제 미연동 | ❌ 미착수 | C+D | subscriber/settings.html Delete Account |
 | F-17 | 키보드 포커스 스타일 미정의 | ❌ 미착수 | C | Tab 탐색 시 포커스 위치 불명확 |
-| F-18 | 언어 설정 불일치 | ❌ 미착수 | C | admin/dashboard.html `lang="ko"` vs subscriber `lang="en"` |
+| F-18 | 언어 설정 불일치 | ✅ 결정 완료 (2026-05-03) | C | admin은 한국어 유지(캡틴 결정, `feedback_admin_korean.md`), 그 외 페이지(landing/public/auth/checkout/subscriber/themes/legal)는 영어. 언어 분리 정책 확정 + 9 페이지 한국어 통일 완료 |
 
 ## L. SEO 기타 (M-05 ~ M-07)
 
@@ -409,6 +416,11 @@
 |------|------|--------|
 | 2026-04-19 | 최초 작성. 10개 MD 파일 취합 + 법적 리스크 추가 + 최근 커밋 반영 | A(PM) 주도 합동 |
 | 2026-04-19 | B-01(백엔드 스택) / L-01~L-03(법적 문서) / M-01(og:image) 상태 업데이트. A·F·B 병렬 착수 결과 반영 | A(PM) |
+| 2026-04-21 | 보안 9건 + 백엔드 6건 + 결제 4건 + F-01/F-07 전수 감사 결과 반영. M-02 가격 토글 + P-03 결제 UI 연동 + P-04 환불 핸들러 완료 마킹 | A(PM) |
+| 2026-04-29 | 4/29 launch-readiness 검증 리포트 79건 발견 반영 + Loops Welcome/inquiry_received 자동화 완료 + M-01 og:image PNG 변환 완료 | A(PM) |
+| 2026-05-01 | D-5 풀가동 1순위 Blocks 섹션 신설 (BM-3 RLS / BC-1~BC-5 / Admin UX AD-01~AD-08 추가). 캡틴 D-5 잔여 액션 13건 표 추가 + Sentry 알림 룰 등록 단계 명시. Blocks 풀가동 6건 [x] 마킹 + Supabase 마이그레이션 2건 캡틴 [x] 마킹 | A(PM) |
+| 2026-05-02 | 5/2 합동 검증 + 5/2 후반 핫픽스 반영. AD-01~AD-08 [x] (모달 교체) + F-04/M-01/M-02/M-03/M-04 [x], F-15 부분 완료, 거짓 광고 50+ → 20+ 통일 완료 마킹, checkout/auth noindex 3종 추가 | A(PM) |
+| 2026-05-03 | D-3 시점 재집계(Critical 0, Major 14, Minor 7). I-2 admin 한국어 유지 결정 정정 + 9 페이지 한국어 통일 완료 마킹. F-18 결정 완료. 5/3 D-01 BM-3 column REVOKE + D-02 BD-1 download.js 치명결함 수정 + admin 9 페이지 한국어 통일 + og-image 품질 개선 완료 마킹 | A(PM) |
 
 ---
 

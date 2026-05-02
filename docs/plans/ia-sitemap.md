@@ -80,7 +80,7 @@ MergeUi/
 
 ---
 
-## 전체 진행 현황 (2026-04-14 기준)
+## 전체 진행 현황 (2026-05-03 기준)
 
 **총 41개 페이지 — 전체 완료 (blog 제외, 2026-05-01 about/refund 추가)**
 
@@ -139,6 +139,28 @@ MergeUi/
 ---
 
 ## 변경 이력
+
+### 2026-05-03 업데이트
+- admin 9 페이지 한국어 통일 완료 (캡틴 결정, `feedback_admin_korean.md`)
+- admin은 한국어, 그 외 페이지는 영어 — 언어 분리 정책 확정
+- D-01 BM-3 column REVOKE 완료 (캡틴 Supabase SQL Editor 실행) → 컴포넌트 코드 컬럼 직접 접근 차단
+- D-02 BD-1 download.js 치명결함 수정 (Pro 사용자 다운로드 정상화)
+- og-image 헤드라인 품질 개선 (폰트 60px·3줄 레이아웃) 후 PNG 재export
+
+### 2026-05-02 업데이트
+- F SEO 30건 적용에 따른 페이지 상태 동기화 (admin 9 + subscriber 5에 noindex,nofollow + description 추가)
+- pricing/themes-detail/about/landing JSON-LD 적용
+- sitemap.xml 5/2 전체 갱신 (28 URL lastmod), robots.txt Allow /about 추가
+- legal/refund 페이지 정상 운영 확인
+- 합동 검증 결과 41/41 페이지 GO 판정 (`docs/qa-reports/cross-check-2026-05-02-summary.md`)
+- 거짓 광고 통일 (50+ → 20+) 4 파일 (landing/pricing/about/json-ld-snippets)
+- checkout/success + auth verify-email + reset-password noindex,nofollow 추가
+
+### 2026-05-01 업데이트
+- pages/public/about.html 신규 추가 (4/29 F-2 처리)
+- pages/legal/refund.html 신규 추가
+- 전체 41개 페이지로 증가
+- Blocks 24종 templates/blocks/ 신규 디렉토리
 
 ### 2026-04-14 업데이트
 - 관리자 페이지 7개 구현 완료 (themes, components, releases, inquiries, analytics + orders, settings 신규)

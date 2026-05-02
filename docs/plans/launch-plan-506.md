@@ -476,9 +476,11 @@
   □ Supabase/Lemonsqueezy/Vercel 상태 확인
   □ Sentry/GA4 실시간 대시보드 오픈
 
-08:00 — Product Hunt 업로드
-  □ 미리 작성된 포스트 게시
-  □ 홀더/후원자/에이전트 Hunter에게 "upvote 요청" 알림
+16:01 KST PH 발사 (PST 0:01) — Product Hunt 업로드
+  □ 미리 작성된 포스트 게시 (4 마케팅 .md `product-hunt-launch-post.md` / `d-day-runbook.md` / `launch-social-posts.md` / `ph-maker-comment-tones.md`와 통일)
+  □ 셀프 헌트 (5/2 캡틴 결정 — A안)
+  □ 홀더/후원자/에이전트에게 "upvote 요청" 알림
+  □ Maker comment 톤 3안(스토리텔링) 게시 (5/2 캡틴 결정)
 
 09:00 — SNS 동시 포격
   □ X(Twitter) 런칭 쓰레드
@@ -693,27 +695,30 @@
 
 ---
 
-## 📌 캡틴 즉시 결정 필요 (오늘 중 — 6개)
+## 📌 캡틴 즉시 결정 필요 (4/22 작성, 5/3 갱신 — 9건 결정 완료)
 
 ### 🔴 Must (런칭 직결)
-1. **플래그십 5개 테마 확정**: 위 목록대로 (bi/ec/cr/sd/td) / 변경 원함
-2. **가격 전략**: A (유지 $19) / B (런칭과 함께 $24) / C ($19 런칭 후 6/1 인상)
-3. **홈페이지 리뉴얼 범위**: 4개 페이지(`/`, `/themes`, `/pricing`, `detail.html`) / 일부만 / 더 추가
-4. **나머지 10개 테마 처리**: 썸네일만 재제작(권고) / 삭제 / 라이트 리빌드
+1. **플래그십 5개 테마 확정**: 위 목록대로 (bi/ec/cr/sd/td) — bi_v1 5/2 완료, 나머지 Phase γ로 이동
+2. [x] **가격 전략**: A (유지 $19/mo, $149/yr) — 2026-04-19 확정 (`reference_lemonsqueezy_products.md`)
+3. [x] **홈페이지 리뉴얼 범위**: 4개 페이지(`/`, `/themes`, `/pricing`, `detail.html`) — 2026-04-23 확정, 5/2까지 적용 완료
+4. **나머지 10개 테마 처리**: 썸네일만 재제작(권고) / 삭제 / 라이트 리빌드 — Phase γ 결정 보류
 
-### 🟡 Should (런칭 전 확정 필요, 오늘 아니어도 됨)
-5. **AI 팀 제작 사실 공개 여부** (분야 14)
-   - 공개: 스토리텔링 자산으로 활용 (투명성·바이럴 각)
-   - 비공개: 일반 SaaS처럼 포지션
-6. **Discord 커뮤니티 개설 시점** (분야 9)
-   - 런칭 당일 오픈 / 런칭 후 2주 관찰 후 (권고) / 개설 안 함
+### 🟡 Should (런칭 전 확정 필요)
+5. [x] **AI 팀 제작 사실 공개 여부** — **비공개** (2026-04-27 확정, `project_ai_disclosure_decision.md`). 일반 SaaS 포지션, 카피·About·런칭글에 AI 언급 금지
+6. **Discord 커뮤니티 개설 시점** (분야 9): 런칭 후 2주 관찰 후 (권고)
+
+### 🟡 추가 결정 (5/2~5/3 합동 검증에서 확정)
+7. [x] **PH Hunter** — A안 (셀프 헌트) 2026-05-02 확정
+8. [x] **OAuth marketing_consent 정책** — B안 (그대로, marketing_consent=false 디폴트, settings에서 사후 opt-in) 2026-05-02 확정
+9. [x] **PH Maker comment 톤** — 3안 (스토리텔링) 2026-05-02 확정
+10. [x] **Admin 한국어/영문화** — 한국어 유지 (2026-05-03, `feedback_admin_korean.md`). 9 페이지 한국어 통일 완료
 
 ### 🟢 Defer (런칭 후 결정해도 됨)
 - Sentry 무료→유료 전환 시점 (초기 무료 충분)
 - Cloudflare R2 CDN 전환 (초기 Vercel CDN 충분)
 - Affiliate/Referral 프로그램 도입 여부
 
-위 Must 4가지만 결정해주시면, 내일(4/23)부터 제가 분야 1(디자인)부터 바로 착수합니다.
+> 5/3 D-3 시점에서 Must 3/4 + Should 5/6 + 추가 4/4 결정 완료. 잔여는 나머지 10개 테마(Phase γ)와 Discord 시점만.
 
 ---
 

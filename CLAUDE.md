@@ -622,6 +622,9 @@ MergeUi/
 │
 ├── landing/                  # 랜딩페이지 [완료]
 │   ├── index.html            # 메인 랜딩 (F 기획, B 디자인, C 구현)
+│   ├── assets/
+│   │   ├── og-image.html     # OG 이미지 HTML 모크업 (Playwright PNG export 소스)
+│   │   └── og-image.png      # 1200x630 OG 이미지 (sharp/Playwright 변환본)
 │   └── copy/                 # 마케팅 카피 (F 담당)
 │
 ├── pages/                    # 모든 서비스 페이지 (C 담당)
@@ -635,73 +638,117 @@ MergeUi/
 │   │   ├── components.html   # 컴포넌트 라이브러리 [완료]
 │   │   ├── components-detail.html # 컴포넌트 상세 [완료]
 │   │   ├── docs.html         # 문서 + /docs/:section 앵커 링크 [완료]
+│   │   ├── about.html        # About (5/1 신규, F-2 처리) [완료]
 │   │   ├── 404.html          # 에러 페이지 [완료]
 │   │   ├── 500.html          # 서버 에러 페이지 [완료]
 │   │   ├── maintenance.html  # 점검 안내 [완료]
 │   │   ├── contact.html      # 문의/지원 [완료]
-│   │   └── changelog.html    # 릴리즈 노트 [완료]
+│   │   ├── changelog.html    # 릴리즈 노트 [완료]
+│   │   └── og-image.html     # OG 이미지 렌더링용
 │   ├── auth/                 # 인증 페이지 (왼쪽 비주얼 + 오른쪽 폼 통일)
 │   │   ├── login.html        # 로그인 [완료]
 │   │   ├── signup.html       # 회원가입 [완료]
 │   │   ├── forgot-password.html  # 비밀번호 찾기 [완료]
-│   │   └── reset-password.html   # 비밀번호 재설정 [Coming Soon 셸]
-│   │   # /verify-email — [대기]
-│   ├── checkout/             # 결제 관련 페이지 [대기]
-│   │   # /checkout/success, /checkout/cancel
-│   ├── subscriber/           # 구독자 전용 (사이드바 링크 연결 완료)
+│   │   ├── reset-password.html   # 비밀번호 재설정 [완료, noindex]
+│   │   └── verify-email.html # 이메일 인증 [완료, noindex]
+│   ├── checkout/             # 결제 관련 페이지 [완료, noindex]
+│   │   ├── success.html      # 결제 성공
+│   │   └── cancel.html       # 결제 취소
+│   ├── subscriber/           # 구독자 전용 (사이드바 링크 연결 완료, noindex)
 │   │   ├── dashboard.html    # 구독자 대시보드 [완료]
 │   │   ├── library.html      # 내 라이브러리 (테마+컴포넌트+찜 통합) [완료]
 │   │   ├── downloads.html    # 다운로드 이력 [완료]
 │   │   ├── settings.html     # 계정 설정 [완료]
 │   │   └── billing.html      # 구독/결제+라이선스 [완료]
-│   ├── admin/                # 관리자 전용
-│   │   ├── dashboard.html    # 관리자 대시보드 [완료]
-│   │   ├── subscribers.html  # 구독자 관리 [완료]
-│   │   ├── orders.html       # 결제/주문 내역 [완료]
-│   │   ├── themes.html       # 테마 관리 [완료]
-│   │   ├── components.html   # 컴포넌트 관리 [완료]
-│   │   ├── releases.html     # 릴리즈 노트 [완료]
-│   │   ├── inquiries.html    # 문의 관리 [완료]
-│   │   ├── analytics.html    # 정성 분석 [완료]
-│   │   └── settings.html     # 사이트 설정 [완료]
+│   ├── admin/                # 관리자 전용 (캡틴 전용, 한국어 노출, noindex)
+│   │   ├── dashboard.html    # 관리자 대시보드 [완료, 한국어]
+│   │   ├── subscribers.html  # 구독자 관리 [완료, 한국어]
+│   │   ├── orders.html       # 결제/주문 내역 [완료, 한국어]
+│   │   ├── themes.html       # 테마 관리 [완료, 한국어]
+│   │   ├── components.html   # 컴포넌트 관리 [완료, 한국어]
+│   │   ├── releases.html     # 릴리즈 노트 [완료, 한국어]
+│   │   ├── inquiries.html    # 문의 관리 [완료, 한국어]
+│   │   ├── analytics.html    # 정성 분석 [완료, 한국어]
+│   │   └── settings.html     # 사이트 설정 [완료, 한국어]
 │   └── legal/                # 법적 페이지
 │       ├── terms.html        # 이용약관 [완료]
-│       └── privacy.html      # 개인정보처리방침 [완료]
+│       ├── privacy.html      # 개인정보처리방침 [완료]
+│       └── refund.html       # 환불 정책 (5/1 신규) [완료]
 │
 ├── src/                      # 프론트엔드 소스 (C 담당)
 │   ├── components/           # 대시보드 컴포넌트 라이브러리
-│   ├── styles/               # 글로벌 스타일, 유틸리티
-│   └── tokens/               # 디자인 토큰 (B가 정의, C가 연동)
+│   ├── styles/               # 글로벌 스타일, 유틸리티 (tokens.css / sidebar.css 등)
+│   └── js/                   # 클라이언트 JS (5/2 추가 모듈 다수)
+│       ├── supabase-client.js   # Supabase 통합 (view/RPC 사용)
+│       ├── admin-modal.js       # AdminModal 공통 모달 (showFormModal/showConfirm)
+│       ├── components-data.js   # 24 블록 fallback 데이터
+│       ├── components-loader.js # DB-first + fallback 로더
+│       ├── sidebar-mobile.js    # 햄버거 메뉴 admin/subscriber 통합
+│       ├── auth.js              # 인증 흐름
+│       ├── cookie-consent.js    # GDPR 쿠키 배너
+│       └── csv-export.js        # CSV 내보내기 유틸
 │
-├── server/                   # 백엔드 (D 담당) — 아직 미구축
-│   ├── api/                  # API 라우트
-│   ├── db/                   # DB 스키마, 마이그레이션
-│   ├── auth/                 # 인증/인가
-│   ├── payment/              # 결제/구독 연동
-│   └── analytics/            # 정성 분석 데이터 수집/처리
+├── api/v1/                   # Vercel Serverless Functions (D 담당)
+│   ├── _lib/                 # 공통 유틸 (cors, csrf, rate-limit, supabase, sentry)
+│   ├── webhooks/lemonsqueezy.js # 결제 웹훅 핸들러
+│   ├── download.js           # 다운로드 (license 검증)
+│   ├── billing-portal.js     # Lemonsqueezy 빌링 포털
+│   └── admin/send-email.js   # 관리자 Loops 브로드캐스트
+│
+├── server/                   # DB 스키마 + 마이그레이션 (D 담당)
+│   └── db/
+│       ├── schema.sql        # 메인 스키마
+│       ├── blocks-seed.sql   # 24 블록 시드 + components_public_view + get_component_code RPC + RLS column REVOKE
+│       └── launch-prep-migration.sql # 5/1 마이그레이션
 │
 ├── templates/                # 완성된 대시보드 테마 (구독자 배포용)
+│   ├── bi_v1/                # BI Analytics 테마 (1번째 라이브)
+│   └── blocks/               # 24 컴포넌트 블록
+│       ├── buttons/ cards/ tables/ forms/ charts/ feedback/ navigation/
 ├── design/                   # 디자인 시스템 문서 (B 담당)
+│   ├── blocks-spec.md        # 24 블록 시각 명세
+│   └── bi_v1-rebuild-spec.md
 ├── tests/                    # 테스트 코드 (E 담당)
-├── scripts/                  # 빌드, 변환 스크립트
+├── scripts/                  # 빌드, 변환 스크립트 (sharp/playwright OG 변환 등)
 ├── docs/
 │   ├── plans/                # A — 기획, 전략, 로드맵, 사이트맵
-│   │   └── master-todo.md    # ⭐ 보안/법적/기능/마케팅 모든 미처리 TODO 단일 출처
+│   │   ├── master-todo.md       # ⭐ 보안/법적/기능/마케팅 모든 미처리 TODO 단일 출처
+│   │   ├── ia-sitemap.md        # 사이트맵 + 페이지 상태
+│   │   ├── launch-plan-506.md   # 5/6 PH 런칭 마스터 플랜
+│   │   ├── project-history.md   # 일자별 과거 기록
+│   │   ├── blocks-d5-plan.md    # 5/5 마감 블록 풀가동 플랜
+│   │   └── logo-migration-prep.md # 신규 로고 받으면 일괄 교체 절차
 │   ├── analysis/             # A — 경쟁사, 시장 조사
 │   ├── qa-reports/           # E — QA 리포트
+│   │   ├── launch-readiness-2026-04-29.md  # 4/29 시점 79건 리포트
+│   │   ├── blocks-qa-2026-05-05.md          # 5/2 블록 매트릭스 GO 판정
+│   │   ├── cross-check-2026-05-02-pm.md     # A 본인+크로스 체크
+│   │   └── cross-check-2026-05-02-summary.md # ⭐ 6명 합동 검증 통합 (5/2 단일 출처)
 │   ├── marketing/            # F — 마케팅 전략
+│   │   ├── product-hunt-launch-post.md      # PH 런칭 포스트
+│   │   ├── ph-maker-comment-tones.md         # Maker comment 3안 (3안 스토리텔링 확정)
+│   │   ├── d-day-runbook.md                  # 5/6 D-day 시간대별 액션
+│   │   ├── launch-social-posts.md            # X/LinkedIn/IH/Reddit 동시 포격 카피
+│   │   └── copy-package-2026-04-29.md        # 카피 패키지
 │   └── seo/                  # F — SEO 분석
+│       └── json-ld-snippets.md               # JSON-LD 단일 출처
+├── sitemap.xml               # 5/2 전체 갱신 (28 URL)
+├── robots.txt                # AI 크롤러 정책 + /about Allow
 └── output/                   # 빌드 결과물
 ```
 
-### 현재 구현 현황 (2026-04-14)
+### 현재 구현 현황 (2026-05-03)
 - **Nav**: Home | Themes | Components | Pricing | Docs (통일), 로그인 상태에 따라 Sign In <-> My Dashboard 전환
 - **레이아웃**: max-width 1600px 와이드
-- **모바일**: 햄버거 메뉴 전 페이지 적용
-- **인증**: localStorage 기반 MVP (백엔드 연동 전 단계)
-- **총 페이지**: 39개 — **전체 완료** (blog 제외, 캡틴 결정)
-- **공개 17개** | **인증 5개** | **결제 2개** | **구독자 5개** | **관리자 9개** + 미션컨트롤 1개
-- **레거시 파일**: subscriber/themes, components, favorites, license (통합 완료 → 삭제 가능)
+- **모바일**: 햄버거 메뉴 전 페이지 적용 (sidebar-mobile.js 통합)
+- **인증**: Supabase Auth + GitHub OAuth (live)
+- **결제**: Lemonsqueezy webhook (live, 실전 테스트 캡틴 액션 대기)
+- **DB**: Supabase Postgres + RLS (security_invoker view + RPC + column REVOKE 완료)
+- **총 페이지**: 41개 — **전체 완료** (blog 제외, 5/1 about/refund 추가)
+- **공개 11개** (about/og-image 포함) | **인증 5개** | **결제 2개** | **구독자 5개** | **관리자 9개** (한국어) | **법적 3개** | **테마 4개** | **랜딩 1개** + 미션컨트롤 1개
+- **컴포넌트**: 24개 블록 (templates/blocks/) DB 시드 + view·RPC 적용
+- **OG 이미지**: 1200x630 PNG 적용 완료 (5/3 헤드라인 품질 개선)
+- **언어 정책**: admin은 한국어 (캡틴 전용), 그 외 모든 페이지는 영어
 - **상세 현황**: `docs/plans/ia-sitemap.md` 참조
 
 ---

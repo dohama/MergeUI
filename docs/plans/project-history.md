@@ -630,3 +630,77 @@ Explore 에이전트 두 번째 감사 — 백엔드/결제/법적/프론트 영
 - 메모리 `feedback_agent_autonomy_strict.md` 100% 시도 후 D-day 압박상 **에이전트 본문 답변 → 메인 받아 저장** 방식 유지
 - E QA / F SEO / F 마케팅 / C 추가 한국어 모두 본문 답변으로 받음. 메인이 일괄 적용
 
+
+---
+
+## 2026-05-03 (D-3) — 합동 검증 결과 적용 + admin 한국어 통일 + MD 단일 출처 갱신
+
+### 5/2 합동 검증 통합 보고 + 5/3 P0 핫픽스 적용
+- **D-01 BM-3 column REVOKE** (캡틴 Supabase SQL Editor 실행 완료): `REVOKE SELECT (code_html, code_css) ON components FROM anon, authenticated;` → 컴포넌트 코드 컬럼 직접 접근 차단. view·RPC 우회 방어 마무리
+- **D-02 BD-1 download.js 치명결함 수정** + supabase-client.js NULL handling 통일:
+  - download.js schema에 없는 `expires_at` 컬럼 select 제거 (Supabase 500 에러 → Pro 사용자 다운로드 전부 실패하던 결함)
+  - license_keys.status NULL/undefined 비정상 케이스 거부, 0 rows = LICENSE_PENDING (webhook 지연), revoked = LICENSE_INVALID 분리 안내
+  - getMySubscription/getMyLicenseKey `.single()` → `.maybeSingle()` (webhook 지연 시 0 rows 정상 처리, 콘솔 빨간 에러 제거)
+- **거짓 광고 통일 4파일** (5/2 야간 핫픽스): "50+ components" → "20+ components, growing weekly"
+  - landing/index.html JSON-LD description / pages/public/pricing.html / pages/public/about.html / docs/seo/json-ld-snippets.md
+- **결제·인증 페이지 noindex 3종** (5/2 야간): pages/checkout/success.html + pages/auth/verify-email.html + pages/auth/reset-password.html
+
+### admin 9 페이지 한국어 통일 (캡틴 결정 정정)
+- **캡틴 결정 변경**: admin 페이지는 캡틴 전용 화면이므로 **한국어 유지** (메모리 `feedback_admin_korean.md` 신규 저장)
+- 5/2 일부 영문화 작업이 잘못된 방향이었음을 정정
+- 9 페이지 모두 한국어로 통일:
+  - dashboard / subscribers / orders / themes / components / releases / inquiries / analytics / settings
+  - lang="en" → lang="ko"
+  - 사이드바 그룹 라벨(개요/콘텐츠/지원) + 9 메뉴 한글 + sb-user(관리자) + 로그아웃
+  - 상단바 페이지 제목 + admin-badge(관리자)
+  - 빠른 통계 라벨 + KPI 카드 + 검색 placeholder + 필터 select options
+  - 테이블 헤더 + 빈 상태 메시지 + 페이지네이션
+  - 모바일 nav (홈/구독자/주문/설정)
+  - AdminModal/자체 모달 폼 라벨 + alerts 한글화
+  - JS plan/status/category/badge/priority 한글 라벨 매퍼 (DB 슬러그는 영문 유지, 화면 표시만 한글) + 폴백 처리
+  - orders.html: 'Details'/'Refund' 버튼 → '상세'/'환불' + JS 클래스 분기로 변경 (라벨 변경에도 안전)
+
+### 6명 에이전트 합동 검증 결과 통합
+- 신규 문서 3건 (5/2 작성, 5/3 푸시):
+  - `docs/qa-reports/cross-check-2026-05-02-pm.md` (A 본인 영역 + 크로스 체크 6 영역)
+  - `docs/qa-reports/cross-check-2026-05-02-summary.md` (6명 통합 — Critical 6건 중 5건 5/2 야간 + 1건 5/3 캡틴 SQL 처리 완료)
+  - `docs/plans/logo-migration-prep.md` (favicon 39 페이지 + nav-logo 19 + sb-logo 15 + auth logo-mark 6 + og:image 3 매핑, 캡틴 신규 로고 받으면 30분 내 일괄 교체 절차)
+
+### og-image 품질 개선 (캡틴 직접)
+- 헤드라인이 대시보드 목업과 겹치는 품질 이슈 발견 → 폰트 60px·3줄 레이아웃(`Dashboard / templates that / ship fast.`)으로 수정
+- Playwright MCP로 1200x630 PNG 재export
+- master-todo.md M-01 항목 ✅ 완료 (2026-05-03) 마킹
+
+### MD 단일 출처 5/3 D-3 갱신 (A 14건)
+- **master-todo.md** 9건 변경:
+  - 현재 상태 요약 4/29 → 5/3 D-3 재집계 (Critical 0, Major 14, Minor 7)
+  - I-2 Admin UX 섹션 정정 (한국어 유지 결정 명확화)
+  - F-04 컴포넌트 상세 탭 ✅ 완료 / M-01~M-04 모두 ✅ 완료
+  - F-15 Export/Refund ⚠️ 부분 완료 / F-18 언어 정책 결정 완료
+  - 업데이트 이력 4건 추가
+- **ia-sitemap.md** 2건 변경: 진행 현황 5/3 기준 + 변경 이력 5/3·5/2·5/1 추가
+- **launch-plan-506.md** 2건 변경: PH 발사 시각 "16:01 KST" 통일 + 캡틴 결정 9건 [x]
+- **launch-readiness-2026-04-29.md** 1건 변경: 본문 상단에 5/3 단일 출처 포인터 추가
+
+### 5/3 푸시 8 커밋 요약
+1. `c4a0649` landing/pricing/about: '50+ components' → '20+ components, growing weekly' (false advertising fix)
+2. `1350e60` seo: noindex,nofollow on transactional pages (checkout/success + auth/verify-email + reset-password)
+3. `e70982b` backend: download.js critical fix + license/subscription NULL handling (D-02 BD-1)
+4. `a8effbe` admin: dashboard/subscribers/orders Korean localization (P0+ priority 1)
+5. `20c2e21` landing: og-image headline overlap fix + M-01 마킹 완료
+6. `c4795ec` docs: 5/2 합동 검증 통합 보고 + 로고 교체 준비 자료
+7. `bb4717d` admin: themes/components/releases/inquiries/analytics/settings Korean localization (P0+ priority 2+3)
+8. `9cd1064` docs: master-todo + ia-sitemap + launch-plan + launch-readiness 5/3 D-3 갱신 (A 14건)
+
+### 5/3 종합 상태
+- **Critical 잔존 0건** (D-01·D-02 모두 처리)
+- **Major 14건** / Minor 7건 (5/4~D-1 처리)
+- **거짓 광고 리스크 0** + **결제 흐름 안정** + **검색 노출 위험 차단** + **admin 한국어 통일** + **MD 단일 출처 정합**
+- **5/6 PH 런칭 차단 요인 0**
+
+### 디자인 리뉴얼 진행 → 방향 변경 (캡틴 5/3 결정)
+- 1차 진행: C안 (Vision) + Apple 레퍼런스 + 모션 A안으로 B 디자인 디렉터에게 랜딩 시안 디스패치 → `landing/renewal-preview.html` 1차 시안 생성
+- **캡틴 검수 결과 거절**: "그냥 없애줘 다음에 내가 디자인해서 주는게 낫겠다"
+- **변경 결정**: 디자인 리뉴얼은 **캡틴이 직접 시안 제공** → 메인이 그대로 구현 (메모리 `feedback_design_captain_first.md` 저장)
+- B 에이전트 시안 디스패치 향후 금지. 단순 토큰화/리팩토링/접근성 보강 등 시각 의사결정 없는 기술 정리는 메인이 자율 진행 가능
+- `landing/renewal-preview.html` 즉시 삭제 → 라이브 `landing/index.html` 영향 0

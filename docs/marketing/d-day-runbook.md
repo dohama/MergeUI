@@ -11,9 +11,9 @@
 
 | 시각 | 액션 | 소요 |
 |------|------|------|
-| 16:00 | 사전 점검: Sentry/GA4 실시간 / Vercel 상태 / Lemonsqueezy 결제 가능 / Supabase 연결 | 1분 |
-| **16:01** | **PH 게시 (Maker Studio "Schedule" 또는 수동 publish)** | 즉시 |
-| 16:02 | 첫 First Maker Comment 게시 (`docs/marketing/ph-maker-comment-tones.md`에서 1/2/3 중 1개 복사) | 1분 |
+| 16:00 | 사전 점검: Sentry/GA4 실시간 / Vercel 상태 / Lemonsqueezy 결제 가능 / Supabase 연결 (D-01 column REVOKE + D-02 download.js NULL handling 5/3 적용 완료 — 결제·다운로드 흐름 안전) | 1분 |
+| **16:01** | **PH 게시 (셀프 헌트 — 캡틴 직접, 5/2 결정)** | 즉시 |
+| 16:02 | 첫 First Maker Comment 게시 (`docs/marketing/ph-maker-comment-tones.md` **3안 스토리텔링** 5/2 캡틴 확정) | 1분 |
 | 16:05 | X/LinkedIn 발사글 동시 게시 (launch-social-posts.md 참조) | 3분 |
 | 16:10 | Loops 사전등록 구독자 발송 트리거 확인 (이미 자동화 완료) | 1분 |
 | 16:15 | PH 댓글 1차 점검 — 첫 댓글 도착 시 15분 내 응답 (알고리즘 상위 노출 핵심) | - |

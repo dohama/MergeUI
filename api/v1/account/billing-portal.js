@@ -23,15 +23,16 @@ module.exports = async function handler(req, res) {
   var user = await getUser(req);
   if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
-  // D-10: cancelled 구독은 더 이상 결제 포털 접근 허용하지 않음 — active/past_due 만
+  // D-10 + D-04 BD-8: cancelled 구독은 결제 포털 접근 불가 — active/past_due/paused 만 허용
+  // 'paused' = Lemonsqueezy 일시정지 상태 (결제 일시 중단, 추후 재개 가능). 사용자가 포털에서 재개해야 하므로 접근 허용 필수.
   var { data: sub, error: subErr } = await supabaseAdmin
     .from('subscriptions')
     .select('lemon_subscription_id, status')
     .eq('user_id', user.id)
-    .in('status', ['active', 'past_due'])
+    .in('status', ['active', 'past_due', 'paused'])
     .order('created_at', { ascending: false })
     .limit(1)
-    .single();
+    .maybeSingle();
 
   if (subErr || !sub || !sub.lemon_subscription_id) {
     return res.status(404).json({ error: 'No active subscription. Please subscribe first.' });

@@ -309,14 +309,15 @@ Tailwind starter shipped at launch (works great with Vite + React/Vue). A proper
   - 15개 테마 규모 명확화
   - Early Bird 포함 3단 가격 구조
 
-### 캡틴 결정 필요 (Day 1~2 내)
+### 캡틴 결정 (5/2~5/3 확정)
 1. **Title** A/B/C 택1 (F 권장: A)
 2. **Tagline** A/B/C 택1 (F 권장: B, Title A와 조합)
-3. **AI 제작 공개 여부** (Q5 + First Maker Comment 문단 확정) — Day 1 최우선
-4. **갤러리 영상 포함 여부** (Day 10 영상 제작 가부와 직결)
-5. **외부 Hunter 섭외 vs 셀프 헌트** (Day 3까지)
+3. [x] **AI 제작 공개 여부** — **비공개** (2026-04-27 확정, `project_ai_disclosure_decision.md`). 일반 SaaS 포지션, 카피·About·런칭글에 AI 언급 금지
+4. **갤러리 영상 포함 여부** (Day 10 영상 제작 가부와 직결) — Phase γ 결정 보류
+5. [x] **외부 Hunter 섭외 vs 셀프 헌트** — **셀프 헌트 (A안)** (2026-05-02 확정). 캡틴 직접 발사
 6. **Topic Tags 3개 컨펌** (F 권장: Developer Tools / Design Tools / SaaS)
-7. **업로드 시각**: KST 08:00 vs KST 17:01 (F 의견: PH 알고리즘상 17:01이 정석이지만 08:00도 차선)
+7. [x] **업로드 시각** — **KST 16:01 (PST 0:01)** 확정 (2026-05-02). 4 마케팅 .md + launch-plan-506.md 모두 통일
+8. [x] **Maker comment 톤** — **3안 스토리텔링** (2026-05-02 확정, `docs/marketing/ph-maker-comment-tones.md`)
 
 ### 런칭 전 마지막 점검 항목 (Day 13 리허설)
 - 갤러리 이미지 10장 실제 캡처본 (B + C Day 7~10 납품)

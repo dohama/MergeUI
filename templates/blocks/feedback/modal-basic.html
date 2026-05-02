@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Modal — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;gap:12px}
+
+    /* === COPY FROM HERE === */
+    .modal{
+      padding:0;
+      background:transparent;border:none;
+      color:var(--merge-text-primary);
+    }
+    .modal::backdrop{
+      background:rgba(0,0,0,.6);
+      backdrop-filter:blur(4px);
+      animation:mu-fade .15s ease-out;
+    }
+    .modal[open]{animation:mu-pop .18s ease-out}
+    .modal-card{
+      min-width:320px;max-width:480px;
+      padding:24px;
+      background:var(--merge-bg-raised);
+      border:1px solid var(--merge-border-strong);
+      border-radius:14px;
+      font-family:inherit;
+      display:flex;flex-direction:column;gap:12px;
+    }
+    .modal-title{
+      margin:0;
+      font-size:18px;font-weight:700;
+      color:var(--merge-text-primary);
+    }
+    .modal-body{
+      margin:0;
+      font-size:14px;line-height:1.6;
+      color:var(--merge-text-secondary);
+    }
+    .modal-actions{
+      display:flex;justify-content:flex-end;gap:8px;
+      margin-top:12px;
+    }
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:9px 18px;
+      font-family:inherit;font-size:14px;font-weight:600;line-height:1;
+      border:1px solid transparent;border-radius:8px;
+      cursor:pointer;transition:all .15s;
+    }
+    .btn:focus-visible{outline:2px solid var(--merge-brand);outline-offset:2px}
+    .btn-ghost{background:transparent;color:var(--merge-text-secondary)}
+    .btn-ghost:hover{background:var(--merge-bg-surface);color:var(--merge-text-primary)}
+    .btn-destructive{background:var(--merge-error);color:#FFFFFF}
+    .btn-destructive:hover{background:#DC2626}
+    @keyframes mu-fade{from{opacity:0}to{opacity:1}}
+    @keyframes mu-pop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <button type="button" class="btn btn-destructive" id="openBtn" aria-haspopup="dialog">Open modal</button>
+
+  <dialog id="demoModal" class="modal" aria-labelledby="dmTitle" aria-describedby="dmDesc">
+    <form method="dialog" class="modal-card">
+      <h3 id="dmTitle" class="modal-title">Delete this item?</h3>
+      <p id="dmDesc" class="modal-body">This action cannot be undone. The item and its history will be permanently removed.</p>
+      <div class="modal-actions">
+        <button type="submit" value="cancel" class="btn btn-ghost">Cancel</button>
+        <button type="submit" value="ok" class="btn btn-destructive">Delete</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+  /*
+    Native <dialog>.showModal() handles:
+    - backdrop, focus trap, ESC-to-close, aria-modal=true
+    - returnValue from submit button.
+  */
+  (function(){
+    var dlg = document.getElementById('demoModal');
+    var openBtn = document.getElementById('openBtn');
+    if (!dlg || !openBtn) return;
+    openBtn.addEventListener('click', function(){
+      if (typeof dlg.showModal === 'function') dlg.showModal();
+      else dlg.setAttribute('open',''); // very-old-browser fallback
+    });
+    dlg.addEventListener('close', function(){
+      console.log('Modal closed with:', dlg.returnValue);
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Metric Card — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+
+    /* === COPY FROM HERE === */
+    .metric-card{
+      display:flex;flex-direction:column;gap:8px;
+      min-width:260px;
+      padding:20px 24px;
+      background:var(--merge-bg-surface);
+      border:1px solid var(--merge-border);
+      border-radius:12px;
+      font-family:inherit;
+    }
+    .metric-head{display:flex;align-items:center;justify-content:space-between}
+    .metric-label{
+      font-size:12px;font-weight:500;
+      color:var(--merge-text-muted);
+      text-transform:uppercase;letter-spacing:.4px;
+    }
+    .metric-delta{
+      font-size:11px;font-weight:700;
+      padding:2px 8px;border-radius:999px;
+    }
+    .metric-delta.up{
+      background:rgba(34,197,94,.12);
+      color:var(--merge-success);
+    }
+    .metric-delta.down{
+      background:rgba(239,68,68,.12);
+      color:var(--merge-error);
+    }
+    .metric-value{
+      font-size:28px;font-weight:800;letter-spacing:-1px;
+      color:var(--merge-text-primary);
+    }
+    .metric-spark{
+      width:100%;height:36px;
+      color:var(--merge-brand-light);
+      margin-top:4px;
+    }
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <article class="metric-card" aria-label="Active users metric">
+    <div class="metric-head">
+      <span class="metric-label">Active users</span>
+      <span class="metric-delta up">+8.2%</span>
+    </div>
+    <span class="metric-value">2,431</span>
+    <svg class="metric-spark" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
+      <polyline points="0,22 12,18 24,20 36,14 48,16 60,10 72,12 84,6 100,8"
+        fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </article>
+
+  <article class="metric-card" aria-label="Bounce rate metric">
+    <div class="metric-head">
+      <span class="metric-label">Bounce rate</span>
+      <span class="metric-delta down">-3.1%</span>
+    </div>
+    <span class="metric-value">28.4%</span>
+    <svg class="metric-spark" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true" style="color:var(--merge-success)">
+      <polyline points="0,8 12,12 24,10 36,16 48,14 60,18 72,16 84,22 100,20"
+        fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </article>
+</body>
+</html>

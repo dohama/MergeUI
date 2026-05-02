@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Destructive Button — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+
+    /* === COPY FROM HERE === */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:10px 20px;
+      font-family:inherit;font-size:14px;font-weight:600;line-height:1;
+      border:1px solid transparent;border-radius:8px;
+      cursor:pointer;transition:all .15s ease;
+    }
+    .btn:focus-visible{outline:2px solid var(--merge-error);outline-offset:2px}
+    .btn:disabled{opacity:.5;cursor:not-allowed;pointer-events:none}
+
+    .btn-destructive{
+      background:var(--merge-error);
+      color:#FFFFFF;
+    }
+    .btn-destructive:hover{background:#DC2626}
+    .btn-destructive:active{background:#B91C1C}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <button type="button" class="btn btn-destructive">Delete account</button>
+  <button type="button" class="btn btn-destructive">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+    Delete
+  </button>
+  <button type="button" class="btn btn-destructive" disabled>Disabled</button>
+</body>
+</html>

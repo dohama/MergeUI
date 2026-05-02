@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Donut Chart — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center}
+    .demo-wrap{width:100%;max-width:420px}
+
+    /* === COPY FROM HERE === */
+    .chart-card{
+      padding:24px;
+      background:var(--merge-bg-surface);
+      border:1px solid var(--merge-border);
+      border-radius:12px;
+      font-family:inherit;
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:24px;align-items:center;
+    }
+    .donut-svg{
+      width:140px;height:140px;
+      display:block;
+    }
+    .donut-track{
+      fill:none;
+      stroke:var(--merge-bg-raised);
+      stroke-width:22;
+    }
+    .donut-arc{
+      fill:none;stroke-width:22;
+      transform:rotate(-90deg);transform-origin:center;
+      transition:stroke-dashoffset .4s ease-out;
+    }
+    .donut-center{
+      font-family:inherit;
+      text-anchor:middle;
+    }
+    .donut-center .v{
+      fill:var(--merge-text-primary);
+      font-size:20px;font-weight:800;
+    }
+    .donut-center .l{
+      fill:var(--merge-text-muted);
+      font-size:10px;
+    }
+    .legend{display:flex;flex-direction:column;gap:8px}
+    .legend-item{
+      display:flex;align-items:center;gap:8px;
+      font-size:13px;
+      color:var(--merge-text-secondary);
+    }
+    .legend-dot{
+      width:10px;height:10px;border-radius:3px;flex-shrink:0;
+    }
+    .legend-pct{
+      margin-left:auto;
+      font-weight:600;color:var(--merge-text-primary);
+    }
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <!--
+    Donut math: circumference = 2 * π * r = 2 * π * 60 ≈ 377
+    Each segment uses stroke-dasharray "<arc> <gap>" + stroke-dashoffset to position.
+    Free 42% (158), Pro 32% (120), Team 16% (60), Trial 10% (39)
+  -->
+  <div class="demo-wrap">
+    <article class="chart-card" aria-label="Plan distribution donut chart">
+      <svg class="donut-svg" viewBox="0 0 160 160" role="img" aria-label="Plan share: Free 42%, Pro 32%, Team 16%, Trial 10%">
+        <circle class="donut-track" cx="80" cy="80" r="60"/>
+        <circle class="donut-arc" cx="80" cy="80" r="60" stroke="var(--merge-chart-1)" stroke-dasharray="158 377" stroke-dashoffset="0"/>
+        <circle class="donut-arc" cx="80" cy="80" r="60" stroke="var(--merge-chart-2)" stroke-dasharray="120 377" stroke-dashoffset="-158"/>
+        <circle class="donut-arc" cx="80" cy="80" r="60" stroke="var(--merge-chart-6)" stroke-dasharray="60 377"  stroke-dashoffset="-278"/>
+        <circle class="donut-arc" cx="80" cy="80" r="60" stroke="var(--merge-chart-4)" stroke-dasharray="39 377"  stroke-dashoffset="-338"/>
+        <text class="donut-center v" x="80" y="78">2.4k</text>
+        <text class="donut-center l" x="80" y="96">Total users</text>
+      </svg>
+      <ul class="legend" aria-label="Plan distribution legend">
+        <li class="legend-item"><span class="legend-dot" style="background:var(--merge-chart-1)"></span>Free <span class="legend-pct">42%</span></li>
+        <li class="legend-item"><span class="legend-dot" style="background:var(--merge-chart-2)"></span>Pro <span class="legend-pct">32%</span></li>
+        <li class="legend-item"><span class="legend-dot" style="background:var(--merge-chart-6)"></span>Team <span class="legend-pct">16%</span></li>
+        <li class="legend-item"><span class="legend-dot" style="background:var(--merge-chart-4)"></span>Trial <span class="legend-pct">10%</span></li>
+      </ul>
+    </article>
+  </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ghost Button — MergeUi Block</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+
+    /* === COPY FROM HERE === */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:10px 20px;
+      font-family:inherit;font-size:14px;font-weight:600;line-height:1;
+      border:1px solid transparent;border-radius:8px;
+      cursor:pointer;transition:all .15s ease;
+    }
+    .btn:focus-visible{outline:2px solid var(--merge-brand);outline-offset:2px}
+    .btn:disabled{opacity:.5;cursor:not-allowed;pointer-events:none}
+
+    .btn-ghost{
+      background:transparent;
+      color:var(--merge-text-secondary);
+    }
+    .btn-ghost:hover{
+      background:var(--merge-bg-raised);
+      color:var(--merge-text-primary);
+    }
+    .btn-ghost:active{background:var(--merge-bg-surface)}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <button type="button" class="btn btn-ghost">Cancel</button>
+  <button type="button" class="btn btn-ghost">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Dismiss
+  </button>
+  <button type="button" class="btn btn-ghost" disabled>Disabled</button>
+</body>
+</html>

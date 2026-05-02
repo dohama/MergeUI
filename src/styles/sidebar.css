@@ -322,11 +322,83 @@
 [data-theme="light"] .sc-icon--success { background: rgba(34,197,94,0.08); }
 [data-theme="light"] .sc-icon--violet { background: rgba(167,139,250,0.08); }
 
+/* ============================================
+   Mobile sidebar drawer (admin + subscriber)
+   ============================================ */
+
+/* Hamburger button — hidden on desktop, shown on mobile */
+.sb-burger {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--merge-border);
+  border-radius: var(--merge-radius-md);
+  background: var(--merge-bg-surface);
+  color: var(--merge-text-primary);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  font-family: var(--merge-font);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.sb-burger:hover {
+  border-color: var(--merge-border-strong);
+}
+
+.sb-burger svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+
+/* Drawer overlay — covers main content when sidebar is open */
+.sb-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.sb-overlay.is-visible {
+  display: block;
+  opacity: 1;
+}
+
+/* Body scroll lock when drawer is open */
+body.sb-drawer-open {
+  overflow: hidden;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
-  .sidebar { display: none; }
+  /* Sidebar becomes a slide-in drawer */
+  .sidebar {
+    display: flex;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 999;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.45);
+    width: min(280px, 86vw);
+  }
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
   .main { margin-left: 0; }
   .content { padding: var(--merge-space-5); }
   .mobile-bottom-nav { display: block; }
   body { padding-bottom: 60px; }
+
+  /* Show hamburger inside topbar */
+  .sb-burger { display: inline-flex; }
+
+  /* Tighter topbar padding on mobile so burger + title fit */
+  .topbar { padding: var(--merge-space-3) var(--merge-space-4); gap: var(--merge-space-2); }
+  .topbar h1 { font-size: 16px; }
 }

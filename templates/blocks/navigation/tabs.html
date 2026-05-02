@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tabs — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:flex-start;justify-content:center}
+    .demo-wrap{width:100%;max-width:560px}
+
+    /* === COPY FROM HERE === */
+    .tabs{font-family:inherit}
+    .tabs-list{
+      display:flex;gap:4px;
+      border-bottom:1px solid var(--merge-border);
+      position:relative;
+    }
+    .tabs-tab{
+      padding:10px 16px;
+      background:none;border:none;
+      border-bottom:2px solid transparent;
+      color:var(--merge-text-muted);
+      font-family:inherit;font-size:14px;font-weight:600;
+      cursor:pointer;
+      transition:color .15s,border-color .25s ease;
+      margin-bottom:-1px;
+    }
+    .tabs-tab:hover{color:var(--merge-text-primary)}
+    .tabs-tab:focus-visible{
+      outline:2px solid var(--merge-brand);
+      outline-offset:2px;
+      border-radius:4px 4px 0 0;
+    }
+    .tabs-tab[aria-selected="true"]{
+      color:var(--merge-brand-light);
+      border-bottom-color:var(--merge-brand);
+    }
+    .tabs-panel{
+      padding:20px 4px;
+      font-size:14px;line-height:1.6;
+      color:var(--merge-text-secondary);
+      animation:tabs-fade .18s ease-out;
+    }
+    .tabs-panel[hidden]{display:none}
+    @keyframes tabs-fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <div class="demo-wrap">
+    <div class="tabs">
+      <div role="tablist" class="tabs-list" aria-label="Project sections">
+        <button role="tab" id="t1" class="tabs-tab" aria-selected="true"  aria-controls="p1" tabindex="0">Overview</button>
+        <button role="tab" id="t2" class="tabs-tab" aria-selected="false" aria-controls="p2" tabindex="-1">Activity</button>
+        <button role="tab" id="t3" class="tabs-tab" aria-selected="false" aria-controls="p3" tabindex="-1">Members</button>
+        <button role="tab" id="t4" class="tabs-tab" aria-selected="false" aria-controls="p4" tabindex="-1">Settings</button>
+      </div>
+      <div role="tabpanel" id="p1" class="tabs-panel" aria-labelledby="t1" tabindex="0">
+        Project overview, KPIs, and recent highlights live here.
+      </div>
+      <div role="tabpanel" id="p2" class="tabs-panel" aria-labelledby="t2" tabindex="0" hidden>
+        Activity log: deployments, comments, and approvals.
+      </div>
+      <div role="tabpanel" id="p3" class="tabs-panel" aria-labelledby="t3" tabindex="0" hidden>
+        Team members and roles. Invite collaborators here.
+      </div>
+      <div role="tabpanel" id="p4" class="tabs-panel" aria-labelledby="t4" tabindex="0" hidden>
+        Project preferences, integrations, and danger zone.
+      </div>
+    </div>
+  </div>
+
+  <script>
+  /*
+    WAI-ARIA Tabs pattern:
+    - Click activates a tab
+    - ArrowLeft/ArrowRight cycles, Home jumps to first, End to last
+    - aria-selected + tabindex roving (only active tab is in tab order)
+    - panel.hidden toggled in sync with aria-controls
+  */
+  (function(){
+    document.querySelectorAll('.tabs').forEach(function(root){
+      var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
+      function activate(tab, focus){
+        tabs.forEach(function(t){
+          var sel = t === tab;
+          t.setAttribute('aria-selected', String(sel));
+          t.tabIndex = sel ? 0 : -1;
+          var panelId = t.getAttribute('aria-controls');
+          var panel = panelId ? root.querySelector('#' + panelId) : null;
+          if (panel) panel.hidden = !sel;
+        });
+        if (focus !== false) tab.focus();
+      }
+      tabs.forEach(function(tab, i){
+        tab.addEventListener('click', function(){ activate(tab); });
+        tab.addEventListener('keydown', function(e){
+          var next = null;
+          if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+          else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+          else if (e.key === 'Home') next = tabs[0];
+          else if (e.key === 'End') next = tabs[tabs.length - 1];
+          if (next) { e.preventDefault(); activate(next); }
+        });
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

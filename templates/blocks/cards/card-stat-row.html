@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stat Row Card — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center}
+
+    /* === COPY FROM HERE === */
+    .stat-row{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:1px;
+      width:100%;max-width:720px;
+      background:var(--merge-border);
+      border:1px solid var(--merge-border);
+      border-radius:12px;
+      overflow:hidden;
+      font-family:inherit;
+    }
+    .stat-cell{
+      display:flex;flex-direction:column;align-items:flex-start;gap:4px;
+      padding:16px 20px;
+      background:var(--merge-bg-surface);
+    }
+    .stat-cell b{
+      font-size:22px;font-weight:800;
+      color:var(--merge-text-primary);
+      letter-spacing:-.5px;
+    }
+    .stat-cell span{
+      font-size:12px;font-weight:500;
+      color:var(--merge-text-muted);
+      text-transform:uppercase;letter-spacing:.4px;
+    }
+    @media (max-width:640px){
+      .stat-row{grid-template-columns:repeat(2,1fr)}
+    }
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <section class="stat-row" aria-label="Site analytics summary">
+    <div class="stat-cell"><b>2,431</b><span>Visits</span></div>
+    <div class="stat-cell"><b>312</b><span>Signups</span></div>
+    <div class="stat-cell"><b>$8.2k</b><span>Revenue</span></div>
+    <div class="stat-cell"><b>4.7%</b><span>Conversion</span></div>
+  </section>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Badge — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+
+    /* === COPY FROM HERE === */
+    .ui-badge{
+      display:inline-flex;align-items:center;gap:4px;
+      padding:3px 10px;
+      background:rgba(108,92,231,.15);
+      color:var(--merge-brand-light);
+      font-family:inherit;
+      font-size:11px;font-weight:700;
+      letter-spacing:.3px;
+      border-radius:999px;
+      text-transform:uppercase;
+      vertical-align:middle;
+    }
+    .ui-badge.ok{background:rgba(34,197,94,.15);color:var(--merge-success)}
+    .ui-badge.warn{background:rgba(251,191,36,.15);color:var(--merge-warning)}
+    .ui-badge.danger{background:rgba(239,68,68,.15);color:var(--merge-error)}
+    .ui-badge.info{background:rgba(59,130,246,.15);color:var(--merge-info)}
+    .ui-badge.neutral{
+      background:var(--merge-bg-surface);
+      color:var(--merge-text-secondary);
+      border:1px solid var(--merge-border);
+    }
+    .ui-badge.solid{background:var(--merge-brand);color:#FFFFFF}
+    .ui-badge.dot::before{
+      content:"";
+      width:6px;height:6px;border-radius:50%;
+      background:currentColor;
+      display:inline-block;
+    }
+    .ui-badge.count{
+      padding:0 6px;min-width:18px;height:18px;
+      justify-content:center;
+      font-size:10px;
+    }
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <span class="ui-badge">New</span>
+  <span class="ui-badge ok">Active</span>
+  <span class="ui-badge warn">Trial</span>
+  <span class="ui-badge danger">Failed</span>
+  <span class="ui-badge info">Beta</span>
+  <span class="ui-badge neutral">Draft</span>
+  <span class="ui-badge solid">Pro</span>
+  <span class="ui-badge ok dot">Online</span>
+  <span class="ui-badge count">12</span>
+  <span class="ui-badge danger count">99+</span>
+</body>
+</html>

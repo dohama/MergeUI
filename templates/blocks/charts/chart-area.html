@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Area Chart — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center}
+    .demo-wrap{width:100%;max-width:560px}
+
+    /* === COPY FROM HERE === */
+    .chart-card{
+      padding:20px 24px;
+      background:var(--merge-bg-surface);
+      border:1px solid var(--merge-border);
+      border-radius:12px;
+      font-family:inherit;
+    }
+    .chart-head{
+      display:flex;align-items:baseline;justify-content:space-between;
+      margin-bottom:8px;
+    }
+    .chart-title{
+      font-size:13px;font-weight:600;
+      color:var(--merge-text-muted);
+      text-transform:uppercase;letter-spacing:.4px;
+    }
+    .chart-legend{
+      display:flex;gap:12px;
+      font-size:11px;color:var(--merge-text-muted);
+    }
+    .chart-legend span{display:inline-flex;align-items:center;gap:6px}
+    .chart-legend i{
+      width:8px;height:8px;border-radius:2px;display:inline-block;
+    }
+    .chart-svg{width:100%;height:180px;display:block;overflow:visible}
+    .chart-axis{stroke:var(--merge-border);stroke-width:1}
+    .chart-tick{
+      font-family:inherit;font-size:10px;
+      fill:var(--merge-text-muted);
+    }
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <div class="demo-wrap">
+    <article class="chart-card" aria-label="Daily active users stacked area chart">
+      <div class="chart-head">
+        <span class="chart-title">Daily Active Users</span>
+        <div class="chart-legend">
+          <span><i style="background:var(--merge-chart-1)"></i>Pro</span>
+          <span><i style="background:var(--merge-chart-2)"></i>Free</span>
+        </div>
+      </div>
+      <svg class="chart-svg" viewBox="0 0 320 180" preserveAspectRatio="none" role="img" aria-label="Stacked area: Free + Pro daily users">
+        <defs>
+          <linearGradient id="mu-area-1" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="var(--merge-chart-2)" stop-opacity="0.55"/>
+            <stop offset="1" stop-color="var(--merge-chart-2)" stop-opacity="0.05"/>
+          </linearGradient>
+          <linearGradient id="mu-area-2" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="var(--merge-chart-1)" stop-opacity="0.7"/>
+            <stop offset="1" stop-color="var(--merge-chart-1)" stop-opacity="0.1"/>
+          </linearGradient>
+        </defs>
+        <!-- gridlines -->
+        <line class="chart-axis" x1="0" y1="40"  x2="320" y2="40"/>
+        <line class="chart-axis" x1="0" y1="90"  x2="320" y2="90"/>
+        <line class="chart-axis" x1="0" y1="140" x2="320" y2="140"/>
+        <!-- back layer (Free total: includes Pro) -->
+        <polygon fill="url(#mu-area-1)" stroke="var(--merge-chart-2)" stroke-width="1.5"
+          points="0,160 0,90 45,75 90,82 135,55 180,65 225,40 270,45 320,38 320,160"/>
+        <!-- front layer (Pro only) -->
+        <polygon fill="url(#mu-area-2)" stroke="var(--merge-chart-1)" stroke-width="1.5"
+          points="0,160 0,125 45,108 90,118 135,92 180,102 225,80 270,76 320,72 320,160"/>
+        <!-- x-axis labels -->
+        <text class="chart-tick" x="0"   y="178">Mon</text>
+        <text class="chart-tick" x="90"  y="178">Wed</text>
+        <text class="chart-tick" x="180" y="178">Fri</text>
+        <text class="chart-tick" x="270" y="178">Sun</text>
+      </svg>
+    </article>
+  </div>
+</body>
+</html>

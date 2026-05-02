@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KPI Card — MergeUi Block</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+
+    /* === COPY FROM HERE === */
+    .kpi-card{
+      display:flex;flex-direction:column;gap:4px;
+      min-width:240px;
+      padding:20px 24px;
+      background:var(--merge-bg-surface);
+      border:1px solid var(--merge-border);
+      border-radius:12px;
+      font-family:inherit;
+    }
+    .kpi-label{
+      font-size:12px;font-weight:500;
+      color:var(--merge-text-muted);
+      text-transform:uppercase;letter-spacing:.4px;
+    }
+    .kpi-value{
+      font-size:28px;font-weight:800;letter-spacing:-1px;
+      color:var(--merge-text-primary);
+      margin-top:4px;
+    }
+    .kpi-delta{font-size:12px;font-weight:600;margin-top:4px}
+    .kpi-delta.up{color:var(--merge-success)}
+    .kpi-delta.down{color:var(--merge-error)}
+    .kpi-delta small{
+      color:var(--merge-text-muted);
+      font-weight:400;margin-left:4px;
+    }
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <article class="kpi-card" aria-label="Monthly Revenue KPI">
+    <span class="kpi-label">Monthly Revenue</span>
+    <span class="kpi-value">$48,290</span>
+    <span class="kpi-delta up">+12.5% <small>vs last month</small></span>
+  </article>
+
+  <article class="kpi-card" aria-label="Churn Rate KPI">
+    <span class="kpi-label">Churn Rate</span>
+    <span class="kpi-value">2.1%</span>
+    <span class="kpi-delta down">-0.4% <small>vs last month</small></span>
+  </article>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sortable Table — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh}
+    .demo-wrap{max-width:720px;margin:0 auto;background:var(--merge-bg-surface);border:1px solid var(--merge-border);border-radius:12px;overflow:hidden}
+
+    /* === COPY FROM HERE === */
+    .table{
+      width:100%;border-collapse:collapse;
+      font-family:inherit;font-size:14px;
+      color:var(--merge-text-primary);
+    }
+    .table th{
+      text-align:left;padding:0;
+      background:var(--merge-bg-surface);
+      border-bottom:1px solid var(--merge-border);
+    }
+    .sort-btn{
+      display:flex;align-items:center;gap:6px;
+      width:100%;padding:12px 16px;
+      background:none;border:none;
+      color:var(--merge-text-muted);
+      font-family:inherit;font-size:11px;font-weight:700;
+      text-transform:uppercase;letter-spacing:.5px;
+      cursor:pointer;text-align:left;
+    }
+    .sort-btn:hover{color:var(--merge-text-primary)}
+    .sort-btn:focus-visible{outline:2px solid var(--merge-brand);outline-offset:-2px}
+    .sort-btn[aria-sort="ascending"],
+    .sort-btn[aria-sort="descending"]{color:var(--merge-brand-light)}
+    .sort-ind{font-size:10px;opacity:.4}
+    .sort-btn[aria-sort="ascending"] .sort-ind,
+    .sort-btn[aria-sort="descending"] .sort-ind{opacity:1}
+    .table td{
+      padding:14px 16px;
+      border-bottom:1px solid var(--merge-border);
+    }
+    .table tbody tr:last-child td{border-bottom:none}
+    .table tbody tr:hover td{background:var(--merge-bg-raised)}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <div class="demo-wrap">
+    <table class="table table-sortable" aria-label="Customer accounts">
+      <thead>
+        <tr>
+          <th scope="col"><button type="button" class="sort-btn" aria-sort="ascending" data-key="name">Name <span class="sort-ind">▲</span></button></th>
+          <th scope="col"><button type="button" class="sort-btn" aria-sort="none"      data-key="mrr">MRR <span class="sort-ind">▼</span></button></th>
+          <th scope="col"><button type="button" class="sort-btn" aria-sort="none"      data-key="seats">Seats <span class="sort-ind">▼</span></button></th>
+        </tr>
+      </thead>
+      <tbody id="rows">
+        <tr><td>Acme Co.</td><td>$1,200</td><td>12</td></tr>
+        <tr><td>Globex Ltd.</td><td>$890</td><td>8</td></tr>
+        <tr><td>Initech</td><td>$2,450</td><td>24</td></tr>
+        <tr><td>Umbrella Corp.</td><td>$540</td><td>4</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+  /* Optional sort behavior — drop into your app or remove. */
+  (function(){
+    var table = document.querySelector('.table-sortable');
+    if (!table) return;
+    var tbody = table.querySelector('tbody');
+    var btns = table.querySelectorAll('.sort-btn');
+    function parseVal(v){var n=parseFloat(String(v).replace(/[^0-9.\-]/g,''));return isNaN(n)?String(v).toLowerCase():n;}
+    btns.forEach(function(btn, idx){
+      btn.addEventListener('click', function(){
+        var current = btn.getAttribute('aria-sort');
+        var dir = current === 'ascending' ? 'descending' : 'ascending';
+        btns.forEach(function(b){b.setAttribute('aria-sort','none');});
+        btn.setAttribute('aria-sort', dir);
+        var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+        rows.sort(function(a,b){
+          var av = parseVal(a.cells[idx].textContent.trim());
+          var bv = parseVal(b.cells[idx].textContent.trim());
+          if (av<bv) return dir==='ascending'?-1:1;
+          if (av>bv) return dir==='ascending'?1:-1;
+          return 0;
+        });
+        rows.forEach(function(r){tbody.appendChild(r);});
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

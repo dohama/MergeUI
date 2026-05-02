@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Radio Group — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;gap:24px;flex-wrap:wrap}
+
+    /* === COPY FROM HERE === */
+    .radio-group{
+      display:flex;flex-direction:column;gap:10px;
+      padding:16px 20px;
+      border:1px solid var(--merge-border);
+      border-radius:8px;
+      font-family:inherit;
+      background:var(--merge-bg-surface);
+      max-width:360px;width:100%;
+    }
+    .rg-legend{
+      padding:0 6px;
+      font-size:13px;font-weight:600;
+      color:var(--merge-text-primary);
+    }
+    .radio-item{
+      display:flex;align-items:center;gap:10px;
+      font-size:14px;
+      color:var(--merge-text-secondary);
+      cursor:pointer;
+    }
+    .radio-item input[type="radio"]{
+      width:16px;height:16px;
+      accent-color:var(--merge-brand);
+      cursor:pointer;
+    }
+    .radio-item input[type="radio"]:focus-visible{
+      outline:2px solid var(--merge-brand);
+      outline-offset:2px;
+      border-radius:50%;
+    }
+    .radio-item:hover span{color:var(--merge-text-primary)}
+    .radio-item input[type="radio"]:checked + span{
+      color:var(--merge-text-primary);
+      font-weight:500;
+    }
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <fieldset class="radio-group">
+    <legend class="rg-legend">Billing cycle</legend>
+    <label class="radio-item"><input type="radio" name="cycle" checked> <span>Monthly — $19/mo</span></label>
+    <label class="radio-item"><input type="radio" name="cycle"> <span>Annual — $149/yr (save 35%)</span></label>
+  </fieldset>
+
+  <fieldset class="radio-group">
+    <legend class="rg-legend">Theme</legend>
+    <label class="radio-item"><input type="radio" name="theme"> <span>Light</span></label>
+    <label class="radio-item"><input type="radio" name="theme" checked> <span>Dark</span></label>
+    <label class="radio-item"><input type="radio" name="theme"> <span>Match system</span></label>
+  </fieldset>
+</body>
+</html>

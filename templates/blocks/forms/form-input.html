@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Text Input — MergeUi Block</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;gap:24px;flex-wrap:wrap}
+
+    /* === COPY FROM HERE === */
+    .field{
+      display:flex;flex-direction:column;gap:6px;
+      font-family:inherit;
+      max-width:360px;width:100%;
+    }
+    .field-label{
+      font-size:13px;font-weight:600;
+      color:var(--merge-text-primary);
+    }
+    .field-input{
+      padding:10px 14px;
+      background:var(--merge-bg-raised);
+      border:1px solid var(--merge-border-strong);
+      border-radius:8px;
+      font-family:inherit;font-size:14px;
+      color:var(--merge-text-primary);
+      outline:none;
+      transition:border-color .15s,box-shadow .15s;
+    }
+    .field-input::placeholder{color:var(--merge-text-muted)}
+    .field-input:focus{
+      border-color:var(--merge-brand);
+      box-shadow:0 0 0 3px rgba(108,92,231,.15);
+    }
+    .field-input:disabled{opacity:.5;cursor:not-allowed}
+    .field-input[aria-invalid="true"]{
+      border-color:var(--merge-error);
+      box-shadow:0 0 0 3px rgba(239,68,68,.15);
+    }
+    .field-help{font-size:12px;color:var(--merge-text-muted)}
+    .field-help.error{color:var(--merge-error)}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <label class="field">
+    <span class="field-label">Email</span>
+    <input type="email" class="field-input" placeholder="you@company.com" autocomplete="email">
+    <span class="field-help">We will never share your email.</span>
+  </label>
+
+  <label class="field">
+    <span class="field-label">Workspace name</span>
+    <input type="text" class="field-input" value="Acme Co." aria-invalid="true" aria-describedby="ws-err">
+    <span id="ws-err" class="field-help error">Name must be at least 4 characters.</span>
+  </label>
+
+  <label class="field">
+    <span class="field-label">API key</span>
+    <input type="text" class="field-input" value="sk_live_••••••••••••" disabled>
+    <span class="field-help">Read-only. Rotate from Settings.</span>
+  </label>
+</body>
+</html>

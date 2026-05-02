@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Checkbox Group — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;gap:24px;flex-wrap:wrap}
+
+    /* === COPY FROM HERE === */
+    .check-group{
+      display:flex;flex-direction:column;gap:10px;
+      padding:16px 20px;
+      border:1px solid var(--merge-border);
+      border-radius:8px;
+      font-family:inherit;
+      background:var(--merge-bg-surface);
+      max-width:360px;width:100%;
+    }
+    .cg-legend{
+      padding:0 6px;
+      font-size:13px;font-weight:600;
+      color:var(--merge-text-primary);
+    }
+    .check-item{
+      display:flex;align-items:center;gap:10px;
+      font-size:14px;
+      color:var(--merge-text-secondary);
+      cursor:pointer;
+    }
+    .check-item input[type="checkbox"]{
+      width:16px;height:16px;
+      accent-color:var(--merge-brand);
+      cursor:pointer;
+    }
+    .check-item input[type="checkbox"]:focus-visible{
+      outline:2px solid var(--merge-brand);
+      outline-offset:2px;
+      border-radius:3px;
+    }
+    .check-item:hover span{color:var(--merge-text-primary)}
+    .check-item input[type="checkbox"]:disabled + span{
+      opacity:.5;cursor:not-allowed;
+    }
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <fieldset class="check-group">
+    <legend class="cg-legend">Notifications</legend>
+    <label class="check-item"><input type="checkbox" checked> <span>Email updates</span></label>
+    <label class="check-item"><input type="checkbox"> <span>SMS alerts</span></label>
+    <label class="check-item"><input type="checkbox" checked> <span>Push notifications</span></label>
+    <label class="check-item"><input type="checkbox" disabled> <span>Carrier pigeon (coming soon)</span></label>
+  </fieldset>
+
+  <fieldset class="check-group">
+    <legend class="cg-legend">Permissions</legend>
+    <label class="check-item"><input type="checkbox" checked> <span>Read components</span></label>
+    <label class="check-item"><input type="checkbox" checked> <span>Write components</span></label>
+    <label class="check-item"><input type="checkbox"> <span>Manage billing</span></label>
+  </fieldset>
+</body>
+</html>

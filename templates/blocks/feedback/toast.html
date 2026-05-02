@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Toast — MergeUi Block (Pro)</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+
+    /* === COPY FROM HERE === */
+    .toast-host{
+      position:fixed;top:24px;right:24px;
+      z-index:9999;
+      display:flex;flex-direction:column;gap:8px;
+      pointer-events:none;
+    }
+    .toast{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 16px;
+      background:var(--merge-bg-raised);
+      border:1px solid var(--merge-border-strong);
+      border-radius:10px;
+      font-family:inherit;font-size:14px;font-weight:500;
+      color:var(--merge-text-primary);
+      box-shadow:var(--merge-shadow-card-hover);
+      pointer-events:auto;
+      animation:toast-in .18s ease-out;
+    }
+    .toast svg{flex-shrink:0}
+    .toast.success svg{color:var(--merge-success)}
+    .toast.error svg{color:var(--merge-error)}
+    .toast.info svg{color:var(--merge-info)}
+    .toast.leaving{animation:toast-out .18s ease-in forwards}
+    @keyframes toast-in{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+    @keyframes toast-out{from{opacity:1;transform:none}to{opacity:0;transform:translateX(20px)}}
+    /* === COPY TO HERE === */
+
+    .btn{display:inline-flex;align-items:center;padding:9px 18px;font-family:inherit;font-size:14px;font-weight:600;border:1px solid var(--merge-border-strong);background:var(--merge-bg-raised);color:var(--merge-text-primary);border-radius:8px;cursor:pointer}
+    .btn:hover{border-color:var(--merge-brand);color:var(--merge-brand-light)}
+  </style>
+</head>
+<body>
+  <button type="button" class="btn" data-toast="success">Show success</button>
+  <button type="button" class="btn" data-toast="error">Show error</button>
+  <button type="button" class="btn" data-toast="info">Show info</button>
+
+  <div class="toast-host" id="toastHost"></div>
+
+  <script>
+  /*
+    Toast API: window.MergeToast.show(message, { variant, duration })
+    - variant: 'success' | 'error' | 'info' (default: 'info')
+    - duration: ms before auto-dismiss (default: 3000, set 0 for sticky)
+    - role='status' for non-critical, role='alert' for errors
+  */
+  (function(){
+    var host = document.getElementById('toastHost');
+    var ICONS = {
+      success:'<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+      error:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+      info:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'
+    };
+    function show(msg, opts){
+      opts = opts || {};
+      var variant = opts.variant || 'info';
+      var duration = typeof opts.duration === 'number' ? opts.duration : 3000;
+      var t = document.createElement('div');
+      t.className = 'toast ' + variant;
+      t.setAttribute('role', variant === 'error' ? 'alert' : 'status');
+      t.setAttribute('aria-live', variant === 'error' ? 'assertive' : 'polite');
+      t.innerHTML =
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+        + (ICONS[variant] || ICONS.info)
+        + '</svg><span></span>';
+      t.querySelector('span').textContent = String(msg);
+      host.appendChild(t);
+      if (duration > 0) {
+        setTimeout(function(){
+          t.classList.add('leaving');
+          t.addEventListener('animationend', function(){ t.remove(); }, { once:true });
+        }, duration);
+      }
+      return t;
+    }
+    window.MergeToast = { show: show };
+
+    document.querySelectorAll('[data-toast]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var v = b.getAttribute('data-toast');
+        var msgs = { success:'Settings saved successfully', error:'Could not save changes', info:'New release v1.2 is available' };
+        show(msgs[v] || 'Hello', { variant:v });
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -16,6 +16,8 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <meta name="google-site-verification" content="FI3WZCPFHDkL0FRTAwgkgYrv287bU_wRNBRDiCbttek">
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin: Analytics — MergeUi</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="MergeUi admin — qualitative analytics, funnels, and conversion insights. Restricted to staff.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
@@ -218,7 +220,7 @@ document.addEventListener("mergedb-ready", async function() {
     // 세션 리스트 — 세션 리코딩 기능 미구현 안내
     var sessionsList = document.querySelector(".sessions-list");
     if (sessionsList) {
-      sessionsList.innerHTML = '<div style="text-align:center;padding:48px 24px;color:var(--text-muted)"><div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#128250;</div><div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">세션 녹화 기능 준비 중</div><div style="font-size:13px">런칭 후 100명+ 시 Hotjar 스타일 세션 리코딩 추가 예정</div></div>';
+      sessionsList.innerHTML = '<div style="text-align:center;padding:48px 24px;color:var(--text-muted)"><div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#128250;</div><div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Session recording &mdash; coming soon</div><div style="font-size:13px">Hotjar-style session replay will roll out after launch, once we hit 100+ active users.</div></div>';
     }
   } catch(e) { console.error("Analytics:", e.message); }
 });

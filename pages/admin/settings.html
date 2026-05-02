@@ -16,6 +16,8 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <meta name="google-site-verification" content="FI3WZCPFHDkL0FRTAwgkgYrv287bU_wRNBRDiCbttek">
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin: Settings — MergeUi</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="MergeUi admin — site configuration, integrations, and feature flags. Restricted to staff.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
@@ -113,11 +115,11 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
         <div class="card">
           <div class="card-head"><h2>알림</h2></div>
           <div class="card-body">
-            <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">신규 구독자 알림</div><div class="toggle-desc">신규 구독 시 알림 받기</div></div><div class="toggle-switch on" onclick="this.classList.toggle('on')"></div></div>
-            <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">결제 수신 알림</div><div class="toggle-desc">결제 성공 시 이메일 받기</div></div><div class="toggle-switch on" onclick="this.classList.toggle('on')"></div></div>
-            <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">구독 취소 알림</div><div class="toggle-desc">구독자 취소 시 알림</div></div><div class="toggle-switch on" onclick="this.classList.toggle('on')"></div></div>
-            <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">새 문의 알림</div><div class="toggle-desc">문의 접수 시 알림 받기</div></div><div class="toggle-switch on" onclick="this.classList.toggle('on')"></div></div>
-            <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">주간 요약</div><div class="toggle-desc">매주 월요일 주요 지표 요약</div></div><div class="toggle-switch" onclick="this.classList.toggle('on')"></div></div>
+            <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">New subscriber alerts</div><div class="toggle-desc">Notify when a new subscription starts</div></div><div class="toggle-switch on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Payment alerts</div><div class="toggle-desc">Email on successful payment</div></div><div class="toggle-switch on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Cancellation alerts</div><div class="toggle-desc">Notify when a subscriber cancels</div></div><div class="toggle-switch on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">New inquiry alerts</div><div class="toggle-desc">Notify when an inquiry is submitted</div></div><div class="toggle-switch on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Weekly summary</div><div class="toggle-desc">Key metrics digest every Monday morning</div></div><div class="toggle-switch" onclick="this.classList.toggle('on')"></div></div>
           </div>
         </div>
 
@@ -141,7 +143,7 @@ document.addEventListener("mergedb-ready", async function() {
     notice.className = 'card';
     notice.style.background = 'rgba(34,211,238,0.06)';
     notice.style.border = '1px solid rgba(34,211,238,0.2)';
-    notice.innerHTML = '<div class="card-body" style="padding:16px 20px"><div style="font-size:13px;color:var(--text-secondary);line-height:1.6"><strong style="color:var(--accent)">ℹ️ 설정 저장 방식 안내</strong><br>이 페이지의 값들은 현재 <strong>표시용</strong>입니다. 실제 변경은 아래 방식으로:<br>• <strong>API 키·시크릿</strong>: Vercel 대시보드 Environment Variables에서 관리<br>• <strong>SEO 메타 태그</strong>: 각 HTML 파일의 &lt;head&gt;에서 직접 수정 (향후 site_settings 테이블로 이전 예정)<br>• <strong>알림 설정</strong>: 추후 site_settings 테이블 연동 후 활성화</div></div>';
+    notice.innerHTML = '<div class="card-body" style="padding:16px 20px"><div style="font-size:13px;color:var(--text-secondary);line-height:1.6"><strong style="color:var(--accent)">ℹ️ Settings storage</strong><br>Values on this page are <strong>read-only</strong>. Apply real changes through these channels:<br>• <strong>API keys / secrets</strong>: manage in the Vercel dashboard (Environment Variables)<br>• <strong>SEO meta tags</strong>: edit each HTML file&apos;s &lt;head&gt; directly (will move to site_settings table later)<br>• <strong>Notifications</strong>: will activate once the site_settings table is wired up</div></div>';
     content.insertBefore(notice, content.firstChild);
   }
 
@@ -167,7 +169,7 @@ function showSaveMsg(btn){
   m.style.fontSize = '12px';
   m.style.color = 'var(--warning)';
   m.style.marginTop = '12px';
-  m.innerHTML = '⚠️ 이 섹션은 표시용입니다. 실제 변경은 Vercel Environment Variables 또는 코드에서 수정해주세요.';
+  m.innerHTML = 'This section is read-only. Apply changes via Vercel Environment Variables or code.';
   btn.parentElement.appendChild(m);
   setTimeout(function(){ m.remove(); }, 5000);
 }

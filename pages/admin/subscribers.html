@@ -16,6 +16,8 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <meta name="google-site-verification" content="FI3WZCPFHDkL0FRTAwgkgYrv287bU_wRNBRDiCbttek">
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin: Members — MergeUi</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="MergeUi admin — subscriber list, plan status, and account management. Restricted to staff.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
@@ -52,6 +54,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     @media(max-width:768px){.main{margin-left:0}.content{padding:20px}.quick-stats{grid-template-columns:1fr}.filters{flex-direction:column}}
   </style>
   <script src="../../src/js/supabase-client.js" defer></script>
+  <script src="../../src/js/admin-modal.js" defer></script>
 </head>
 <body>
   <aside class="sidebar sidebar--admin">
@@ -380,50 +383,64 @@ document.addEventListener('DOMContentLoaded', function(){
     MergeCSV.export('mergeui_members'+suffix+'_'+MergeCSV.timestamp()+'.csv', headers, rows);
   });
 
-  // Send Email — 선택이 있으면 선택만, 없으면 plan 필터로
+  // Send Email — selected members or plan filter
   var emailBtn = document.getElementById('sendEmailBtn');
   if (emailBtn) emailBtn.addEventListener('click', async function(){
     var d = window.__membersData;
-    var eventName = prompt('Loops 이벤트 이름 (Loops 대시보드의 트리거 이벤트와 일치해야 함):', 'promo_announcement');
-    if (!eventName) return;
+    var values = await AdminModal.showFormModal({
+      title: 'Send Loops broadcast',
+      description: 'Triggers a Loops event for marketing-consented members.',
+      submitLabel: 'Continue',
+      fields: [
+        { name:'eventName', label:'Loops event name', type:'text', value:'promo_announcement', required:true,
+          help:'Must match a trigger event configured in your Loops dashboard.' }
+      ]
+    });
+    if (!values) return;
+    var eventName = values.eventName;
 
     try {
-      if (typeof MergeDB === 'undefined' || !MergeDB.client) { alert('서비스 준비 중. 새로고침 후 시도.'); return; }
+      if (typeof MergeDB === 'undefined' || !MergeDB.client) { alert('Service is initializing. Please refresh and retry.'); return; }
       var { data: { session } } = await MergeDB.client.auth.getSession();
-      if (!session) { alert('로그인이 필요합니다.'); return; }
+      if (!session) { alert('Sign-in required.'); return; }
 
       var filter = {};
       var targetInfo;
       if (d.selected.size > 0) {
         filter.user_ids = Array.from(d.selected);
-        targetInfo = '선택된 '+d.selected.size+'명';
+        targetInfo = 'Selected ' + d.selected.size + ' member(s)';
       } else {
         var planF = document.getElementById('planFilter').value;
         if (planF !== 'all') filter.plan = planF;
-        targetInfo = '현재 필터 조건의 수신 동의자 전체 (플랜: '+planF+')';
+        targetInfo = 'All marketing-consented members matching filter (plan: ' + planF + ')';
       }
 
-      emailBtn.disabled = true; emailBtn.textContent = '미리보기...';
+      emailBtn.disabled = true; emailBtn.textContent = 'Previewing...';
       var preview = await fetch('/api/v1/admin/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer '+session.access_token },
         body: JSON.stringify({ filter: filter, eventName: eventName, mode: 'dryRun' })
       }).then(function(r){ return r.json(); });
 
-      if (!preview.count) { alert('발송 대상이 없습니다 (수신 동의 한 회원 중 조건 일치자 0명).'); return; }
+      if (!preview.count) { alert('No recipients matched. (0 marketing-consented members match the filter.)'); return; }
 
-      if (!confirm('발송 대상: '+preview.count+'명\n범위: '+targetInfo+'\n이벤트명: '+eventName+'\n\n발송하시겠습니까?')) return;
+      var ok = await AdminModal.showConfirm({
+        title: 'Send broadcast?',
+        message: 'Recipients: ' + preview.count + '\nScope: ' + targetInfo + '\nEvent: ' + eventName,
+        confirmLabel: 'Send now'
+      });
+      if (!ok) return;
 
-      emailBtn.textContent = '발송 중...';
+      emailBtn.textContent = 'Sending...';
       var result = await fetch('/api/v1/admin/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer '+session.access_token },
         body: JSON.stringify({ filter: filter, eventName: eventName, mode: 'send' })
       }).then(function(r){ return r.json(); });
 
-      alert('발송 완료\n성공: '+(result.sent||0)+'\n실패: '+(result.failed||0));
+      alert('Broadcast sent.\nSucceeded: ' + (result.sent||0) + '\nFailed: ' + (result.failed||0));
     } catch (e) {
-      alert('발송 실패: '+(e.message||'알 수 없는 오류'));
+      alert('Send failed: ' + (e.message || 'Unknown error'));
     } finally {
       emailBtn.disabled = false; emailBtn.textContent = 'Send Email';
     }

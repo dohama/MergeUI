@@ -16,6 +16,8 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <meta name="google-site-verification" content="FI3WZCPFHDkL0FRTAwgkgYrv287bU_wRNBRDiCbttek">
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin: Components — MergeUi</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="MergeUi admin — component catalog management. Add and update dashboard components. Restricted to staff.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
@@ -63,6 +65,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     .switch-row label{margin:0;font-size:12px;text-transform:none;letter-spacing:0;color:var(--text-secondary);font-weight:500}
   </style>
   <script src="../../src/js/supabase-client.js" defer></script>
+  <script src="../../src/js/admin-modal.js" defer></script>
 </head>
 <body>
   <aside class="sidebar sidebar--admin">
@@ -384,7 +387,12 @@ document.addEventListener('mergedb-ready', async function(){
       if (!comp) return;
 
       if (btn.classList.contains('delete')) {
-        if (!confirm('Delete "' + (comp.name||'') + '" component? This cannot be undone.')) return;
+        var ok = await AdminModal.showConfirm({
+          title: 'Delete component',
+          message: 'Delete "' + (comp.name || '') + '"? This action cannot be undone.',
+          confirmLabel: 'Delete', destructive: true
+        });
+        if (!ok) return;
         var { error } = await sb.from('components').delete().eq('id', comp.id);
         if (error) { alert('Delete failed: ' + error.message); return; }
         window.__componentsData = window.__componentsData.filter(function(x){return x.id!==cid;});

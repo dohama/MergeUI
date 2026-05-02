@@ -16,6 +16,8 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <meta name="google-site-verification" content="FI3WZCPFHDkL0FRTAwgkgYrv287bU_wRNBRDiCbttek">
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin: Themes — MergeUi</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="MergeUi admin — theme catalog management. Upload, version, and publish dashboard themes. Restricted to staff.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
@@ -36,6 +38,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     @media(max-width:768px){.main{margin-left:0}.content{padding:20px}.quick-stats{grid-template-columns:1fr 1fr}.filters{flex-direction:column}}
   </style>
   <script src="../../src/js/supabase-client.js" defer></script>
+  <script src="../../src/js/admin-modal.js" defer></script>
 </head>
 <body>
   <aside class="sidebar sidebar--admin">
@@ -161,7 +164,7 @@ function renderThemes(){
         + '<td><span class="access-badge '+badge+'">'+badge+'</span></td>'
         + '<td>'+(t.downloads_count||0).toLocaleString()+'</td>'
         + '<td>'+fmtDate(t.updated_at||t.created_at)+'</td>'
-        + '<td><div class="act-btns"><button type="button" class="act-btn edit" data-tid="'+t.id+'">편집</button><button type="button" class="act-btn danger delete" data-tid="'+t.id+'">삭제</button></div></td>'
+        + '<td><div class="act-btns"><button type="button" class="act-btn edit" data-tid="'+t.id+'">Edit</button><button type="button" class="act-btn danger delete" data-tid="'+t.id+'">Delete</button></div></td>'
         + '</tr>';
     }).join('');
   } else {
@@ -171,8 +174,8 @@ function renderThemes(){
       var title = emptyDiv.querySelector('div:nth-child(2)');
       var sub = emptyDiv.querySelector('div:nth-child(3)');
       if (data.length === 0) {
-        if(title) title.textContent = '등록된 테마 없음';
-        if(sub) sub.textContent = '상단 "테마 추가" 버튼으로 시작하세요.';
+        if(title) title.textContent = 'No themes yet';
+        if(sub) sub.textContent = 'Click "Add Theme" above to get started.';
       } else {
         if(title) title.textContent = 'No results';
         if(sub) sub.textContent = 'Try adjusting filters.';
@@ -197,37 +200,43 @@ document.addEventListener('mergedb-ready', async function(){
       if (!theme) return;
 
       if (btn.classList.contains('delete')) {
-        if (!confirm('"' + (theme.name||'') + '" 테마를 삭제하시겠습니까?\n\n※ 이 작업은 되돌릴 수 없습니다.')) return;
+        var ok = await AdminModal.showConfirm({
+          title: 'Delete theme',
+          message: 'Delete "' + (theme.name || '') + '"? This action cannot be undone.',
+          confirmLabel: 'Delete',
+          destructive: true
+        });
+        if (!ok) return;
         var { error } = await sb.from('themes').delete().eq('id', theme.id);
         if (error) { alert('Delete failed: ' + error.message); return; }
         window.__themesData = window.__themesData.filter(function(x){return x.id!==tid;});
         renderThemes();
-        alert('삭제 완료');
       } else if (btn.classList.contains('edit')) {
-        var newName = prompt('이름:', theme.name || '');
-        if (newName === null) return;
-        var newSlug = prompt('슬러그:', theme.slug || '');
-        if (newSlug === null) return;
-        if (!/^[a-z0-9_-]+$/i.test(newSlug)) { alert('슬러그는 영문/숫자/하이픈/언더스코어만 가능'); return; }
-        var newVersion = prompt('버전:', theme.version || '1.0.0');
-        if (newVersion === null) return;
-        var newCategory = prompt('카테고리 (SaaS / CRM / E-Commerce / Finance / Analytics):', theme.category || 'SaaS');
-        if (newCategory === null) return;
-        var newBadge = prompt('배지 (free / pro / new):', theme.badge || 'free');
-        if (newBadge === null) return;
-        if (!['free','pro','new'].includes(newBadge)) { alert('배지는 free / pro / new 중 선택'); return; }
-        var isPublicInput = prompt('공개 여부 (yes / no):', theme.is_public !== false ? 'yes' : 'no');
-        if (isPublicInput === null) return;
-        var isPublic = isPublicInput.trim().toLowerCase() === 'yes';
-
-        var { error } = await sb.from('themes').update({
-          name: newName, slug: newSlug, version: newVersion,
-          category: newCategory, badge: newBadge, is_public: isPublic,
-          updated_at: new Date().toISOString()
-        }).eq('id', theme.id);
-        if (error) { alert('수정 실패: ' + error.message); return; }
-        alert('수정 완료');
-        location.reload();
+        var values = await AdminModal.showFormModal({
+          title: 'Edit theme',
+          submitLabel: 'Save',
+          fields: [
+            { name:'name', label:'Name', type:'text', value: theme.name || '', required:true },
+            { name:'slug', label:'Slug', type:'text', value: theme.slug || '', required:true,
+              pattern:'[a-z0-9_-]+', help:'lowercase letters, digits, hyphen, underscore' },
+            { name:'version', label:'Version', type:'text', value: theme.version || '1.0.0' },
+            { name:'category', label:'Category', type:'select', value: theme.category || 'SaaS',
+              options:['SaaS','CRM','E-Commerce','Finance','Analytics'] },
+            { name:'badge', label:'Badge', type:'select', value: theme.badge || 'free',
+              options:['free','pro','new'] },
+            { name:'is_public', label:'Public (visible on site)', type:'checkbox',
+              value: theme.is_public !== false }
+          ],
+          onSubmit: async function(v){
+            var { error } = await sb.from('themes').update({
+              name: v.name, slug: v.slug.toLowerCase(), version: v.version,
+              category: v.category, badge: v.badge, is_public: !!v.is_public,
+              updated_at: new Date().toISOString()
+            }).eq('id', theme.id);
+            if (error) throw new Error('Update failed: ' + error.message);
+          }
+        });
+        if (values) location.reload();
       }
     });
   } catch(e) { console.error(e); }
@@ -241,33 +250,37 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 });
 
-// 테마 추가 (DB 스키마 맞춤: slug / name / category / badge 필수)
+// Add Theme — modal form (DB schema: slug / name / category / badge required)
 document.querySelector('.add-btn').addEventListener('click', async function() {
-  var name = prompt('테마 이름 (예: Monochrome Analytics):');
-  if (!name) return;
-  var slug = prompt('URL 슬러그 (네이밍 컨벤션: bw_v1, gl_v1 등 2글자+언더스코어+v숫자):', 'xx_v1');
-  if (!slug) return;
-  if (!/^[a-z0-9_-]+$/i.test(slug)) { alert('슬러그는 영문/숫자/언더스코어/하이픈만 가능'); return; }
-  var category = prompt('카테고리 (SaaS / CRM / E-Commerce / Finance / Analytics):', 'SaaS');
-  if (!category) return;
-  var description = prompt('설명 (선택):', '') || '';
-  var badge = prompt('배지 (free / pro / new):', 'pro');
-  if (!['free','pro','new'].includes(badge)) { alert('배지는 free / pro / new 중 선택'); return; }
-
-  if (!MergeDB || !MergeDB.client) { alert('서비스 준비 중'); return; }
-  var { error } = await MergeDB.client.from('themes').insert({
-    slug: slug.toLowerCase(),
-    name: name,
-    description: description,
-    category: category,
-    badge: badge,
-    version: '1.0.0',
-    is_public: false,
-    downloads_count: 0
+  if (!MergeDB || !MergeDB.client) { alert('Service is initializing. Please retry in a moment.'); return; }
+  var values = await AdminModal.showFormModal({
+    title: 'Add new theme',
+    description: 'Theme is created as Draft. Toggle Public after review.',
+    submitLabel: 'Create',
+    fields: [
+      { name:'name', label:'Name', type:'text', placeholder:'Monochrome Analytics', required:true },
+      { name:'slug', label:'Slug', type:'text', placeholder:'xx_v1', required:true,
+        pattern:'[a-z0-9_-]+', help:'Convention: 2 letters + underscore + v[number] (e.g., bw_v1, gl_v1).' },
+      { name:'category', label:'Category', type:'select', value:'SaaS',
+        options:['SaaS','CRM','E-Commerce','Finance','Analytics'] },
+      { name:'description', label:'Description', type:'textarea', placeholder:'Short summary (optional)' },
+      { name:'badge', label:'Badge', type:'select', value:'pro', options:['free','pro','new'] }
+    ],
+    onSubmit: async function(v){
+      var { error } = await MergeDB.client.from('themes').insert({
+        slug: v.slug.toLowerCase(),
+        name: v.name,
+        description: v.description || '',
+        category: v.category,
+        badge: v.badge,
+        version: '1.0.0',
+        is_public: false,
+        downloads_count: 0
+      });
+      if (error) throw new Error('Create failed: ' + error.message);
+    }
   });
-  if (error) { alert('추가 실패: ' + error.message); return; }
-  alert('테마 추가 완료. 새로고침됩니다.');
-  location.reload();
+  if (values) location.reload();
 });
 </script>
 <script src="../../src/js/sidebar-mobile.js" defer></script>

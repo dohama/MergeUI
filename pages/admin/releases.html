@@ -16,6 +16,8 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <meta name="google-site-verification" content="FI3WZCPFHDkL0FRTAwgkgYrv287bU_wRNBRDiCbttek">
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin: Releases — MergeUi</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="MergeUi admin — release notes editor. Publish updates and trigger subscriber email notifications. Restricted to staff.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
@@ -41,6 +43,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     @media(max-width:768px){.main{margin-left:0}.content{padding:20px}.release-head{flex-direction:column;align-items:flex-start}}
   </style>
   <script src="../../src/js/supabase-client.js" defer></script>
+  <script src="../../src/js/admin-modal.js" defer></script>
 </head>
 <body>
   <aside class="sidebar sidebar--admin">
@@ -111,61 +114,65 @@ document.addEventListener("mergedb-ready", async function() {
       var rel = data[idx];
       if (!rel) return;
       if (btn.classList.contains('danger')) {
-        if (!confirm('릴리즈 "' + (rel.version||'') + '" 삭제?\n\n※ 되돌릴 수 없습니다.')) return;
+        var ok = await AdminModal.showConfirm({
+          title: 'Delete release',
+          message: 'Delete "' + (rel.title || rel.version || '') + '"? This action cannot be undone.',
+          confirmLabel: 'Delete', destructive: true
+        });
+        if (!ok) return;
         var { error } = await sb.from('releases').delete().eq('id', rel.id);
         if (error) { alert('Delete failed: ' + error.message); return; }
         card.remove(); data.splice(idx, 1);
       } else {
-        var newVersion = prompt('버전 (예: 1.2.0):', rel.version || '');
-        if (newVersion === null) return;
-        var newTitle = prompt('제목:', rel.title || '');
-        if (newTitle === null) return;
-        var newBody = prompt('본문 (여러 줄은 \\n 사용):', rel.body || '');
-        if (newBody === null) return;
-        var newStatus = prompt('상태 (draft / published):', rel.status || 'draft');
-        if (newStatus === null) return;
-        if (!['draft','published'].includes(newStatus)) { alert('잘못된 상태'); return; }
-
-        var updateData = {
-          version: newVersion, title: newTitle, body: newBody, status: newStatus
-        };
-        if (newStatus === 'published' && rel.status !== 'published') {
-          updateData.published_at = new Date().toISOString();
-        }
-        var { error } = await sb.from('releases').update(updateData).eq('id', rel.id);
-        if (error) { alert('수정 실패: ' + error.message); return; }
-        alert('수정 완료. 새로고침됩니다.');
-        location.reload();
+        var values = await AdminModal.showFormModal({
+          title: 'Edit release',
+          submitLabel: 'Save',
+          fields: [
+            { name:'version', label:'Version', type:'text', value: rel.version || '', required:true },
+            { name:'title', label:'Title', type:'text', value: rel.title || '', required:true },
+            { name:'body', label:'Body (markdown)', type:'textarea', value: rel.body || '' },
+            { name:'status', label:'Status', type:'select', value: rel.status || 'draft',
+              options:['draft','published'] }
+          ],
+          onSubmit: async function(v){
+            var update = {
+              version: v.version, title: v.title, body: v.body || '', status: v.status
+            };
+            if (v.status === 'published' && rel.status !== 'published') update.published_at = new Date().toISOString();
+            var { error } = await sb.from('releases').update(update).eq('id', rel.id);
+            if (error) throw new Error('Update failed: ' + error.message);
+          }
+        });
+        if (values) location.reload();
       }
     });
   } catch(e) {
     console.error(e);
     var list=document.querySelector(".releases-list");
-    if(list) list.innerHTML='<div style="text-align:center;padding:48px 24px;color:var(--text-muted)"><div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#9888;&#65039;</div><div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">데이터 로드 실패</div><div style="font-size:13px">잠시 후 다시 시도해 주세요.</div></div>';
+    if(list) list.innerHTML='<div style="text-align:center;padding:48px 24px;color:var(--text-muted)"><div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#9888;&#65039;</div><div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Failed to load releases</div><div style="font-size:13px">Please try again in a moment.</div></div>';
   }
 });
 
-// 새 릴리즈 추가
+// Add release — modal form
 document.querySelector('.add-btn').addEventListener('click', async function() {
-  var version = prompt('버전 (예: 1.2.0):');
-  if (!version) return;
-  var title = prompt('제목 (예: 12월 업데이트 — 신규 테마 3종 추가):');
-  if (!title) return;
-  var body = prompt('본문 (변경 내역. 여러 줄 가능):', '');
-  if (body === null) return;
-  var shouldPublish = confirm('바로 발행하시겠습니까?\n\nOK = 발행 / 취소 = 임시저장');
-
-  if (!MergeDB || !MergeDB.client) { alert('서비스 준비 중'); return; }
-  var insertData = {
-    version: version, title: title, body: body,
-    status: shouldPublish ? 'published' : 'draft'
-  };
-  if (shouldPublish) insertData.published_at = new Date().toISOString();
-
-  var { error } = await MergeDB.client.from('releases').insert(insertData);
-  if (error) { alert('추가 실패: ' + error.message); return; }
-  alert('릴리즈 추가 완료. 새로고침됩니다.');
-  location.reload();
+  if (!MergeDB || !MergeDB.client) { alert('Service is initializing. Please retry.'); return; }
+  var values = await AdminModal.showFormModal({
+    title: 'Add release note',
+    submitLabel: 'Create',
+    fields: [
+      { name:'version', label:'Version', type:'text', placeholder:'1.2.0', required:true },
+      { name:'title', label:'Title', type:'text', required:true },
+      { name:'body', label:'Body (markdown)', type:'textarea', placeholder:'## What is new\n- ...' },
+      { name:'status', label:'Status', type:'select', value:'draft', options:['draft','published'] }
+    ],
+    onSubmit: async function(v){
+      var insert = { version: v.version, title: v.title, body: v.body || '', status: v.status };
+      if (v.status === 'published') insert.published_at = new Date().toISOString();
+      var { error } = await MergeDB.client.from('releases').insert(insert);
+      if (error) throw new Error('Create failed: ' + error.message);
+    }
+  });
+  if (values) location.reload();
 });
 </script>
 <script src="../../src/js/sidebar-mobile.js" defer></script>

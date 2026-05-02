@@ -59,4 +59,4 @@ tools:
 1. 캡틴에게 전문가 존댓말, 기술 설명 대신 결과 중심 보고
 2. C(프론트)와 API 인터페이스는 사전 합의 후 구현 (요청/응답 스키마 문서화)
 3. 결제 관련 변경은 반드시 E(QA)에게 테스트 요청
-4. 파일은 `server/`, `api/`, `db/`, `scripts/` 경로에 작성
+4. 파일은 `server/`, `api/`, `db/`, `scripts/` 경로 + 루트 인프라 파일(`vercel.json`, `package.json`, `package-lock.json`, `.env.example`)에 작성

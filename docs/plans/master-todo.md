@@ -23,17 +23,43 @@
 
 ---
 
+## 🔥 D-5 풀가동 1순위 — Blocks 컴포넌트 라이브러리 (2026-05-01 캡틴 결정)
+
+> **결정 배경**: 랜딩에서 "20+ Components" 약속 + Pro 플랜 가치 핵심. 빈 페이지로 런칭하면 거짓 광고 → 환불·평판 리스크.
+> **방향**: 메모리 `project_blocks_product.md` "5/7부터" 일정 폐기. **D-5 안에 핵심 20–25개 풀가동 (B안)**.
+> **세부 명세**: `docs/plans/blocks-d5-plan.md` (별도 파일, B/C/E 풀가동 명세)
+> **카피 정직화**: 랜딩 "50+ Components" → "20+ Components" + "growing weekly" 완료 (2026-05-01)
+
+| P | 항목 | 담당 | 마감 | 상태 |
+|---|------|------|------|------|
+| P0 | Blocks 24종 시각 명세 (6카테고리, design/blocks-spec.md) | B(디자인) | 5/2 | [x] 2026-05-01 |
+| P0 | Blocks HTML/CSS 코드 변환 + 테마 토큰 매핑 (24개 templates/blocks/) | C(프론트) | 5/4 | [x] 2026-05-01 |
+| P0 | components.html 정적 시드 (BC-1) + components-data/loader.js | C(프론트) | 5/4 | [x] 2026-05-01 |
+| P0 | components-detail.html 코드 복사 + Pro 마스킹 + Not found (BC-2/3) | C(프론트) | 5/4 | [x] 2026-05-01 |
+| P0 | supabase-client.js view/RPC 전환 (BM-3 RLS) | C(프론트)+D | 5/5 | [x] 2026-05-02 |
+| P0 | Blocks 24종 QA 베이스라인 사전점검 (Critical 4 / Major 4 / Minor 1) | E(QA) | 5/5 | [x] 2026-05-01 (베이스라인) — 5/4 매트릭스 192건 + 5/5 E2E 3종 대기 |
+| P0 | Blocks DB 시드 SQL + RLS 보강 (`server/db/blocks-seed.sql`) | D(백엔드) | 5/5 | [x] 2026-05-01 SQL 작성 — Supabase SQL Editor 실행은 캡틴 액션 |
+| P1 | Admin UX 8건 (AD-01~AD-08) prompt() 8연속 → 모달 폼 + 한국어 라벨 → English | C(프론트) | 5/4 | [x] 2026-05-02 |
+
+**핵심 원칙 (캡틴 결정 2026-05-01)**:
+- 양보다 질 — "와" 수준 캡틴 기준 사수 (디자이너 출신)
+- 6 카테고리 × 평균 4종 = 24종 목표 (Buttons / Cards / Tables / Forms / Charts / Feedback / Navigation)
+- 카피는 D-day 기준으로 정직화. 5/1~5/5 동안은 "launching with day 1" 톤 허용
+
+---
+
 ## 👤 캡틴 D-5 잔여 액션 (2026-05-01 추가, 위임 불가)
 
 | P | 항목 | 마감 | 소요 | 상태 |
 |---|------|------|------|------|
 | P1 | Supabase SQL Editor에서 `server/db/launch-prep-migration.sql` 실행 (D-2/D-3/D-18 효력 발생) | 5/1 | 2분 | [x] 2026-05-01 완료 |
 | P1 | Supabase SQL Editor에서 `server/db/email-sends-migration.sql` 실행 (send-email 멱등성) | 5/1 | 1분 | [x] 2026-05-01 완료 |
+| P1 | **Supabase SQL Editor에서 `server/db/blocks-seed.sql` 실행** (24종 시드 + RLS 보강 — BM-3 차단) | 5/2 | 3분 | [x] 2026-05-02 완료 |
 | P1 | Lemonsqueezy 결제 실전 1회 (Pro Monthly 본인 결제 → 환불 → 라이선스 해제 확인) | 5/2 | 15분 | [ ] |
-| P2 | OAuth marketing_consent 정책 결정 (동의 화면 추가 / 그대로) | 5/2 | 5분 | [ ] |
-| P2 | PH Hunter 결정 (셀프 권고) | 5/3 | - | [ ] |
+| P2 | OAuth marketing_consent 정책 결정 (동의 화면 추가 / 그대로) | 5/2 | 5분 | [x] 2026-05-02 — B안 (그대로, marketing_consent=false 디폴트, settings에서 사후 opt-in) |
+| P2 | PH Hunter 결정 (셀프 권고) | 5/3 | - | [x] 2026-05-02 — A안 (셀프 헌트) |
 | P2 | 갤러리 이미지 5장 최종 선정 (bi_v1 메인 권고) | 5/3 | 30분 | [ ] |
-| P3 | PH Maker comment 톤 확정 (F 초안 검토) | 5/4 | 10분 | [ ] |
+| P3 | PH Maker comment 톤 확정 (F 초안 검토) | 5/4 | 10분 | [x] 2026-05-02 — 3안 (스토리텔링) 선택 |
 | P3 | 5/6 KST 4pm~10pm 응대 일정 확보 | 5/5 | - | [ ] |
 | P3 | Sentry 알림 룰 3개 등록 (E-15, 아래 단계 참고) | 5/4 | 10분 | [ ] |
 | P4 | 사업자등록 + 통신판매업 신고 | 런칭 후 30일 내 | 1시간 | [ ] |
@@ -192,6 +218,25 @@
 | P-06 | Subscriber 비밀번호 변경 미연동 | ❌ 미착수 | 가짜 성공 메시지만 표시 | C+D | subscriber/settings.html |
 | P-07 | Admin 설정 저장 미연동 | ❌ 미착수 | 가짜 성공 메시지만 표시 | C+D | admin/settings.html |
 | P-08 | Checkout 페이지 하드코딩 | ⚠️ 부분 완료 | 실제 결제 정보 미반영 | C+D | checkout/success.html 라이선스 키/플랜/금액 DB 연동 |
+
+## I-2. Admin UX 한국어/prompt 잔여 (2026-05-01 메인 직접 검증 추가)
+
+> **결함**: 4/29 C-7 "admin 9개 lang=ko" 일부만 처리. prompt/alert/UI 라벨 한국어 잔존이 광범위.
+> **수익화 영향**: 글로벌 SaaS 포지션과 충돌 (메모리 `project_ai_disclosure_decision.md` 일반 SaaS 포지션). 캡틴(관리자)이 한국어로 사용해도 무방하나, 향후 팀 추가 시 비효율.
+> **권고**: 5/2~5/4 C(프론트) 풀가동에 포함하여 정리.
+
+| # | 페이지 | 결함 | 심각도 |
+|---|--------|------|--------|
+| AD-01 | admin/themes.html | prompt() 8연속 (이름·슬러그·버전·카테고리·배지·공개여부 등) + 한국어 alert | Major (UX 후질) |
+| AD-02 | admin/releases.html | prompt() 4연속 (버전·제목·본문·상태) + 한국어 alert | Major |
+| AD-03 | admin/subscribers.html | Loops 발송 prompt + 한국어 alert(`발송 완료`, `발송 실패`) | Major |
+| AD-04 | admin/orders.html | "상세" 버튼 한국어, 빈 상태 한국어, 페이지네이션 텍스트 한국어 | Minor |
+| AD-05 | admin/settings.html | mobile-bottom-nav 일부 한국어 + 토글 라벨 한국어(`주간 요약`, `매주 월요일`) | Minor |
+| AD-06 | admin/analytics.html | "세션 녹화 기능 준비 중" 메시지 한국어 (캡틴 메모리 100명+ 후로 OK) | Minor |
+| AD-07 | admin/orders.html | Refund 버튼 부재 (Lemonsqueezy 대시보드 위임) — 캡틴에게 환불 처리 경로 안내 추가 권고 | Minor |
+| AD-08 | admin CRUD 전반 | prompt() → 모달 폼 교체 (4/29 C-6 지적 일부만 처리) | Major |
+
+---
 
 ## I. 프론트엔드 Major (F-02 ~ F-12)
 

@@ -198,7 +198,7 @@
 | A (PM) | `docs/plans/`, `docs/analysis/`, `CLAUDE.md` |
 | B (디자인) | `design/`, `src/styles/`, `src/tokens/` |
 | C (프론트엔드) | `src/components/`, `pages/`, `landing/`, `templates/`, `package.json` |
-| D (백엔드) | `server/`, `api/`, `db/`, `scripts/` |
+| D (백엔드) | `server/`, `api/`, `db/`, `scripts/`, `vercel.json`, `package.json`, `package-lock.json`, `.env.example` |
 | E (QA) | `docs/qa-reports/`, `tests/` |
 | F (그로스) | `docs/marketing/`, `docs/seo/`, `landing/copy/` |
 

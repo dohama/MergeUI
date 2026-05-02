@@ -408,25 +408,31 @@ function initMergeSupabase() {
     getMySubscription: async function() {
       var user = await MergeDB.getUser();
       if (!user) return null;
+      // D-02 BD-1: .single() → .maybeSingle() — 0 rows 시 에러 throw 안 함 (webhook 지연 정상 케이스)
       var { data, error } = await sb.from('subscriptions')
         .select('*')
         .eq('user_id', user.id)
         .eq('status', 'active')
-        .single();
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
       if (error) return null;
-      return data;
+      return data || null;
     },
 
     getMyLicenseKey: async function() {
       var user = await MergeDB.getUser();
       if (!user) return null;
+      // D-02 BD-1: .single() → .maybeSingle() — webhook 지연 시 0 rows 정상 처리
       var { data, error } = await sb.from('license_keys')
         .select('*')
         .eq('user_id', user.id)
         .eq('status', 'active')
-        .single();
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
       if (error) return null;
-      return data;
+      return data || null;
     },
 
     getMyOrders: async function() {

@@ -27,12 +27,17 @@ module.exports = async function handler(req, res) {
   if (!active) return res.status(403).json({ error: 'Subscription expired or inactive. Please renew to continue downloading.', code: 'SUBSCRIPTION_EXPIRED' });
 
   // ─────────────────────────────────────────────
-  // E-4: 라이선스 키 검증 — revoked 또는 만료된 키만 보유한 경우 차단
-  // 정책: 활성(active) 키가 1개 이상 존재해야 다운로드 허용
+  // E-4 / D-02 BD-1: 라이선스 키 검증 — NULL handling 통일
+  // schema (server/db/schema.sql:38-46): license_keys.status NOT NULL DEFAULT 'active',
+  //   허용값 ('active', 'revoked'). expires_at 컬럼은 존재하지 않음.
+  // 정책:
+  //   - status === 'active' 인 키 1개 이상 존재해야 다운로드 허용
+  //   - 0 rows (webhook 지연/신규 가입) → LICENSE_PENDING 으로 분리 안내
+  //   - status === 'revoked' → LICENSE_INVALID
   // ─────────────────────────────────────────────
   var licResult = await supabaseAdmin
     .from('license_keys')
-    .select('id, key, status, expires_at')
+    .select('id, key, status')
     .eq('user_id', user.id);
 
   if (licResult.error) {
@@ -45,16 +50,17 @@ module.exports = async function handler(req, res) {
   }
 
   var keys = licResult.data || [];
-  var now = Date.now();
-  var hasValidKey = keys.some(function(k) {
-    if (k.status === 'revoked') return false;
-    if (k.expires_at && new Date(k.expires_at).getTime() < now) return false;
-    return k.status === 'active' || k.status === null || k.status === undefined;
-  });
+  var hasValidKey = keys.some(function(k) { return k && k.status === 'active'; });
 
   if (!hasValidKey) {
+    if (keys.length === 0) {
+      return res.status(403).json({
+        error: 'Your license key is being generated. Please wait 1-2 minutes and try again, or contact support@mergeui.com if it persists.',
+        code: 'LICENSE_PENDING'
+      });
+    }
     return res.status(403).json({
-      error: 'Your license has been revoked or expired. Please contact support@mergeui.com.',
+      error: 'Your license has been revoked. Please contact support@mergeui.com.',
       code: 'LICENSE_INVALID'
     });
   }

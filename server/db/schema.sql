@@ -211,15 +211,17 @@ CREATE POLICY releases_public ON releases FOR SELECT USING (status = 'published'
 -- ============================================
 
 -- 신규 유저 가입 시 profiles 자동 생성
+-- (marketing_consent 컬럼은 add-marketing-consent.sql / launch-prep-migration.sql 에서 추가됨)
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO profiles (id, email, name, avatar_url)
+  INSERT INTO profiles (id, email, name, avatar_url, marketing_consent)
   VALUES (
     NEW.id,
     NEW.email,
     COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', split_part(NEW.email, '@', 1)),
-    COALESCE(NEW.raw_user_meta_data->>'avatar_url', '')
+    COALESCE(NEW.raw_user_meta_data->>'avatar_url', ''),
+    COALESCE((NEW.raw_user_meta_data->>'marketing_consent')::boolean, false)
   );
   RETURN NEW;
 END;

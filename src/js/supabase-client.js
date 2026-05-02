@@ -49,6 +49,14 @@ function initMergeSupabase() {
       localStorage.setItem('mergeui_session', JSON.stringify(basicSession));
       document.dispatchEvent(new Event('mergeui-session-updated'));
 
+      // SIGNED_IN(이메일 인증 콜백 / OAuth / 비밀번호 재설정 후 자동 로그인 등) 시 Loops 동기화
+      // sync-contact 백엔드가 5분 이내 1회만 'signup' 이벤트 발송하므로 idempotent — 중복 호출 안전
+      if (event === 'SIGNED_IN' && session.access_token) {
+        if (window.MergeDB && typeof window.MergeDB._syncLoops === 'function') {
+          window.MergeDB._syncLoops(session.access_token).catch(function() {});
+        }
+      }
+
       // 2단계: OAuth 로그인 완료 시 즉시 대시보드 이동
       // 단, 실제 OAuth 콜백(login/signup 페이지에서 ?code= 또는 #access_token 포함)일 때만
       // 이미 로그인된 사용자가 다른 공개 페이지를 탐색할 때는 리다이렉트하지 않음
@@ -256,6 +264,13 @@ function initMergeSupabase() {
     updatePassword: async function(newPassword) {
       var { data, error } = await sb.auth.updateUser({ password: newPassword });
       if (error) throw error;
+      // 비밀번호 재설정 후에도 Loops 연락처 최신 상태 동기화 (현재 세션 토큰 사용)
+      try {
+        var { data: { session } } = await sb.auth.getSession();
+        if (session && session.access_token) {
+          MergeDB._syncLoops(session.access_token).catch(function() {});
+        }
+      } catch (e) { /* 무시 */ }
       return data;
     },
 
@@ -279,8 +294,9 @@ function initMergeSupabase() {
 
     // ========== COMPONENTS ==========
 
+    // BM-3 fix: components_public_view 사용 (Pro 코드는 RLS 마스킹)
     getComponents: async function(category) {
-      var query = sb.from('components').select('*').eq('is_public', true);
+      var query = sb.from('components_public_view').select('id,slug,name,description,category,badge,version,preview_html,is_public,created_at,updated_at').eq('is_public', true);
       if (category) query = query.eq('category', category);
       query = query.order('name');
       var { data, error } = await query;
@@ -288,10 +304,19 @@ function initMergeSupabase() {
       return data || [];
     },
 
+    // BM-3 fix: get_component_code RPC + view 조합 (locked 플래그 반환)
     getComponent: async function(slug) {
-      var { data, error } = await sb.from('components').select('*').eq('slug', slug).single();
-      if (error) throw error;
-      return data;
+      var metaPromise = sb.from('components_public_view').select('*').eq('slug', slug).maybeSingle();
+      var codePromise = sb.rpc('get_component_code', { p_slug: slug });
+      var results = await Promise.all([metaPromise, codePromise]);
+      var meta = results[0] && results[0].data;
+      var codeRow = results[1] && (Array.isArray(results[1].data) ? results[1].data[0] : results[1].data);
+      if (!meta) return null;
+      return Object.assign({}, meta, {
+        code_html: (codeRow && codeRow.code_html) || meta.code_html || '',
+        code_css:  (codeRow && codeRow.code_css)  || meta.code_css  || '',
+        locked:    !!(codeRow && codeRow.locked)
+      });
     },
 
     // ========== DOWNLOADS ==========

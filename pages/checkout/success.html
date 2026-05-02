@@ -16,7 +16,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <meta name="google-site-verification" content="FI3WZCPFHDkL0FRTAwgkgYrv287bU_wRNBRDiCbttek">
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Successful — MergeUi</title>
-  <meta name="description" content="Your MergeUi payment was successful. Welcome to Pro!">
+  <meta name="description" content="Your MergeUi Pro subscription is active. Access all dashboard themes, 20+ components, and color presets from your library.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
@@ -47,6 +47,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     .btn.secondary{background:transparent;color:var(--text-secondary);border:1px solid var(--border-strong)}.btn.secondary:hover{border-color:var(--brand);color:var(--text-primary);transform:translateY(-2px)}
     footer{padding:40px 32px;border-top:1px solid var(--border)}.footer-inner{max-width:1600px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}.footer-copy{font-size:12px;color:var(--text-muted)}.footer-links{display:flex;gap:24px;list-style:none}.footer-links a{font-size:12px;color:var(--text-muted);transition:color 0.15s}.footer-links a:hover{color:var(--text-primary)}
     @media(max-width:768px){.nav-links,.nav-right{display:none}.nav-burger{display:block}.nav-inner{padding:0 20px}.footer-inner{flex-direction:column;gap:16px;text-align:center}.success-page{padding:40px 20px}.order-card{padding:20px}}
+    @keyframes licSpin{to{transform:rotate(360deg)}}
   </style>
   <script src="../../src/js/analytics.js" defer></script>
   <script src="../../src/js/supabase-client.js" defer></script>
@@ -78,7 +79,11 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
       <div class="order-row"><span class="label">Status</span><span class="value" style="color:var(--success)">Active</span></div>
       <div class="license-row">
         <span class="license-key" id="licenseKey">--</span>
-        <button type="button" class="copy-btn" onclick="copyLicense()">Copy</button>
+        <button type="button" class="copy-btn" id="copyBtn" onclick="copyLicense()" disabled aria-disabled="true" style="opacity:0.5;cursor:not-allowed">Copy</button>
+      </div>
+      <div id="licenseStatus" class="license-status" style="margin-top:10px;font-size:12px;line-height:1.5;color:var(--text-muted);text-align:left">
+        <span class="lic-spinner" aria-hidden="true" style="display:inline-block;width:12px;height:12px;border:2px solid var(--border-strong);border-top-color:var(--brand);border-radius:50%;vertical-align:-2px;margin-right:6px;animation:licSpin 0.8s linear infinite"></span>
+        Generating your license key...
       </div>
     </div>
     <div class="actions">
@@ -90,8 +95,56 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <footer><div class="footer-inner"><div class="footer-copy">&copy; 2026 MergeUi. All rights reserved.</div><ul class="footer-links"><li><a href="../legal/terms.html">Terms</a></li><li><a href="../legal/privacy.html">Privacy</a></li><li><a href="../legal/refund.html">Refund</a></li></ul></div></footer>
 
 <script>
-// DB에서 구독/라이선스 정보 로드
-document.addEventListener('mergedb-ready', async function() {
+// 라이선스 키 폴링: 2초 간격 x 5회 (총 10초). webhook 처리 지연 대응.
+var LICENSE_POLL_INTERVAL_MS = 2000;
+var LICENSE_POLL_MAX_TRIES = 5;
+
+function setLicenseReady(key) {
+  var keyEl = document.getElementById('licenseKey');
+  var btn = document.getElementById('copyBtn');
+  var status = document.getElementById('licenseStatus');
+  if (keyEl) keyEl.textContent = key;
+  if (btn) {
+    btn.disabled = false;
+    btn.setAttribute('aria-disabled', 'false');
+    btn.style.opacity = '';
+    btn.style.cursor = '';
+  }
+  if (status) status.style.display = 'none';
+}
+
+function setLicensePending(message) {
+  var status = document.getElementById('licenseStatus');
+  if (!status) return;
+  status.innerHTML =
+    '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;color:var(--warning,#FBBF24)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' +
+    message;
+}
+
+async function pollLicenseKey(tries) {
+  tries = tries || 0;
+  try {
+    var license = await MergeDB.getMyLicenseKey();
+    if (license && license.key) {
+      setLicenseReady(license.key);
+      return;
+    }
+  } catch (e) { /* fall through to retry */ }
+
+  if (tries + 1 < LICENSE_POLL_MAX_TRIES) {
+    setTimeout(function () { pollLicenseKey(tries + 1); }, LICENSE_POLL_INTERVAL_MS);
+  } else {
+    // 폴링 만료: 친절한 안내 + 새로고침 가이드
+    setLicensePending(
+      'Your payment is confirmed. The license key is being generated and will be emailed to you shortly. ' +
+      '<a href="javascript:location.reload()" style="color:var(--brand-light);font-weight:600;text-decoration:underline">Refresh</a> in a moment, or check ' +
+      '<a href="../subscriber/billing.html" style="color:var(--brand-light);font-weight:600;text-decoration:underline">Billing</a>.'
+    );
+  }
+}
+
+// DB 준비되면 구독/라이선스 정보 로드 + 폴링 시작
+document.addEventListener('mergedb-ready', async function () {
   try {
     var sub = await MergeDB.getMySubscription();
     if (sub) {
@@ -101,23 +154,24 @@ document.addEventListener('mergedb-ready', async function() {
       if (planEl) planEl.textContent = (sub.plan || 'Pro').charAt(0).toUpperCase() + (sub.plan || 'pro').slice(1) + ' ' + (sub.interval || 'Monthly');
       if (amtEl && sub.amount) amtEl.textContent = '$' + (sub.amount / 100).toFixed(2) + '/' + (sub.interval === 'yearly' ? 'year' : 'month');
       if (nextEl && sub.current_period_end) {
-        nextEl.textContent = new Date(sub.current_period_end).toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
+        nextEl.textContent = new Date(sub.current_period_end).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
       }
     }
-    var license = await MergeDB.getMyLicenseKey();
-    if (license && license.key) {
-      document.getElementById('licenseKey').textContent = license.key;
-    }
-  } catch(e) { /* DB 미연동 시 기본값(--) 유지 */ }
+  } catch (e) { /* sub 정보 미연동 시 기본값(--) 유지 */ }
+
+  // 라이선스 키는 별도로 폴링 (webhook 지연 대응)
+  pollLicenseKey(0);
 });
-function copyLicense(){
+
+function copyLicense() {
   var key = document.getElementById('licenseKey').textContent;
-  if (!key || key === '--') return;
-  navigator.clipboard.writeText(key).then(function(){
-    var btn = document.querySelector('.copy-btn');
+  var btn = document.getElementById('copyBtn');
+  if (!key || key === '--' || (btn && btn.disabled)) return;
+  navigator.clipboard.writeText(key).then(function () {
+    if (!btn) return;
     btn.textContent = 'Copied!';
-    setTimeout(function(){ btn.textContent = 'Copy'; }, 2000);
-  }).catch(function(){});
+    setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+  }).catch(function () {});
 }
 </script>
 <script src="../../src/js/auth.js"></script>

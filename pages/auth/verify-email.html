@@ -17,7 +17,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Verify Email — MergeUi</title>
-  <meta name="description" content="Verify your MergeUi email address.">
+  <meta name="description" content="Confirm your MergeUi account email to unlock dashboard template downloads, license keys, and Pro subscription access.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236C5CE7'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='18' font-weight='900' font-family='sans-serif'>O</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -90,6 +90,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
     }
   </style>
   <script src="../../src/js/analytics.js" defer></script>
+  <script src="../../src/js/supabase-client.js" defer></script>
 </head>
 <body>
 <div class="auth-layout">
@@ -173,6 +174,20 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   if (valid.indexOf(status) === -1) status = 'success';
   var el = document.getElementById('state-' + status);
   if (el) el.classList.add('active');
+
+  // 이메일 인증 성공 시 Loops 연락처 동기화 — Supabase 세션 발급 후 호출
+  // onAuthStateChange SIGNED_IN 핸들러도 호출하지만 sync-contact 백엔드가 5분 1회 idempotent
+  if (status === 'success') {
+    document.addEventListener('mergedb-ready', function() {
+      if (!window.MergeDB || !window.MergeDB.client) return;
+      window.MergeDB.client.auth.getSession().then(function(r) {
+        var token = r && r.data && r.data.session && r.data.session.access_token;
+        if (token && typeof window.MergeDB._syncLoops === 'function') {
+          window.MergeDB._syncLoops(token).catch(function() {});
+        }
+      }).catch(function() {});
+    });
+  }
 })();
 
 var resendBtn = document.getElementById('resendBtn');

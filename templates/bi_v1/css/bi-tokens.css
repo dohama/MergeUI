@@ -1,69 +1,92 @@
-/* ===== BI Dashboard (bi_v1) — Design Tokens =====
-   Looker Studio · Metabase · Tableau 스타일 · 차트 10종
-   ======================================================= */
+/* ===== BI Dashboard (bi_v1) — Design Tokens (Rev 2) =====
+   Analytics Studio · Navy Premium Palette (Option A)
+   Spec: design/bi_v1-rebuild-spec.md §7.1
+   Phase 1: Light only. Dark values kept as comments for Phase γ.
+   ========================================================= */
 :root {
-  --bi-font: 'Inter', -apple-system, sans-serif;
+  --bi-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --bi-font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --bi-font-feat: 'ss01', 'cv11';
 
-  /* 배경 — Light BI */
-  --bi-bg: #F6F8FB;
-  --bi-bg-white: #FFFFFF;
-  --bi-bg-subtle: #F0F3F7;
-  --bi-border: #E4E9F0;
-  --bi-border-strong: #CDD4DE;
+  /* === Surface · Navy Premium (Light) === */
+  --bi-bg:          #F4F6FB;  /* Dark:#0B1220 — page background */
+  --bi-bg-white:    #FFFFFF;  /* Dark:#141C2E — card background */
+  --bi-bg-subtle:   #EEF1F7;  /* Dark:#1C2540 — scrubber/secondary */
+  --bi-border:      #E1E6EF;  /* Dark:#24304A — default border */
+  --bi-border-strong: #CDD4E2; /* Dark:#33406A — strong border */
 
-  /* 텍스트 */
-  --bi-text: #1A202C;
-  --bi-text-2: #4A5568;
-  --bi-text-muted: #718096;
+  /* === Text === */
+  --bi-text:        #0F1629;  /* Dark:#F3F5FA */
+  --bi-text-2:      #4A5876;  /* Dark:#A8B2C8 */
+  --bi-text-muted:  #7A88A3;  /* Dark:#7888A6 */
 
-  /* 브랜드 */
-  --bi-primary: #4C6EF5;          /* Indigo 5 */
-  --bi-primary-soft: #EEF1FE;
-  --bi-primary-strong: #3A55D9;
+  /* === Brand — Navy Premium === */
+  --bi-primary:         #3D5AF5;  /* Dark:#6078FC */
+  --bi-primary-soft:    #E9EDFE;  /* Dark:#1F2A5E — hover/mark bg */
+  --bi-primary-strong:  #2838C2;  /* Dark:#8499FF — active/focus */
 
-  /* 상태 */
-  --bi-success: #12B76A;
-  --bi-success-bg: #ECFDF3;
-  --bi-warning: #F79009;
-  --bi-warning-bg: #FFFAEB;
-  --bi-error: #F04438;
-  --bi-error-bg: #FEF3F2;
-  --bi-info: #0EA5E9;
-  --bi-info-bg: #F0F9FF;
+  /* === Narrate highlight (mark) === */
+  --bi-mark-bg:     #FFF3C4;
+  --bi-mark-text:   #7C4A03;
 
-  /* 차트 8색 (Tableau 10 파생 — 범용 BI 팔레트) */
-  --bi-chart-1: #4C6EF5;
-  --bi-chart-2: #12B76A;
-  --bi-chart-3: #F79009;
-  --bi-chart-4: #F04438;
-  --bi-chart-5: #A855F7;
-  --bi-chart-6: #06B6D4;
-  --bi-chart-7: #EC4899;
-  --bi-chart-8: #64748B;
+  /* === Status === */
+  --bi-success:     #0EA36B;
+  --bi-success-bg:  #E5F6EE;
+  --bi-warning:     #E08A07;
+  --bi-warning-bg:  #FEF5E3;
+  --bi-error:       #DB3B35;
+  --bi-error-bg:    #FCE9E8;
+  --bi-info:        #0891B2;
+  --bi-info-bg:     #E5F5FA;
 
-  /* 히트맵 단계 (5단계 blue) */
-  --bi-heat-0: #F6F8FB;
-  --bi-heat-1: #C7D2FE;
-  --bi-heat-2: #8A9DF5;
-  --bi-heat-3: #5867EB;
-  --bi-heat-4: #4338CA;
+  /* === Chart Palette (deuteranopia-safe 8 colors · spec §7.1) === */
+  --bi-chart-1: #3D5AF5; /* Indigo */
+  --bi-chart-2: #06B6D4; /* Cyan */
+  --bi-chart-3: #F59E0B; /* Amber */
+  --bi-chart-4: #F43F5E; /* Rose */
+  --bi-chart-5: #10B981; /* Emerald */
+  --bi-chart-6: #8B5CF6; /* Violet */
+  --bi-chart-7: #F97316; /* Orange */
+  --bi-chart-8: #64748B; /* Slate */
 
-  /* 간격 */
-  --bi-space-1: 4px; --bi-space-2: 8px; --bi-space-3: 12px; --bi-space-4: 16px;
+  /* === Heatmap 5-step (Navy scale) === */
+  --bi-heat-0: #F4F6FB;
+  --bi-heat-1: #D7DEFC;
+  --bi-heat-2: #9AA9F8;
+  --bi-heat-3: #5A73F1;
+  --bi-heat-4: #2838C2;
+
+  /* === Space (4/8 grid) === */
+  --bi-space-1: 4px;  --bi-space-2: 8px;  --bi-space-3: 12px; --bi-space-4: 16px;
   --bi-space-5: 20px; --bi-space-6: 24px; --bi-space-7: 32px; --bi-space-8: 48px;
 
-  /* Radius */
-  --bi-radius: 8px;
-  --bi-radius-lg: 12px;
-  --bi-radius-sm: 6px;
+  /* === Radius === */
+  --bi-radius:     8px;
+  --bi-radius-lg:  12px;
+  --bi-radius-sm:  6px;
+  --bi-radius-pill: 9999px;
 
-  /* Shadow (절제된 BI 느낌) */
-  --bi-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
-  --bi-shadow-md: 0 2px 8px rgba(16, 24, 40, 0.06);
+  /* === Shadow (절제된 BI 느낌) === */
+  --bi-shadow-xs: 0 1px 2px rgba(15, 22, 41, 0.04);
+  --bi-shadow:    0 1px 3px rgba(15, 22, 41, 0.06), 0 1px 2px rgba(15, 22, 41, 0.04);
+  --bi-shadow-md: 0 4px 12px rgba(15, 22, 41, 0.08), 0 1px 3px rgba(15, 22, 41, 0.05);
+  --bi-shadow-lg: 0 12px 28px rgba(15, 22, 41, 0.12);
+
+  /* === Motion === */
+  --bi-ease: cubic-bezier(.2, .8, .2, 1);
+  --bi-dur-fast: 120ms;
+  --bi-dur-base: 180ms;
+  --bi-dur-slow: 300ms;
 }
 
-/* 액센트 프리셋 */
-/* === Emerald === :root { --bi-primary: #059669; --bi-primary-soft: #D1FAE5; --bi-primary-strong: #047857; } */
-/* === Rose === :root { --bi-primary: #E11D48; --bi-primary-soft: #FFE4E6; --bi-primary-strong: #BE123C; } */
-/* === Charcoal === :root { --bi-primary: #1F2937; --bi-primary-soft: #F3F4F6; --bi-primary-strong: #0F172A; } */
+/* === Accent Preset Swaps (uncomment one to re-tint primary) ===
+   구독자가 액센트 프리셋 4벌 중 선택 가능 — 배경/보더는 고정
+*/
+/* === Emerald ===
+:root { --bi-primary: #059669; --bi-primary-soft: #D1FAE5; --bi-primary-strong: #047857; } */
+/* === Rose ===
+:root { --bi-primary: #E11D48; --bi-primary-soft: #FFE4E6; --bi-primary-strong: #BE123C; } */
+/* === Amber ===
+:root { --bi-primary: #D97706; --bi-primary-soft: #FEF3C7; --bi-primary-strong: #B45309; } */
+/* === Charcoal ===
+:root { --bi-primary: #1F2937; --bi-primary-soft: #F3F4F6; --bi-primary-strong: #0F172A; } */

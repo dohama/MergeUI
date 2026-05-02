@@ -1,46 +1,139 @@
-# BI Dashboard (bi_v1)
+# Analytics Studio (bi_v1)
 
-> Looker Studio · Metabase · Tableau 스타일 · **차트 10종 동시 표시**
-> Business Intelligence / Analytics 대시보드
+> Premium BI dashboard template — **Bento grid + Auto-narrated story + History scrubber**
+> Powered by Chart.js. Zero build step. Drop-in HTML/CSS/JS.
 
-## 🎯 차트 10종 시그니처
+> Internal slug: `bi_v1` · External product name (provisional): **Analytics Studio** (final TBD Day 7)
 
-한 화면에 BI 툴 표준 차트 10종이 동시에 렌더링됩니다.
+---
 
-| # | 차트 | 타입 | 용도 |
+## Signature Features (Rev 2)
+
+| # | Signature | What it does |
+|---|---|---|
+| 1 | **Bento Grid Layout** | 12-column grid with mixed span-3/4/5/6/7/8 cards and 2-row anchors. Breaks the "same-size card" monotony found in most BI templates. |
+| 2 | **Auto-narrate Story (X06)** | A 1-sentence prose summary (`MRR grew 12.4% WoW…`) with highlighted drivers. Copy-to-Slides button. Regenerate cycles through 10 templated narratives keyed to data conditions. |
+| 3 | **History Scrubber (X09)** | Drag-the-timeline UX. Keyboard: ← / → ±1d, Shift ±7d, Home/End. Dispatches `bi:timechange` CustomEvent for downstream chart recomputation (Phase γ: full per-date slicing). |
+
+---
+
+## Chart Inventory (10 types)
+
+| # | Chart | Engine | Data |
 |---|---|---|---|
-| 1 | **Line Chart** | Chart.js line + 그라디언트 영역 | Revenue 12M vs 전년 |
-| 2 | **Stacked Bar** | Chart.js bar (vertical stacked) | 채널별 트래픽 분해 |
-| 3 | **Horizontal Stacked Bar** | Chart.js bar (indexAxis:'y') | 코호트 리텐션 M1~M6 |
-| 4 | **Donut** | Chart.js doughnut (cutout 68%) | 디바이스 분포 |
-| 5 | **Pie** | Chart.js pie | 플랜 mix |
-| 6 | **Area (Stacked)** | Chart.js line stacked fill | MAU/WAU/DAU |
-| 7 | **Scatter Plot** | Chart.js scatter + 가변 포인트 크기 | LTV vs CAC (버블) |
-| 8 | **Heatmap** | SVG 직접 (7×24 그리드, 5단계) | 요일×시간 트래픽 밀도 |
-| 9 | **Gauge** | SVG arc path (반원형) | NPS 점수 |
-| 10 | **Funnel** | HTML + CSS (수평 바) | 전환 퍼널 |
+| 1 | Line | Chart.js line + area gradient | Revenue 12M vs YoY |
+| 2 | Stacked Bar | Chart.js bar (stacked) | Traffic channels |
+| 3 | Horizontal Stacked Bar | Chart.js bar (indexAxis:'y') | Cohort retention M1–M6 |
+| 4 | Donut | Chart.js doughnut (cutout 68%) | Device share |
+| 5 | Pie | Chart.js pie | Plan mix |
+| 6 | Stacked Area | Chart.js line (fill) | MAU/WAU/DAU |
+| 7 | Scatter (bubble) | Chart.js scatter | LTV vs CAC |
+| 8 | Heatmap | HTML grid (7×24) | Day × Hour traffic |
+| 9 | Gauge (large + mini) | Inline SVG arc | NPS score |
+| 10 | Funnel | HTML bars | Visitor → Retained |
 
-추가 + Sparkline × 4 (KPI 상단) + Top Countries 테이블 + 배지·랭크
+Plus: **Hero sparkline** (inline SVG with hover tooltip), **Top Countries table** with rank badges, **Narrate footnotes** on 5 cards.
 
-## 디자인
-- **Light BI 톤**: 배경 `#F6F8FB`, 카드 순백, 경계 `#E4E9F0`
-- **Indigo 5 액센트** `#4C6EF5` (Tableau·Metabase 스타일)
-- 12-column grid (bi-span-N 시스템)
-- Inter body + JetBrains Mono 숫자
-- 절제된 shadow (`0 2px 8px rgba(16,24,40,0.06)`)
-- 4 액센트 프리셋 (Indigo/Emerald/Rose/Charcoal)
+---
+
+## File Structure
+
+```
+templates/bi_v1/
+├── index.html          # Semantic HTML, no inline styles
+├── css/
+│   ├── bi-tokens.css   # --bi-* design tokens (Navy Premium)
+│   └── bi-theme.css    # Layout + components + responsive
+└── js/
+    ├── data.js         # BI_DATA + narrateTemplates + getDataAt(date)
+    └── bi-theme.js     # Renderers + scrubber + narrate runtime
+```
+
+---
+
+## Design Tokens (Navy Premium)
+
+All customization happens via `--bi-*` CSS variables. No hex values in markup.
+
+**Core palette:**
+```
+--bi-bg            #F4F6FB   page background
+--bi-bg-white      #FFFFFF   card background
+--bi-bg-subtle     #EEF1F7   scrubber/secondary
+--bi-text          #0F1629   body
+--bi-text-2        #4A5876   secondary
+--bi-text-muted    #7A88A3   labels
+--bi-primary       #3D5AF5   accent (swap via preset)
+--bi-primary-soft  #E9EDFE   hover/mark bg
+```
+
+**Chart 8 (deuteranopia-safe):**
+`#3D5AF5 · #06B6D4 · #F59E0B · #F43F5E · #10B981 · #8B5CF6 · #F97316 · #64748B`
+
+**Dark mode:** Phase 1 **not** enabled. Dark-column values are kept as comments in `bi-tokens.css` for Phase γ activation.
+
+### Accent Preset Swap
+
+Uncomment one block at the bottom of `bi-tokens.css` to re-tint every `--bi-primary` usage (no other edits needed):
+
+```css
+/* === Emerald === */
+:root { --bi-primary: #059669; --bi-primary-soft: #D1FAE5; --bi-primary-strong: #047857; }
+```
+
+Provided presets: **Indigo (default) · Emerald · Rose · Amber · Charcoal**.
+
+---
 
 ## Quick Start
-1. `index.html` 브라우저로 열기
-2. 또는 `npx serve`
 
-## 커스터마이징
-- **액센트 프리셋**: `css/bi-tokens.css` 하단 주석 해제
-- **데이터**: `js/data.js`의 `BI_DATA` 수정
+1. Double-click `index.html` (works via `file://` — only external call is the Chart.js CDN + Google Fonts).
+2. Or serve: `npx serve .` → open `http://localhost:3000/`.
 
-## 의존성
-- Chart.js 4 (CDN)
-- Google Fonts Inter + JetBrains Mono
+No npm install. No build.
 
-## 라이선스
-© 2026 MergeUi. Commercial license.
+---
+
+## Customization Recipes
+
+### Change the accent color
+Edit `css/bi-tokens.css` → swap `--bi-primary` / `--bi-primary-soft` / `--bi-primary-strong`. Charts, hover states, and scrubber all follow automatically.
+
+### Replace the narrative
+Edit `js/data.js` → `narrateTemplates[]`. Each entry has `{ id, condition(snapshot) → bool, html }`. Placeholders `{{key}}` are pulled from `BI_DATA.snapshot` at render time.
+
+### Change chart data
+Edit `BI_DATA` in `js/data.js`. Each chart reads its own slice (`BI_DATA.revenueTrend`, `BI_DATA.channelStack`, etc.). The rendering code in `bi-theme.js` picks colors from CSS vars so re-theming works without JS edits.
+
+### Wire scrubber to live data (Phase γ)
+`getDataAt(dateStr)` in `data.js` is the single seam — return a snapshot shaped like the global `BI_DATA` for a given ISO date, and each chart's `bi:timechange` listener will pick it up.
+
+---
+
+## Accessibility
+
+- WCAG AA contrast verified for text / primary on all surfaces.
+- Scrubber: `role="slider"` + `aria-valuemin/max/now/text`, keyboard (← → Shift Home End PageUp/Down), pointer drag with capture.
+- Every `<canvas>` chart has `role="img"` + `aria-label`.
+- `prefers-reduced-motion` disables hover elevation, chart animation, and narrate fade.
+- Focus ring: `2px solid --bi-primary` with 2px offset. Never suppressed.
+
+---
+
+## Dependencies
+
+- **Chart.js 4** via CDN (`chart.umd.min.js`).
+- **Inter + JetBrains Mono** via Google Fonts.
+- Zero other runtime dependencies. Bundle < 50KB (excluding Chart.js CDN).
+
+---
+
+## Roadmap
+
+- **Phase γ (post-launch)** — Dark mode toggle, `getDataAt(date)` per-date slicing, Command Palette (⌘K), user-custom widget saving.
+
+---
+
+## License
+
+© 2026 MergeUi. Commercial license per subscription plan.

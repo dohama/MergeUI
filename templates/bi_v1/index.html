@@ -1,207 +1,346 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BI Dashboard — Analytics Overview</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/bi-tokens.css">
-<link rel="stylesheet" href="css/bi-theme.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analytics Studio — Overview</title>
+  <meta name="description" content="Analytics Studio — a premium BI dashboard template with bento grid, auto-narrated insights, and a history scrubber. Built on Chart.js.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/bi-tokens.css">
+  <link rel="stylesheet" href="css/bi-theme.css">
 </head>
 <body>
 
-<!-- 헤더 -->
-<header class="bi-header">
-  <div class="bi-brand">
-    <span class="bi-brand-mark">B</span>
-    <span>BI·Dashboard</span>
-  </div>
-  <nav class="bi-nav">
-    <a href="index.html" class="active">Overview</a>
-    <a href="#acquisition">Acquisition</a>
-    <a href="#retention">Retention</a>
-    <a href="#revenue">Revenue</a>
-    <a href="#experiments">Experiments</a>
-  </nav>
-  <button type="button" class="bi-filter primary" style="padding:7px 14px">+ New Report</button>
-</header>
-
-<!-- 필터 바 -->
-<div class="bi-filters">
-  <button type="button" class="bi-filter"><span>📅</span> <span>Last 12 months</span> <span class="bi-filter-chevron">▾</span></button>
-  <button type="button" class="bi-filter"><span>🌐</span> <span>All Regions</span> <span class="bi-filter-chevron">▾</span></button>
-  <button type="button" class="bi-filter"><span>👥</span> <span>All Users</span> <span class="bi-filter-chevron">▾</span></button>
-  <button type="button" class="bi-filter"><span>💼</span> <span>All Plans</span> <span class="bi-filter-chevron">▾</span></button>
-  <button type="button" class="bi-filter"><span>⚙</span> <span>Compare</span></button>
-  <div style="margin-left:auto;display:flex;gap:8px">
-    <button type="button" class="bi-filter">⟳ Refresh</button>
-    <button type="button" class="bi-filter">↓ Export</button>
-  </div>
-</div>
-
-<!-- 메인 -->
-<main class="bi-main">
-  <div class="bi-title">
-    <div>
-      <h1>Analytics Overview</h1>
-      <p>Updated 2 minutes ago · Auto-refresh every 5m</p>
-    </div>
-    <div class="bi-title-actions">
-      <button type="button" class="bi-filter">Save View</button>
-      <button type="button" class="bi-filter">Share</button>
-    </div>
-  </div>
-
-  <!-- KPI + sparkline -->
-  <section class="bi-kpi-row" id="kpiRow"></section>
-
-  <!-- 차트 그리드 (10종 동시) -->
-  <section class="bi-grid">
-    <!-- [1] Line chart — Revenue 12M -->
-    <div class="bi-card bi-span-8 bi-row-2">
-      <div class="bi-card-head">
-        <div>
-          <div class="bi-card-title">Revenue Trend · 12 months</div>
-          <div class="bi-card-sub">MRR vs same period last year</div>
-        </div>
-        <button class="bi-card-menu">⋯</button>
-      </div>
-      <div class="bi-card-body"><canvas id="revenueChart"></canvas></div>
+  <!-- ============ HEADER ============ -->
+  <header class="bi-header" role="banner">
+    <div class="bi-brand" aria-label="Analytics Studio">
+      <span class="bi-brand-mark" aria-hidden="true">A</span>
+      <span class="bi-brand-name">Analytics Studio</span>
+      <span class="bi-brand-sub" aria-hidden="true">bi · v1</span>
     </div>
 
-    <!-- [9] Gauge — NPS -->
-    <div class="bi-card bi-span-4">
-      <div class="bi-card-head">
-        <div>
-          <div class="bi-card-title">NPS Score</div>
-          <div class="bi-card-sub">Promoters − Detractors</div>
-        </div>
-        <button class="bi-card-menu">⋯</button>
-      </div>
-      <div class="bi-card-body" id="gauge"></div>
-    </div>
+    <nav class="bi-nav" aria-label="Primary">
+      <a href="index.html" class="active" aria-current="page">Overview</a>
+      <a href="#acquisition">Acquisition</a>
+      <a href="#retention">Retention</a>
+      <a href="#revenue">Revenue</a>
+      <a href="#experiments">Experiments</a>
+    </nav>
 
-    <!-- [4] Donut — Device -->
-    <div class="bi-card bi-span-4">
-      <div class="bi-card-head">
-        <div>
-          <div class="bi-card-title">Device Share</div>
-          <div class="bi-card-sub">All sessions · last 30d</div>
-        </div>
-        <button class="bi-card-menu">⋯</button>
-      </div>
-      <div class="bi-card-body"><canvas id="deviceChart"></canvas></div>
+    <div class="bi-header-utils">
+      <label class="bi-search" aria-label="Search metrics, reports, segments">
+        <span class="bi-search-icon" aria-hidden="true">🔍</span>
+        <input type="search" class="bi-search-input" placeholder="Search metrics, reports…">
+        <span class="bi-search-kbd" aria-hidden="true">⌘K</span>
+      </label>
+      <button type="button" class="bi-icon-btn" aria-label="Notifications, 3 unread">
+        <span aria-hidden="true">🔔</span>
+        <span class="bi-dot" aria-hidden="true">3</span>
+      </button>
+      <button type="button" class="bi-avatar" aria-label="Account menu, Jimin Park">JP</button>
+      <button type="button" class="bi-btn bi-btn-primary">+ New Report</button>
     </div>
+  </header>
 
-    <!-- [2] Stacked bar — Channels -->
-    <div class="bi-card bi-span-6">
-      <div class="bi-card-head">
-        <div>
-          <div class="bi-card-title">Traffic Channels</div>
-          <div class="bi-card-sub">Monthly breakdown (K sessions)</div>
-        </div>
-        <button class="bi-card-menu">⋯</button>
-      </div>
-      <div class="bi-card-body"><canvas id="channelChart"></canvas></div>
+  <!-- ============ SCRUBBER (X09) ============ -->
+  <section class="bi-scrubber" aria-label="Time range scrubber">
+    <div class="bi-scrubber-left">
+      <span class="bi-scrubber-label">Date</span>
+      <span class="bi-scrubber-date" id="scrubber-date">Apr 23, 2026 (Fri)</span>
     </div>
-
-    <!-- [5] Pie — Plan -->
-    <div class="bi-card bi-span-3">
-      <div class="bi-card-head">
-        <div>
-          <div class="bi-card-title">Plan Mix</div>
-          <div class="bi-card-sub">Active subscribers</div>
-        </div>
+    <div class="bi-scrubber-track-wrap">
+      <div class="bi-scrubber-track" id="scrubber-track" aria-hidden="true">
+        <div class="bi-scrubber-progress" id="scrubber-progress"></div>
+        <button
+          type="button"
+          class="bi-scrubber-handle"
+          id="scrubber-handle"
+          role="slider"
+          tabindex="0"
+          aria-label="Timeline position"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="100"
+          aria-valuetext="Apr 23, 2026"
+        ></button>
       </div>
-      <div class="bi-card-body"><canvas id="planChart"></canvas></div>
-    </div>
-
-    <!-- [3] Horizontal stacked — Cohort -->
-    <div class="bi-card bi-span-6">
-      <div class="bi-card-head">
-        <div>
-          <div class="bi-card-title">Cohort Retention</div>
-          <div class="bi-card-sub">M1–M6 by signup month</div>
-        </div>
-        <button class="bi-card-menu">⋯</button>
-      </div>
-      <div class="bi-card-body"><canvas id="cohortChart"></canvas></div>
-    </div>
-
-    <!-- [6] Area — MAU/WAU/DAU -->
-    <div class="bi-card bi-span-6">
-      <div class="bi-card-head">
-        <div>
-          <div class="bi-card-title">Active Users (M/W/D)</div>
-          <div class="bi-card-sub">Rolling 12 weeks</div>
-        </div>
-        <button class="bi-card-menu">⋯</button>
-      </div>
-      <div class="bi-card-body"><canvas id="activityChart"></canvas></div>
-    </div>
-
-    <!-- [8] Heatmap — 7 × 24 -->
-    <div class="bi-card bi-span-8">
-      <div class="bi-card-head">
-        <div>
-          <div class="bi-card-title">Activity Heatmap</div>
-          <div class="bi-card-sub">Traffic density · Day × Hour</div>
-        </div>
-        <button class="bi-card-menu">⋯</button>
-      </div>
-      <div class="bi-card-body" style="display:flex;align-items:center">
-        <div class="bi-heatmap" id="heatmap" style="width:100%"></div>
+      <div class="bi-scrubber-hints" aria-hidden="true">
+        <span>Apr 2025</span>
+        <span>Oct 2025</span>
+        <span>Apr 2026</span>
       </div>
     </div>
-
-    <!-- [7] Scatter — LTV vs CAC -->
-    <div class="bi-card bi-span-4">
-      <div class="bi-card-head">
-        <div>
-          <div class="bi-card-title">LTV vs CAC</div>
-          <div class="bi-card-sub">Per channel · bubble = volume</div>
-        </div>
-        <button class="bi-card-menu">⋯</button>
-      </div>
-      <div class="bi-card-body"><canvas id="scatterChart"></canvas></div>
+    <div class="bi-scrubber-right">
+      <button type="button" class="bi-filter">
+        <span>Last 12 months</span><span class="bi-filter-chevron" aria-hidden="true">▾</span>
+      </button>
+      <button type="button" class="bi-filter">
+        <span>Compare: None</span><span class="bi-filter-chevron" aria-hidden="true">▾</span>
+      </button>
+      <button type="button" class="bi-filter">
+        <span>All Regions</span><span class="bi-filter-chevron" aria-hidden="true">▾</span>
+      </button>
+      <button type="button" class="bi-filter" id="scrubber-reset" aria-label="Reset to latest">⟳ Today</button>
+      <button type="button" class="bi-filter" aria-label="Export">↓ Export</button>
     </div>
-
-    <!-- [10] Funnel -->
-    <div class="bi-card bi-span-5">
-      <div class="bi-card-head">
-        <div>
-          <div class="bi-card-title">Conversion Funnel</div>
-          <div class="bi-card-sub">Visitor → Paid → Retained</div>
-        </div>
-        <button class="bi-card-menu">⋯</button>
-      </div>
-      <div class="bi-card-body" id="funnel"></div>
-    </div>
-
-    <!-- Top Countries table -->
-    <div class="bi-card bi-span-7">
-      <div class="bi-card-head">
-        <div>
-          <div class="bi-card-title">Top Countries</div>
-          <div class="bi-card-sub">Users · Revenue · MoM growth</div>
-        </div>
-        <button class="bi-card-menu">⋯</button>
-      </div>
-      <div class="bi-card-body">
-        <table class="bi-table">
-          <thead><tr><th>#</th><th>Country</th><th style="text-align:right">Users</th><th style="text-align:right">Revenue</th><th>Growth</th></tr></thead>
-          <tbody id="topCountries"></tbody>
-        </table>
-      </div>
-    </div>
-
   </section>
-</main>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
-<script src="js/data.js"></script>
-<script src="js/bi-theme.js"></script>
+  <!-- ============ MAIN ============ -->
+  <main class="bi-main">
+    <div class="bi-title">
+      <div>
+        <h1>Analytics Overview</h1>
+        <p>Updated 2 minutes ago · Auto-refresh every 5m</p>
+      </div>
+      <div class="bi-title-actions">
+        <button type="button" class="bi-btn bi-btn-ghost">Save View</button>
+        <button type="button" class="bi-btn bi-btn-ghost">Share</button>
+      </div>
+    </div>
+
+    <!-- ============ HERO STRIP ============ -->
+    <section class="bi-grid-hero" aria-label="Top-line story and KPIs">
+
+      <!-- Hero 4-1: Narrate (span-5) -->
+      <aside class="bi-hero-narrate" role="region" aria-labelledby="narrate-heading">
+        <div class="bi-narrate-label">
+          <span class="bi-narrate-icon" aria-hidden="true">📖</span>
+          <h2 id="narrate-heading" class="bi-narrate-title">This Week's Story</h2>
+          <span class="bi-narrate-tag" aria-label="Auto-generated">Auto</span>
+        </div>
+        <p class="bi-narrate-body" id="narrate-body">
+          <strong>MRR grew 12.4% WoW</strong>, driven by
+          <mark>3 Enterprise upgrades</mark> and improved
+          <mark>Pro retention (89% → 92%)</mark>. Churn dipped to 2.1%, a 3-month low.
+        </p>
+        <div class="bi-narrate-actions">
+          <button type="button" class="bi-btn bi-btn-ghost" id="narrate-copy" aria-label="Copy story to clipboard">
+            <span class="bi-copy-label">Copy to Slides</span>
+          </button>
+          <button type="button" class="bi-btn bi-btn-soft" id="narrate-regenerate" aria-label="Regenerate narrative">
+            Regenerate ▾
+          </button>
+        </div>
+      </aside>
+
+      <!-- Hero 4-2: MRR KPI (span-4) -->
+      <article class="bi-hero-kpi" aria-label="Monthly Recurring Revenue">
+        <div class="bi-hero-kpi-label">MRR</div>
+        <div class="bi-hero-kpi-row">
+          <span class="bi-hero-kpi-value" id="hero-mrr-value">$245,820</span>
+          <span class="bi-hero-kpi-delta up" id="hero-mrr-delta">
+            <span class="bi-sr-only">increased by</span>↑ 12.4%
+          </span>
+        </div>
+        <div class="bi-hero-kpi-compare" id="hero-mrr-compare">vs <span class="bi-mono">$218,700</span> last week</div>
+        <div class="bi-hero-kpi-spark" id="hero-mrr-spark" aria-hidden="true"></div>
+        <div class="bi-hero-kpi-progress">
+          <div class="bi-hero-kpi-progress-bar" aria-hidden="true">
+            <div class="bi-hero-kpi-progress-fill" id="hero-mrr-progress-fill" style="width:88%"></div>
+          </div>
+          <div class="bi-hero-kpi-progress-val" id="hero-mrr-progress-val">88% of $280K target</div>
+        </div>
+      </article>
+
+      <!-- Hero 4-3: NPS mini (span-3) -->
+      <article class="bi-hero-mini" aria-label="Net Promoter Score">
+        <div class="bi-hero-mini-head">
+          <span class="bi-hero-mini-label">NPS</span>
+          <span class="bi-hero-mini-tag" aria-hidden="true">★ Good</span>
+        </div>
+        <div class="bi-hero-mini-gauge">
+          <div id="hero-nps-gauge" aria-hidden="true"></div>
+          <div class="bi-hero-mini-value" id="hero-nps-value">42</div>
+        </div>
+        <div class="bi-hero-mini-foot">
+          <div><b id="hero-nps-prom">128</b> Promoters</div>
+          <div><b id="hero-nps-detr">34</b> Detractors</div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- ============ BENTO GRID (10 charts + countries table) ============ -->
+    <section class="bi-grid" aria-label="Dashboard charts">
+
+      <!-- [1] Revenue Line — span-8, row-2 -->
+      <article class="bi-card bi-span-8 bi-row-2">
+        <div class="bi-card-head">
+          <div>
+            <div class="bi-card-title">Revenue Trend · 12 months</div>
+            <div class="bi-card-sub">MRR vs same period last year</div>
+          </div>
+          <button type="button" class="bi-card-menu" aria-label="Options">⋯</button>
+        </div>
+        <div class="bi-card-body"><canvas id="revenueChart"></canvas></div>
+        <div class="bi-card-narrate">
+          <span class="bi-card-narrate-icon" aria-hidden="true">💡</span>
+          <span class="bi-card-narrate-text">
+            <strong>Revenue up 28% YoY</strong> — Q1 momentum holding strong; enterprise mix share climbed from 18% to 24%.
+          </span>
+        </div>
+      </article>
+
+      <!-- [9] Gauge — NPS card — span-4 row-1 -->
+      <article class="bi-card bi-span-4">
+        <div class="bi-card-head">
+          <div>
+            <div class="bi-card-title">NPS Score</div>
+            <div class="bi-card-sub">Promoters − Detractors · last 90d</div>
+          </div>
+          <button type="button" class="bi-card-menu" aria-label="Options">⋯</button>
+        </div>
+        <div class="bi-card-body" id="gauge"></div>
+      </article>
+
+      <!-- [4] Donut Device — span-4 -->
+      <article class="bi-card bi-span-4">
+        <div class="bi-card-head">
+          <div>
+            <div class="bi-card-title">Device Share</div>
+            <div class="bi-card-sub">All sessions · last 30d</div>
+          </div>
+          <button type="button" class="bi-card-menu" aria-label="Options">⋯</button>
+        </div>
+        <div class="bi-card-body"><canvas id="deviceChart"></canvas></div>
+      </article>
+
+      <!-- [5] Pie Plan — span-3 -->
+      <article class="bi-card bi-span-3">
+        <div class="bi-card-head">
+          <div>
+            <div class="bi-card-title">Plan Mix</div>
+            <div class="bi-card-sub">Active subscribers</div>
+          </div>
+          <button type="button" class="bi-card-menu" aria-label="Options">⋯</button>
+        </div>
+        <div class="bi-card-body"><canvas id="planChart"></canvas></div>
+      </article>
+
+      <!-- [2] Stacked Traffic — span-6 -->
+      <article class="bi-card bi-span-6">
+        <div class="bi-card-head">
+          <div>
+            <div class="bi-card-title">Traffic Channels</div>
+            <div class="bi-card-sub">Monthly breakdown (K sessions)</div>
+          </div>
+          <button type="button" class="bi-card-menu" aria-label="Options">⋯</button>
+        </div>
+        <div class="bi-card-body"><canvas id="channelChart"></canvas></div>
+      </article>
+
+      <!-- [3] Cohort — span-3 -->
+      <article class="bi-card bi-span-3">
+        <div class="bi-card-head">
+          <div>
+            <div class="bi-card-title">Cohort Retention</div>
+            <div class="bi-card-sub">M1–M6 · signup month</div>
+          </div>
+          <button type="button" class="bi-card-menu" aria-label="Options">⋯</button>
+        </div>
+        <div class="bi-card-body"><canvas id="cohortChart"></canvas></div>
+        <div class="bi-card-narrate">
+          <span class="bi-card-narrate-icon" aria-hidden="true">💡</span>
+          <span class="bi-card-narrate-text">
+            <strong>Feb cohort held 89% at M3</strong> — best in 6 quarters.
+          </span>
+        </div>
+      </article>
+
+      <!-- [6] Area MAU — span-6 -->
+      <article class="bi-card bi-span-6">
+        <div class="bi-card-head">
+          <div>
+            <div class="bi-card-title">Active Users (M/W/D)</div>
+            <div class="bi-card-sub">Rolling 12 weeks</div>
+          </div>
+          <button type="button" class="bi-card-menu" aria-label="Options">⋯</button>
+        </div>
+        <div class="bi-card-body"><canvas id="activityChart"></canvas></div>
+      </article>
+
+      <!-- [8] Heatmap — span-6 row-2 -->
+      <article class="bi-card bi-span-6 bi-row-2">
+        <div class="bi-card-head">
+          <div>
+            <div class="bi-card-title">Activity Heatmap</div>
+            <div class="bi-card-sub">Traffic density · Day × Hour</div>
+          </div>
+          <button type="button" class="bi-card-menu" aria-label="Options">⋯</button>
+        </div>
+        <div class="bi-card-body" style="display:flex;align-items:center">
+          <div class="bi-heatmap" id="heatmap"></div>
+        </div>
+        <div class="bi-card-narrate">
+          <span class="bi-card-narrate-icon" aria-hidden="true">💡</span>
+          <span class="bi-card-narrate-text">
+            Peak windows: <strong>Tue–Thu 09–11</strong> and <strong>Wed 20–22</strong>. Weekends dip 60%.
+          </span>
+        </div>
+      </article>
+
+      <!-- [7] Scatter LTV — span-6 -->
+      <article class="bi-card bi-span-6">
+        <div class="bi-card-head">
+          <div>
+            <div class="bi-card-title">LTV vs CAC</div>
+            <div class="bi-card-sub">Per channel · bubble = volume</div>
+          </div>
+          <button type="button" class="bi-card-menu" aria-label="Options">⋯</button>
+        </div>
+        <div class="bi-card-body"><canvas id="scatterChart"></canvas></div>
+      </article>
+
+      <!-- [10] Funnel — span-5 -->
+      <article class="bi-card bi-span-5">
+        <div class="bi-card-head">
+          <div>
+            <div class="bi-card-title">Conversion Funnel</div>
+            <div class="bi-card-sub">Visitor → Paid → Retained</div>
+          </div>
+          <button type="button" class="bi-card-menu" aria-label="Options">⋯</button>
+        </div>
+        <div class="bi-card-body" id="funnel"></div>
+        <div class="bi-card-narrate">
+          <span class="bi-card-narrate-icon" aria-hidden="true">💡</span>
+          <span class="bi-card-narrate-text">
+            Biggest leak: <strong>Signup → Activation (64% → 23%)</strong>. Onboarding checklist rollout is the current bet.
+          </span>
+        </div>
+      </article>
+
+      <!-- Top Countries — span-7 -->
+      <article class="bi-card bi-span-7">
+        <div class="bi-card-head">
+          <div>
+            <div class="bi-card-title">Top Countries</div>
+            <div class="bi-card-sub">Users · Revenue · MoM growth</div>
+          </div>
+          <button type="button" class="bi-card-menu" aria-label="Options">⋯</button>
+        </div>
+        <div class="bi-card-body">
+          <table class="bi-table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Country</th>
+                <th scope="col" class="num">Users</th>
+                <th scope="col" class="num">Revenue</th>
+                <th scope="col">Growth</th>
+              </tr>
+            </thead>
+            <tbody id="topCountries"></tbody>
+          </table>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/bi-theme.js"></script>
 </body>
 </html>

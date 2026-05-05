@@ -7,7 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:zips": "node scripts/build-zips.js",
+    "vercel-build": "node scripts/build-zips.js"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +25,7 @@
     "helmet": "^8.1.0"
   },
   "devDependencies": {
+    "archiver": "^7.0.1",
     "sharp": "^0.34.5"
   }
 }

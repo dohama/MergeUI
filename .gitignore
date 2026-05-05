@@ -5,3 +5,7 @@ node_modules/
 # Build artifacts (subscriber pages generators)
 pages/**/_*.js
 pages/**/_*.txt
+
+# Build artifacts (download ZIPs — Vercel가 vercel-build 단계에서 매 배포마다 자동 생성)
+landing/downloads/*.zip
+.playwright-mcp/

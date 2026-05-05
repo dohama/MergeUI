@@ -66,8 +66,15 @@ module.exports = async function handler(req, res) {
   }
 
   var theme_slug = (req.body && req.body.theme_slug) || '';
-  var slug = theme_slug.replace(/[^a-z0-9-]/gi, '');
+  var slug = theme_slug.replace(/[^a-z0-9_-]/gi, '');
   if (!slug) return res.status(400).json({ error: 'theme_slug is required' });
+
+  // D-02 BD-1: 다운로드 가능 슬러그 화이트리스트 (악성 path 차단 + 404 명확)
+  // 신규 ZIP 추가 시 scripts/build-zips.js TARGETS + 아래 배열 동시 갱신
+  var ALLOWED_SLUGS = ['bi_v1', 'mergeui-blocks-v1'];
+  if (ALLOWED_SLUGS.indexOf(slug) === -1) {
+    return res.status(404).json({ error: 'Theme not found or not yet available.', code: 'THEME_NOT_FOUND' });
+  }
 
   // ─────────────────────────────────────────────
   // D-9: supabase 결과의 result.error 직접 검사 (catch는 promise reject만 잡음)
@@ -97,5 +104,7 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: 'Failed to record download. Please try again.' });
   }
 
-  res.json({ download_url: '/templates/' + slug + '-v1/' + slug + '-v1.zip' });
+  // D-02 BD-1 fix: scripts/build-zips.js로 빌드된 정적 ZIP 서빙 (Vercel 정적 호스팅)
+  // 빌드 위치: landing/downloads/{slug}.zip → Vercel 자동 서빙 (vercel.json rewrites 불필요)
+  res.json({ download_url: '/landing/downloads/' + slug + '.zip' });
 };

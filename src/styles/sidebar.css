@@ -165,6 +165,12 @@
   border-radius: 4px;
 }
 
+/* admin 사이드바 컨텍스트에서는 빨간 배지 (미응답 문의 등 긴급 알림) */
+.sidebar--admin .sb-item .sb-badge {
+  background: rgba(239,68,68,0.15);
+  color: #FCA5A5;
+}
+
 .sb-footer {
   padding: var(--merge-space-4);
   border-top: 1px solid var(--merge-border);

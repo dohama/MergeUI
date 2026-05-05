@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Modal — MergeUi Block</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center}
+
+    /* === COPY FROM HERE === */
+    .modal-backdrop{
+      position:fixed;inset:0;
+      background:rgba(0,0,0,0.6);
+      backdrop-filter:blur(4px);
+      display:flex;align-items:center;justify-content:center;
+      padding:24px;
+      z-index:1000;
+      animation:fade-in .18s ease-out;
+    }
+    .modal{
+      background:var(--merge-bg-raised);
+      border:1px solid var(--merge-border);
+      border-radius:14px;
+      max-width:480px;width:100%;
+      box-shadow:0 24px 56px -12px rgba(0,0,0,.45);
+      animation:modal-in .2s cubic-bezier(.16,1,.3,1);
+    }
+    .modal-header{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:20px 24px;
+      border-bottom:1px solid var(--merge-border);
+    }
+    .modal-header h2{margin:0;font-size:16px;font-weight:700}
+    .modal-close{
+      width:32px;height:32px;
+      display:flex;align-items:center;justify-content:center;
+      border:none;background:transparent;color:var(--merge-text-muted);
+      border-radius:6px;cursor:pointer;font-size:20px;line-height:1;
+    }
+    .modal-close:hover{background:var(--merge-bg-surface);color:var(--merge-text-primary)}
+    .modal-body{padding:20px 24px;color:var(--merge-text-secondary);font-size:14px;line-height:1.55}
+    .modal-footer{
+      display:flex;justify-content:flex-end;gap:8px;
+      padding:16px 24px;
+      border-top:1px solid var(--merge-border);
+    }
+    .modal-btn{padding:9px 16px;border-radius:8px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;border:1px solid transparent}
+    .modal-btn-secondary{background:transparent;color:var(--merge-text-secondary);border-color:var(--merge-border-strong)}
+    .modal-btn-secondary:hover{background:var(--merge-bg-surface)}
+    .modal-btn-primary{background:var(--merge-brand);color:#FFFFFF}
+    .modal-btn-primary:hover{background:var(--merge-brand-light)}
+    @keyframes fade-in{from{opacity:0}to{opacity:1}}
+    @keyframes modal-in{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <div class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="m-title">Confirm action</h2>
+        <button class="modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this project? This action cannot be undone and all related data will be permanently removed.
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn modal-btn-secondary">Cancel</button>
+        <button class="modal-btn modal-btn-primary">Delete project</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pagination — MergeUi Block</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:32px}
+
+    /* === COPY FROM HERE === */
+    .pagination{
+      display:inline-flex;align-items:center;gap:4px;
+      padding:0;margin:0;list-style:none;
+    }
+    .pagination button,
+    .pagination .page-btn{
+      min-width:36px;height:36px;
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:0 10px;
+      background:transparent;border:1px solid var(--merge-border);
+      border-radius:8px;
+      font:inherit;font-size:13px;font-weight:600;color:var(--merge-text-secondary);
+      cursor:pointer;
+      transition:all .12s ease;
+    }
+    .pagination .page-btn:hover:not([disabled]):not(.active){
+      border-color:var(--merge-brand-light);color:var(--merge-text-primary);
+    }
+    .pagination .page-btn.active{
+      background:var(--merge-brand);
+      border-color:var(--merge-brand);
+      color:#FFFFFF;
+    }
+    .pagination .page-btn[disabled]{opacity:.4;cursor:not-allowed}
+    .pagination .page-ellipsis{
+      min-width:36px;height:36px;
+      display:inline-flex;align-items:center;justify-content:center;
+      color:var(--merge-text-muted);
+    }
+    .pagination-info{
+      font-size:13px;color:var(--merge-text-muted);
+    }
+    .pagination-row{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:520px;gap:24px}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <nav aria-label="Pagination">
+    <ul class="pagination">
+      <li><button class="page-btn" disabled>‹</button></li>
+      <li><button class="page-btn active" aria-current="page">1</button></li>
+      <li><button class="page-btn">2</button></li>
+      <li><button class="page-btn">3</button></li>
+      <li><span class="page-ellipsis">…</span></li>
+      <li><button class="page-btn">12</button></li>
+      <li><button class="page-btn">›</button></li>
+    </ul>
+  </nav>
+
+  <div class="pagination-row">
+    <span class="pagination-info">Showing 1–10 of 247</span>
+    <ul class="pagination">
+      <li><button class="page-btn">‹ Prev</button></li>
+      <li><button class="page-btn">Next ›</button></li>
+    </ul>
+  </div>
+</body>
+</html>

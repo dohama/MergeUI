@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Avatar — MergeUi Block</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap}
+
+    /* === COPY FROM HERE === */
+    .avatar{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:40px;height:40px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--merge-brand),var(--merge-brand-light));
+      color:#FFFFFF;
+      font-weight:600;font-size:14px;
+      overflow:hidden;
+      flex-shrink:0;
+      user-select:none;
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover}
+    .avatar-sm{width:28px;height:28px;font-size:11px}
+    .avatar-lg{width:56px;height:56px;font-size:20px}
+    .avatar-xl{width:80px;height:80px;font-size:28px}
+
+    /* Status indicator */
+    .avatar-with-status{position:relative}
+    .avatar-with-status .status-dot{
+      position:absolute;bottom:0;right:0;
+      width:10px;height:10px;border-radius:50%;
+      background:var(--merge-success);
+      border:2px solid var(--merge-bg-base);
+    }
+    .avatar-stack{display:inline-flex}
+    .avatar-stack .avatar{margin-left:-10px;border:2px solid var(--merge-bg-base)}
+    .avatar-stack .avatar:first-child{margin-left:0}
+    .avatar-stack .avatar-more{background:var(--merge-bg-surface);color:var(--merge-text-secondary)}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <span class="avatar avatar-sm">JK</span>
+  <span class="avatar">DH</span>
+  <span class="avatar avatar-lg">MR</span>
+  <span class="avatar avatar-xl">SP</span>
+  <span class="avatar avatar-with-status">AL<span class="status-dot"></span></span>
+  <div class="avatar-stack">
+    <span class="avatar">JK</span>
+    <span class="avatar">DH</span>
+    <span class="avatar">MR</span>
+    <span class="avatar avatar-more">+4</span>
+  </div>
+</body>
+</html>

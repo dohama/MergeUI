@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Breadcrumb — MergeUi Block</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+
+    /* === COPY FROM HERE === */
+    .breadcrumb{
+      display:flex;align-items:center;flex-wrap:wrap;gap:6px;
+      font-size:13px;color:var(--merge-text-muted);
+      padding:0;margin:0;
+      list-style:none;
+    }
+    .breadcrumb li{display:inline-flex;align-items:center;gap:6px}
+    .breadcrumb a{
+      color:var(--merge-text-muted);
+      text-decoration:none;
+      padding:3px 6px;border-radius:4px;
+      transition:color .12s ease,background .12s ease;
+    }
+    .breadcrumb a:hover{color:var(--merge-text-primary);background:var(--merge-bg-surface)}
+    .breadcrumb li[aria-current="page"]{color:var(--merge-text-primary);font-weight:600}
+    .breadcrumb-sep{
+      color:var(--merge-text-muted);opacity:.5;
+      flex-shrink:0;
+    }
+    .breadcrumb-home{display:inline-flex;align-items:center}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <nav aria-label="Breadcrumb">
+    <ol class="breadcrumb">
+      <li><a href="#" class="breadcrumb-home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></a></li>
+      <li><span class="breadcrumb-sep">/</span></li>
+      <li><a href="#">Dashboard</a></li>
+      <li><span class="breadcrumb-sep">/</span></li>
+      <li><a href="#">Projects</a></li>
+      <li><span class="breadcrumb-sep">/</span></li>
+      <li aria-current="page">Q4 Roadmap</li>
+    </ol>
+  </nav>
+
+  <nav aria-label="Breadcrumb">
+    <ol class="breadcrumb">
+      <li><a href="#">Components</a></li>
+      <li><span class="breadcrumb-sep">›</span></li>
+      <li aria-current="page">Breadcrumb</li>
+    </ol>
+  </nav>
+</body>
+</html>

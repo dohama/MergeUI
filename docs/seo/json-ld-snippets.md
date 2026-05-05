@@ -57,7 +57,7 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "MergeUi Pro",
-  "description": "All dashboard themes, 20+ components growing weekly, all accent color presets, monthly new themes, and priority support. Commercial license included.",
+  "description": "All dashboard themes, 30+ components growing weekly, all accent color presets, monthly new themes, and priority support. Commercial license included.",
   "brand": {
     "@type": "Brand",
     "name": "MergeUi"

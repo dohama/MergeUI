@@ -1,6 +1,10 @@
-// 24종 정적 fallback 데이터 — DB 응답 0건 / 네트워크 실패 시 사용
-// 작성: C(프론트) | 2026-05-01 (D-5)
-// 단일 출처: docs/plans/blocks-d5-plan.md (Buttons 4 / Cards 4 / Tables 3 / Forms 4 / Charts 4 / Feedback 4 / Navigation 1 = 24)
+// 34종 정적 fallback 데이터 — DB 응답 0건 / 네트워크 실패 시 사용
+// 작성: C(프론트) | 2026-05-01 (D-5) — 5/5 신규 10개 추가
+// 단일 출처: docs/plans/blocks-d5-plan.md
+// v1: Buttons 4 / Cards 4 / Tables 3 / Forms 4 / Charts 4 / Feedback 4 / Navigation 1 = 24
+// v2 (5/5): Forms +1 (switch) / Feedback +2 (skeleton/empty-state) / Navigation +2 (breadcrumb/pagination)
+//          / Display +2 신규 카테고리 (avatar/accordion) / Overlay +3 신규 카테고리 (tooltip/modal-confirm/dropdown) = 10
+// 합계 34 (Free 12 / Pro 22). 9 카테고리.
 // 토큰: src/styles/tokens.css (--merge-* 변수)
 // code_html / code_css 는 비워둔다 — Pro 코드는 RLS 보호된 view/RPC 로만 노출되며,
 // 정적 fallback 환경에서는 templates/blocks/{cat}/{slug}.html 파일 자체로 검수·복사 가능.
@@ -110,9 +114,57 @@ window.MERGEUI_COMPONENTS_FALLBACK = [
     preview_html:'<div style="display:flex;gap:6px;flex-wrap:wrap;font-family:Inter,sans-serif"><span style="display:inline-flex;align-items:center;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.3px;background:rgba(108,92,231,.15);color:#8B7CF0;border-radius:999px;text-transform:uppercase">New</span><span style="display:inline-flex;align-items:center;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.3px;background:rgba(34,197,94,.15);color:#22C55E;border-radius:999px;text-transform:uppercase">Active</span><span style="display:inline-flex;align-items:center;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.3px;background:rgba(251,191,36,.15);color:#FBBF24;border-radius:999px;text-transform:uppercase">Trial</span><span style="display:inline-flex;align-items:center;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.3px;background:rgba(239,68,68,.15);color:#FCA5A5;border-radius:999px;text-transform:uppercase">Failed</span></div>',
     code_html:'', code_css:'' },
 
-  /* ===== 7. NAVIGATION (1) ===== */
+  /* ===== 7. NAVIGATION (3) — tabs (기존) + breadcrumb + pagination (5/5 신규) ===== */
   { slug:'tabs', name:'Tabs', category:'Navigation', badge:'pro',
     description:'Keyboard-accessible tab navigation (WAI-ARIA tabs pattern).',
     preview_html:'<div style="font-family:Inter,sans-serif;min-width:240px"><div style="display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,.06)"><button style="padding:8px 14px;background:none;border:none;border-bottom:2px solid #6C5CE7;color:#8B7CF0;font:600 13px Inter;margin-bottom:-1px">Overview</button><button style="padding:8px 14px;background:none;border:none;border-bottom:2px solid transparent;color:#80808A;font:600 13px Inter;margin-bottom:-1px">Activity</button><button style="padding:8px 14px;background:none;border:none;border-bottom:2px solid transparent;color:#80808A;font:600 13px Inter;margin-bottom:-1px">Settings</button></div><div style="padding:14px 4px;font-size:12px;color:#A1A1AA">Project overview content.</div></div>',
+    code_html:'', code_css:'' },
+  { slug:'breadcrumb', name:'Breadcrumb', category:'Navigation', badge:'free',
+    description:'Page hierarchy navigation with home icon and aria-current support.',
+    preview_html:'<ol style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;font:13px Inter,sans-serif;color:#80808A;padding:0;margin:0;list-style:none"><li><a style="color:#80808A;text-decoration:none">Dashboard</a></li><li><span style="opacity:.5">/</span></li><li><a style="color:#80808A;text-decoration:none">Projects</a></li><li><span style="opacity:.5">/</span></li><li style="color:#F4F4F5;font-weight:600">Q4 Roadmap</li></ol>',
+    code_html:'', code_css:'' },
+  { slug:'pagination', name:'Pagination', category:'Navigation', badge:'pro',
+    description:'Numbered pagination with prev/next, ellipsis, and active state.',
+    preview_html:'<ul style="display:inline-flex;align-items:center;gap:4px;padding:0;margin:0;list-style:none;font-family:Inter,sans-serif"><li><button style="min-width:36px;height:36px;padding:0 10px;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:8px;font:600 13px Inter;color:#A1A1AA;cursor:pointer;opacity:.4">‹</button></li><li><button style="min-width:36px;height:36px;padding:0 10px;background:#6C5CE7;border:1px solid #6C5CE7;border-radius:8px;font:600 13px Inter;color:#fff;cursor:pointer">1</button></li><li><button style="min-width:36px;height:36px;padding:0 10px;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:8px;font:600 13px Inter;color:#A1A1AA;cursor:pointer">2</button></li><li><button style="min-width:36px;height:36px;padding:0 10px;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:8px;font:600 13px Inter;color:#A1A1AA;cursor:pointer">3</button></li><li><span style="min-width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;color:#80808A">…</span></li><li><button style="min-width:36px;height:36px;padding:0 10px;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:8px;font:600 13px Inter;color:#A1A1AA;cursor:pointer">›</button></li></ul>',
+    code_html:'', code_css:'' },
+
+  /* ===== 8. DISPLAY (2) — avatar + accordion (5/5 신규 카테고리) ===== */
+  { slug:'avatar', name:'Avatar', category:'Display', badge:'free',
+    description:'User avatar with size variants, status dot, and stack composition.',
+    preview_html:'<div style="display:inline-flex;align-items:center;gap:12px;font-family:Inter,sans-serif"><span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#6C5CE7,#8B7CF0);color:#fff;font-weight:600;font-size:12px">DH</span><div style="display:inline-flex"><span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#6C5CE7,#8B7CF0);color:#fff;font-weight:600;font-size:12px;border:2px solid #16161E">JK</span><span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#6C5CE7,#8B7CF0);color:#fff;font-weight:600;font-size:12px;border:2px solid #16161E;margin-left:-10px">DH</span><span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#22232C;color:#A1A1AA;font-weight:600;font-size:12px;border:2px solid #16161E;margin-left:-10px">+4</span></div></div>',
+    code_html:'', code_css:'' },
+  { slug:'accordion', name:'Accordion', category:'Display', badge:'pro',
+    description:'Native <details> accordion with smooth chevron rotation. Perfect for FAQ.',
+    preview_html:'<div style="width:280px;background:#16161E;border:1px solid rgba(255,255,255,.06);border-radius:10px;overflow:hidden;font-family:Inter,sans-serif"><div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.06);font:600 13px Inter;color:#F4F4F5">How does licensing work?<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#80808A" stroke-width="2" style="transform:rotate(180deg)"><path d="m6 9 6 6 6-6"/></svg></div><div style="padding:0 16px 14px;font-size:12px;line-height:1.55;color:#A1A1AA">Pro subscription includes a commercial license for unlimited projects.</div><div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;font:600 13px Inter;color:#F4F4F5">Can I cancel anytime?<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#80808A" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div></div>',
+    code_html:'', code_css:'' },
+
+  /* ===== 9. OVERLAY (3) — tooltip + modal-confirm + dropdown (5/5 신규 카테고리) ===== */
+  { slug:'tooltip', name:'Tooltip', category:'Overlay', badge:'free',
+    description:'CSS-only tooltip with top/bottom positioning.',
+    preview_html:'<div style="position:relative;display:inline-flex;font-family:Inter,sans-serif;padding:32px 0 8px"><span style="position:absolute;top:0;left:50%;transform:translateX(-50%);padding:5px 10px;background:#F4F4F5;color:#16161E;font:500 12px Inter;border-radius:6px;white-space:nowrap">Helpful hint</span><span style="position:absolute;top:25px;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:#F4F4F5"></span><button style="padding:8px 16px;background:#22232C;border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#A1A1AA;font:inherit;cursor:pointer">Hover me</button></div>',
+    code_html:'', code_css:'' },
+  { slug:'modal-confirm', name:'Confirm Modal', category:'Overlay', badge:'pro',
+    description:'Destructive confirmation dialog with backdrop blur and Apple-style animation.',
+    preview_html:'<div style="width:300px;background:#16161E;border:1px solid rgba(255,255,255,.06);border-radius:12px;font-family:Inter,sans-serif;box-shadow:0 24px 56px -12px rgba(0,0,0,.45)"><div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:700 14px Inter;color:#F4F4F5">Confirm action</span><span style="color:#80808A;font-size:18px">×</span></div><div style="padding:14px 18px;font-size:12px;line-height:1.5;color:#A1A1AA">Are you sure you want to delete this project? This cannot be undone.</div><div style="display:flex;justify-content:flex-end;gap:6px;padding:12px 18px;border-top:1px solid rgba(255,255,255,.06)"><button style="padding:7px 14px;background:transparent;color:#A1A1AA;border:1px solid rgba(255,255,255,.1);border-radius:7px;font:600 12px Inter;cursor:pointer">Cancel</button><button style="padding:7px 14px;background:#6C5CE7;color:#fff;border:none;border-radius:7px;font:600 12px Inter;cursor:pointer">Delete</button></div></div>',
+    code_html:'', code_css:'' },
+  { slug:'dropdown', name:'Dropdown Menu', category:'Overlay', badge:'pro',
+    description:'Action dropdown with icons, divider, and danger variant.',
+    preview_html:'<div style="position:relative;font-family:Inter,sans-serif"><button style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#22232C;border:1px solid rgba(255,255,255,.1);border-radius:8px;font:600 13px Inter;color:#F4F4F5;cursor:pointer">Options <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform:rotate(180deg)"><path d="m6 9 6 6 6-6"/></svg></button><div style="position:absolute;top:42px;left:0;min-width:160px;background:#16161E;border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:5px;box-shadow:0 12px 32px -8px rgba(0,0,0,.5)"><div style="padding:7px 10px;border-radius:5px;font-size:12px;color:#F4F4F5">Edit</div><div style="padding:7px 10px;border-radius:5px;font-size:12px;color:#F4F4F5">Duplicate</div><div style="height:1px;background:rgba(255,255,255,.06);margin:3px 0"></div><div style="padding:7px 10px;border-radius:5px;font-size:12px;color:#FCA5A5">Delete</div></div></div>',
+    code_html:'', code_css:'' },
+
+  /* ===== 추가 — Forms 5번째 (Switch, 5/5 신규) ===== */
+  { slug:'form-switch', name:'Toggle Switch', category:'Forms', badge:'free',
+    description:'Apple-style toggle with smooth slider animation and disabled state.',
+    preview_html:'<label style="display:inline-flex;align-items:center;gap:10px;font-family:Inter,sans-serif;cursor:pointer"><span style="position:relative;width:42px;height:24px;background:#6C5CE7;border:1px solid #6C5CE7;border-radius:9999px;flex-shrink:0"><span style="position:absolute;top:2px;right:2px;width:18px;height:18px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span></span><span style="font-size:13px;color:#F4F4F5">Email notifications</span></label>',
+    code_html:'', code_css:'' },
+
+  /* ===== 추가 — Feedback 5번째·6번째 (Skeleton + Empty State, 5/5 신규) ===== */
+  { slug:'skeleton', name:'Skeleton Loader', category:'Feedback', badge:'pro',
+    description:'Shimmer skeleton placeholders for cards, text, and circles.',
+    preview_html:'<div style="width:240px;padding:16px;background:#16161E;border:1px solid rgba(255,255,255,.06);border-radius:10px;font-family:Inter,sans-serif"><div style="display:flex;gap:10px;margin-bottom:14px;align-items:center"><span style="display:block;width:32px;height:32px;border-radius:50%;background:linear-gradient(90deg,#22232C 0%,#2A2B35 50%,#22232C 100%);background-size:200% 100%;animation:sk 1.4s ease-in-out infinite"></span><div style="flex:1"><span style="display:block;height:12px;width:60%;background:linear-gradient(90deg,#22232C 0%,#2A2B35 50%,#22232C 100%);background-size:200% 100%;animation:sk 1.4s ease-in-out infinite;border-radius:5px;margin-bottom:6px"></span><span style="display:block;height:10px;width:40%;background:linear-gradient(90deg,#22232C 0%,#2A2B35 50%,#22232C 100%);background-size:200% 100%;animation:sk 1.4s ease-in-out infinite;border-radius:5px"></span></div></div><span style="display:block;height:60px;width:100%;background:linear-gradient(90deg,#22232C 0%,#2A2B35 50%,#22232C 100%);background-size:200% 100%;animation:sk 1.4s ease-in-out infinite;border-radius:8px"></span><style>@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}</style></div>',
+    code_html:'', code_css:'' },
+  { slug:'empty-state', name:'Empty State', category:'Feedback', badge:'free',
+    description:'Standard empty state with icon, title, description, and primary action.',
+    preview_html:'<div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:32px 24px;background:#16161E;border:1px dashed rgba(255,255,255,.12);border-radius:12px;width:280px;font-family:Inter,sans-serif"><div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:#22232C;border-radius:11px;color:#80808A;margin-bottom:12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><h3 style="font:700 14px Inter;color:#F4F4F5;margin:0 0 4px">No projects yet</h3><p style="font:13px Inter;color:#80808A;margin:0 0 14px;line-height:1.4">Get started by creating your first project.</p><button style="padding:7px 14px;background:#6C5CE7;color:#fff;border:none;border-radius:7px;font:600 12px Inter;cursor:pointer">+ Create project</button></div>',
     code_html:'', code_css:'' }
 ];

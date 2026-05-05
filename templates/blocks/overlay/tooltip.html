@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tooltip — MergeUi Block</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:96px 48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
+
+    /* === COPY FROM HERE === */
+    .tooltip{
+      position:relative;
+      display:inline-flex;
+    }
+    .tooltip[data-tip]:hover::after,
+    .tooltip[data-tip]:focus-visible::after{
+      content:attr(data-tip);
+      position:absolute;
+      bottom:calc(100% + 8px);
+      left:50%;
+      transform:translateX(-50%);
+      padding:6px 10px;
+      background:var(--merge-text-primary);
+      color:var(--merge-bg-base);
+      font-size:12px;font-weight:500;
+      border-radius:6px;
+      white-space:nowrap;
+      pointer-events:none;
+      z-index:10;
+      animation:tip-in .15s ease-out;
+    }
+    .tooltip[data-tip]:hover::before,
+    .tooltip[data-tip]:focus-visible::before{
+      content:'';
+      position:absolute;
+      bottom:calc(100% + 2px);
+      left:50%;
+      transform:translateX(-50%);
+      border:5px solid transparent;
+      border-top-color:var(--merge-text-primary);
+      pointer-events:none;
+      z-index:10;
+    }
+    /* Position variants */
+    .tooltip-bottom[data-tip]:hover::after{bottom:auto;top:calc(100% + 8px)}
+    .tooltip-bottom[data-tip]:hover::before{bottom:auto;top:calc(100% + 2px);border-top-color:transparent;border-bottom-color:var(--merge-text-primary)}
+    @keyframes tip-in{from{opacity:0;transform:translate(-50%,4px)}to{opacity:1;transform:translate(-50%,0)}}
+
+    /* Demo button styling */
+    .tip-btn{padding:8px 16px;background:var(--merge-bg-surface);border:1px solid var(--merge-border);border-radius:8px;cursor:pointer;font:inherit;color:inherit}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <span class="tooltip" data-tip="Helpful hint here">
+    <button class="tip-btn">Hover me</button>
+  </span>
+  <span class="tooltip tooltip-bottom" data-tip="Tooltip below">
+    <button class="tip-btn">Bottom tip</button>
+  </span>
+  <span class="tooltip" data-tip="Click to copy your API key" tabindex="0">
+    <button class="tip-btn">ⓘ Info</button>
+  </span>
+</body>
+</html>

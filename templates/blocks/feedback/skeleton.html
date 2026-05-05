@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Skeleton — MergeUi Block</title>
+  <link rel="stylesheet" href="../../../src/styles/tokens.css">
+  <style>
+    body{margin:0;padding:48px;font-family:var(--merge-font);background:var(--merge-bg-base);color:var(--merge-text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:32px}
+
+    /* === COPY FROM HERE === */
+    .skeleton{
+      display:block;
+      background:linear-gradient(90deg,var(--merge-bg-surface) 0%,var(--merge-bg-raised) 50%,var(--merge-bg-surface) 100%);
+      background-size:200% 100%;
+      animation:skeleton-shimmer 1.4s ease-in-out infinite;
+      border-radius:6px;
+    }
+    @keyframes skeleton-shimmer{
+      0%{background-position:200% 0}
+      100%{background-position:-200% 0}
+    }
+    .skeleton-text{height:14px;width:100%;margin-bottom:8px}
+    .skeleton-text-sm{height:12px;width:60%}
+    .skeleton-title{height:20px;width:50%;margin-bottom:12px}
+    .skeleton-circle{width:40px;height:40px;border-radius:50%}
+    .skeleton-rect{width:100%;height:120px;border-radius:10px}
+
+    /* Card skeleton composition */
+    .skeleton-card{
+      width:320px;
+      padding:20px;
+      background:var(--merge-bg-raised);
+      border:1px solid var(--merge-border);
+      border-radius:12px;
+    }
+    .skeleton-card-header{display:flex;gap:12px;margin-bottom:16px;align-items:center}
+    .skeleton-card-meta{flex:1}
+    /* === COPY TO HERE === */
+  </style>
+</head>
+<body>
+  <div class="skeleton-card" role="status" aria-label="Loading">
+    <div class="skeleton-card-header">
+      <span class="skeleton skeleton-circle"></span>
+      <div class="skeleton-card-meta">
+        <span class="skeleton skeleton-title"></span>
+        <span class="skeleton skeleton-text-sm"></span>
+      </div>
+    </div>
+    <span class="skeleton skeleton-rect"></span>
+    <div style="margin-top:14px">
+      <span class="skeleton skeleton-text"></span>
+      <span class="skeleton skeleton-text"></span>
+      <span class="skeleton skeleton-text-sm"></span>
+    </div>
+  </div>
+</body>
+</html>

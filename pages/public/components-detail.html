@@ -175,28 +175,12 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   var area = document.getElementById('previewArea');
   if (!btn || !area) return;
 
-  // 다크(기본) <-> 라이트 색 매핑. 라이트 모드 진입 시 SVG 색을 동적으로 교체.
-  var DARK = { bg: '#16161E', stroke: 'rgba(255,255,255,0.1)', label: '#71717A', value: '#F4F4F5', success: '#22C55E', muted: '#71717A' };
-  var LIGHT = { bg: '#FFFFFF', stroke: 'rgba(0,0,0,0.08)', label: '#71717A', value: '#0A0A0F', success: '#16A34A', muted: '#71717A' };
-
+  // BC-8: 동적 컴포넌트 preview_html 사용으로 변경됨. 배경만 토글 (SVG 색 변경 로직 제거)
   function applyTheme(mode) {
     var isLight = mode === 'light';
     area.classList.toggle('is-light', isLight);
     btn.textContent = isLight ? 'Dark' : 'Light';
     btn.setAttribute('aria-pressed', String(isLight));
-
-    var svg = document.getElementById('previewSvg');
-    if (!svg) return;
-    var palette = isLight ? LIGHT : DARK;
-    var rect = svg.querySelector('rect');
-    if (rect) { rect.setAttribute('fill', palette.bg); rect.setAttribute('stroke', palette.stroke); }
-    var texts = svg.querySelectorAll('text');
-    if (texts.length >= 4) {
-      texts[0].setAttribute('fill', palette.label);
-      texts[1].setAttribute('fill', palette.value);
-      texts[2].setAttribute('fill', palette.success);
-      texts[3].setAttribute('fill', palette.muted);
-    }
   }
 
   function toggle() {
@@ -294,6 +278,20 @@ function applyComponentDetail(result, slug, qsCategory) {
   var desc = document.getElementById('compDesc');
   if (desc) desc.textContent = comp.description || '';
   if (comp.category && !qsCategory) updateSidebarActive(comp.category);
+
+  // BC-8 fix (5/5): 미리보기 영역에 실제 컴포넌트 preview_html 동적 삽입
+  // (기존: 하드코딩된 KPI SVG가 모든 컴포넌트에 똑같이 표시되던 결함)
+  if (comp.preview_html) {
+    var previewArea = document.getElementById('previewArea');
+    if (previewArea) {
+      var toggleBtn = document.getElementById('previewToggle');
+      previewArea.innerHTML = '';
+      if (toggleBtn) previewArea.appendChild(toggleBtn);
+      var wrapper = document.createElement('div');
+      wrapper.innerHTML = comp.preview_html;
+      while (wrapper.firstChild) previewArea.appendChild(wrapper.firstChild);
+    }
+  }
 
   if (result.code && result.code.locked) {
     showProGate(comp);

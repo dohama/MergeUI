@@ -16,7 +16,7 @@ Live on Product Hunt 🚀
 MergeUi — Ship dashboards in minutes, not weeks.
 
 → 15 dashboard themes
-→ 20+ components, growing weekly
+→ components, growing weekly
 → HTML + Tailwind, dual-format
 → Dark mode redesigned, not inverted
 → Drop into React, Vue, Svelte, plain HTML
@@ -32,7 +32,7 @@ I rebuilt the same dashboard for the third time and finally admitted: I am the b
 
 So I built MergeUi.
 
-15 themes. 20+ components. HTML + Tailwind. Drop into any stack.
+15 themes. components. HTML + Tailwind. Drop into any stack.
 
 Live on @ProductHunt today 🚀
 
@@ -42,7 +42,7 @@ Live on @ProductHunt today 🚀
 **작성 메모**:
 - "@ProductHunt" 멘션 1회 포함 (PH 알고리즘 공유 추적)
 - 이모지 최소 (1-2개) — 개발자 타깃 특성
-- 숫자 우선 — "15 / 20+ / $99 / 50" 시각적 리듬
+- 숫자 우선 — "15 / $99 / 50" 시각적 리듬
 - 링크는 마지막 1개만 (X 알고리즘 권장)
 
 ---
@@ -100,7 +100,7 @@ Comments are open. Tell me what dashboard component you would build next.
 ```
 After two years of rebuilding the same dashboard, I finally shipped the kit I wished existed.
 
-MergeUi launches today on Product Hunt — 15 production-ready dashboard templates, 20+ components, dual-format (HTML + Tailwind), dark mode redesigned for luminance instead of inverted colors.
+MergeUi launches today on Product Hunt — 15 production-ready dashboard templates, components, dual-format (HTML + Tailwind), dark mode redesigned for luminance instead of inverted colors.
 
 The decision that made everything else possible: framework-agnostic. Every theme ships as both pure HTML/CSS and a Tailwind + Vite starter. Drop into React, Vue, Svelte, plain HTML, server-rendered templates — change one CSS variable and your brand follows.
 
@@ -108,7 +108,7 @@ Tailwind UI is excellent if you live in React. shadcn is beautiful if you have t
 
 Pricing kept simple:
 - Free: 1 full theme + components
-- Pro: $19/mo or $149/yr (all 15 themes, 20+ components, weekly additions)
+- Pro: $19/mo or $149/yr (all 15 themes, components, weekly additions)
 - Early Bird: $99/yr for the first 50 buyers — locks in for renewal
 
 If you ship dashboards for clients, internal tools, or your own product, this might save you a week of work per project. The honest pitch.

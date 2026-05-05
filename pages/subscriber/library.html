@@ -22,6 +22,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../src/styles/tokens.css">
+  <link rel="stylesheet" href="../../src/styles/components-preview.css">
   <link rel="stylesheet" href="../../src/styles/reset.css">
   <link rel="stylesheet" href="../../src/styles/sidebar.css">
   <style>
@@ -163,6 +164,16 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
         </div>
       </section>
       <section class="tab-panel" id="tab-components" role="tabpanel" aria-label="Components">
+        <!-- Pro 묶음 다운로드 카드 (BC-7 fix, 5/5) — Pro 전용 진입점 -->
+        <div id="bundle-download-card" style="display:none;background:linear-gradient(135deg,rgba(108,92,231,0.08),rgba(34,211,238,0.04));border:1px solid rgba(108,92,231,0.3);border-radius:14px;padding:24px;margin-bottom:24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+          <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--accent));display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;flex-shrink:0">&#128230;</div>
+          <div style="flex:1;min-width:240px">
+            <div style="font-size:16px;font-weight:800;color:var(--text-primary);margin-bottom:4px">MergeUi Blocks v1</div>
+            <div style="font-size:13px;color:var(--text-secondary);line-height:1.5">All components across 9 categories. Pure HTML, CSS, JS — drop into any project. Updated weekly.</div>
+          </div>
+          <button type="button" id="bundle-download-btn" class="dl-btn" style="padding:10px 22px;background:var(--brand);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0">Download ZIP</button>
+        </div>
+
         <div class="comp-grid">
         </div>
         <div style="text-align:center;padding:48px 24px;color:var(--text-muted)">
@@ -217,6 +228,42 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
           }).join('');
         }
       }
+
+      // Pro 묶음 다운로드 카드 — Pro 활성 사용자에게만 노출
+      try {
+        var sub = await MergeDB.getMySubscription();
+        var bundleCard = document.getElementById('bundle-download-card');
+        if (bundleCard && sub && sub.status === 'active') {
+          bundleCard.style.display = 'flex';
+          var btn = document.getElementById('bundle-download-btn');
+          if (btn) {
+            btn.addEventListener('click', async function() {
+              var prev = btn.textContent;
+              btn.disabled = true; btn.textContent = 'Preparing...';
+              try {
+                var session = (await MergeDB.client.auth.getSession()).data.session;
+                if (!session) throw new Error('Sign-in required');
+                var res = await fetch('/api/v1/download', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+                  body: JSON.stringify({ theme_slug: 'mergeui-blocks-v1' })
+                });
+                var data = await res.json();
+                if (!res.ok || !data.download_url) throw new Error(data.error || 'Download failed');
+                var a = document.createElement('a');
+                a.href = data.download_url;
+                a.download = 'mergeui-blocks-v1.zip';
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                btn.textContent = 'Downloaded ✓';
+                setTimeout(function(){ btn.disabled = false; btn.textContent = prev; }, 2000);
+              } catch(e) {
+                alert('Download failed: ' + (e.message || 'Unknown error'));
+                btn.disabled = false; btn.textContent = prev;
+              }
+            });
+          }
+        }
+      } catch(e) { console.warn('[bundle] subscription check failed:', e.message); }
 
       // Favorites tab
       var favorites = await MergeDB.getMyFavorites();

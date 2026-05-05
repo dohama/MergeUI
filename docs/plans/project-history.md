@@ -704,3 +704,41 @@ Explore 에이전트 두 번째 감사 — 백엔드/결제/법적/프론트 영
 - **변경 결정**: 디자인 리뉴얼은 **캡틴이 직접 시안 제공** → 메인이 그대로 구현 (메모리 `feedback_design_captain_first.md` 저장)
 - B 에이전트 시안 디스패치 향후 금지. 단순 토큰화/리팩토링/접근성 보강 등 시각 의사결정 없는 기술 정리는 메인이 자율 진행 가능
 - `landing/renewal-preview.html` 즉시 삭제 → 라이브 `landing/index.html` 영향 0
+
+---
+
+## 2026-05-05 (D-1) — 컴포넌트 10개 추가 + 6명 합동 검증 + 카탈로그/카피/library 핫픽스
+
+### 컴포넌트 10개 추가 (24 → 34개, Free 12 / Pro 22)
+- 신규 카테고리 2개: display (avatar, accordion) + overlay (tooltip, modal-confirm, dropdown)
+- 기존 카테고리 보강: forms +1 (form-switch) / feedback +2 (skeleton, empty-state) / navigation +2 (breadcrumb, pagination)
+- `templates/blocks/{display,overlay}/*.html` 5개 신규 + `{feedback,forms,navigation}/*.html` 5개 신규
+- `server/db/blocks-v2-seed.sql` 신규 — INSERT + ON CONFLICT UPDATE (캡틴 5/5 SQL Editor 실행 완료)
+- `src/js/components-data.js` fallback 34종 (헤더 24 → 34 갱신)
+- ZIP 자동 재빌드: `mergeui-blocks-v1.zip` 30.8 KB → 42.5 KB
+
+### 6명 에이전트 합동 검증 (5/5)
+- A/B/C/D/E/F 6명 병렬 디스패치 — 본인 영역 + 캡틴 직접 지적 (카탈로그 미리보기 동일 / 묶음 vs 개별 다운로드) 검증
+- 만장일치: 묶음 ZIP 단일 (개별 ZIP X — Tailwind UI/shadcn/Tremor 동일 패턴, Pro 가치 보존)
+- 만장일치: "30+" 카피 통일 (F 8건 누락 발견 — PH 포스트/소셜/메이커 코멘트/runbook/메타)
+- 만장일치: library.html 묶음 다운로드 카드 추가 (Pro 진입점 0개 결함, 환불 위험)
+- D 검증: 5/6 결제 흐름 100% PASS (웹훅/멱등성/RLS/Rate limit 모두 정상)
+
+### 카탈로그 미리보기 동일 버그 수정 (Critical)
+- 진단 (B/A/C 합치): DB의 `preview_html`은 클래스 마크업 (`<button class="btn btn-primary">`) + `pages/public/components.html`에 컴포넌트 클래스 정의 CSS 미로드 → unstyled로 모두 동일 표시
+- 추가 결함 (E): `.comp-preview svg{opacity:0.5}` CSS 룰 — 차트 4종 흐림 처리
+- **수정**: `src/styles/components-preview.css` 신규 — 34종 컴포넌트 클래스(.btn / .kpi-card / .avatar / .switch / .accordion / .dropdown / .pagination 등) 정의. tokens.css 변수 의존 → 다크/라이트 토큰 자동 적용
+- `pages/public/components.html` + `pages/public/components-detail.html` + `pages/subscriber/library.html` 3 페이지에 link 추가
+- `.comp-preview` `min-height/max-height/overflow:hidden` 안전 가드 + `svg{opacity:0.5}` 룰 제거
+
+### 카피 숫자 표현 제거 (캡틴 5/5 결정)
+- "20+/30+ components, growing weekly" → "components, growing weekly"
+- "20+/30+ Components" h3 → "Production-ready Components"
+- 메타 디스크립션 숫자 빼고 카테고리 위주
+- **이유**: 매번 컴포넌트 추가 시 카피 갱신 부담 0 + 거짓 광고 리스크 0
+- 9 파일 일괄 정리 (landing / pricing / about / checkout/success / json-ld-snippets / 4 마케팅 .md)
+
+### Pro 묶음 다운로드 진입점 추가 (BC-7 fix)
+- `pages/subscriber/library.html` 컴포넌트 탭 상단에 "MergeUi Blocks v1" 카드 + Download ZIP 버튼
+- Pro 활성 구독자에게만 표시 (`MergeDB.getMySubscription().status === 'active'`)
+- 클릭 → POST `/api/v1/download` (`theme_slug=mergeui-blocks-v1`) → ZIP 자동 다운로드

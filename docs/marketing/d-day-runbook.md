@@ -97,7 +97,7 @@ Tailwind UI is excellent if you live in React/Next. MergeUi is for teams that mo
 
 **EN**:
 ```
-Honest tradeoff. $99 one-time looks cheaper today, but you get the kit frozen at v1. With Pro you keep getting the new themes and components I ship every week — currently 20+ blocks, growing.
+Honest tradeoff. $99 one-time looks cheaper today, but you get the kit frozen at v1. With Pro you keep getting the new themes and components I ship every week — currently blocks, growing.
 
 If you only need one dashboard once, the Free tier (1 theme + components) might be enough. If you ship multiple projects per year, $19/mo or $149/yr pays for itself in saved hours.
 
@@ -108,7 +108,7 @@ Cancel anytime, keep what you downloaded. No lock-in.
 
 **KR**:
 ```
-솔직한 트레이드오프입니다. $99 일회성은 오늘은 싸 보이지만 v1 시점에 멈춥니다. Pro는 매주 추가되는 신규 테마·컴포넌트를 계속 받습니다 (현재 20+ 블록, 매주 증가).
+솔직한 트레이드오프입니다. $99 일회성은 오늘은 싸 보이지만 v1 시점에 멈춥니다. Pro는 매주 추가되는 신규 테마·컴포넌트를 계속 받습니다 (현재 블록, 매주 증가).
 
 대시보드 한 개만 필요하시면 Free(테마 1개 + 컴포넌트) 만으로도 충분할 수 있습니다. 연간 여러 프로젝트를 출시하신다면 $19/mo 또는 $149/yr가 절약 시간 기준으로 회수됩니다.
 
@@ -119,18 +119,18 @@ Cancel anytime, keep what you downloaded. No lock-in.
 
 ---
 
-### Q3. Is Pro really 20+ components?
+### Q3. Is Pro really components?
 
 **EN**:
 ```
-Yes — 20+ blocks across 6 categories (buttons, cards, tables, forms, charts, feedback) at launch, with new ones shipping every week. The component browser shows the exact list and code for each one. Free tier gets a handful so you can verify the quality before deciding.
+Yes — blocks across 6 categories (buttons, cards, tables, forms, charts, feedback) at launch, with new ones shipping every week. The component browser shows the exact list and code for each one. Free tier gets a handful so you can verify the quality before deciding.
 
 → Browse: mergeui.com/components
 ```
 
 **KR**:
 ```
-네, 런칭 기준 6개 카테고리(버튼·카드·테이블·폼·차트·피드백)에 20+ 블록이 있고, 매주 신규 추가됩니다. 컴포넌트 브라우저에서 정확한 목록과 코드를 확인하실 수 있습니다. Free 플랜에서도 일부 공개되어 결제 전에 품질을 검증하실 수 있습니다.
+네, 런칭 기준 6개 카테고리(버튼·카드·테이블·폼·차트·피드백)에 블록이 있고, 매주 신규 추가됩니다. 컴포넌트 브라우저에서 정확한 목록과 코드를 확인하실 수 있습니다. Free 플랜에서도 일부 공개되어 결제 전에 품질을 검증하실 수 있습니다.
 
 → 둘러보기: mergeui.com/components
 ```
@@ -281,7 +281,7 @@ Free is genuinely useful, not bait:
 - Both HTML and Tailwind ZIPs
 - No credit card, no time limit
 
-Pro unlocks the other 14 themes, all 20+ components (growing weekly), and every future addition while subscribed.
+Pro unlocks the other 14 themes, all components (growing weekly), and every future addition while subscribed.
 
 → Start free: mergeui.com/themes
 ```
@@ -294,7 +294,7 @@ Free는 미끼가 아니라 실제로 쓸 수 있게 설계했습니다.
 - HTML과 Tailwind ZIP 양쪽 제공
 - 카드 등록 없음, 기한 제한 없음
 
-Pro는 나머지 14개 테마 + 20+ 컴포넌트 전체 (매주 증가) + 구독 중 추가되는 모든 신규 자료를 잠금 해제합니다.
+Pro는 나머지 14개 테마 + 컴포넌트 전체 (매주 증가) + 구독 중 추가되는 모든 신규 자료를 잠금 해제합니다.
 
 → 무료 시작: mergeui.com/themes
 ```

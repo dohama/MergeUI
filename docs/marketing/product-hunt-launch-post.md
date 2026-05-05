@@ -5,7 +5,7 @@
 - **리허설**: 5/5 (D-1) 합동 최종 점검
 - **플래그십 5종**: bi_v1 / ec_v1 / cr_v1 / sd_v1 / td_v1
 - **가격 확정**: Pro $19/mo · $149/yr · Early Bird $99/yr (50명 한정)
-- **컴포넌트**: **20+ Blocks (6 카테고리), growing weekly** — 사이트 카피와 정확히 일치
+- **컴포넌트**: **Blocks (6 카테고리), growing weekly** — 사이트 카피와 정확히 일치
 - **AI 공개 정책**: 비공개 확정 (메모리 `project_ai_disclosure_decision.md`) — 본문/댓글 어디에도 AI 언급 금지
 
 ---
@@ -76,7 +76,7 @@ I wanted one kit I could drop into any stack — React today, Vue next quarter, 
 Launching with 15 dashboard themes:
 - 5 flagship themes, fully rebuilt for launch: BI analytics, e-commerce ops, CRM, SaaS admin, trading/finance.
 - 10 additional themes covering black-and-white editorial, startup, fintech, gaming, luxury, retro, and more.
-- 20+ components across 6 categories — buttons, cards, tables, forms, charts, feedback. Growing weekly.
+- components across 6 categories — buttons, cards, tables, forms, charts, feedback. Growing weekly.
 - Component library with copy-paste snippets for every block.
 - Dark + light mode on every theme (redesigned for luminance, not just color-inverted).
 - 3 responsive breakpoints: 375px mobile, 768px tablet, 1280px+ desktop.
@@ -97,7 +97,7 @@ Under the hood:
 **가격 + Early Bird**
 ```
 Launch week only — Early Bird: $99/year for the first 50 buyers (save $50 off annual).
-Regular Pro: $19/month or $149/year. All 15 themes, all 20+ components (growing weekly), dual-format downloads, monthly new themes.
+Regular Pro: $19/month or $149/year. All 15 themes, all components (growing weekly), dual-format downloads, monthly new themes.
 Free tier: 1 full theme + 5 components, no credit card.
 ```
 
@@ -144,7 +144,7 @@ Full transparency: MergeUi was built by a small team that uses AI heavily in the
 | 4 | cr_v1 (CRM) | 04-theme-cr.png | CRM theme built for sales teams — deal pipeline hero, contact stories on the left. |
 | 5 | sd_v1 (SaaS) | 05-theme-sd.png | SaaS admin with soft neumorphism — time-of-day hints, calm information density. |
 | 6 | td_v1 (Trading) | 06-theme-td.png | Trading terminal — single large chart, heatmap, subtle audio cues for price moves. |
-| 7 | 컴포넌트 | 07-components.png | 20+ copy-paste components across 6 categories — buttons, cards, tables, forms, charts, feedback. Growing weekly. |
+| 7 | 컴포넌트 | 07-components.png | Copy-paste components across 6 categories — buttons, cards, tables, forms, charts, feedback. Growing weekly. |
 | 8 | 가격표 | 08-pricing.png | Free forever tier, Pro at $19/month. Launch Early Bird: $99/year (50 seats). |
 | 9 | 듀얼 포맷 | 09-dual-format.png | Same theme, two formats. Pure HTML/CSS ZIP or Tailwind + Vite starter. Your call. |
 | 10 | Roadmap | 10-roadmap.png | Public changelog and roadmap. You see what is shipping next before I do. |

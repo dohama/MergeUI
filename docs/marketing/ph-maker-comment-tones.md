@@ -22,7 +22,7 @@ Hey PH — doha here, the dev behind MergeUi.
 
 Tired of rebuilding the same dashboard sidebar every project? Same. So I made 15 themes you can drop into any stack — HTML, Tailwind, React, plain Vue, you name it. Change one CSS variable, your whole brand updates.
 
-20+ components, dark mode, dual-format ZIPs. Free tier if you want to poke around first. Early Bird $99/yr for the first 50 buyers because I want to reward people who back this on day one.
+components, dark mode, dual-format ZIPs. Free tier if you want to poke around first. Early Bird $99/yr for the first 50 buyers because I want to reward people who back this on day one.
 
 Roast it, ask anything, request a component — I will be here all day.
 ```
@@ -43,7 +43,7 @@ Hi Product Hunt — maker of MergeUi.
 
 MergeUi is a production-ready dashboard template library for developers who ship to multiple stacks. Every theme is delivered in two formats — pure HTML/CSS and a Tailwind + Vite starter — with WCAG AA contrast, Lighthouse Performance 90+, and three designed-not-shrunk breakpoints.
 
-Launch lineup: 15 themes (5 fully rebuilt flagships covering BI, e-commerce, CRM, SaaS admin, and trading), plus 20+ components across 6 categories with weekly additions. Pricing is Pro at $19/mo or $149/yr; Early Bird $99/yr is capped at the first 50 buyers.
+Launch lineup: 15 themes (5 fully rebuilt flagships covering BI, e-commerce, CRM, SaaS admin, and trading), plus components across 6 categories with weekly additions. Pricing is Pro at $19/mo or $149/yr; Early Bird $99/yr is capped at the first 50 buyers.
 
 Public roadmap and changelog live at mergeui.com/changelog. Happy to discuss any technical or design decision in this thread.
 ```
@@ -64,7 +64,7 @@ Two years ago I made the same dashboard for the third time and finally admitted:
 
 Every project, the same week of work — sidebar, stat cards, dark mode toggle, the chart that breaks on Safari. By the time I got to the real product, my motivation was gone.
 
-MergeUi is the kit I wish I had then. 15 dashboard themes that drop into any stack — HTML or Tailwind, copy into React or Vue, change one CSS variable and your brand follows. 20+ components, growing every week. Dual-format ZIPs in every download.
+MergeUi is the kit I wish I had then. 15 dashboard themes that drop into any stack — HTML or Tailwind, copy into React or Vue, change one CSS variable and your brand follows. components, growing every week. Dual-format ZIPs in every download.
 
 I priced Early Bird at $99/yr for the first 50 buyers because the people backing this on day one are the ones who deserve the discount, not the ones who show up in month six.
 

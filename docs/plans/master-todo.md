@@ -421,6 +421,8 @@
 | 2026-05-01 | D-5 풀가동 1순위 Blocks 섹션 신설 (BM-3 RLS / BC-1~BC-5 / Admin UX AD-01~AD-08 추가). 캡틴 D-5 잔여 액션 13건 표 추가 + Sentry 알림 룰 등록 단계 명시. Blocks 풀가동 6건 [x] 마킹 + Supabase 마이그레이션 2건 캡틴 [x] 마킹 | A(PM) |
 | 2026-05-02 | 5/2 합동 검증 + 5/2 후반 핫픽스 반영. AD-01~AD-08 [x] (모달 교체) + F-04/M-01/M-02/M-03/M-04 [x], F-15 부분 완료, 거짓 광고 50+ → 20+ 통일 완료 마킹, checkout/auth noindex 3종 추가 | A(PM) |
 | 2026-05-03 | D-3 시점 재집계(Critical 0, Major 14, Minor 7). I-2 admin 한국어 유지 결정 정정 + 9 페이지 한국어 통일 완료 마킹. F-18 결정 완료. 5/3 D-01 BM-3 column REVOKE + D-02 BD-1 download.js 치명결함 수정 + admin 9 페이지 한국어 통일 + og-image 품질 개선 완료 마킹 | A(PM) |
+| 2026-05-04 | D-2 admin SNB inquiry 빨간 배지 (9 페이지) + admin/inquiries 답변/상태 변경 폼 추가 + ZIP 빌드 인프라 신규 (build-zips.js + archiver) — 캡틴 직접 지시 3건 처리 | A(PM) |
+| 2026-05-05 | D-1 컴포넌트 10개 추가 (24→34, 신규 카테고리 display+overlay) + 6명 합동 검증 + 카탈로그 미리보기 동일 버그 수정 (components-preview.css 신규) + 카피 숫자 표현 제거 (9 파일) + library.html Pro 묶음 다운로드 카드 추가 | A(PM) |
 
 ---
 

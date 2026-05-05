@@ -131,7 +131,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
             </tbody>
           </table>
         </div>
-        <div style="text-align:center;padding:48px 24px;color:var(--text-muted)">
+        <div style="display:none;text-align:center;padding:48px 24px;color:var(--text-muted)">
           <div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#129513;</div>
           <div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">컴포넌트 없음</div>
           <div style="font-size:13px">첫 컴포넌트를 추가하여 시작하세요.</div>
@@ -407,7 +407,7 @@ document.addEventListener('mergedb-ready', async function(){
         componentModal.open(comp);
       }
     });
-  } catch(e) { console.error(e); }
+  } catch(e) { console.error(e); var ed=document.querySelector('.card > div[style*="text-align:center"]'); if(ed)ed.style.display='block'; }
 });
 
 // 검색/필터 이벤트 바인딩 + 모달 초기화

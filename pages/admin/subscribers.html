@@ -123,7 +123,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
             </tbody>
           </table>
         </div>
-        <div style="text-align:center;padding:48px 24px;color:var(--text-muted)">
+        <div style="display:none;text-align:center;padding:48px 24px;color:var(--text-muted)">
           <div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#128101;</div>
           <div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">등록된 회원 없음</div>
           <div style="font-size:13px">신규 가입이 발생하면 이 목록에 표시됩니다.</div>
@@ -304,7 +304,7 @@ document.addEventListener('mergedb-ready', async function(){
     window.__membersData.subMap = subMap;
     window.__membersData.dlMap = dlMap;
     renderMembers();
-  } catch(e) { console.error(e); }
+  } catch(e) { console.error(e); var ed=document.querySelector('.card > div[style*="text-align:center"]'); if(ed)ed.style.display='block'; }
 });
 
 // 이벤트 바인딩

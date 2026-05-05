@@ -114,7 +114,7 @@ gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user
             </tbody>
           </table>
         </div>
-        <div style="text-align:center;padding:48px 24px;color:var(--text-muted)">
+        <div style="display:none;text-align:center;padding:48px 24px;color:var(--text-muted)">
           <div style="font-size:40px;margin-bottom:12px;opacity:0.3">&#128221;</div>
           <div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">문의 없음</div>
           <div style="font-size:13px">구독자 문의가 접수되면 여기에 표시됩니다.</div>
@@ -298,6 +298,7 @@ document.addEventListener('mergedb-ready', async function() {
       var sub = emptyDiv.querySelector('div:nth-child(3)');
       if(title) title.textContent = '데이터 로드 실패';
       if(sub) sub.textContent = '잠시 후 다시 시도해 주세요.';
+      emptyDiv.style.display = 'block';
     }
   }
 });
